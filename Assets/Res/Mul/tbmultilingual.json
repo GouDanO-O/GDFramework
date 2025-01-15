@@ -1,0 +1,20 @@
+{
+  "data": [
+    {
+      "Key": "Play",
+      "Zh": "开始",
+      "En": "Play"
+    },
+    {
+      "Key": "Info",
+      "Zh": "详情",
+      "En": "Info"
+    },
+    {
+      "Key": "BannerText",
+      "Zh": "观看广告来隐藏",
+      "En": "WatchAdToHide"
+    }
+    
+  ]
+}
