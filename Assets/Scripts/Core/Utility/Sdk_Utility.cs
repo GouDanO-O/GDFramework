@@ -32,7 +32,7 @@ namespace Game
 #elif Vivo
 
 #elif UNITY_ANDROID   
-
+            isLogin = true;
 #else
                     
 #endif
@@ -59,16 +59,19 @@ namespace Game
                 case EADType.Native:
                     ShowNative(adData.showAdDes);
                     break;
-                case EADType.Banner:
-                    ShowBanner(adData.showAdDes);
+                case EADType.BannerSmall:
+                    ShowBanner(adData.showAdDes,0);
+                    break;
+                case EADType.BannerBig:
+                    ShowBanner(adData.showAdDes,1);
                     break;
                 case EADType.FloatIcon:
                     ShowFloatIcon(adData.showAdDes);
                     break;
-                case EADType.Interstitial_Img:
+                case EADType.InterstitialImg:
                     ShowInterstitial_Img(adData.showAdDes);
                     break;
-                case EADType.Interstitial_Video:
+                case EADType.InterstitialVideo:
                     ShowInterstitial_Video(adData.showAdDes,adData.successCallback,adData.failCallback);
                     break;
                 case EADType.RewardVideo:
@@ -128,8 +131,7 @@ namespace Game
         /// <summary>
         /// 开屏广告
         /// </summary>
-        /// <param name="succ"></param>
-        /// <param name="fail"></param>
+        /// <param name="text"></param>
         private void ShowSplash(string text = "")
         {
             if (!isLogin)
@@ -149,8 +151,6 @@ namespace Game
         /// 悬浮ICON
         /// </summary>
         /// <param name="text"></param>
-        /// <param name="succ"></param>
-        /// <param name="fail"></param>
         private void ShowFloatIcon(string text = "")
         {
             if (!isLogin)
@@ -167,10 +167,9 @@ namespace Game
         }
         
         /// <summary>
-        /// 原生广告
+        /// 
         /// </summary>
-        /// <param name="succ"></param>
-        /// <param name="fail"></param>
+        /// <param name="text"></param>
         private void ShowNative(string text = "")
         {
             if (!isLogin)
@@ -190,29 +189,34 @@ namespace Game
         /// <summary>
         /// Banner
         /// </summary>
-        /// <param name="succ"></param>
-        /// <param name="fail"></param>
-        private void ShowBanner(string text = "")
+        /// <param name="text"></param>
+        /// <param name="bannerType">0=>小Banner,1=>大Banner</param>
+        private void ShowBanner(string text = "",int bannerType=0)
         {
             if (!isLogin)
                 return;
-            
 #if KuaiShou
 
 #elif Vivo
 
 #elif UNITY_ANDROID
-            CallAd("Banner"+text,"ShowBanner");
+            if (bannerType == 0)
+            {
+                CallAd("Banner"+text,"ShowBannerSmall");
+            }
+            else if (bannerType == 1)
+            {
+                CallAd("Banner"+text,"ShowBannerBig");
+            }
 #else
             CallAd("Banner"+text,"ShowBanner");
 #endif
         }
         
         /// <summary>
-        /// 插屏广告
+        /// 
         /// </summary>
-        /// <param name="succ"></param>
-        /// <param name="fail"></param>
+        /// <param name="text"></param>
         private void ShowInterstitial_Img(string text = "")
         {
             if (!isLogin)
@@ -300,12 +304,9 @@ namespace Game
                 ADCallBack("1");
                 return;
             }
-#if UNITY_ANDROID
-            if (activity == null)
-            {
-                AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-                activity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            }
+#if UNITY_ANDROID && !UNITY_EDITOR
+            AndroidJavaClass UnityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject activity = UnityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
             
             AndroidJavaClass Toast = new AndroidJavaClass("android.widget.Toast");
             AndroidJavaObject context = activity.Call<AndroidJavaObject>("getApplicationContext");
@@ -326,6 +327,8 @@ namespace Game
                     Toast.CallStatic<AndroidJavaObject>("makeText", context, javaString, Toast.GetStatic<int>("LENGTH_SHORT")).Call("show");
                 }
             }));
+#elif UNITY_ANDROID && UNITY_EDITOR
+            ADCallBack("1");
 #elif UNITY_OPENHARMONY 
             OpenHarmonyJSClass openHarmonyJSClass = new OpenHarmonyJSClass("ClassObjectTest");
             openHarmonyJSClass.CallStatic(methodName);
