@@ -13,9 +13,13 @@ namespace Game
         /// </summary>
         Native,
         /// <summary>
-        /// Banner
+        /// Banner--小
         /// </summary>
-        Banner,
+        BannerSmall,
+        /// <summary>
+        /// Banner--大
+        /// </summary>
+        BannerBig,
         /// <summary>
         /// 悬浮Icon
         /// </summary>
@@ -23,11 +27,11 @@ namespace Game
         /// <summary>
         /// 插屏广告--图片
         /// </summary>
-        Interstitial_Img,
+        InterstitialImg,
         /// <summary>
         /// 插屏广告--视频
         /// </summary>
-        Interstitial_Video,
+        InterstitialVideo,
         /// <summary>
         /// 激励视频
         /// </summary>
