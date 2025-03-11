@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.exhard.exgas.runtime", "com.exhard.exgas.runtime.csproj", "{86516cf9-ad2f-91b3-ad88-e54002c45b7e}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QFramework.CoreKit", "QFramework.CoreKit.csproj", "{a82c8091-c488-7bac-c3e7-27242e572707}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.exhard.exgas.editor", "com.exhard.exgas.editor.csproj", "{7fc20f0f-4e8c-666a-48ad-662a61bd7b31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{1077aa01-2a2a-e27a-419e-c9c388bb67f7}"
 EndProject
@@ -35,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIKit.Editor", "UIKit.Edito
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QFramework", "QFramework.csproj", "{d7e4f027-ea9e-387a-499e-5cb6ab590842}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.exhard.exgas.general", "com.exhard.exgas.general.csproj", "{cf8c2b6e-28fb-1791-2f49-c8e4f3a5736e}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptableWidget.Editor", "ScriptableWidget.Editor.csproj", "{afe2ddf6-df44-6895-4adb-9e47fefb7aa2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{ee8d7e4a-18e9-dfa4-cf83-5a28d08c8500}"
@@ -44,8 +50,12 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86516cf9-ad2f-91b3-ad88-e54002c45b7e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86516cf9-ad2f-91b3-ad88-e54002c45b7e}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{a82c8091-c488-7bac-c3e7-27242e572707}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{a82c8091-c488-7bac-c3e7-27242e572707}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7fc20f0f-4e8c-666a-48ad-662a61bd7b31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7fc20f0f-4e8c-666a-48ad-662a61bd7b31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1077aa01-2a2a-e27a-419e-c9c388bb67f7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1077aa01-2a2a-e27a-419e-c9c388bb67f7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{410707c4-1508-009a-d505-0dbfb6076525}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -78,6 +88,8 @@ Global
 		{fe787a2e-2519-cf0f-f754-792ca6296f94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{d7e4f027-ea9e-387a-499e-5cb6ab590842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{d7e4f027-ea9e-387a-499e-5cb6ab590842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{cf8c2b6e-28fb-1791-2f49-c8e4f3a5736e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{cf8c2b6e-28fb-1791-2f49-c8e4f3a5736e}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{afe2ddf6-df44-6895-4adb-9e47fefb7aa2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{afe2ddf6-df44-6895-4adb-9e47fefb7aa2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ee8d7e4a-18e9-dfa4-cf83-5a28d08c8500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
