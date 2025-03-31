@@ -1,4 +1,5 @@
 using Frame.Models;
+using Frame.Models.Resource;
 using QFramework;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -62,7 +63,7 @@ namespace Frame.Game.Input
         /// </summary>
         public void InitActionAsset()
         {
-            this.actionAsset = this.GetModel<ResourcesData_Model>().InputActionAsset;
+            this.actionAsset = this.GetModel<LaunchResourcesData_Model>().InputActionAsset;
 
             this.PlayerMouseMap = actionAsset.FindActionMap("PlayerMouseMap");
             this.mouseDrag = actionAsset.FindAction("MouseDrag");

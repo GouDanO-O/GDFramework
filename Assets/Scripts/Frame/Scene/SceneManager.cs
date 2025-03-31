@@ -17,7 +17,7 @@ namespace Frame.Scene
         TestScene=3
     }
     
-    public class SceneLoader : AbstractSystem
+    public class SceneManager : AbstractSystem
     {
         public UnityAction<ESceneName> onLoadScene;
 
@@ -50,22 +50,21 @@ namespace Frame.Scene
         private IEnumerator LoadSceneCoroutine(ESceneName sceneName)
         {
             OnSceneLoadStart?.Invoke();
-            AsyncOperation asyncOperation = SceneManager.LoadSceneAsync((int)sceneName);
+            AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync((int)sceneName);
 
-            while (asyncOperation.progress < 0.9f)  // 进度小于0.9时
+            while (asyncOperation.progress < 0.9f)
             {
                 OnSceneLoading?.Invoke(asyncOperation.progress);
                 yield return null;
             }
             
-            while (!asyncOperation.isDone)  // 场景最终激活完成
+            while (!asyncOperation.isDone)
             {
                 yield return null;
             }
             
             OnSceneLoadComplete?.Invoke(sceneName);
         }
-
     }
 }
 

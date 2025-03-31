@@ -2,6 +2,8 @@ using Frame.Game.Multilingual;
 using Frame.Game.Resource;
 using Frame.Game.SDK;
 using Frame.Models;
+using Frame.Models.Resource;
+using Frame.Procedure;
 using Frame.Scene;
 using Frame.Utility;
 using Frame.View;
@@ -30,7 +32,7 @@ namespace Frame
         protected void Regiest_System()
         {
             this.RegisterSystem(new ResourcesManager());
-            this.RegisterSystem(new SceneLoader());
+            this.RegisterSystem(new SceneManager());
             this.RegisterSystem(new MultilingualManager());
             this.RegisterSystem(new ViewManager());
             this.RegisterSystem(new SdkManager());
@@ -41,7 +43,7 @@ namespace Frame
         /// </summary>
         protected void Regiest_Model()
         {
-            this.RegisterModel(new ResourcesData_Model());
+            this.RegisterModel(new LaunchResourcesData_Model());
             this.RegisterModel(new MultilingualData_Model());
             this.RegisterModel(new CheatData_Model());
         }

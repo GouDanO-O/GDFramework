@@ -63,6 +63,11 @@ namespace Frame.Utility
         {
             Debug.Log(log);
         }
+
+        public static void AddErrorLog(string log)
+        {
+            Debug.LogError(log);
+        }
         
         
         // 处理日志

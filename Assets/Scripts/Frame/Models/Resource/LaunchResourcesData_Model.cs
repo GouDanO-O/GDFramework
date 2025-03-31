@@ -2,9 +2,9 @@ using QFramework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Frame.Models
+namespace Frame.Models.Resource
 {
-    public class ResourcesData_Model : AbstractModel
+    public class LaunchResourcesData_Model : AbstractModel
     {
         public InputActionAsset InputActionAsset { get; set; }
         
