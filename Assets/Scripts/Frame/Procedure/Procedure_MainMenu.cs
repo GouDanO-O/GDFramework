@@ -1,4 +1,5 @@
 ﻿using Frame.Scene;
+using Frame.Utility;
 using Frame.View;
 using QFramework;
 
@@ -28,7 +29,7 @@ namespace Frame.Procedure
         /// </summary>
         private void LoadMenuSceneStart()
         {
-            
+            Log_Utility.AddLog("LoadMenuSceneStart");
         }
         
         /// <summary>
@@ -37,6 +38,7 @@ namespace Frame.Procedure
         /// <param name="sceneName"></param>
         private void LoadMenuSceneComplete(ESceneName sceneName)
         {
+            Log_Utility.AddLog("LoadMenuSceneComplete:"+sceneName);
             this.GetSystem<ViewManager>().EnterMenu();
         }
 
