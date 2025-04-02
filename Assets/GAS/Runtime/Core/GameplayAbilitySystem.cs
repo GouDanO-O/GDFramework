@@ -17,6 +17,7 @@ namespace GAS
             _cachedAbilitySystemComponents = new List<AbilitySystemComponent>(capacity);
             GASTimer.InitStartTimestamp();
 
+            //声明运行主机--如果
             GasHost = new GameObject("GAS Host").AddComponent<GasHost>();
             GasHost.hideFlags = HideFlags.HideAndDontSave;
             Object.DontDestroyOnLoad(GasHost.gameObject);

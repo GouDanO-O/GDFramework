@@ -21,6 +21,10 @@ namespace GAS.General
 
         private static long _startTimestamp;
         public static long StartTimestamp => _startTimestamp;
+        
+        /// <summary>
+        /// 设置起始的时间差(减少因时间导致的误差)
+        /// </summary>
         public static void InitStartTimestamp()
         {
             _startTimestamp = Timestamp();
