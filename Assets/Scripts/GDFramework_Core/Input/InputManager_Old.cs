@@ -1,6 +1,6 @@
 using QFramework;
 
-namespace GDFramework_Core.Game.Input
+namespace GDFramework_Core.Input
 {
     /// <summary>
     /// 旧输入系统

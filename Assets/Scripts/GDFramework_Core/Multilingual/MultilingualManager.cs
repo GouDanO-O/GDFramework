@@ -1,11 +1,8 @@
-using GDFramework_Core.Event;
 using GDFramework_Core.Models;
 using GDFramework_Core.Models.Enums;
-using GDFramework_Core.Utility;
 using QFramework;
-using UnityEngine;
 
-namespace GDFramework_Core.Game.Multilingual
+namespace GDFramework_Core.Multilingual
 {
     public class MultilingualManager : AbstractSystem
     {

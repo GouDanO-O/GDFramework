@@ -2,17 +2,13 @@ using System;
 using System.Collections.Generic;
 using GDFramework_Core.Models;
 using GDFramework_Core.Utility;
+using GDFramework_General.Resource;
 using QFramework;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace GDFramework_Core.Game.Resource
+namespace GDFramework_Core.Resource
 {
-    public enum EResourcesLoaderType
-    {
-        Launch,
-    }
-    
     public class ResourcesManager : AbstractSystem
     {
         Resouces_Utility _loader;
@@ -25,23 +21,23 @@ namespace GDFramework_Core.Game.Resource
         {
             _loader = this.GetUtility<Resouces_Utility>();
             _loader.InitLoader();
-            
-            _resourcesLoaderDict.Add(EResourcesLoaderType.Launch,new LaunchResourcesLoader());
-        }
-        
-        /// <summary>
-        /// 开始初始化的资源加载 
-        /// </summary>
-        /// <param name="callback"></param>
-        public void StartLaunchLoad(UnityAction callback)
-        {
-            _currentLoaderType=EResourcesLoaderType.Launch;
-            if (_resourcesLoaderDict.ContainsKey(EResourcesLoaderType.Launch))
-            {
-                _resourcesLoaderDict[EResourcesLoaderType.Launch].InitLoader(_loader,callback);
-            }
         }
 
+        /// <summary>
+        /// 开始加载模块的资源
+        /// </summary>
+        /// <param name="loaderType"></param>
+        /// <param name="callback"></param>
+        public void StartLoadingResources(EResourcesLoaderType loaderType,BaseResourcesLoader resourcesLoader,UnityAction callback)
+        {
+            if (!_resourcesLoaderDict.ContainsKey(loaderType))
+            {
+                _resourcesLoaderDict.Add(loaderType,resourcesLoader);
+            }
+
+            _resourcesLoaderDict[loaderType].InitLoader(_loader,callback);
+        }
+        
         /// <summary>
         /// 检查当前资源段是否加载完成
         /// </summary>

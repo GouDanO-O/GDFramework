@@ -1,9 +1,8 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-namespace GameFrame
+namespace GDFramework_Extend.AStar
 {
     public class AstarDemo : MonoBehaviour
     {

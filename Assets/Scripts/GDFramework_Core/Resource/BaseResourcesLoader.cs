@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using GDFramework_Core.Models;
 using GDFramework_Core.Utility;
-using GDFramework;
 using QFramework;
 using UnityEngine.Events;
 
-namespace GDFramework_Core.Game.Resource
+namespace GDFramework_Core.Resource
 {
     /**
      * 基础的资源加载器

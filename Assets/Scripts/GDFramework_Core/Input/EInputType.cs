@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Core.Game.Input
+﻿namespace GDFramework_Core.Input
 {
     public enum EInputType
     {

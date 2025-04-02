@@ -1,4 +1,3 @@
-using GDFramework;
 using UnityEngine;
 
 namespace GDFramework_Core.Utility

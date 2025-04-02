@@ -1,6 +1,6 @@
 ﻿using QFramework;
 
-namespace GameFrame
+namespace GDFramework_Extend.Data
 {
     /// <summary>
     /// 临时对象数据--池

@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Core.Game.World
+﻿namespace GDFramework_Core.World
 {
     public interface IObj
     {

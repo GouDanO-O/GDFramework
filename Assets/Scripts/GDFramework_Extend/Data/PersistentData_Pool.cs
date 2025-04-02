@@ -1,6 +1,6 @@
 ﻿using QFramework;
 
-namespace GameFrame
+namespace GDFramework_Extend.Data
 {
     /// <summary>
     /// 持久化对象--池

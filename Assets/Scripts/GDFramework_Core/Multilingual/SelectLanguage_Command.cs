@@ -1,8 +1,7 @@
-﻿using GDFramework_Core.Game.Multilingual;
-using GDFramework_Core.Models.Enums;
+﻿using GDFramework_Core.Models.Enums;
 using QFramework;
 
-namespace GDFramework_Core.Command
+namespace GDFramework_Core.Multilingual
 {
     public class SelectLanguage_Command : AbstractCommand
     {

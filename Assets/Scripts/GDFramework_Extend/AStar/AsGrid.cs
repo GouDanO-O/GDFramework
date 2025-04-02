@@ -1,6 +1,4 @@
-using UnityEngine;
-
-namespace GameFrame
+namespace GDFramework_Extend.AStar
 {
     public class AsGrid 
     {

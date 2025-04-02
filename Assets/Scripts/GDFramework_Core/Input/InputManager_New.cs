@@ -1,10 +1,9 @@
-using GDFramework_Core.Models;
-using GDFramework_Core.Models.Resource;
+using GDFramework_General.Models.Resource;
 using QFramework;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace GDFramework_Core.Game.Input
+namespace GDFramework_Core.Input
 {
 
     

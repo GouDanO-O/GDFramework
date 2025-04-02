@@ -1,6 +1,5 @@
 using System.Collections;
 using GDFramework_Core.Utility;
-using GDFramework;
 using QFramework;
 using UnityEngine;
 using UnityEngine.Events;

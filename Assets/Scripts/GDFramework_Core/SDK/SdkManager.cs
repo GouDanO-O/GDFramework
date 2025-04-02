@@ -2,7 +2,7 @@ using GDFramework_Core.Models.Enums;
 using GDFramework_Core.Utility;
 using QFramework;
 
-namespace GDFramework_Core.Game.SDK
+namespace GDFramework_Core.SDK
 {
     public class SdkManager : AbstractSystem
     {

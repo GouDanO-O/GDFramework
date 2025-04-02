@@ -1,7 +1,4 @@
-﻿using QFramework;
-using UnityEngine.Pool;
-
-namespace GameFrame
+﻿namespace GDFramework_Extend.Data
 {
     /// <summary>
     /// 临时对象数据--非池
