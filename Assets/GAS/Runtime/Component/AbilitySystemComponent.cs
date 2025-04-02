@@ -25,7 +25,8 @@ namespace GAS.Runtime
 
         private void Prepare()
         {
-            if (_ready) return;
+            if (_ready) 
+                return;
             AbilityContainer = new AbilityContainer(this);
             GameplayEffectContainer = new GameplayEffectContainer(this);
             AttributeSetContainer = new AttributeSetContainer(this);

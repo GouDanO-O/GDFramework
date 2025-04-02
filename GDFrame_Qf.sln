@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.exhard.exgas.runtime", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportOldQF", "SupportOldQF.csproj", "{c0f64f72-3587-c087-20c1-49b4c13359f6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{ee8d7e4a-18e9-dfa4-cf83-5a28d08c8500}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnhancedScroller_asmdef", "EnhancedScroller_asmdef.csproj", "{13a3c320-81a4-7985-7abf-49110c7b340d}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.exhard.exgas.editor", "com.exhard.exgas.editor.csproj", "{7fc20f0f-4e8c-666a-48ad-662a61bd7b31}"
@@ -42,6 +40,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScriptableWidget.Editor", "ScriptableWidget.Editor.csproj", "{afe2ddf6-df44-6895-4adb-9e47fefb7aa2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioKit", "AudioKit.csproj", "{304c883a-251e-35a1-1d56-8e55585b6a40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{ee8d7e4a-18e9-dfa4-cf83-5a28d08c8500}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QFramework", "QFramework.csproj", "{d7e4f027-ea9e-387a-499e-5cb6ab590842}"
 EndProject
@@ -68,8 +68,6 @@ Global
 		{86516cf9-ad2f-91b3-ad88-e54002c45b7e}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{c0f64f72-3587-c087-20c1-49b4c13359f6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{c0f64f72-3587-c087-20c1-49b4c13359f6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ee8d7e4a-18e9-dfa4-cf83-5a28d08c8500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ee8d7e4a-18e9-dfa4-cf83-5a28d08c8500}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13a3c320-81a4-7985-7abf-49110c7b340d}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13a3c320-81a4-7985-7abf-49110c7b340d}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7fc20f0f-4e8c-666a-48ad-662a61bd7b31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -92,6 +90,8 @@ Global
 		{afe2ddf6-df44-6895-4adb-9e47fefb7aa2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{304c883a-251e-35a1-1d56-8e55585b6a40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{304c883a-251e-35a1-1d56-8e55585b6a40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ee8d7e4a-18e9-dfa4-cf83-5a28d08c8500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ee8d7e4a-18e9-dfa4-cf83-5a28d08c8500}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{d7e4f027-ea9e-387a-499e-5cb6ab590842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{d7e4f027-ea9e-387a-499e-5cb6ab590842}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
