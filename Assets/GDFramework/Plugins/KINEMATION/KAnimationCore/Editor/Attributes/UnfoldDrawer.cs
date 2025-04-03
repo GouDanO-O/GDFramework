@@ -1,0 +1,68 @@
+﻿using KINEMATION.KAnimationCore.Runtime.Attributes;
+using UnityEditor;
+using UnityEngine;
+
+namespace KINEMATION.KAnimationCore.Editor.Attributes
+{
+    [CustomPropertyDrawer(typeof(UnfoldAttribute))]
+    public class UnfoldDrawer : PropertyDrawer
+    {
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            EditorGUI.BeginProperty(position, label, property);
+
+            if (property.propertyType == SerializedPropertyType.Generic && !property.isArray)
+            {
+                var iterator = property.Copy();
+                var enterChildren = true;
+
+                // Calculate the initial position rect for the first property
+                var propertyPosition = position;
+                propertyPosition.height = EditorGUIUtility.singleLineHeight;
+
+                while (iterator.NextVisible(enterChildren))
+                {
+                    if (SerializedProperty.EqualContents(iterator, property.GetEndProperty())) break;
+
+                    enterChildren = false;
+
+                    EditorGUI.PropertyField(propertyPosition, iterator, new GUIContent(iterator.displayName), true);
+
+                    // Update the position for the next property
+                    propertyPosition.y +=
+                        EditorGUI.GetPropertyHeight(iterator, new GUIContent(iterator.displayName), true) +
+                        EditorGUIUtility.standardVerticalSpacing;
+                }
+            }
+            else
+            {
+                EditorGUI.PropertyField(position, property, GUIContent.none, false);
+            }
+
+            EditorGUI.EndProperty();
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            if (property.propertyType == SerializedPropertyType.Generic && !property.isArray)
+            {
+                float totalHeight = 0;
+                var iterator = property.Copy();
+                var enterChildren = true;
+                while (iterator.NextVisible(enterChildren))
+                {
+                    if (SerializedProperty.EqualContents(iterator, property.GetEndProperty())) break;
+
+                    enterChildren = false;
+                    totalHeight +=
+                        EditorGUI.GetPropertyHeight(iterator, new GUIContent(iterator.displayName), true) +
+                        EditorGUIUtility.standardVerticalSpacing;
+                }
+
+                return totalHeight;
+            }
+
+            return EditorGUI.GetPropertyHeight(property, GUIContent.none, false);
+        }
+    }
+}

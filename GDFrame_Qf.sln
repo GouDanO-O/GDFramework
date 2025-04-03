@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AudioKit", "AudioKit.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QFramework", "QFramework.csproj", "{d7e4f027-ea9e-387a-499e-5cb6ab590842}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDFrameworkCore", "GDFrameworkCore.csproj", "{62a1baae-9e07-0739-a458-574417b34cc6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +68,8 @@ Global
 		{304c883a-251e-35a1-1d56-8e55585b6a40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{d7e4f027-ea9e-387a-499e-5cb6ab590842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{d7e4f027-ea9e-387a-499e-5cb6ab590842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62a1baae-9e07-0739-a458-574417b34cc6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62a1baae-9e07-0739-a458-574417b34cc6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
