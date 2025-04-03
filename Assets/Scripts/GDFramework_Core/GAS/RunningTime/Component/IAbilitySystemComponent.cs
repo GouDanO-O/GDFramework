@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using GAS.Runtime;
+using GDFramework_Core.GAS.RunningTime.Ability;
+using GDFramework_Core.GAS.RunningTime.Effects;
+using GDFramework_Core.GAS.RunningTime.Tags;
 
 namespace GDFramework_Core.GAS.RunningTime.Component
 {
@@ -52,7 +54,7 @@ namespace GDFramework_Core.GAS.RunningTime.Component
 
         CooldownTimer CheckCooldownFromTags(GameplayTagSet tags);
         
-        T AttrSet<T>() where T : AttributeSet;
+        T AttrSet<T>() where T : AttributeSet.AttributeSet;
 
         void ClearGameplayEffect();
     }

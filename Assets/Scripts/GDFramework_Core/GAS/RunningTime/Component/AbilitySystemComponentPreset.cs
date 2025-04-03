@@ -1,9 +1,10 @@
 ﻿using System.Linq;
-using GAS.Runtime;
 using GDFramework_Core.GAS.General;
+using GDFramework_Core.GAS.RunningTime.Ability;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities.Editor;
 using UnityEngine;
+using GameplayTag = GDFramework_Core.GAS.RunningTime.Tags.GameplayTag;
 
 namespace GDFramework_Core.GAS.RunningTime.Component
 {

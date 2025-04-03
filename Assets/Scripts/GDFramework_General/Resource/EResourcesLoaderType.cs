@@ -3,5 +3,6 @@
     public enum EResourcesLoaderType
     {
         Launch,
+        GameScene
     }
 }

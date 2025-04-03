@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using GDFramework_Core.Utility;
+using GDFramework_General.Procedure;
 using QFramework;
 using UnityEngine;
 
 namespace GDFramework_Core.Procedure
 {
-    public class ProcedureManager : Singleton<ProcedureManager>
+    public class ProcedureManager : Singleton<ProcedureManager>,ISystem
     {
-        private Dictionary<Type, ProcedureBase> _procedureDict = new  Dictionary<Type, ProcedureBase>();
+        private Dictionary<EProcedureType, ProcedureBase> _procedureDict;
         
         private ProcedureBase _currentProcedure;
         
         private ProcedureBase _lastProcedure;
+        
+        public bool Initialized { get; set; }
 
         private ProcedureManager()
         {
@@ -41,8 +44,6 @@ namespace GDFramework_Core.Procedure
             }
         }
         
-        public bool Initialized { get; set; }
-        
         public void Init()
         {
             
@@ -50,15 +51,19 @@ namespace GDFramework_Core.Procedure
 
         public void Deinit()
         {
-            
+            this.UnRegisterEvent<SChangeProcedureEvent>((eventData) =>
+            {
+                
+            });
         }
-
-        /// <summary>
-        /// 单例初始化
-        /// </summary>
-        public void OnSingletonInit()
+        
+        public override void OnSingletonInit()
         {
-            _procedureDict = new Dictionary<Type, ProcedureBase>();
+            _procedureDict = new Dictionary<EProcedureType, ProcedureBase>();
+            this.RegisterEvent<SChangeProcedureEvent>((eventData) =>
+            {
+                ChangeProcedure(eventData._procedureType);
+            });
         }
 
         public IArchitecture GetArchitecture()
@@ -74,32 +79,31 @@ namespace GDFramework_Core.Procedure
         /// <summary>
         /// 获取流程
         /// </summary>
-        public T GetProcedure<T>() where T : ProcedureBase
+        public ProcedureBase GetProcedure(EProcedureType procedureType)
         {
-            Type procedureType = typeof(T);
             if (_procedureDict.TryGetValue(procedureType, out ProcedureBase procedure))
             {
-                return (T)procedure;
+                return procedure;
             }
 
+            LogMonoUtility.AddLog("流程为空");
             return null;
         }
         
         /// <summary>
         /// 注册流程
         /// </summary>
-        public void RegisterProcedure(ProcedureBase procedure)
+        public void RegisterProcedure(EProcedureType procedureType,ProcedureBase procedure)
         {
             if (procedure == null)
             {
-                Log_Utility.AddLog("流程为空");
+                LogMonoUtility.AddLog("流程为空");
                 return;
             }
-
-            Type procedureType = procedure.GetType();
+            
             if (_procedureDict.ContainsKey(procedureType))
             {
-                Log_Utility.AddLog($"'{procedureType.FullName}'流程已注册");
+                LogMonoUtility.AddLog($"'{procedureType}'流程已注册");
                 return;
             }
 
@@ -110,12 +114,11 @@ namespace GDFramework_Core.Procedure
         /// <summary>
         /// 切换流程
         /// </summary>
-        public void ChangeProcedure<T>() where T : ProcedureBase
+        public void ChangeProcedure(EProcedureType procedureType)
         {
-            Type procedureType = typeof(T);
             if (!_procedureDict.TryGetValue(procedureType, out ProcedureBase procedure))
             {
-                Log_Utility.AddErrorLog($"无法改变流程,'{procedureType.FullName}'不存在");
+                LogMonoUtility.AddErrorLog($"无法改变流程,'{procedureType}'不存在");
                 return;
             }
 

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GAS.General;
-using GAS.Runtime;
+using GDFramework_Core.GAS.General.Util;
 using UnityEngine;
+using GDFramework_Core.GAS.RunningTime.Attribute;
+using GDFramework_Core.GAS.RunningTime.Tags;
 
 namespace GDFramework_Core.GAS.RunningTime.Utils
 {
@@ -149,7 +150,7 @@ namespace GDFramework_Core.GAS.RunningTime.Utils
                 return null;
             }
 
-            var attrSet = Activator.CreateInstance(type) as AttributeSet;
+            var attrSet = Activator.CreateInstance(type) as AttributeSet.AttributeSet;
             return attrSet?[attrName];
         }
 

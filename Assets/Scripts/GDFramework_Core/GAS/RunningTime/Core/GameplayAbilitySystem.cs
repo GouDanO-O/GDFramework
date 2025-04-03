@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
-using GAS.Runtime;
 using GDFramework_Core.GAS.General;
+using GDFramework_Core.GAS.RunningTime.Component;
 using QFramework;
 using Sirenix.OdinInspector;
 using UnityEngine.Profiling;
 
 namespace GDFramework_Core.GAS.RunningTime.Core
 {
-    public class GameplayAbilitySystem : MonoSingleton<GameplayAbilitySystem>,IController
+    public class GameplayAbilitySystem : Singleton<GameplayAbilitySystem>,IController
     {
         [ShowInInspector,LabelText("是否开启Profiler调试")]
         private bool willShowProfiler = false;
         
-        private const int _abilityCapacity = 1024;
+        private const int AbilityCapacity = 1024;
         
         public List<AbilitySystemComponent> AbilitySystemComponentList { get; }
 
@@ -20,11 +20,10 @@ namespace GDFramework_Core.GAS.RunningTime.Core
         
         private GameplayAbilitySystem()
         {
-            AbilitySystemComponentList = new List<AbilitySystemComponent>(_abilityCapacity);
-            _cachedAbilitySystemComponentList= new List<AbilitySystemComponent>(_abilityCapacity);
+            AbilitySystemComponentList = new List<AbilitySystemComponent>(AbilityCapacity);
+            _cachedAbilitySystemComponentList= new List<AbilitySystemComponent>(AbilityCapacity);
             
             GasTimer.InitStartTimestamp();
-            DontDestroyOnLoad(this.gameObject);
         }
         
         public IArchitecture GetArchitecture()
@@ -53,11 +52,6 @@ namespace GDFramework_Core.GAS.RunningTime.Core
             return AbilitySystemComponentList.Remove(abilitySystemComponent);
         }
 
-        private void Update()
-        {
-            Tick();
-        }
-
         public void Tick()
         {
             if (willShowProfiler)
@@ -68,7 +62,7 @@ namespace GDFramework_Core.GAS.RunningTime.Core
 
         private void ProfilerAnalysis()
         {
-            Profiler.BeginSample($"{nameof(global::GAS.GameplayAbilitySystem)}::Tick()");
+            Profiler.BeginSample($"{nameof(GameplayAbilitySystem)}::Tick()");
 
             _cachedAbilitySystemComponentList.Clear();
             _cachedAbilitySystemComponentList.AddRange(AbilitySystemComponentList);

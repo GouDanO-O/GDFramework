@@ -9,7 +9,7 @@ namespace GDFramework_General.Procedure
     /// 登录流程
     /// 开始初始化,加载数据
     /// </summary>
-    public class LaunchProcedure : ProcedureBase,ICanGetSystem
+    public class LaunchProcedure : ProcedureBase,ICanGetSystem,ICanSendEvent
     {
         private ResourcesManager _resourcesManager;
         
@@ -34,7 +34,7 @@ namespace GDFramework_General.Procedure
         /// </summary>
         private void DataLoadComplete()
         {
-            ProcedureManager.Instance.ChangeProcedure<MainMenuProcedure>();
+            this.SendEvent<SChangeProcedureEvent>(new SChangeProcedureEvent(EProcedureType.MainMenu));
         }
 
         public override void OnUpdate()

@@ -15,13 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPSAnimationFramework.Runti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KAnimationCore.Editor", "KAnimationCore.Editor.csproj", "{85936287-45c9-d207-f77a-a376536d3dcc}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.exhard.exgas.runtime", "com.exhard.exgas.runtime.csproj", "{86516cf9-ad2f-91b3-ad88-e54002c45b7e}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SupportOldQF", "SupportOldQF.csproj", "{c0f64f72-3587-c087-20c1-49b4c13359f6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnhancedScroller_asmdef", "EnhancedScroller_asmdef.csproj", "{13a3c320-81a4-7985-7abf-49110c7b340d}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.exhard.exgas.editor", "com.exhard.exgas.editor.csproj", "{7fc20f0f-4e8c-666a-48ad-662a61bd7b31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KAnimationCore.Runtime", "KAnimationCore.Runtime.csproj", "{d82af1d9-ba3c-f7cd-1e74-276ab1079911}"
 EndProject
@@ -32,8 +28,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResKit.Editor", "ResKit.Editor.csproj", "{410707c4-1508-009a-d505-0dbfb6076525}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor-firstpass", "Assembly-CSharp-Editor-firstpass.csproj", "{a461d278-2b25-8f35-5282-983dd1292708}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "com.exhard.exgas.general", "com.exhard.exgas.general.csproj", "{cf8c2b6e-28fb-1791-2f49-c8e4f3a5736e}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPSAnimationFramework.Editor", "FPSAnimationFramework.Editor.csproj", "{852c21ab-06f1-2aec-5150-d0afa47fdf45}"
 EndProject
@@ -64,14 +58,10 @@ Global
 		{854d2db7-da94-e354-2cd3-f6cafdab67c3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85936287-45c9-d207-f77a-a376536d3dcc}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{85936287-45c9-d207-f77a-a376536d3dcc}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{86516cf9-ad2f-91b3-ad88-e54002c45b7e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{86516cf9-ad2f-91b3-ad88-e54002c45b7e}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{c0f64f72-3587-c087-20c1-49b4c13359f6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{c0f64f72-3587-c087-20c1-49b4c13359f6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13a3c320-81a4-7985-7abf-49110c7b340d}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{13a3c320-81a4-7985-7abf-49110c7b340d}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7fc20f0f-4e8c-666a-48ad-662a61bd7b31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7fc20f0f-4e8c-666a-48ad-662a61bd7b31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{d82af1d9-ba3c-f7cd-1e74-276ab1079911}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{d82af1d9-ba3c-f7cd-1e74-276ab1079911}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{fe787a2e-2519-cf0f-f754-792ca6296f94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -82,8 +72,6 @@ Global
 		{410707c4-1508-009a-d505-0dbfb6076525}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{a461d278-2b25-8f35-5282-983dd1292708}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{a461d278-2b25-8f35-5282-983dd1292708}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{cf8c2b6e-28fb-1791-2f49-c8e4f3a5736e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{cf8c2b6e-28fb-1791-2f49-c8e4f3a5736e}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{852c21ab-06f1-2aec-5150-d0afa47fdf45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{852c21ab-06f1-2aec-5150-d0afa47fdf45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{afe2ddf6-df44-6895-4adb-9e47fefb7aa2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

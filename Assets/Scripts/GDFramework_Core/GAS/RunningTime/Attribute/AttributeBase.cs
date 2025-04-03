@@ -1,39 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GDFramework_Core.GAS.RunningTime.Component;
-using GDFramework_Core.GAS.RunningTime.Effect.Modifier;
 using UnityEngine;
+using GDFramework_Core.GAS.RunningTime.Attribute.Value;
+using GDFramework_Core.GAS.RunningTime.Component;
+using GDFramework_Core.GAS.RunningTime.Effects.Modifier;
 
 namespace GDFramework_Core.GAS.RunningTime.Attribute
 {
     public class AttributeBase
     {
         public readonly string Name;
-        
         public readonly string SetName;
-        
         public readonly string ShortName;
-        
-        protected event Action<AttributeBase, float, float> OnPostCurrentValueChange;
-        
-        protected event Action<AttributeBase, float, float> OnPostBaseValueChange;
-        
-        protected event Action<AttributeBase, float> OnPreCurrentValueChange;
-        
-        protected event Func<AttributeBase, float, float> OnPreBaseValueChange;
-        
-        protected IEnumerable<Func<AttributeBase, float, float>> PreBaseValueChangeListeners;
-        
+        protected event Action<AttributeBase, float, float> _onPostCurrentValueChange;
+        protected event Action<AttributeBase, float, float> _onPostBaseValueChange;
+        protected event Action<AttributeBase, float> _onPreCurrentValueChange;
+        protected event Func<AttributeBase, float, float> _onPreBaseValueChange;
+        protected IEnumerable<Func<AttributeBase, float, float>> _preBaseValueChangeListeners;
+
         private AttributeValue _value;
-        
-        private AbilitySystemComponent Owner;
-        
-        public AbilitySystemComponent Owner => Owner;
-        
+        private AbilitySystemComponent _owner;
+        public AbilitySystemComponent Owner => _owner;
+
         public AttributeBase(string attrSetName, string attrName, float value = 0,
-            ECalculateMode calculateMode = ECalculateMode.Stacking,
-            ESupportedOperation supportedOperation = ESupportedOperation.All,
+            CalculateMode calculateMode = CalculateMode.Stacking,
+            SupportedOperation supportedOperation = SupportedOperation.All,
             float minValue = float.MinValue, float maxValue = float.MaxValue)
         {
             SetName = attrSetName;
@@ -41,20 +33,21 @@ namespace GDFramework_Core.GAS.RunningTime.Attribute
             ShortName = attrName;
             _value = new AttributeValue(value, calculateMode, supportedOperation, minValue, maxValue);
         }
-        
-           public AttributeValue Value => _value;
+
+
+        public AttributeValue Value => _value;
         public float BaseValue => _value.BaseValue;
         public float CurrentValue => _value.CurrentValue;
 
         public float MinValue => _value.MinValue;
         public float MaxValue => _value.MaxValue;
 
-        public ECalculateMode CalculateMode => _value.CalculateMode;
-        public ESupportedOperation SupportedOperation => _value.SupportedOperation;
+        public CalculateMode CalculateMode => _value.CalculateMode;
+        public SupportedOperation SupportedOperation => _value.SupportedOperation;
 
         public void SetOwner(AbilitySystemComponent owner)
         {
-            Owner = owner;
+            _owner = owner;
         }
 
         public void SetMinValue(float min)
@@ -73,7 +66,7 @@ namespace GDFramework_Core.GAS.RunningTime.Attribute
             _value.SetMaxValue(max);
         }
         
-        public bool IsSupportOperation(EGeOperation operation)
+        public bool IsSupportOperation(GEOperation operation)
         {
             return _value.IsSupportOperation(operation);
         }
@@ -82,17 +75,17 @@ namespace GDFramework_Core.GAS.RunningTime.Attribute
         {
             value = Mathf.Clamp(value, _value.MinValue, _value.MaxValue);
 
-            OnPreCurrentValueChange?.Invoke(this, value);
+            _onPreCurrentValueChange?.Invoke(this, value);
 
             var oldValue = CurrentValue;
             _value.SetCurrentValue(value);
 
-            if (!Mathf.Approximately(oldValue, value)) OnPostCurrentValueChange?.Invoke(this, oldValue, value);
+            if (!Mathf.Approximately(oldValue, value)) _onPostCurrentValueChange?.Invoke(this, oldValue, value);
         }
 
         public void SetBaseValue(float value)
         {
-            if (OnPreBaseValueChange != null)
+            if (_onPreBaseValueChange != null)
             {
                 value = InvokePreBaseValueChangeListeners(value);
             }
@@ -100,7 +93,7 @@ namespace GDFramework_Core.GAS.RunningTime.Attribute
             var oldValue = _value.BaseValue;
             _value.SetBaseValue(value);
 
-            if (!Mathf.Approximately(oldValue, value)) OnPostBaseValueChange?.Invoke(this, oldValue, value);
+            if (!Mathf.Approximately(oldValue, value)) _onPostBaseValueChange?.Invoke(this, oldValue, value);
         }
 
         public void SetCurrentValueWithoutEvent(float value)
@@ -115,54 +108,54 @@ namespace GDFramework_Core.GAS.RunningTime.Attribute
 
         public void RegisterPreBaseValueChange(Func<AttributeBase, float, float> func)
         {
-            OnPreBaseValueChange += func;
+            _onPreBaseValueChange += func;
             _preBaseValueChangeListeners =
-                OnPreBaseValueChange?.GetInvocationList().Cast<Func<AttributeBase, float, float>>();
+                _onPreBaseValueChange?.GetInvocationList().Cast<Func<AttributeBase, float, float>>();
         }
 
         public void RegisterPostBaseValueChange(Action<AttributeBase, float, float> action)
         {
-            OnPostBaseValueChange += action;
+            _onPostBaseValueChange += action;
         }
 
         public void RegisterPreCurrentValueChange(Action<AttributeBase, float> action)
         {
-            OnPreCurrentValueChange += action;
+            _onPreCurrentValueChange += action;
         }
 
         public void RegisterPostCurrentValueChange(Action<AttributeBase, float, float> action)
         {
-            OnPostCurrentValueChange += action;
+            _onPostCurrentValueChange += action;
         }
 
         public void UnregisterPreBaseValueChange(Func<AttributeBase, float, float> func)
         {
-            OnPreBaseValueChange -= func;
+            _onPreBaseValueChange -= func;
             _preBaseValueChangeListeners =
-                OnPreBaseValueChange?.GetInvocationList().Cast<Func<AttributeBase, float, float>>();
+                _onPreBaseValueChange?.GetInvocationList().Cast<Func<AttributeBase, float, float>>();
         }
 
         public void UnregisterPostBaseValueChange(Action<AttributeBase, float, float> action)
         {
-            OnPostBaseValueChange -= action;
+            _onPostBaseValueChange -= action;
         }
 
         public void UnregisterPreCurrentValueChange(Action<AttributeBase, float> action)
         {
-            OnPreCurrentValueChange -= action;
+            _onPreCurrentValueChange -= action;
         }
 
         public void UnregisterPostCurrentValueChange(Action<AttributeBase, float, float> action)
         {
-            OnPostCurrentValueChange -= action;
+            _onPostCurrentValueChange -= action;
         }
 
         public virtual void Dispose()
         {
-            OnPreBaseValueChange = null;
-            OnPostBaseValueChange = null;
-            OnPreCurrentValueChange = null;
-            OnPostCurrentValueChange = null;
+            _onPreBaseValueChange = null;
+            _onPostBaseValueChange = null;
+            _onPreCurrentValueChange = null;
+            _onPostCurrentValueChange = null;
         }
 
         private float InvokePreBaseValueChangeListeners(float value)

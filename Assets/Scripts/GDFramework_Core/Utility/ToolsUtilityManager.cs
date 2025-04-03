@@ -1,4 +1,4 @@
-using GDFramework_Core.Command.Cheat;
+using GDFramework_Core.Cheater;
 using QFramework;
 using UnityEngine;
 
@@ -12,13 +12,13 @@ namespace GDFramework_Core.Utility
         
         private bool canShowGUI = false;
         
-        private Cheat_Utility cheatUtility;
+        private CheatMonoUtility _cheatMonoUtility;
         
-        private Log_Utility logUtility;
+        private LogMonoUtility _logMonoUtility;
         
-        private Coroutine_Utility coroutineUtility;
+        private CoroutineMonoUtility _coroutineMonoUtility;
 
-        private Time_Utility timeUtility;
+        private TimeUtility timeUtility;
         
         public IArchitecture GetArchitecture()
         {
@@ -38,17 +38,17 @@ namespace GDFramework_Core.Utility
         {
             if (willShowLogWindow)
             {
-                logUtility = gameObject.AddComponent<Log_Utility>();
-                GetArchitecture().RegisterUtility(logUtility);
+                _logMonoUtility = gameObject.AddComponent<LogMonoUtility>();
+                GetArchitecture().RegisterUtility(_logMonoUtility);
                 canShowGUI = true;
             }
             
             if (willShowCheatWindow)
             {
-                cheatUtility = gameObject.AddComponent<Cheat_Utility>();
-                GetArchitecture().RegisterUtility(cheatUtility);
+                _cheatMonoUtility = gameObject.AddComponent<CheatMonoUtility>();
+                GetArchitecture().RegisterUtility(_cheatMonoUtility);
                 
-                AddFreeVideoCheat_Command newCommand = new AddFreeVideoCheat_Command("是否开启免费广告模式", (() =>
+                AddFreeVideoCheatCommand newCommand = new AddFreeVideoCheatCommand("是否开启免费广告模式", (() =>
                     {
                         return this.GetUtility<Sdk_Utility>().ChangeFreeVideoMod();
                     }));
@@ -56,9 +56,9 @@ namespace GDFramework_Core.Utility
                 canShowGUI = true;
             }
             
-            coroutineUtility = gameObject.AddComponent<Coroutine_Utility>();
-            GetArchitecture().RegisterUtility(coroutineUtility);
-            timeUtility = new Time_Utility();
+            _coroutineMonoUtility = gameObject.AddComponent<CoroutineMonoUtility>();
+            GetArchitecture().RegisterUtility(_coroutineMonoUtility);
+            timeUtility = new TimeUtility();
             GetArchitecture().RegisterUtility(timeUtility);
         }
 
@@ -75,14 +75,14 @@ namespace GDFramework_Core.Utility
             if (willShowLogWindow)
             {
                 showCount++;
-                if (GUI.Button(new Rect(20+showCount*150,0,120,30),logUtility.isShowing ? "关闭日志系统" : "打开日志系统"))
+                if (GUI.Button(new Rect(20+showCount*150,0,120,30),_logMonoUtility.isShowing ? "关闭日志系统" : "打开日志系统"))
                 {
-                    logUtility.CheckButtonWillShow();
-                    if (logUtility.isShowing && cheatUtility)
+                    _logMonoUtility.CheckButtonWillShow();
+                    if (_logMonoUtility.isShowing && _cheatMonoUtility)
                     {
-                        if (cheatUtility.isShowing)
+                        if (_cheatMonoUtility.isShowing)
                         {
-                            cheatUtility.CheckButtonWillShow();
+                            _cheatMonoUtility.CheckButtonWillShow();
                         }
                     }
                 }
@@ -91,14 +91,14 @@ namespace GDFramework_Core.Utility
             if (willShowCheatWindow)
             {
                 showCount++;
-                if (GUI.Button(new Rect(20+showCount*150,0,120, 30),cheatUtility.isShowing ? "关闭作弊系统" : "打开作弊系统"))
+                if (GUI.Button(new Rect(20+showCount*150,0,120, 30),_cheatMonoUtility.isShowing ? "关闭作弊系统" : "打开作弊系统"))
                 {
-                    cheatUtility.CheckButtonWillShow();
-                    if (cheatUtility.isShowing && logUtility)
+                    _cheatMonoUtility.CheckButtonWillShow();
+                    if (_cheatMonoUtility.isShowing && _logMonoUtility)
                     {
-                        if (logUtility.isShowing)
+                        if (_logMonoUtility.isShowing)
                         {
-                            logUtility.CheckButtonWillShow();
+                            _logMonoUtility.CheckButtonWillShow();
                         }
                     }
                 } 

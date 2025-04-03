@@ -6,11 +6,11 @@ namespace GDFramework_Core.Multilingual
 {
     public class MultilingualManager : AbstractSystem
     {
-        private MultilingualData_Model _multilingualData_Model;
+        private MultilingualDataModel _multilingualData_Model;
         
         protected override void OnInit()
         {
-            _multilingualData_Model = this.GetModel<MultilingualData_Model>();
+            _multilingualData_Model = this.GetModel<MultilingualDataModel>();
         }
         
         /// <summary>

@@ -3,11 +3,11 @@ using GDFramework_Core.Procedure;
 using GDFramework_General.Procedure;
 using QFramework;
 
-public partial class GameManager : MonoSingleton<GameManager>,IController
+public partial class GameManager : MonoSingleton<GameManager>,IController,ICanSendEvent
 {
     private ProcedureManager _procedureManager;
         
-    private GameData_Model _gameData_Model;
+    private GameDataModel _gameDataModel;
         
     public IArchitecture GetArchitecture()
     {
@@ -39,9 +39,9 @@ public partial class GameManager : MonoSingleton<GameManager>,IController
     protected void RegisterProcedure()
     {
         _procedureManager = ProcedureManager.Instance;
-        _procedureManager.RegisterProcedure(new LaunchProcedure());
-        _procedureManager.RegisterProcedure(new MainMenuProcedure());
-            
-        _procedureManager.ChangeProcedure<LaunchProcedure>();
+        _procedureManager.RegisterProcedure(EProcedureType.Launch,new LaunchProcedure());
+        _procedureManager.RegisterProcedure(EProcedureType.MainMenu,new MainMenuProcedure());
+
+        this.SendEvent<SChangeProcedureEvent>(new SChangeProcedureEvent(EProcedureType.Launch));
     }
 }

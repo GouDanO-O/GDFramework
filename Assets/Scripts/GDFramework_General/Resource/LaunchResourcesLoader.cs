@@ -7,12 +7,13 @@ namespace GDFramework_General.Resource
 {
     public class LaunchResourcesLoader : BaseResourcesLoader
     {
-        private LaunchResourcesData_Model _launchResourcesDataModel;
+        private LaunchResourcesDataModel _launchResourcesDataModel;
         
         protected override void StartLoading()
         {
-            _launchResourcesDataModel = this.GetModel<LaunchResourcesData_Model>();
+            _launchResourcesDataModel = this.GetModel<LaunchResourcesDataModel>();
             WillLoadResourcesList.Add(QAssetBundle.Tbmultilingual_json.tbmultilingual);
+            
             base.StartLoading();
         }
 
@@ -22,7 +23,7 @@ namespace GDFramework_General.Resource
             {
                 _loader.LoadJsonAsync(WillLoadResourcesList[i], (data) =>
                 {
-                    this.GetModel<MultilingualData_Model>().SetTextAsset(data);
+                    this.GetModel<MultilingualDataModel>().SetTextAsset(data);
                     LoadingCheck();
                 });
             }

@@ -15,7 +15,7 @@ namespace GDFramework_Core.Resource
     {
         public UnityAction OnLoadComplete;
         
-        protected Resouces_Utility _loader;
+        protected ResoucesUtility _loader;
         
         protected int LoadedCount
         {
@@ -46,7 +46,7 @@ namespace GDFramework_Core.Resource
         /// 初始化加载器
         /// </summary>
         /// <param name="resLoader"></param>
-        public void InitLoader(Resouces_Utility resLoader)
+        public void InitLoader(ResoucesUtility resLoader)
         {
             this._loader=resLoader;
             StartLoading();
@@ -56,7 +56,7 @@ namespace GDFramework_Core.Resource
        /// 初始化加载器
        /// </summary>
        /// <param name="resLoader"></param>
-        public void InitLoader(Resouces_Utility resLoader,UnityAction callBack)
+        public void InitLoader(ResoucesUtility resLoader,UnityAction callBack)
         {
             this._loader=resLoader;
             this.OnLoadComplete = callBack;
@@ -78,12 +78,12 @@ namespace GDFramework_Core.Resource
         /// </summary>
         protected void LoadingCheck()
         {
-            Log_Utility.AddLog("加载数据成功");
+            LogMonoUtility.AddLog("加载数据成功");
             LoadedCount++;
             if (LoadedCount == MaxLoadCount)
             {
                 OnLoadComplete?.Invoke();
-                Log_Utility.AddLog("全部加载完成");
+                LogMonoUtility.AddLog("全部加载完成");
             }
         }
 

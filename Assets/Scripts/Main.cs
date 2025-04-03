@@ -40,9 +40,9 @@ public class Main : Architecture<Main>
     /// </summary>
     protected void Regiest_Model()
     {
-        this.RegisterModel(new LaunchResourcesData_Model());
-        this.RegisterModel(new MultilingualData_Model());
-        this.RegisterModel(new CheatData_Model());
+        this.RegisterModel(new LaunchResourcesDataModel());
+        this.RegisterModel(new MultilingualDataModel());
+        this.RegisterModel(new CheatDataModel());
     }
     
     /// <summary>
@@ -50,8 +50,8 @@ public class Main : Architecture<Main>
     /// </summary>
     protected void Regiest_Utility()
     {
-        this.RegisterUtility(new Resouces_Utility());
-        this.RegisterUtility(new Multilingual_Utility());
+        this.RegisterUtility(new ResoucesUtility());
+        this.RegisterUtility(new MultilingualUtility());
         this.RegisterUtility(new Sdk_Utility());
     }
     

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GDFramework_Core.GAS.RunningTime.Attribute;
+using GDFramework_Core.GAS.RunningTime.Attribute.Value;
 using GDFramework_Core.GAS.RunningTime.Component;
 
 namespace GDFramework_Core.GAS.RunningTime.AttributeSet
@@ -94,11 +95,11 @@ namespace GDFramework_Core.GAS.RunningTime.AttributeSet
                 : (AttributeValue?)null;
         }
         
-        public ECalculateMode? GetAttributeCalculateMode(string attrSetName, string attrShortName)
+        public CalculateMode? GetAttributeCalculateMode(string attrSetName, string attrShortName)
         {
             return _attributeSetDict.TryGetValue(attrSetName, out var set)
                 ? set[attrShortName].CalculateMode
-                : (ECalculateMode?)null;
+                : (CalculateMode?)null;
         }
 
         public float? GetAttributeBaseValue(string attrSetName, string attrShortName)

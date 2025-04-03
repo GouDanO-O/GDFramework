@@ -17,7 +17,7 @@ namespace GDFramework_Core.GAS.RunningTime.Utils
         /// </code>
         /// </example>
         /// </summary>
-        public static IEnumerable<string> AttributeSetChoices => global::GAS.Runtime.ReflectionHelper.AttributeSetNames;
+        public static IEnumerable<string> AttributeSetChoices => ReflectionHelper.AttributeSetNames;
 
         /// <summary>
         /// 显示一个下拉列表，包含所有的属性名称.
@@ -29,7 +29,7 @@ namespace GDFramework_Core.GAS.RunningTime.Utils
         /// </code>
         /// </example>
         /// </summary>
-        public static IEnumerable<string> AttributeChoices => global::GAS.Runtime.ReflectionHelper.AttributeNames;
+        public static IEnumerable<string> AttributeChoices => ReflectionHelper.AttributeNames;
 
         private static ValueDropdownItem[] _gameplayTagChoices;
 
@@ -47,7 +47,7 @@ namespace GDFramework_Core.GAS.RunningTime.Utils
         {
             get
             {
-                _gameplayTagChoices ??= global::GAS.Runtime.ReflectionHelper.GameplayTags
+                _gameplayTagChoices ??= ReflectionHelper.GameplayTags
                     .Select(gameplayTag => new ValueDropdownItem(gameplayTag.Name, gameplayTag))
                     .ToArray();
                 return _gameplayTagChoices;

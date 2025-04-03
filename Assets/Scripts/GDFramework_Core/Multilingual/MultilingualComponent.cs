@@ -26,7 +26,7 @@ namespace GDFramework_Core.Multilingual
         private Text _textNormal;
         
         
-        private MultilingualData_Model _multilingualData_Model;
+        private MultilingualDataModel _multilingualData_Model;
 
         private void Awake()
         {
@@ -66,7 +66,7 @@ namespace GDFramework_Core.Multilingual
                 _textNormal = GetComponent<Text>();
             }
 
-            _multilingualData_Model = this.GetModel<MultilingualData_Model>();
+            _multilingualData_Model = this.GetModel<MultilingualDataModel>();
         }
 
         /// <summary>
@@ -76,13 +76,13 @@ namespace GDFramework_Core.Multilingual
         {
             if (key == "")
             {
-                Log_Utility.AddLog($"{gameObject.name}:未配置key");
+                LogMonoUtility.AddLog($"{gameObject.name}:未配置key");
                 return;
             }
 
             if (_multilingualData_Model == null)
             {
-                Log_Utility.AddLog($"{gameObject.name}:尚未初始化");
+                LogMonoUtility.AddLog($"{gameObject.name}:尚未初始化");
                 return;
             }
 

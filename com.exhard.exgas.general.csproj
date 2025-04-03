@@ -46,16 +46,8 @@
     <Analyzer Include="E:\UnityDownload\UnityEditor\6000.0.30f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\GAS\General\DataClass\ObservableValue.cs" />
     <Compile Include="Assets\GAS\General\GASTimer.cs" />
-    <Compile Include="Assets\GAS\General\Util\DebugExtension.cs" />
-    <Compile Include="Assets\GAS\General\Util\TypeUtil.cs" />
-    <Compile Include="Assets\GAS\General\Util\GASAnimatorUtil.cs" />
     <Compile Include="Assets\GAS\General\GASTextDefine.cs" />
-    <Compile Include="Assets\GAS\General\Util\Validations.cs" />
-    <Compile Include="Assets\GAS\General\Util\PriorityValue.cs" />
-    <Compile Include="Assets\GAS\General\Util\Pool.cs" />
-    <Compile Include="Assets\GAS\General\DataClass\JsonData.cs" />
     <None Include="Assets\GAS\General\com.exhard.exgas.general.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>E:\UnityDownload\UnityEditor\6000.0.30f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

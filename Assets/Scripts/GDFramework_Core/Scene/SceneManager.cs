@@ -44,7 +44,7 @@ namespace GDFramework_Core.Scene
         /// <param name="sceneName"></param>
         private void LoadSceneAsync(ESceneName sceneName)
         {
-            Main.Interface.GetUtility<Coroutine_Utility>().StartCoroutine(LoadSceneCoroutine(sceneName));
+            Main.Interface.GetUtility<CoroutineMonoUtility>().StartCoroutine(LoadSceneCoroutine(sceneName));
         }
 
         private IEnumerator LoadSceneCoroutine(ESceneName sceneName)

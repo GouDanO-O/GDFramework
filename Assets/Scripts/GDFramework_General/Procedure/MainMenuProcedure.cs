@@ -30,7 +30,7 @@ namespace GDFramework_General.Procedure
         /// </summary>
         private void LoadMenuSceneStart()
         {
-            Log_Utility.AddLog("LoadMenuSceneStart");
+            LogMonoUtility.AddLog("LoadMenuSceneStart");
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace GDFramework_General.Procedure
         /// <param name="sceneName"></param>
         private void LoadMenuSceneComplete(ESceneName sceneName)
         {
-            Log_Utility.AddLog("LoadMenuSceneComplete:"+sceneName);
+            LogMonoUtility.AddLog("LoadMenuSceneComplete:"+sceneName);
             this.GetSystem<ViewManager>().EnterMenu();
         }
 
