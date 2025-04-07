@@ -24,9 +24,10 @@
  ****************************************************************************/
 
 using System;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
 	using System.Text;
 	using System.IO;

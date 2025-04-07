@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class AssetBundleResCreator : IResCreator
     {

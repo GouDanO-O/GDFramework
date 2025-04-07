@@ -7,7 +7,7 @@
  * https://gitee.com/liangxiegame/QFramework
  ****************************************************************************/
 
-namespace QFramework
+namespace GDFrameworkExtend.AudioKit
 {
     using System;
 

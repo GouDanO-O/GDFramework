@@ -8,7 +8,9 @@
  ****************************************************************************/
 
 
-namespace QFramework
+using GDFrameworkExtend.CoreKit;
+
+namespace GDFrameworkExtend.ResKit
 {
         
     public class AssetBundleSceneRes : AssetRes

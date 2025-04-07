@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 #if UNITY_EDITOR
 using System.IO;
 using UnityEditor;
 #endif
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class ConfigFileUtility
     {

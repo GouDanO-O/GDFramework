@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     /// <summary>
     /// 默认的 ResData 支持

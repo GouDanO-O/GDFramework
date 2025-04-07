@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public interface IResDatas
     {

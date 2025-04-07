@@ -29,7 +29,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public class UIScrollPageChangeEvent : UnityEvent<int, int> {}
     

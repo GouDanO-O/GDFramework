@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public class UIDefaultPanel : UIPanel
     {

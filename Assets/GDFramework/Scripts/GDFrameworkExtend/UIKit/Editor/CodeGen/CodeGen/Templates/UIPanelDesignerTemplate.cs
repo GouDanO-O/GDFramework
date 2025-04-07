@@ -25,8 +25,9 @@
 
 using System;
 using System.IO;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public class UIPanelDesignerTemplate
     {

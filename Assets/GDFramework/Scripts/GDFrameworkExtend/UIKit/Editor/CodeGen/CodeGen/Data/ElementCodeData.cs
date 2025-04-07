@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public class ElementCodeInfo
     {

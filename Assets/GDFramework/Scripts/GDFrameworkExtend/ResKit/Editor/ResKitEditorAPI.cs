@@ -23,10 +23,11 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
+using GDFrameworkExtend.CoreKit;
 using UnityEditor;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class ResKitEditorAPI
     {

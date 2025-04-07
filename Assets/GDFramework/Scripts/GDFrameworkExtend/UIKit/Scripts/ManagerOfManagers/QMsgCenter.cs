@@ -27,9 +27,10 @@
 
 using System;
 using System.Collections.Generic;
+using GDFrameworkExtend.CoreKit;
 
 // ReSharper disable once CheckNamespace
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
 	using UnityEngine;
 

@@ -7,8 +7,9 @@
  ****************************************************************************/
 
 using System;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class ResSearchKeys : IPoolable,IPoolType
     {   

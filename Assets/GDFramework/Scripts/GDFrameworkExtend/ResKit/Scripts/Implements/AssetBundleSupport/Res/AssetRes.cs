@@ -26,8 +26,9 @@
 
 
 using System;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
 	using UnityEngine;
 	using System.Collections;

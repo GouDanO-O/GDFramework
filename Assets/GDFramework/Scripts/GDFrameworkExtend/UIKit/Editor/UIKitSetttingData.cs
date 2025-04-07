@@ -26,10 +26,10 @@
 
 using System;
 using System.IO;
-
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
 	using UnityEditor;
 

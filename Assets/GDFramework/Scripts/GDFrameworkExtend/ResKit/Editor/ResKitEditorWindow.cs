@@ -12,7 +12,7 @@ using System.Linq;
 using System.IO;
 using UnityEditor;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     using UnityEngine;
 

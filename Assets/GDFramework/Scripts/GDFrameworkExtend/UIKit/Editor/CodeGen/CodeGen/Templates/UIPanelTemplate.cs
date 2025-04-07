@@ -7,13 +7,16 @@
  * 
  ****************************************************************************/
 
-namespace QFramework
+using GDFrameworkExtend.CoreKit;
+
+namespace GDFrameworkExtend.UIKit
 {
     using System.IO;
 
     public class UIPanelTemplate
     {
-        public static void Write(string name, string srcFilePath, string scriptNamespace)
+        public static void Write(string name, string srcFilePath, string scriptNamespace,
+            UIKitSettingData uiKitSettingData)
         {
             var scriptFile = srcFilePath;
 

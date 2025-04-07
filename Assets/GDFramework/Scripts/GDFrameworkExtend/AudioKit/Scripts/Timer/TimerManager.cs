@@ -13,7 +13,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace QFramework.TimeExtend
+namespace GDFrameworkExtend.AudioKit.TimeExtend
 {
     public class Timer
     {

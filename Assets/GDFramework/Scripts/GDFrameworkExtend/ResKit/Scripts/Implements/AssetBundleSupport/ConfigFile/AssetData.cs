@@ -29,7 +29,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.U2D;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     using System;
 

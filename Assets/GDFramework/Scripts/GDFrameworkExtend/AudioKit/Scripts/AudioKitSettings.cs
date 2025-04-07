@@ -6,9 +6,10 @@
  * https://gitee.com/liangxiegame/QFramework
  ****************************************************************************/
 
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.AudioKit
 {
     /// <summary>
     /// 专门用来为音频做设置

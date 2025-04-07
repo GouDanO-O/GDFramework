@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.ResKit;
+using GDFrameworkExtend.UIKit;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -8,7 +11,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
-namespace QFramework
+namespace GDFrameworkExtend
 {
     public class UIKitCreateServiceView
     {

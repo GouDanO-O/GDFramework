@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
     public class OpenFileName

@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public class UIPanelTable : UIKitTable<IPanel>
     {

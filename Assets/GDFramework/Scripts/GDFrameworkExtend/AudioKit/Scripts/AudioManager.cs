@@ -9,8 +9,10 @@
 
 using System;
 using System.Linq;
+using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.AudioKit
 {
     using System.Collections.Generic;
     using UnityEngine;

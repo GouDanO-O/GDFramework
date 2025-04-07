@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 using System.IO;
 //using NUnit.Framework;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
 
     public  class BundleHotFix : EditorWindow

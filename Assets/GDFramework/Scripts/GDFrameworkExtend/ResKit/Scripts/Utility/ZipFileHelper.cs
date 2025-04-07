@@ -30,7 +30,7 @@ using System.IO;
 using ICSharpCode.SharpZipLib.Zip;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
 
 

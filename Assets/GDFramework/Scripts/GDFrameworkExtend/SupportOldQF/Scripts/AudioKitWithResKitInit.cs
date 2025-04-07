@@ -1,14 +1,16 @@
 ﻿using System;
+using GDFrameworkExtend.AudioKit;
+using GDFrameworkExtend.ResKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend
 {
     public class AudioKitWithResKitInit 
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void Init()
         {
-            AudioKit.Config.AudioLoaderPool = new ResKitAudioLoaderPool();
+            GDFrameworkExtend.AudioKit.AudioKit.Config.AudioLoaderPool = new ResKitAudioLoaderPool();
         }
     }
 

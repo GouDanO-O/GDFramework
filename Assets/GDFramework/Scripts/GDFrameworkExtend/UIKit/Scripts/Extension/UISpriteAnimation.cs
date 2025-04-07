@@ -27,7 +27,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
 	/// <summary>
 	/// 动画播放控件

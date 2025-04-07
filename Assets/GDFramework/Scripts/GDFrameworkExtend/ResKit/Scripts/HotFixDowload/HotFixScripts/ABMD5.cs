@@ -1,6 +1,6 @@
 
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     [System.Serializable]
     public class ABMD5  

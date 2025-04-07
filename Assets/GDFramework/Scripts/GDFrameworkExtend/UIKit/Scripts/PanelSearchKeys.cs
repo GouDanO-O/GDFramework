@@ -24,9 +24,10 @@
  ****************************************************************************/
 
 using System;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public class PanelSearchKeys : IPoolType, IPoolable
     {

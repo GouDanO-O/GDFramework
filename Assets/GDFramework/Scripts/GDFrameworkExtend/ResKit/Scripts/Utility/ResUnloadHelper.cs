@@ -27,7 +27,7 @@ using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     /// <summary>
     /// 资源卸载 Helper

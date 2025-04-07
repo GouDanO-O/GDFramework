@@ -3,7 +3,8 @@
     "references": [
         "ResKit",
         "QFramework",
-        "QFramework.CoreKit"
+        "QFramework.CoreKit",
+        "GDFrameworkCore"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

@@ -29,7 +29,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public class UIKitConfig
     {

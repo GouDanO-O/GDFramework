@@ -3,6 +3,7 @@ using GDFramework_Core.Scripts.GDFrameworkCore;
 using UnityEngine;
 using UnityEngine.U2D;
 using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.ResKit;
 
 namespace GDFramework_Core.Utility
 {

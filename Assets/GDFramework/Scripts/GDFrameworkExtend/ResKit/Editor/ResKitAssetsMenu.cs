@@ -26,9 +26,8 @@
 using System;
 using UnityEditor;
 using System.IO;
-using QFramework;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
 	[InitializeOnLoad]
 	public class ResKitAssetsMenu

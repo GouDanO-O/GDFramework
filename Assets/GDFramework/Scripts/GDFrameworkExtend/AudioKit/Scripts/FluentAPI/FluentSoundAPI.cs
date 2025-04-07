@@ -1,7 +1,8 @@
 using System;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.AudioKit
 {
     public class FluentSoundAPI : IPoolable,IPoolType
     {

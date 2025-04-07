@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using GDFrameworkExtend.UIKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend
 {
     public class ResKitUIPanelTester : MonoBehaviour
     {
@@ -21,16 +22,16 @@ namespace QFramework
 
             private void Awake()
             {
-                ResKit.Init();
+                GDFrameworkExtend.ResKit.ResKit.Init();
             }
 
             private IEnumerator Start()
             {
                 yield return new WaitForSeconds(0.2f);
 			
-                UIKit.OpenPanel(PanelName, Level);
+                GDFrameworkExtend.UIKit.UIKit.OpenPanel(PanelName, Level);
 
-                mOtherPanels.ForEach(panelTesterInfo => { UIKit.OpenPanel(panelTesterInfo.PanelName, panelTesterInfo.Level); });
+                mOtherPanels.ForEach(panelTesterInfo => { GDFrameworkExtend.UIKit.UIKit.OpenPanel(panelTesterInfo.PanelName, panelTesterInfo.Level); });
             }
     }
 }

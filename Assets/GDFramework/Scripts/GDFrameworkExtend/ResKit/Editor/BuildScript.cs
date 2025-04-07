@@ -8,8 +8,9 @@
 
 
 using System.Linq;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     using UnityEngine;
     using UnityEditor;

@@ -24,8 +24,9 @@
  ****************************************************************************/
 
 using System;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public interface IMsg
     {

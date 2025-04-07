@@ -7,11 +7,12 @@
  ****************************************************************************/
 
 using System;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
 #if UNITY_EDITOR
     [ClassAPI("07.ResKit", "ResLoader API", 2, "ResLoader API")]

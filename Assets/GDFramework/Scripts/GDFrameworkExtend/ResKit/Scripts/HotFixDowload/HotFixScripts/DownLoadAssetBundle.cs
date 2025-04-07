@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class DownLoadAssetBundle : DownLoadItem
     {

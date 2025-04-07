@@ -2,7 +2,7 @@
  * Copyright (c) 2017 liangxie
 ****************************************************************************/
 
-namespace QFramework 
+namespace GDFrameworkExtend.UIKit 
 {
 	using UnityEngine;
 	using UnityEngine.EventSystems;

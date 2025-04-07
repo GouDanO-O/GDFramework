@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class AssetDataTable : Table<AssetData>
     {

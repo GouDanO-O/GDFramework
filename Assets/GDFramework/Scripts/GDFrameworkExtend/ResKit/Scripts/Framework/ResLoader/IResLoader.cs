@@ -6,7 +6,7 @@
  * https://gitee.com/liangxiegame/QFramework
  ****************************************************************************/
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     using System;
         

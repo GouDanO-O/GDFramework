@@ -2,7 +2,8 @@
     "name": "AudioKit",
     "references": [
         "QFramework.CoreKit",
-        "QFramework"
+        "QFramework",
+        "GDFrameworkCore"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [],

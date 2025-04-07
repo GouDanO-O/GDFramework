@@ -6,8 +6,9 @@
  ****************************************************************************/
 
 using System;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
 #if UNITY_EDITOR
     [Obsolete]

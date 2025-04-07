@@ -27,7 +27,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public static class InputFieldEnterSubmitExtensions
     {

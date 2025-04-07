@@ -1,4 +1,4 @@
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class AssetBundleSceneResCreator : IResCreator
     {

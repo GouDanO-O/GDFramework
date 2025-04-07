@@ -1,10 +1,11 @@
 using System;
 using System.Linq;
+using GDFrameworkExtend.CoreKit;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class ResKitView
     {

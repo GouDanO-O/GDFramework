@@ -11,9 +11,10 @@
 
 using System;
 using System.Linq;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     [MonoSingletonPath("UIRoot/Manager")]
     public partial class UIManager : QMgrBehaviour, ISingleton

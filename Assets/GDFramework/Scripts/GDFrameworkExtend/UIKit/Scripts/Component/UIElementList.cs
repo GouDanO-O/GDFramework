@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
 	public abstract class UIElementList : UIElement
 	{

@@ -8,9 +8,10 @@
 
 using System;
 using System.Collections.Generic;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.AudioKit
 {
 #if UNITY_EDITOR
     [ClassAPI("09.AudioKit", "AudioKit", 0, "AudioKit")]

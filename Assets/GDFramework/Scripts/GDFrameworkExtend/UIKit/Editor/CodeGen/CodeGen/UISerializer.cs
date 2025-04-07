@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using GDFrameworkExtend.CoreKit;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public class UISerializer
     {

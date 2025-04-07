@@ -1,6 +1,6 @@
 using System;
 
-namespace QFramework
+namespace GDFrameworkExtend.AudioKit
 {
     public interface IAudioKitOnFinish
     {

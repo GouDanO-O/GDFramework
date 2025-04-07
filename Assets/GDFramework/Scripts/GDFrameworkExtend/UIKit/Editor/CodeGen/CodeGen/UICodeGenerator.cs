@@ -24,7 +24,9 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
-namespace QFramework
+using GDFrameworkExtend.CoreKit;
+
+namespace GDFrameworkExtend.UIKit
 {
 	using UnityEngine;
 	using UnityEditor;
@@ -113,7 +115,7 @@ namespace QFramework
 			{
 				if (File.Exists(strFilePath) == false)
 				{
-					UIPanelTemplate.Write(behaviourName,strFilePath,UIKitSettingData.Load().Namespace);
+					UIPanelTemplate.Write(behaviourName,strFilePath,UIKitSettingData.Load().Namespace,UIKitSettingData.Load());
 				}
 			}
 

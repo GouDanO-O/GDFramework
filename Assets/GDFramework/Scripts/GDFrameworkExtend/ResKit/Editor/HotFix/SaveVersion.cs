@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System.Collections.Generic;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class SaveVersion : EditorWindow
     {

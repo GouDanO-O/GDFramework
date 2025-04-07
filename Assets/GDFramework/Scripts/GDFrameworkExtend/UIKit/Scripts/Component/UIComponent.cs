@@ -23,7 +23,9 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
-namespace QFramework
+using GDFrameworkExtend.CoreKit;
+
+namespace GDFrameworkExtend.UIKit
 {
     public abstract class UIComponent : UIElement
     {

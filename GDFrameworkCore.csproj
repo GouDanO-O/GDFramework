@@ -454,7 +454,7 @@
       <HintPath>D:\UnityProject\GDFrame_Qf\Library\PackageCache\com.unity.visualscripting\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Markdig">
-      <HintPath>D:\UnityProject\GDFrame_Qf\Assets\QFramework\Toolkits\_CoreKit\PackageKit\Markdown\Markdig.dll</HintPath>
+      <HintPath>D:\UnityProject\GDFrame_Qf\Assets\GDFramework\Scripts\GDFrameworkExtend\CoreKit\PackageKit\Markdown\Markdig.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Utilities.Editor">
       <HintPath>D:\UnityProject\GDFrame_Qf\Assets\GDFramework\Plugins\Sirenix\Assemblies\Sirenix.Utilities.Editor.dll</HintPath>

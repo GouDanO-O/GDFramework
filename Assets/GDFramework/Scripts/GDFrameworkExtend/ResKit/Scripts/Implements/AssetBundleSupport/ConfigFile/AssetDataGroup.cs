@@ -10,7 +10,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class AssetDataGroup
     {

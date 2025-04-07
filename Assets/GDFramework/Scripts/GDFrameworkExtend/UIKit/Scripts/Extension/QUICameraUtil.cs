@@ -25,7 +25,7 @@
 
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
 	public static class QUICameraUtil 
 	{

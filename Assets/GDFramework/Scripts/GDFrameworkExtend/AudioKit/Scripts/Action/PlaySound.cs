@@ -7,9 +7,10 @@
  ****************************************************************************/
 
 using System;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.AudioKit
 {
     public class PlaySoundAction : AbstractAction<PlaySoundAction>
     {
@@ -73,12 +74,12 @@ namespace QFramework
     {
         public static ISequence PlaySound(this ISequence self, string soundName)
         {
-            return self.Append(QFramework.PlaySoundAction.Allocate(soundName));
+            return self.Append(GDFrameworkExtend.AudioKit.PlaySoundAction.Allocate(soundName));
         }
         
         public static ISequence PlaySound(this ISequence self,AudioClip clip)
         {
-            return self.Append(QFramework.PlaySoundAction.Allocate(clip));
+            return self.Append(GDFrameworkExtend.AudioKit.PlaySoundAction.Allocate(clip));
         }
     }
 }

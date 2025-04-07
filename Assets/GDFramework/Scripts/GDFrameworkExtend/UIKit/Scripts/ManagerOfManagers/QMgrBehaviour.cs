@@ -24,7 +24,9 @@
  ****************************************************************************/
 
 
-namespace QFramework
+using GDFrameworkExtend.CoreKit;
+
+namespace GDFrameworkExtend.UIKit
 {
     using System;
 

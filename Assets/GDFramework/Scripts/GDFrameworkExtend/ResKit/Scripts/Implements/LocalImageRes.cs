@@ -23,7 +23,9 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
-namespace QFramework
+using GDFrameworkExtend.CoreKit;
+
+namespace GDFrameworkExtend.ResKit
 {
     using UnityEngine;
     using System.Collections;

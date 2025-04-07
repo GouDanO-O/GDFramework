@@ -6,7 +6,7 @@ using System.Text;
 using System;
 using System.IO;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class RSA
     {

@@ -25,7 +25,7 @@
 
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     /// <summary>
     /// 子项目管理

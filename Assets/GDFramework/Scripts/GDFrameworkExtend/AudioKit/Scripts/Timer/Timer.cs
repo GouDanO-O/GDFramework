@@ -9,9 +9,10 @@
  ****************************************************************************/
 
 using System;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.AudioKit
 {
     [MonoSingletonPath("QFramework/ResKit/Timer")]
     public class Timer : MonoBehaviour,ISingleton

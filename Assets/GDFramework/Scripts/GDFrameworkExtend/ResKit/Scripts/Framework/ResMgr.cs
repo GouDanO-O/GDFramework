@@ -9,13 +9,14 @@
 
 using System.Collections;
 using System.Linq;
+using GDFrameworkExtend.CoreKit;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     using System.Collections.Generic;
     using UnityEngine;
 
-    [MonoSingletonPath("QFramework/ResKit/ResManager")]
+    [MonoSingletonPath("GDFramework/Scripts/GDFrameworkExtend/ResKit/ResManager")]
     public class ResMgr : MonoBehaviour,ISingleton
     {
         public static ResMgr Instance => MonoSingletonProperty<ResMgr>.Instance;

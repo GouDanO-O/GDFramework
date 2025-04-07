@@ -27,7 +27,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     using System;
 

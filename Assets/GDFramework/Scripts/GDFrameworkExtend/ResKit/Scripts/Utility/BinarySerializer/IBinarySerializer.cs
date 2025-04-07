@@ -27,7 +27,7 @@
 
 using System.IO;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public interface IBinarySerializer 
     {

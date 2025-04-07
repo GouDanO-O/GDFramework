@@ -6,10 +6,11 @@
  * https://gitee.com/liangxiegame/QFramework
  ****************************************************************************/
 
+using GDFrameworkExtend.CoreKit;
 using UnityEditor;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
 	public static class AssetBundleExporter
 	{

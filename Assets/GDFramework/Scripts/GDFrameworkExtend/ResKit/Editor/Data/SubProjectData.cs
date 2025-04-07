@@ -25,9 +25,10 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using GDFrameworkExtend.CoreKit;
 using UnityEditor;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public class SubProjectData
     {

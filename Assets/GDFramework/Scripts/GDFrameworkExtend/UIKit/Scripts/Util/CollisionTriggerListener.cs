@@ -3,7 +3,7 @@
  * Copyright (c) 2018 liangxie
 ****************************************************************************/
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     using System.Collections.Generic;
     using UnityEngine;

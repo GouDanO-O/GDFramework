@@ -7,10 +7,10 @@
  ****************************************************************************/
 
 using System;
-
+using GDFramework_Core.Scripts.GDFrameworkCore;
 using UnityEngine.Events;
 
-namespace QFramework
+namespace GDFrameworkExtend.AudioKit
 {
     
     /// <summary>

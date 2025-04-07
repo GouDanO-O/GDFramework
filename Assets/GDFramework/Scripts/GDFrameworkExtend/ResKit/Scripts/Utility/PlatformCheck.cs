@@ -8,7 +8,7 @@
 
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public static class PlatformCheck
     {

@@ -5,9 +5,10 @@ using System;
 using System.Security.Cryptography;
 using System.IO;
 using System.Text;
+using GDFrameworkExtend.CoreKit;
 
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     [Serializable]
     public class MD5Manager  : ISingleton

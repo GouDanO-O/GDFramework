@@ -1,14 +1,17 @@
 ﻿using System;
+using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.ResKit;
+using GDFrameworkExtend.UIKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend
 {
     public class UIKitWithResKitInit
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void Init()
         {
-            UIKit.Config.PanelLoaderPool = new ResKitPanelLoaderPool();
+            GDFrameworkExtend.UIKit.UIKit.Config.PanelLoaderPool = new ResKitPanelLoaderPool();
         }
     }
 

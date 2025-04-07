@@ -27,7 +27,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
 	public class DontDestroyOnLoad : MonoBehaviour 
 	{

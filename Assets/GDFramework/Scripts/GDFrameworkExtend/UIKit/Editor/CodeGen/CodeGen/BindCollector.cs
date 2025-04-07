@@ -1,8 +1,9 @@
 using System;
 using System.Linq;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public class BindCollector
     {

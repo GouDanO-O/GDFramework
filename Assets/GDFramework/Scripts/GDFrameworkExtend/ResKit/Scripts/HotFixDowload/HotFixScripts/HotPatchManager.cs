@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
 
     public class HotPatchManager : ISingleton

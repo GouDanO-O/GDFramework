@@ -8,9 +8,11 @@
 
 using System;
 using System.Collections;
+using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
 #if UNITY_EDITOR
     [ClassAPI("07.ResKit", "ResKit", 0, "ResKit")]

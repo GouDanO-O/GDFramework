@@ -24,7 +24,7 @@
  ****************************************************************************/
 
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     using System.Collections;
     using System.Collections.Generic;

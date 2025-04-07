@@ -7,7 +7,7 @@ using System.Text;
 using UnityEngine;
 
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     public  class AES
     {

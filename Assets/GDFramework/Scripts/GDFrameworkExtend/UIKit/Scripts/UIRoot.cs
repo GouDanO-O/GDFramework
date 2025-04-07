@@ -23,10 +23,11 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     [MonoSingletonPath("UIRoot")]
     public class UIRoot : MonoBehaviour,ISingleton

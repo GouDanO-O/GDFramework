@@ -7,10 +7,12 @@
  ****************************************************************************/
 
 using System;
+using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace QFramework
+namespace GDFrameworkExtend.AudioKit
 {
     public class AudioPlayer : IPoolable, IPoolType,IAudioKitOnFinish
     {

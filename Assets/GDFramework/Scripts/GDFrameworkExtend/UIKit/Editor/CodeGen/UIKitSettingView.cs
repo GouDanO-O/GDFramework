@@ -7,11 +7,12 @@
 
 
 using System;
+using GDFrameworkExtend.CoreKit;
 using UnityEditor;
 using UnityEngine;
 
 // ReSharper disable once CheckNamespace
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     
   public class UIKitEditorWindow : EditorWindow

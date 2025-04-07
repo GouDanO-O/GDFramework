@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Xml.Serialization;
 
-namespace QFramework
+namespace GDFrameworkExtend.ResKit
 {
     [System.Serializable]
     public class ServerInfo

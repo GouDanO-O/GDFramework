@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     /// <summary>
     /// UI 界面的堆栈

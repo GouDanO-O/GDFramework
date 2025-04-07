@@ -25,7 +25,7 @@
 
 using System;
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     
     public enum UILevel

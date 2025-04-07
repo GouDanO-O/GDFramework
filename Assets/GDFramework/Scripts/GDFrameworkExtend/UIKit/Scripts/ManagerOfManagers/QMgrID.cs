@@ -23,7 +23,7 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     public abstract class QMgrID
     {

@@ -23,7 +23,7 @@
 * THE SOFTWARE.
 ****************************************************************************/
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
     using UnityEngine;
 
@@ -39,6 +39,7 @@ namespace QFramework
     /// </summary>
     public class ScriptKitInfo
     {
+        public int               HotScriptType;
         public string            HotScriptFilePath;
         public string            HotScriptSuffix;
         public IBaseTemplate[]   Templates;

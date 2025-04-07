@@ -9,7 +9,7 @@
  * https://gitee.com/liangxiegame/QFramework
  ****************************************************************************/
 
-namespace QFramework
+namespace GDFrameworkExtend.UIKit
 {
 	using UnityEngine;
 
