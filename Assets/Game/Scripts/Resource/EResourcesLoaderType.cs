@@ -1,7 +1,8 @@
-﻿namespace GDFramework_General.Resource
+﻿namespace Game.Resource
 {
     public enum EResourcesLoaderType
     {
+        InitialGame,
         Launch,
         GameScene
     }

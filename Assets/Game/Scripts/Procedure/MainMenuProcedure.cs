@@ -6,7 +6,7 @@ using GDFramework_Core.View;
 using GDFramework;
 
 
-namespace GDFramework_General.Procedure
+namespace Game.Procedure
 {
     /// <summary>
     /// 主界面流程
@@ -15,6 +15,7 @@ namespace GDFramework_General.Procedure
     {
         public override void OnInit()
         {
+            
         }
 
         public override void OnEnter()

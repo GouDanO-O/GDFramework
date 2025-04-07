@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Game.Resource;
 using GDFramework_Core.Models;
 using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework_Core.Utility;
-using GDFramework_General.Resource;
 
 using UnityEngine;
 using UnityEngine.Events;
@@ -32,9 +32,11 @@ namespace GDFramework_Core.Resource
         public void StartLoadingResources(EResourcesLoaderType loaderType, BaseResourcesLoader resourcesLoader,
             UnityAction callback)
         {
-            if (!_resourcesLoaderDict.ContainsKey(loaderType)) _resourcesLoaderDict.Add(loaderType, resourcesLoader);
+            if (!_resourcesLoaderDict.ContainsKey(loaderType)) 
+                _resourcesLoaderDict.Add(loaderType, resourcesLoader);
 
             _resourcesLoaderDict[loaderType].InitLoader(_loader, callback);
+            _currentLoaderType=loaderType;
         }
 
         /// <summary>

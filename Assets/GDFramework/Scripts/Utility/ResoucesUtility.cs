@@ -21,6 +21,20 @@ namespace GDFramework_Core.Utility
         }
 
         /// <summary>
+        /// 加载泛型
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="action"></param>
+        public void LoadObjAsync(string name, Action<object> action)
+        {
+            resLoader.Add2Load(name, (succeed, res) =>
+            {
+                if (succeed) action?.Invoke(res.Asset);
+            });
+            resLoader.LoadAsync();
+        }
+        
+        /// <summary>
         /// 加载图集
         /// </summary>
         /// <param name="name"></param>

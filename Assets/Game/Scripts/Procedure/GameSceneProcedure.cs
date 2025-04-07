@@ -1,7 +1,7 @@
 ﻿using GDFramework_Core;
 using GDFramework_Core.Procedure;
 
-namespace GDFramework_General.Procedure
+namespace Game.Procedure
 {
     public class GameSceneProcedure : ProcedureBase
     {

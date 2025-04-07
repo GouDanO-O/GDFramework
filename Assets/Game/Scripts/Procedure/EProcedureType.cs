@@ -1,7 +1,8 @@
-﻿namespace GDFramework_General.Procedure
+﻿namespace Game.Procedure
 {
     public enum EProcedureType
     {
+        InitialGame,
         Launch,
         MainMenu,
         GameScene

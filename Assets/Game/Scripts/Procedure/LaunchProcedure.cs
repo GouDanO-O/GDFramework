@@ -1,11 +1,11 @@
-﻿using GDFramework_Core.Procedure;
+﻿using Game.Resource;
+using GDFramework_Core.Procedure;
 using GDFramework_Core.Resource;
 using GDFramework_Core.Scripts.GDFrameworkCore;
-using GDFramework_General.Resource;
 using GDFramework;
 
 
-namespace GDFramework_General.Procedure
+namespace Game.Procedure
 {
     /// <summary>
     /// 登录流程
@@ -14,7 +14,7 @@ namespace GDFramework_General.Procedure
     public class LaunchProcedure : ProcedureBase, ICanGetSystem, ICanSendEvent
     {
         private ResourcesManager _resourcesManager;
-
+        
         private LaunchResourcesLoader _launchResourcesLoader;
 
         public override void OnInit()
@@ -26,7 +26,10 @@ namespace GDFramework_General.Procedure
         public override void OnEnter()
         {
             _resourcesManager.StartLoadingResources(EResourcesLoaderType.Launch, _launchResourcesLoader,
-                () => { DataLoadComplete(); });
+                () =>
+                {
+                    DataLoadComplete();
+                });
         }
 
         /// <summary>

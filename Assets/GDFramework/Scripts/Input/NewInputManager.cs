@@ -1,5 +1,6 @@
+using Game.Models.Resource;
+using GDFramework_Core.Models;
 using GDFramework_Core.Scripts.GDFrameworkCore;
-using GDFramework_General.Models.Resource;
 
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -59,7 +60,7 @@ namespace GDFramework_Core.Input
         /// </summary>
         public void InitActionAsset()
         {
-            actionAsset = this.GetModel<LaunchResourcesDataModel>().InputActionAsset;
+            actionAsset = this.GetModel<GameDataModel>().InputActionAsset;
 
             PlayerMouseMap = actionAsset.FindActionMap("PlayerMouseMap");
             mouseDrag = actionAsset.FindAction("MouseDrag");

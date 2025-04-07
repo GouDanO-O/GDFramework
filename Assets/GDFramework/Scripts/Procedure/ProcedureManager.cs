@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Procedure;
 using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework_Core.Utility;
-using GDFramework_General.Procedure;
 using GDFramework;
 using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
 namespace GDFramework_Core.Procedure
 {
-    public class ProcedureManager : Singleton<ProcedureManager>, ISystem
+    public class ProcedureManager : AbstractSystem
     {
         private Dictionary<EProcedureType, ProcedureBase> _procedureDict;
 
@@ -18,11 +18,7 @@ namespace GDFramework_Core.Procedure
         private ProcedureBase _lastProcedure;
 
         public bool Initialized { get; set; }
-
-        private ProcedureManager()
-        {
-        }
-
+        
         /// <summary>
         /// 当前流程
         /// </summary>
@@ -32,29 +28,19 @@ namespace GDFramework_Core.Procedure
         /// 上一个流程
         /// </summary>
         public ProcedureBase LastProcedure => _lastProcedure;
-
-        public void Init()
-        {
-        }
-
-        public void Deinit()
-        {
-            this.UnRegisterEvent<SChangeProcedureEvent>((eventData) => { });
-        }
-
-        public override void OnSingletonInit()
+        
+        protected override void OnInit()
         {
             _procedureDict = new Dictionary<EProcedureType, ProcedureBase>();
-            this.RegisterEvent<SChangeProcedureEvent>((eventData) => { ChangeProcedure(eventData._procedureType); });
+            this.RegisterEvent<SChangeProcedureEvent>((eventData) =>
+            {
+                ChangeProcedure(eventData._procedureType);
+            });
         }
 
-        public IArchitecture GetArchitecture()
+        protected void DeInit()
         {
-            return Main.Interface;
-        }
-
-        public void SetArchitecture(IArchitecture architecture)
-        {
+            this.UnRegisterEvent<SChangeProcedureEvent>((eventData) => { });
         }
 
         /// <summary>
@@ -62,7 +48,8 @@ namespace GDFramework_Core.Procedure
         /// </summary>
         public ProcedureBase GetProcedure(EProcedureType procedureType)
         {
-            if (_procedureDict.TryGetValue(procedureType, out var procedure)) return procedure;
+            if (_procedureDict.TryGetValue(procedureType, out var procedure)) 
+                return procedure;
 
             LogMonoUtility.AddLog("流程为空");
             return null;
@@ -103,17 +90,19 @@ namespace GDFramework_Core.Procedure
             if (_lastProcedure != null)
             {
                 //当上一个流程的退出条件不满足时,无法进行切换
-                if (!_lastProcedure.OnExitCondition()) return;
+                if (!_lastProcedure.OnExitCondition()) 
+                    return;
                 _lastProcedure.OnExit();
             }
 
             //当要切换的进程条件不满足时
-            if (!procedure.OnEnterCondition()) return;
+            if (!procedure.OnEnterCondition()) 
+                return;
 
             _lastProcedure = _currentProcedure;
             _currentProcedure = procedure;
-
             _currentProcedure.OnEnter();
+            Debug.Log("切换流程:"+procedure);
         }
 
         /// <summary>
@@ -121,7 +110,8 @@ namespace GDFramework_Core.Procedure
         /// </summary>
         public void UpdateProcedure()
         {
-            if (_currentProcedure == null) return;
+            if (_currentProcedure == null) 
+                return;
 
             _currentProcedure.OnUpdate();
         }

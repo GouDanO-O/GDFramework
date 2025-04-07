@@ -1,4 +1,5 @@
 ﻿using System;
+using GDFramework_Core.Resource;
 using Unity.VisualScripting;
 
 namespace GDFramework_Core.Procedure

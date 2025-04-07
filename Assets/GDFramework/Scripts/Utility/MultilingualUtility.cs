@@ -11,7 +11,7 @@ namespace GDFramework_Core.Utility
     [System.Serializable]
     public struct SLanguageDataWrapper
     {
-        public SLanguageData[] languageData;
+        public SLanguageData[] data;
     }
 
     [System.Serializable]
@@ -19,9 +19,9 @@ namespace GDFramework_Core.Utility
     {
         public string Key;
 
-        public string SimplifiedChinese;
+        public string Zh;
 
-        public string English;
+        public string En;
     }
 
     public class MultilingualUtility : IUtility
@@ -41,17 +41,20 @@ namespace GDFramework_Core.Utility
             if (languageTextAsset)
             {
                 var jsonText = languageTextAsset.text;
-                var languageDataArray = JsonUtility.FromJson<SLanguageDataWrapper>(jsonText).languageData;
+                var languageDataArray = JsonUtility.FromJson<SLanguageDataWrapper>(jsonText).data;
 
+                if(languageDataArray==null || languageDataArray.Length==0)
+                    return;
+                
                 foreach (var entry in languageDataArray)
                 {
                     var languageDictionary = new Dictionary<ELanguageType, string>
                     {
                         {
-                            ELanguageType.SimplifiedChinese, entry.SimplifiedChinese
+                            ELanguageType.SimplifiedChinese, entry.Zh
                         },
                         {
-                            ELanguageType.English, entry.English
+                            ELanguageType.English, entry.En
                         }
                     };
                     _multilingualData_Model.SetTranslation(entry.Key, languageDictionary);

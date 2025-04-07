@@ -1,11 +1,12 @@
 ﻿using GDFramework_Core.Resource;
 
-namespace GDFramework_General.Resource
+namespace Game.Resource
 {
     public class GameSceneResourcesLoader : BaseResourcesLoader
     {
-        protected override void LoadingResources()
+        protected override void AddLoadingResource()
         {
+            
         }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using System;
-using GDFramework_General.Procedure;
+using Game.Procedure;
 
 
 namespace GDFramework_Core.Procedure
 {
     public struct SChangeProcedureEvent
     {
-        public EProcedureType _procedureType;
+        public readonly EProcedureType _procedureType;
 
         public SChangeProcedureEvent(EProcedureType procedureType)
         {

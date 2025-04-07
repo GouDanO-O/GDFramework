@@ -1,7 +1,8 @@
+using System;
+using Game.Procedure;
 using GDFramework_Core.Models;
 using GDFramework_Core.Procedure;
 using GDFramework_Core.Scripts.GDFrameworkCore;
-using GDFramework_General.Procedure;
 using GDFrameworkExtend.CoreKit;
 
 namespace GDFramework
@@ -11,7 +12,6 @@ namespace GDFramework
         private ProcedureManager _procedureManager;
 
         private GameDataModel _gameDataModel;
-
         public IArchitecture GetArchitecture()
         {
             return Main.Interface;
@@ -23,8 +23,12 @@ namespace GDFramework
 
         private void Awake()
         {
+            DontDestroyOnLoad(gameObject);
+        }
+
+        private void Start()
+        {
             InitComponent();
-            
         }
 
         /// <summary>
@@ -40,11 +44,12 @@ namespace GDFramework
         /// </summary>
         protected void RegisterProcedure()
         {
-            _procedureManager = ProcedureManager.Instance;
+            _procedureManager = this.GetSystem<ProcedureManager>();
+            _procedureManager.RegisterProcedure(EProcedureType.InitialGame,new InitialGameProcedure());
             _procedureManager.RegisterProcedure(EProcedureType.Launch, new LaunchProcedure());
             _procedureManager.RegisterProcedure(EProcedureType.MainMenu, new MainMenuProcedure());
 
-            this.SendEvent<SChangeProcedureEvent>(new SChangeProcedureEvent(EProcedureType.Launch));
+            this.SendEvent<SChangeProcedureEvent>(new SChangeProcedureEvent(EProcedureType.InitialGame));
         }
     }
 }

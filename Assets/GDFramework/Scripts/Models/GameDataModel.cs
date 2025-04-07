@@ -1,10 +1,13 @@
 ﻿using GDFramework_Core.Scripts.GDFrameworkCore;
+using UnityEngine.InputSystem;
 
 
 namespace GDFramework_Core.Models
 {
     public class GameDataModel : AbstractModel
     {
+        public InputActionAsset InputActionAsset { get; set; } 
+        
         public bool isPausing { get; protected set; }
 
         public bool isCheatMode { get; protected set; }

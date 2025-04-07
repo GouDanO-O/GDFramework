@@ -3,21 +3,29 @@ using System.Collections.Generic;
 using GDFramework_Core.Models;
 using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework_Core.Utility;
+using GDFramework_Extend.Data;
 using GDFramework;
 
 using UnityEngine.Events;
 
 namespace GDFramework_Core.Resource
 {
+    public struct SResourcesLoaderNode
+    {
+        public string dataName;
+        
+        public Action<object> loaderCallback;
+    }
+    
     /**
      * 基础的资源加载器
      * 不同过程中要加载的资源不同,可以选择性的进行加载和释放
      */
     public abstract class BaseResourcesLoader : ICanGetModel
     {
-        public UnityAction OnLoadComplete;
+        protected UnityAction OnLoadComplete;
 
-        protected ResoucesUtility _loader;
+        protected ResoucesUtility ResLoader;
 
         protected int LoadedCount { get; private set; }
 
@@ -27,7 +35,7 @@ namespace GDFramework_Core.Resource
         /// 注意添加资源要按照顺序,不然加载的资源会乱序
         /// 资源加载按照添加进list中的顺序去遍历
         /// </summary>
-        protected List<string> WillLoadResourcesList = new();
+        protected List<SResourcesLoaderNode> WillLoadResourcesList = new List<SResourcesLoaderNode>();
 
         public IArchitecture GetArchitecture()
         {
@@ -40,7 +48,8 @@ namespace GDFramework_Core.Resource
         /// <param name="resLoader"></param>
         public void InitLoader(ResoucesUtility resLoader)
         {
-            _loader = resLoader;
+            ResLoader = resLoader;
+            AddLoadingResource();
             StartLoading();
         }
 
@@ -50,20 +59,47 @@ namespace GDFramework_Core.Resource
         /// <param name="resLoader"></param>
         public void InitLoader(ResoucesUtility resLoader, UnityAction callBack)
         {
-            _loader = resLoader;
+            ResLoader = resLoader;
             OnLoadComplete = callBack;
+            AddLoadingResource();
             StartLoading();
         }
 
         /// <summary>
+        /// 添加待加载资源
+        /// </summary>
+        protected abstract void AddLoadingResource();
+
+        /// <summary>
         /// 加载资源数据
         /// </summary>
-        protected virtual void StartLoading()
+        private void StartLoading()
         {
-            LoadingResources();
+            int curLoopCount = 0;
+            if (MaxLoadCount == 0)
+            {
+                OnLoadComplete?.Invoke();
+                LogMonoUtility.AddLog("全部加载完成");
+            }
+            else
+            {
+                do
+                {
+                    LoadingResources(curLoopCount);
+                } while (curLoopCount>=MaxLoadCount);
+            }
         }
 
-        protected abstract void LoadingResources();
+        /// <summary>
+        /// 加载资源
+        /// 注意---->要按照添加资源的顺序去加载
+        /// 否则会乱序
+        /// </summary>
+        private void LoadingResources(int curLoopCount)
+        {
+            SResourcesLoaderNode curNode = WillLoadResourcesList[curLoopCount];
+            ResLoader.LoadObjAsync(curNode.dataName,curNode.loaderCallback);
+        }
 
         /// <summary>
         /// 每加载一个就进行检测
