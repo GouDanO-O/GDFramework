@@ -1,4 +1,5 @@
-﻿using QFramework;
+﻿using GDFramework_Core.Scripts.GDFrameworkCore;
+
 
 namespace GDFramework_General.Models.Resource
 {

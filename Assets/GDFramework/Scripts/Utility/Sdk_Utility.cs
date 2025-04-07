@@ -1,7 +1,8 @@
 ﻿using System;
 using GDFramework_Core.Models.Enums;
+using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework_Core.SDK;
-using QFramework;
+
 using UnityEngine;
 
 namespace GDFramework_Core.Utility

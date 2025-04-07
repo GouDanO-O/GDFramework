@@ -1,8 +1,8 @@
 using GDFramework_Core.Models;
 using GDFramework_Core.Procedure;
+using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework_General.Procedure;
-using QFramework;
-
+using GDFrameworkExtend.CoreKit;
 
 namespace GDFramework
 {

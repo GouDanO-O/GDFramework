@@ -1,6 +1,7 @@
 ﻿using System;
 using GDFramework_Core.Models;
-using QFramework;
+using GDFramework_Core.Scripts.GDFrameworkCore;
+
 
 namespace GDFramework.Cheater
 {

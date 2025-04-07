@@ -1,14 +1,15 @@
 using System;
-using QFramework;
+using GDFramework_Core.Scripts.GDFrameworkCore;
 using UnityEngine;
 using UnityEngine.U2D;
+using GDFrameworkExtend.CoreKit;
 
 namespace GDFramework_Core.Utility
 {
     public class ResoucesUtility : IUtility
     {
         private ResLoader resLoader;
-
+        
         public void InitLoader()
         {
             if (resLoader == null)

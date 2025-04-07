@@ -1,4 +1,5 @@
-using QFramework;
+using GDFramework_Core.Scripts.GDFrameworkCore;
+
 using UnityEngine;
 
 namespace GDFramework_Core.Utility

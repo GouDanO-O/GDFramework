@@ -1,4 +1,5 @@
-﻿using QFramework;
+﻿using GDFrameworkExtend.CoreKit;
+
 
 namespace GDFramework_Extend.Data
 {

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
 using GDFramework_Core.GAS.General;
 using GDFramework_Core.GAS.RunningTime.Component;
+using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework;
-using QFramework;
+using GDFrameworkExtend.CoreKit;
 using Sirenix.OdinInspector;
 using UnityEngine.Profiling;
 

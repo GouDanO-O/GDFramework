@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using GDFramework_Core.Models.Enums;
+using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework_Core.Utility;
-using QFramework;
+
 using UnityEngine;
 
 namespace GDFramework_Core.Models

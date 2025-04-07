@@ -1,4 +1,5 @@
-using QFramework;
+using GDFramework_Core.Scripts.GDFrameworkCore;
+
 using UnityEngine.InputSystem;
 
 namespace GDFramework_General.Models.Resource

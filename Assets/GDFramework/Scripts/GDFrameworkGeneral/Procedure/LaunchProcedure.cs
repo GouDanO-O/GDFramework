@@ -1,8 +1,9 @@
 ﻿using GDFramework_Core.Procedure;
 using GDFramework_Core.Resource;
+using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework_General.Resource;
 using GDFramework;
-using QFramework;
+
 
 namespace GDFramework_General.Procedure
 {

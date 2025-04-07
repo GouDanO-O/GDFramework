@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework_Core.Utility;
 using GDFramework_General.Procedure;
 using GDFramework;
-using QFramework;
+using GDFrameworkExtend.CoreKit;
 using UnityEngine;
 
 namespace GDFramework_Core.Procedure

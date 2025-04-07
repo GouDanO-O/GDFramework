@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using GDFramework_Core.Models;
+using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework_Core.Utility;
 using GDFramework;
-using QFramework;
+
 using UnityEngine.Events;
 
 namespace GDFramework_Core.Resource
