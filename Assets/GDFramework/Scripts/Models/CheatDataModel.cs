@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using GDFramework_Core.Cheater;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFramework.Cheater;
+using QFramework;
 
 namespace GDFramework_Core.Models
 {

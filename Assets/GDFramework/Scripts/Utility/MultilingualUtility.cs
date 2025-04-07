@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GDFramework_Core.Models;
 using GDFramework_Core.Models.Enums;
+using GDFramework;
 using QFramework;
 using UnityEngine;
 

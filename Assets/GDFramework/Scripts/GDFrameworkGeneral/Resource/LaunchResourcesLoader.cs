@@ -12,7 +12,7 @@ namespace GDFramework_General.Resource
         protected override void StartLoading()
         {
             _launchResourcesDataModel = this.GetModel<LaunchResourcesDataModel>();
-            WillLoadResourcesList.Add(QAssetBundle.Tbmultilingual_json.tbmultilingual);
+            //WillLoadResourcesList.Add(QAssetBundle.Tbmultilingual_json.tbmultilingual);
 
             base.StartLoading();
         }

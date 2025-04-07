@@ -1,6 +1,6 @@
 ﻿using System;
 using GDFramework_Core.Models;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using QFramework;
 
 namespace GDFramework.Cheater
 {
@@ -18,7 +18,7 @@ namespace GDFramework.Cheater
 
         protected override void OnExecute()
         {
-            this.GetModel<CheatDataModel>().AddCheatModule(Name, this);
+            //this.GetModel<CheatDataModel>().AddCheatModule(Name, this);
         }
 
         public abstract void Execute();

@@ -2,11 +2,11 @@ using GDFramework_Core.Models;
 using GDFramework_Core.Multilingual;
 using GDFramework_Core.Resource;
 using GDFramework_Core.Scene;
-using GDFramework_Core.Scripts.GDFrameworkCore;
 using GDFramework_Core.SDK;
 using GDFramework_Core.Utility;
 using GDFramework_Core.View;
 using GDFramework_General.Models.Resource;
+using QFramework;
 
 namespace GDFramework
 {
@@ -44,7 +44,7 @@ namespace GDFramework
         {
             this.RegisterModel(new LaunchResourcesDataModel());
             this.RegisterModel(new MultilingualDataModel());
-            RegisterModel(new CheatDataModel());
+            this.RegisterModel(new CheatDataModel());
         }
     
         /// <summary>
