@@ -1,8 +1,8 @@
-﻿using GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility;
-using GDFramework_Core.GAS.RunningTime.Component;
+﻿using GDFramework.GAS.RunningTime.Ability.TimelineAbility;
+using GDFramework.GAS.RunningTime.Component;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability
+namespace GDFramework.GAS.RunningTime.Ability
 {
     public enum EffectCenterType
     {

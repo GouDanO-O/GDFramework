@@ -1,8 +1,8 @@
 ﻿using System;
-using GDFramework_Core.GAS.General;
+using GDFramework.GAS.General;
 using Sirenix.OdinInspector;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects
+namespace GDFramework.GAS.RunningTime.Effects
 {
     public enum StackingType
     {

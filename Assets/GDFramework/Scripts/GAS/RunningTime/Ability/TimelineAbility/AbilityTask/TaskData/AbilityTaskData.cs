@@ -1,8 +1,8 @@
 using System;
+using GDFramework.GAS.General.DataClass;
 using UnityEngine;
-using JsonData = GDFramework_Core.GAS.General.DataClass.JsonData;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.AbilityTask.TaskData
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility.AbilityTask.TaskData
 {
     [Serializable]
     public abstract class AbilityTaskData

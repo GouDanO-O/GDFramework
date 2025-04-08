@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections;
 using System.Linq;
-using GDFramework_Core.GAS.General;
-using GDFramework_Core.GAS.General.Util;
-using GDFramework_Core.GAS.RunningTime.Effects;
-using GDFramework_Core.GAS.RunningTime.Tags;
+using GDFramework.GAS.General;
+using GDFramework.GAS.General.Util;
+using GDFramework.GAS.RunningTime.Effects;
+using GDFramework.GAS.RunningTime.Tags;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability
+namespace GDFramework.GAS.RunningTime.Ability
 {
     public abstract class AbilityAsset : ScriptableObject
     {

@@ -1,10 +1,10 @@
-using GDFramework_Core.GAS.General;
-using GDFramework_Core.GAS.RunningTime.Cue.Base;
+using GDFramework.GAS.General;
+using GDFramework.GAS.RunningTime.Cue.Base;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace GDFramework_Core.GAS.RunningTime.Cue
+namespace GDFramework.GAS.RunningTime.Cue
 {
     public class CuePlaySound : GameplayCueDurational
     {

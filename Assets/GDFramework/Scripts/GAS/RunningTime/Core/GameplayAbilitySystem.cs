@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using GDFramework_Core.GAS.General;
-using GDFramework_Core.GAS.RunningTime.Component;
+using GDFramework.GAS.General;
+using GDFramework.GAS.RunningTime.Component;
 using GDFrameworkCore;
 using GDFramework;
 using GDFrameworkExtend.SingletonKit;
 using Sirenix.OdinInspector;
 using UnityEngine.Profiling;
 
-namespace GDFramework_Core.GAS.RunningTime.Core
+namespace GDFramework.GAS.RunningTime.Core
 {
     public class GameplayAbilitySystem : Singleton<GameplayAbilitySystem>, IController
     {

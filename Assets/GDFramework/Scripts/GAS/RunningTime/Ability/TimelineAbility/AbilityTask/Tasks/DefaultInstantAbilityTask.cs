@@ -1,4 +1,4 @@
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.AbilityTask.Tasks
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility.AbilityTask.Tasks
 {
     public class DefaultInstantAbilityTask : InstantAbilityTask
     {

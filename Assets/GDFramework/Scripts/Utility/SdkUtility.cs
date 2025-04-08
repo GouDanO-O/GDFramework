@@ -1,11 +1,11 @@
 ﻿using System;
-using GDFramework_Core.Models.Enums;
+using GDFramework.Models.Enums;
+using GDFramework;
+using GDFramework.SDK;
 using GDFrameworkCore;
-using GDFramework_Core.SDK;
-
 using UnityEngine;
 
-namespace GDFramework_Core.Utility
+namespace GDFramework.Utility
 {
     public class SdkUtility : IUtility
     {

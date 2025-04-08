@@ -2,7 +2,7 @@
 using Game.Procedure;
 
 
-namespace GDFramework_Core.Procedure
+namespace GDFramework.Procedure
 {
     public struct SChangeProcedureEvent
     {

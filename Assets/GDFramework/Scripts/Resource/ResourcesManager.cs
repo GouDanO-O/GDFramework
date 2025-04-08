@@ -1,14 +1,9 @@
-using System;
 using System.Collections.Generic;
-using Game.Resource;
-using GDFramework_Core.Models;
+using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFramework_Core.Utility;
-
-using UnityEngine;
 using UnityEngine.Events;
 
-namespace GDFramework_Core.Resource
+namespace GDFramework.Resource
 {
     public class ResourcesManager : AbstractSystem
     {

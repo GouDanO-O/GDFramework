@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using GDFramework_Core.GAS.RunningTime.Effects;
-using GDFramework_Core.GAS.General.DataClass;
-using GDFramework_Core.GAS.General.Util;
+using GDFramework.GAS.General.DataClass;
+using GDFramework.GAS.General.Util;
+using GDFramework.GAS.RunningTime.Effects;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.TrackItem
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility.TrackItem
 {
     [Serializable]
     public class ReleaseGameplayEffectTrackData : TrackDataBase

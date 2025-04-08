@@ -1,15 +1,15 @@
 using System.Collections.Generic;
-using GDFramework_Core.GAS.General;
 using UnityEngine;
-using GDFramework_Core.GAS.RunningTime.Effects;
-using GDFramework_Core.GAS.RunningTime.Cue.Base;
-using GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.AbilityTask;
-using GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.TrackItem;
-using GDFramework_Core.GAS.RunningTime.Component;
+using GDFramework.GAS.General;
+using GDFramework.GAS.RunningTime.Ability.TimelineAbility.AbilityTask;
+using GDFramework.GAS.RunningTime.Ability.TimelineAbility.TrackItem;
+using GDFramework.GAS.RunningTime.Component;
+using GDFramework.GAS.RunningTime.Cue.Base;
+using GDFramework.GAS.RunningTime.Effects;
 
 //using UnityEngine.Profiling;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility
 {
     internal abstract class RuntimeClipInfo
     {

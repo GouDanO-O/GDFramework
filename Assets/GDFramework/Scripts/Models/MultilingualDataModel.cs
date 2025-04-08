@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using GDFramework_Core.Models.Enums;
+using GDFramework.Models.Enums;
+using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFramework_Core.Utility;
-
 using UnityEngine;
 
-namespace GDFramework_Core.Models
+namespace GDFramework.Models
 {
     public class MultilingualDataModel : AbstractModel
     {

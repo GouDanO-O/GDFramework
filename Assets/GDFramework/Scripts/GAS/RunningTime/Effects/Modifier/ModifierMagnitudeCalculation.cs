@@ -1,9 +1,9 @@
 ﻿using System.Linq;
-using GDFramework_Core.GAS.General.Util;
+using GDFramework.GAS.General.Util;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects.Modifier
+namespace GDFramework.GAS.RunningTime.Effects.Modifier
 {
     public abstract class ModifierMagnitudeCalculation : ScriptableObject
     {

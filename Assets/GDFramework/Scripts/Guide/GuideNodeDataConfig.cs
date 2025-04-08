@@ -1,7 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace GDFramework_Core.Guide
+namespace GDFramework.Guide
 {
     [LabelText("教程文本框的位置")]
     public enum EGuideDialogDir

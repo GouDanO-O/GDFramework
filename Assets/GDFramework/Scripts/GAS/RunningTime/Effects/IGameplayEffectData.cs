@@ -1,9 +1,9 @@
-﻿using GDFramework_Core.GAS.RunningTime.Cue.Base;
-using GDFramework_Core.GAS.RunningTime.Tags;
-using ExecutionCalculation = GDFramework_Core.GAS.RunningTime.Effects.Execution.ExecutionCalculation;
-using GameplayEffectModifier = GDFramework_Core.GAS.RunningTime.Effects.Modifier.GameplayEffectModifier;
+﻿using GDFramework.GAS.RunningTime.Cue.Base;
+using GDFramework.GAS.RunningTime.Effects.Execution;
+using GDFramework.GAS.RunningTime.Effects.Modifier;
+using GDFramework.GAS.RunningTime.Tags;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects
+namespace GDFramework.GAS.RunningTime.Effects
 {
     public interface IGameplayEffectData
     {

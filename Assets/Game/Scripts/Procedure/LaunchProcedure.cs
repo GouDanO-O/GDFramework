@@ -1,8 +1,7 @@
 ﻿using Game.Resource;
-using GDFramework_Core.Procedure;
-using GDFramework_Core.Resource;
 using GDFrameworkCore;
-using GDFramework;
+using GDFramework.Procedure;
+using GDFramework.Resource;
 
 
 namespace Game.Procedure

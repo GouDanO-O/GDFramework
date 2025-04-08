@@ -1,8 +1,8 @@
-using GDFramework_Core.GAS.RunningTime.Tags;
+using GDFramework.GAS.RunningTime.Tags;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects.Modifier
+namespace GDFramework.GAS.RunningTime.Effects.Modifier
 {
     [CreateAssetMenu(fileName = "SetByCallerFromTag", menuName = "GAS/MMC/SetByCallerFromTagModCalculation")]
     public class SetByCallerFromTagModCalculation : ModifierMagnitudeCalculation

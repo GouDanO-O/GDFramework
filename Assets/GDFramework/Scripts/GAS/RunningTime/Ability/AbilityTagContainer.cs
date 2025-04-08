@@ -1,7 +1,7 @@
 ﻿using System;
-using GDFramework_Core.GAS.RunningTime.Tags;
+using GDFramework.GAS.RunningTime.Tags;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability
+namespace GDFramework.GAS.RunningTime.Ability
 {
     /// <summary>
     /// https://github.com/BillEliot/GASDocumentation_Chinese?tab=readme-ov-file#4610-gameplay-ability-spec

@@ -1,10 +1,10 @@
 ﻿using System;
-using GDFramework_Core.GAS.RunningTime.Attribute.Value;
-using GDFramework_Core.GAS.RunningTime.Utils;
+using GDFramework.GAS.RunningTime.Attribute.Value;
+using GDFramework.GAS.RunningTime.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects.Modifier
+namespace GDFramework.GAS.RunningTime.Effects.Modifier
 {
     public enum GEOperation
     {

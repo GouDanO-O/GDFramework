@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace GDFramework_Core.GAS.General.Util
+namespace GDFramework.GAS.General.Util
 {
     public static class TypeUtil
     {

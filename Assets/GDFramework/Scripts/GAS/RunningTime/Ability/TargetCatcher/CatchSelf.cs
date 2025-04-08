@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using GDFramework_Core.GAS.RunningTime.Component;
+using GDFramework.GAS.RunningTime.Component;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TargetCatcher
+namespace GDFramework.GAS.RunningTime.Ability.TargetCatcher
 {
     public sealed class CatchSelf : TargetCatcherBase
     {

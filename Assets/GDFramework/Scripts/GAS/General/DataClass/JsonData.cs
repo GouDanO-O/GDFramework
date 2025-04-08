@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GDFramework_Core.GAS.General.DataClass
+namespace GDFramework.GAS.General.DataClass
 {
     [Serializable]
     public class JsonData

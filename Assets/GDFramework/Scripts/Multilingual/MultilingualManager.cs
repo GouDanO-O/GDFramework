@@ -1,9 +1,8 @@
-using GDFramework_Core.Models;
-using GDFramework_Core.Models.Enums;
+using GDFramework.Models;
+using GDFramework.Models.Enums;
 using GDFrameworkCore;
 
-
-namespace GDFramework_Core.Multilingual
+namespace GDFramework.Multilingual
 {
     public class MultilingualManager : AbstractSystem
     {

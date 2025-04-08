@@ -1,7 +1,7 @@
 ﻿using System;
 using Unity.VisualScripting;
 
-namespace GDFramework_Core.Procedure
+namespace GDFramework.Procedure
 {
     public interface IProcedure
     {

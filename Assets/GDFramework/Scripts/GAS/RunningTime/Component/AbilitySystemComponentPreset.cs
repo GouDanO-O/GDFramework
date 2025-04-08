@@ -1,12 +1,12 @@
 ﻿using System.Linq;
-using GDFramework_Core.GAS.General;
-using GDFramework_Core.GAS.RunningTime.Ability;
+using GDFramework.GAS.General;
+using GDFramework.GAS.RunningTime.Ability;
+using GDFramework.GAS.RunningTime.Tags;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities.Editor;
 using UnityEngine;
-using GameplayTag = GDFramework_Core.GAS.RunningTime.Tags.GameplayTag;
 
-namespace GDFramework_Core.GAS.RunningTime.Component
+namespace GDFramework.GAS.RunningTime.Component
 {
     /// <summary>
     /// 预设置能力系统组件

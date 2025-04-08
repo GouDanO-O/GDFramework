@@ -1,6 +1,6 @@
-﻿using GDFramework_Core.Models.Enums;
+﻿using GDFramework.Models.Enums;
 
-namespace GDFramework_Core.Multilingual
+namespace GDFramework.Multilingual
 {
     public struct SOnChangeLanguageEvent
     {

@@ -1,7 +1,7 @@
 ﻿using System;
-using GDFramework_Core.Models.Enums;
+using GDFramework.Models.Enums;
 
-namespace GDFramework_Core.SDK
+namespace GDFramework.SDK
 {
     /// <summary>
     /// 显示广告

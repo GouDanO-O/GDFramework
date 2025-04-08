@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using GDFramework_Core.GAS.RunningTime.Ability;
-using GDFramework_Core.GAS.RunningTime.Attribute.Value;
 using UnityEngine;
-using GDFramework_Core.GAS.RunningTime.AttributeSet;
-using GDFramework_Core.GAS.RunningTime.Core;
-using GDFramework_Core.GAS.RunningTime.Effects;
-using GDFramework_Core.GAS.RunningTime.Effects.Modifier;
-using GDFramework_Core.GAS.RunningTime.Tags;
+using GDFramework.GAS.RunningTime.Ability;
+using GDFramework.GAS.RunningTime.Attribute.Value;
+using GDFramework.GAS.RunningTime.AttributeSet;
+using GDFramework.GAS.RunningTime.Core;
+using GDFramework.GAS.RunningTime.Effects;
+using GDFramework.GAS.RunningTime.Effects.Modifier;
+using GDFramework.GAS.RunningTime.Tags;
 
-namespace GDFramework_Core.GAS.RunningTime.Component
+namespace GDFramework.GAS.RunningTime.Component
 {
     /// <summary>
     /// 能力系统组件
@@ -130,8 +130,8 @@ namespace GDFramework_Core.GAS.RunningTime.Component
         {
             return GameplayTagAggregator.HasTag(gameplayTag);
         }
-
         public bool HasAllTags(GameplayTagSet tags)
+
         {
             return GameplayTagAggregator.HasAllTags(tags);
         }

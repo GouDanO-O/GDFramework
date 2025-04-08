@@ -1,11 +1,11 @@
 using System;
-using GDFramework_Core.GAS.General;
-using GDFramework_Core.GAS.RunningTime.Ability;
-using GDFramework_Core.GAS.RunningTime.Component;
+using GDFramework.GAS.General;
+using GDFramework.GAS.RunningTime.Ability;
+using GDFramework.GAS.RunningTime.Component;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects
+namespace GDFramework.GAS.RunningTime.Effects
 {
     /// <summary>
     /// 授予能力的激活策略

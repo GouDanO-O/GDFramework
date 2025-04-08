@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.AbilityTask.Tasks;
 using UnityEngine;
-using GDFramework_Core.GAS.General.DataClass;
-using GDFramework_Core.GAS.General.Util;
+using GDFramework.GAS.General.DataClass;
+using GDFramework.GAS.General.Util;
+using GDFramework.GAS.RunningTime.Ability.TimelineAbility.AbilityTask.Tasks;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.AbilityTask.TaskData
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility.AbilityTask.TaskData
 {
     [Serializable]
     public class OngoingTaskData : AbilityTaskData

@@ -1,7 +1,7 @@
 using GDFrameworkCore;
 
 
-namespace GDFramework_Core.Input
+namespace GDFramework.Input
 {
     /// <summary>
     /// 旧输入系统

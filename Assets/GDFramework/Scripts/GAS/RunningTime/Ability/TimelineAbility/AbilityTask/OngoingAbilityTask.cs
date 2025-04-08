@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.AbilityTask
+﻿namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility.AbilityTask
 {
     public abstract class OngoingAbilityTask : AbilityTaskBase
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
 
-namespace GDFramework_Core.GAS.RunningTime.Utils
+namespace GDFramework.GAS.RunningTime.Utils
 {
     public static class ValueDropdownHelper
     {

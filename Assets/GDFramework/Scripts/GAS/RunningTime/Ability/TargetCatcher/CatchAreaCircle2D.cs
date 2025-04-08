@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using GDFramework_Core.GAS.RunningTime.Component;
+using GDFramework.GAS.General.Util;
+using GDFramework.GAS.RunningTime.Component;
 using UnityEngine;
-using DebugExtension = GDFramework_Core.GAS.General.Util.DebugExtension;
-
-namespace GDFramework_Core.GAS.RunningTime.Ability.TargetCatcher
+namespace GDFramework.GAS.RunningTime.Ability.TargetCatcher
 {
     public sealed class CatchAreaCircle2D : CatchAreaBase
     {

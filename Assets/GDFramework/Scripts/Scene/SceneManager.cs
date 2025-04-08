@@ -1,13 +1,9 @@
 using System.Collections;
+using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFramework_Core.Utility;
-using GDFramework;
-
-using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.SceneManagement;
 
-namespace GDFramework_Core.Scene
+namespace GDFramework.Scene
 {
     /// <summary>
     /// 场景名称

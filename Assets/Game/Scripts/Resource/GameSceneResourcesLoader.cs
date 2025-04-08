@@ -1,4 +1,4 @@
-﻿using GDFramework_Core.Resource;
+﻿using GDFramework.Resource;
 
 namespace Game.Resource
 {

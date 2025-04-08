@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Threading;
 
-namespace GDFramework_Core.Utility
+namespace GDFramework.Utility
 {
     public class PoolUtility
     {

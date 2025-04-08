@@ -1,7 +1,7 @@
-﻿using GDFramework_Core.GAS.RunningTime.Component;
+﻿using GDFramework.GAS.RunningTime.Component;
 using UnityEngine.Profiling;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility
 {
     public abstract class TimelineAbilityT<T> : AbstractAbility<T> where T : TimelineAbilityAssetBase
     {

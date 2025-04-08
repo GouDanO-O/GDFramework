@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using GDFramework_Core.GAS.General.Util;
+using GDFramework.GAS.General.Util;
 using UnityEngine;
-using GDFramework_Core.GAS.RunningTime.Attribute;
-using GDFramework_Core.GAS.RunningTime.Tags;
+using GDFramework.GAS.RunningTime.Attribute;
+using GDFramework.GAS.RunningTime.Tags;
 
-namespace GDFramework_Core.GAS.RunningTime.Utils
+namespace GDFramework.GAS.RunningTime.Utils
 {
     public static class ReflectionHelper
     {

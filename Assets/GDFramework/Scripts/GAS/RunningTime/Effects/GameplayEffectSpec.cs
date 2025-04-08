@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using GDFramework_Core.GAS.RunningTime.Component;
-using GDFramework_Core.GAS.RunningTime.Cue.Base;
-using GDFramework_Core.GAS.RunningTime.Effects.Modifier;
+using GDFramework.GAS.RunningTime.Component;
+using GDFramework.GAS.RunningTime.Cue.Base;
+using GDFramework.GAS.RunningTime.Effects.Modifier;
 using UnityEngine;
-using GDFramework_Core.GAS.RunningTime.Tags;
+using GDFramework.GAS.RunningTime.Tags;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects
+namespace GDFramework.GAS.RunningTime.Effects
 {
     public class GameplayEffectSpec
     {

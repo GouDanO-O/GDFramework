@@ -1,8 +1,7 @@
 using GDFrameworkCore;
-
 using UnityEngine;
 
-namespace GDFramework_Core.Utility
+namespace GDFramework.Utility
 {
     public abstract class BasicToolMonoUtility : MonoBehaviour, IUtility
     {

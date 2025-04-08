@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
-using GDFramework_Core.GAS.RunningTime.Component;
-using GDFramework_Core.GAS.RunningTime.Cue.Base;
+using GDFramework.GAS.RunningTime.Component;
+using GDFramework.GAS.RunningTime.Cue.Base;
+using GDFramework.GAS.RunningTime.Effects.Execution;
+using GDFramework.GAS.RunningTime.Effects.Modifier;
 using Sirenix.OdinInspector;
-using ExecutionCalculation = GDFramework_Core.GAS.RunningTime.Effects.Execution.ExecutionCalculation;
-using GameplayEffectModifier = GDFramework_Core.GAS.RunningTime.Effects.Modifier.GameplayEffectModifier;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects
+namespace GDFramework.GAS.RunningTime.Effects
 {
     public enum EffectsDurationPolicy
     {

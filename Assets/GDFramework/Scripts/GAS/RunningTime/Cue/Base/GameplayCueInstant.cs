@@ -1,8 +1,10 @@
-using GDFramework_Core.GAS.RunningTime.Ability;
-using UnityEngine;
-using GDFramework_Core.GAS.RunningTime.Effects;
 
-namespace GDFramework_Core.GAS.RunningTime.Cue.Base
+
+using GDFramework.GAS.RunningTime.Ability;
+using GDFramework.GAS.RunningTime.Effects;
+using UnityEngine;
+
+namespace GDFramework.GAS.RunningTime.Cue.Base
 {
     public abstract class GameplayCueInstant : GameplayCue<GameplayCueInstantSpec>
     {

@@ -1,8 +1,7 @@
-﻿using GDFramework_Core.Models.Enums;
+﻿using GDFramework.Models.Enums;
 using GDFrameworkCore;
 
-
-namespace GDFramework_Core.Multilingual
+namespace GDFramework.Multilingual
 {
     public class SelectLanguageCommand : AbstractCommand
     {

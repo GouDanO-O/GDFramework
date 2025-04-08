@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Core.Resource
+﻿namespace GDFramework.Resource
 {
     public enum EResourcesLoaderType
     {

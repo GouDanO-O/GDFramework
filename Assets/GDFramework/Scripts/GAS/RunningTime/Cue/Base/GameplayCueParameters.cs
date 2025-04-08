@@ -1,7 +1,7 @@
-using GDFramework_Core.GAS.RunningTime.Ability;
-using GameplayEffectSpec = GDFramework_Core.GAS.RunningTime.Effects.GameplayEffectSpec;
+using GDFramework.GAS.RunningTime.Ability;
+using GDFramework.GAS.RunningTime.Effects;
 
-namespace GDFramework_Core.GAS.RunningTime.Cue.Base
+namespace GDFramework.GAS.RunningTime.Cue.Base
 {
     public struct GameplayCueParameters
     {

@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Core.GAS.General
+﻿namespace GDFramework.GAS.General
 {
     public static class GasTextDefine
     {

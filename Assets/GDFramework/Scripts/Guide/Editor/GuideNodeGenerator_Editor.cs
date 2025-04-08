@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 
-namespace GDFramework_Core.Guide.Editor
+namespace GDFramework.Guide.Editor
 {
     public class GuideNodeGenerator_Editor : EditorWindow
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using Game.Models.Resource;
-using GDFramework_Core.Models;
-using GDFramework_Core.Resource;
+using GDFramework.Resource;
 using GDFrameworkCore;
 using UnityEngine.Events;
 

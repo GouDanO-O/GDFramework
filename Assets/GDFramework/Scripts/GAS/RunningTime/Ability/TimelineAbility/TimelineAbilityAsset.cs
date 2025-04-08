@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using GDFramework_Core.GAS.General;
-using GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.TrackItem;
+using GDFramework.GAS.General;
+using GDFramework.GAS.RunningTime.Ability.TimelineAbility.TrackItem;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility
 {
     public abstract class TimelineAbilityAssetBase : AbilityAsset
     {

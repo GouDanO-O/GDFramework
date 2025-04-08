@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GDFramework_Core.GAS.RunningTime.AttributeSet
+namespace GDFramework.GAS.RunningTime.AttributeSet
 {
     public static class AttributeSetUtility
     {

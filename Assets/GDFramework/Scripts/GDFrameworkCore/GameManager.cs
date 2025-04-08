@@ -1,12 +1,12 @@
 using System;
 using Game.Procedure;
-using GDFramework_Core.Models;
-using GDFramework_Core.Procedure;
+using GDFramework.Models;
+using GDFramework.Procedure;
 using GDFrameworkCore;
 
 using GDFrameworkExtend.SingletonKit;
 
-namespace GDFramework
+namespace GDFrameworkCore
 {
     public partial class GameManager : MonoSingleton<GameManager>, IController, ICanSendEvent
     {

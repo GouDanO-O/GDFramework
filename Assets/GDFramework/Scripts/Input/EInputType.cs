@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Core.Input
+﻿namespace GDFramework.Input
 {
     public enum EInputType
     {

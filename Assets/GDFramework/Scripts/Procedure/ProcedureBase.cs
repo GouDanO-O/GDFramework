@@ -1,8 +1,8 @@
 ﻿using System;
-using GDFramework_Core.Resource;
+using GDFramework.Resource;
 using Unity.VisualScripting;
 
-namespace GDFramework_Core.Procedure
+namespace GDFramework.Procedure
 {
     public abstract class ProcedureBase : IProcedure
     {

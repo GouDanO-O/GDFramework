@@ -1,9 +1,9 @@
-using GDFramework_Core.Models.Enums;
+using GDFramework.Models.Enums;
+using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFramework_Core.Utility;
 
 
-namespace GDFramework_Core.SDK
+namespace GDFramework.SDK
 {
     public class SdkManager : AbstractSystem
     {

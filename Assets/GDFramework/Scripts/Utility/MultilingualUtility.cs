@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using GDFramework_Core.Models;
-using GDFramework_Core.Models.Enums;
+using GDFramework.Models;
+using GDFramework.Models.Enums;
 using GDFrameworkCore;
-using GDFramework;
-
 using UnityEngine;
 
-namespace GDFramework_Core.Utility
+namespace GDFramework.Utility
 {
     [System.Serializable]
     public struct SLanguageDataWrapper

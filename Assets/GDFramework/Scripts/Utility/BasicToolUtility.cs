@@ -1,7 +1,8 @@
+using GDFramework;
 using GDFrameworkCore;
 
 
-namespace GDFramework_Core.Utility
+namespace GDFramework.Utility
 {
     public abstract class BasicToolUtility : IUtility
     {

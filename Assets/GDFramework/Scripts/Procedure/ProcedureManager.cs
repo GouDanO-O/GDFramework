@@ -1,13 +1,12 @@
-﻿using System;
+﻿
+
 using System.Collections.Generic;
 using Game.Procedure;
+using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFramework_Core.Utility;
-using GDFramework;
-
 using UnityEngine;
 
-namespace GDFramework_Core.Procedure
+namespace GDFramework.Procedure
 {
     public class ProcedureManager : AbstractSystem
     {

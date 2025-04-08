@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace GDFramework_Core.GAS.General.Util
+namespace GDFramework.GAS.General.Util
 {
     public readonly struct ValidationResult
     {

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using GDFramework;
+using GDFrameworkCore;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace GDFramework_Core.Utility
+namespace GDFramework.Utility
 {
     public class LogMonoUtility : BasicToolMonoUtility, IPointerDownHandler
     {

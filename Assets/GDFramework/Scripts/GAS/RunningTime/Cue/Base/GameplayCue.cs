@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using GDFramework_Core.GAS.General.Util;
-using GDFramework_Core.GAS.RunningTime.Component;
-using GDFramework_Core.GAS.RunningTime.Tags;
+using GDFramework.GAS.General.Util;
+using GDFramework.GAS.RunningTime.Component;
+using GDFramework.GAS.RunningTime.Tags;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Cue.Base
+namespace GDFramework.GAS.RunningTime.Cue.Base
 {
     public abstract class GameplayCue : ScriptableObject
     {

@@ -1,7 +1,7 @@
-﻿using GDFramework_Core.GAS.RunningTime.Component;
-using GDFramework_Core.GAS.RunningTime.Effects;
+﻿using GDFramework.GAS.RunningTime.Component;
+using GDFramework.GAS.RunningTime.Effects;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability
+namespace GDFramework.GAS.RunningTime.Ability
 {
     public abstract class AbstractAbility
     {

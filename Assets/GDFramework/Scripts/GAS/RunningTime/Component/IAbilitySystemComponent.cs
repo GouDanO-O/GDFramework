@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using GDFramework_Core.GAS.RunningTime.Ability;
-using GDFramework_Core.GAS.RunningTime.Effects;
-using GDFramework_Core.GAS.RunningTime.Tags;
+using GDFramework.GAS.RunningTime.Ability;
+using GDFramework.GAS.RunningTime.Effects;
+using GDFramework.GAS.RunningTime.Tags;
 
-namespace GDFramework_Core.GAS.RunningTime.Component
+namespace GDFramework.GAS.RunningTime.Component
 {
     public interface IAbilitySystemComponent
     {

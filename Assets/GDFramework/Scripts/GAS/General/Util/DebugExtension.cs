@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GDFramework_Core.GAS.General.Util
+namespace GDFramework.GAS.General.Util
 {
     public static class DebugExtension
     {

@@ -2,7 +2,7 @@
 using UnityEngine.InputSystem;
 
 
-namespace GDFramework_Core.Models
+namespace GDFramework.Models
 {
     public class GameDataModel : AbstractModel
     {

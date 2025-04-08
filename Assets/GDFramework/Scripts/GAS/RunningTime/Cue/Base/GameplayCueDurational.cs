@@ -1,8 +1,8 @@
-using GDFramework_Core.GAS.RunningTime.Ability;
+using GDFramework.GAS.RunningTime.Ability;
+using GDFramework.GAS.RunningTime.Effects;
 using UnityEngine;
-using GameplayEffectSpec = GDFramework_Core.GAS.RunningTime.Effects.GameplayEffectSpec;
 
-namespace GDFramework_Core.GAS.RunningTime.Cue.Base
+namespace GDFramework.GAS.RunningTime.Cue.Base
 {
     public abstract class GameplayCueDurational : GameplayCue<GameplayCueDurationalSpec>
     {

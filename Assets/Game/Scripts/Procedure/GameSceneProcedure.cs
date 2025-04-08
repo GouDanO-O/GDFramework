@@ -1,5 +1,4 @@
-﻿using GDFramework_Core;
-using GDFramework_Core.Procedure;
+﻿using GDFramework.Procedure;
 
 namespace Game.Procedure
 {

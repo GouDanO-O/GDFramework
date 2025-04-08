@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.TrackItem
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility.TrackItem
 {
     [Serializable]
     public class TrackDataBase

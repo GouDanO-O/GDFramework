@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Tags
+namespace GDFramework.GAS.RunningTime.Tags
 {
     [Serializable]
     public struct GameplayTag

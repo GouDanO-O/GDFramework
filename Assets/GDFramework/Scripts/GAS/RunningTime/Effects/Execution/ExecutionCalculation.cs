@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Core.GAS.RunningTime.Effects.Execution
+﻿namespace GDFramework.GAS.RunningTime.Effects.Execution
 {
     public class ExecutionCalculation
     {

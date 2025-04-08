@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace GDFramework_Core.GAS.RunningTime.Tags
+namespace GDFramework.GAS.RunningTime.Tags
 {
     /// <summary>
     /// 如果标签集合不稳定且可更改

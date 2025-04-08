@@ -1,7 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects.Modifier
+namespace GDFramework.GAS.RunningTime.Effects.Modifier
 {
     [CreateAssetMenu(fileName = "ScalableFloatModCalculation", menuName = "GAS/MMC/ScalableFloatModCalculation")]
     public class ScalableFloatModCalculation : ModifierMagnitudeCalculation

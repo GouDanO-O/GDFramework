@@ -1,9 +1,8 @@
-﻿using GDFramework_Core.Procedure;
-using GDFramework_Core.Scene;
-using GDFrameworkCore;
-using GDFramework_Core.Utility;
-using GDFramework_Core.View;
-using GDFramework;
+﻿using GDFrameworkCore;
+using GDFramework.Procedure;
+using GDFramework.Scene;
+using GDFramework.Utility;
+using GDFramework.View;
 
 
 namespace Game.Procedure

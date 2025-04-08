@@ -1,16 +1,16 @@
 using Game.Models.Resource;
-using GDFramework_Core.Models;
-using GDFramework_Core.Multilingual;
-using GDFramework_Core.Procedure;
-using GDFramework_Core.Resource;
-using GDFramework_Core.Scene;
+using GDFramework.Models;
+using GDFramework.Multilingual;
 using GDFrameworkCore;
-using GDFramework_Core.SDK;
-using GDFramework_Core.Utility;
-using GDFramework_Core.View;
+using GDFramework.Procedure;
+using GDFramework.Resource;
+using GDFramework.Scene;
+using GDFramework.SDK;
+using GDFramework.Utility;
+using GDFramework.View;
 using GDFrameworkExtend.UIKit;
 
-namespace GDFramework
+namespace GDFrameworkCore
 {
     public class Main : Architecture<Main>
     {

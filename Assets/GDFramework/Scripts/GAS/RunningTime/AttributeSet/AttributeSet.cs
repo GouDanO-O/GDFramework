@@ -1,7 +1,7 @@
-﻿using GDFramework_Core.GAS.RunningTime.Attribute;
-using GDFramework_Core.GAS.RunningTime.Component;
+﻿using GDFramework.GAS.RunningTime.Attribute;
+using GDFramework.GAS.RunningTime.Component;
 
-namespace GDFramework_Core.GAS.RunningTime.AttributeSet
+namespace GDFramework.GAS.RunningTime.AttributeSet
 {
     public abstract class AttributeSet
     {

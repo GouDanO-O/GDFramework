@@ -1,15 +1,13 @@
-﻿using GDFramework_Core.Models;
-using GDFramework_Core.Models.Enums;
+﻿using GDFramework.Models;
+using GDFramework.Models.Enums;
+using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFramework_Core.Utility;
-using GDFramework;
-
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GDFramework_Core.Multilingual
+namespace GDFramework.Multilingual
 {
     public class MultilingualComponent : MonoBehaviour, ICanRegisterEvent, ICanGetModel
     {

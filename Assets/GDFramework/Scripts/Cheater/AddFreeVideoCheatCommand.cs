@@ -1,7 +1,6 @@
 ﻿using System;
-using GDFramework.Cheater;
 
-namespace GDFramework_Core.Cheater
+namespace GDFramework.Cheater
 {
     public class AddFreeVideoCheatCommand : AddCheatCommand
     {

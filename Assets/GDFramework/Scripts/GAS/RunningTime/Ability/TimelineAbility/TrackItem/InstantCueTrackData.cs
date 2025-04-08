@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using GDFramework_Core.GAS.RunningTime.Cue.Base;
+using GDFramework.GAS.RunningTime.Cue.Base;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.TrackItem
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility.TrackItem
 {
     [Serializable]
     public class InstantCueTrackData : TrackDataBase

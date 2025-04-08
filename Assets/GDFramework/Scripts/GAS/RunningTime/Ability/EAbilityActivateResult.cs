@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Core.GAS.RunningTime.Ability
+﻿namespace GDFramework.GAS.RunningTime.Ability
 {
     public enum EAbilityActivateResult
     {

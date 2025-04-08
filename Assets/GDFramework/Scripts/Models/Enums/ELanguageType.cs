@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Core.Models.Enums
+﻿namespace GDFramework.Models.Enums
 {
     public enum ELanguageType
     {

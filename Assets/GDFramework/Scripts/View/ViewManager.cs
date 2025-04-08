@@ -1,7 +1,7 @@
 using GDFrameworkCore;
 
 
-namespace GDFramework_Core.View
+namespace GDFramework.View
 {
     public class ViewManager : AbstractSystem
     {

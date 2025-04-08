@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
+using GDFramework.GAS.RunningTime.Attribute.Value;
+using GDFramework.GAS.RunningTime.Component;
+using GDFramework.GAS.RunningTime.Effects;
+using GDFramework.GAS.RunningTime.Effects.Modifier;
 using UnityEngine;
-using GDFramework_Core.GAS.RunningTime.Effects.Modifier;
-using GDFramework_Core.GAS.RunningTime.Attribute.Value;
-using GDFramework_Core.GAS.RunningTime.Component;
-using GDFramework_Core.GAS.RunningTime.Effects;
 
-namespace GDFramework_Core.GAS.RunningTime.Attribute
+namespace GDFramework.GAS.RunningTime.Attribute
 {
     public class AttributeAggregator
     {

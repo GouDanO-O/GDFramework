@@ -1,15 +1,15 @@
 ﻿using System.Linq;
-using GDFramework_Core.GAS.General;
-using GDFramework_Core.GAS.RunningTime.Attribute.Value;
-using GDFramework_Core.GAS.RunningTime.Cue.Base;
-using GDFramework_Core.GAS.RunningTime.Tags;
-using GDFramework_Core.GAS.RunningTime.Utils;
+using GDFramework.GAS.General;
+using GDFramework.GAS.RunningTime.Attribute.Value;
+using GDFramework.GAS.RunningTime.Cue.Base;
+using GDFramework.GAS.RunningTime.Effects.Execution;
+using GDFramework.GAS.RunningTime.Effects.Modifier;
+using GDFramework.GAS.RunningTime.Tags;
+using GDFramework.GAS.RunningTime.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using ExecutionCalculation = GDFramework_Core.GAS.RunningTime.Effects.Execution.ExecutionCalculation;
-using GameplayEffectModifier = GDFramework_Core.GAS.RunningTime.Effects.Modifier.GameplayEffectModifier;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects
+namespace GDFramework.GAS.RunningTime.Effects
 {
     [CreateAssetMenu(fileName = "GameplayEffect", menuName = "GAS/GameplayEffect")]
     public class GameplayEffectAsset : ScriptableObject, IGameplayEffectData

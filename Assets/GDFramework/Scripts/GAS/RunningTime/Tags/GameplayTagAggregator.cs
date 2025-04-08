@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using GDFramework_Core.GAS.RunningTime.Ability;
-using GDFramework_Core.GAS.RunningTime.Component;
-using GDFramework_Core.GAS.RunningTime.Effects;
-using GDFramework_Core.Utility;
+using GDFramework.GAS.RunningTime.Ability;
+using GDFramework.GAS.RunningTime.Component;
+using GDFramework.GAS.RunningTime.Effects;
+using GDFramework.Utility;
 using UnityEngine.Profiling;
 
-namespace GDFramework_Core.GAS.RunningTime.Tags
+namespace GDFramework.GAS.RunningTime.Tags
 {
     /// <summary>
     /// 标签集合器

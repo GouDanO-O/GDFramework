@@ -1,8 +1,7 @@
-﻿using Sirenix.OdinInspector;
-using GEOperation = GDFramework_Core.GAS.RunningTime.Effects.Modifier.GEOperation;
-using SupportedOperation = GDFramework_Core.GAS.RunningTime.Effects.Modifier.SupportedOperation;
+﻿using GDFramework.GAS.RunningTime.Effects.Modifier;
+using Sirenix.OdinInspector;
 
-namespace GDFramework_Core.GAS.RunningTime.Attribute.Value
+namespace GDFramework.GAS.RunningTime.Attribute.Value
 {
     public enum CalculateMode
     {

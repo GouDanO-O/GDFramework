@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine.Serialization;
-using GDFramework_Core.GAS.RunningTime.Effects;
+using GDFramework.GAS.RunningTime.Effects;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.TrackItem
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility.TrackItem
 {
     [Serializable]
     public class BuffGameplayEffectTrackData : TrackDataBase

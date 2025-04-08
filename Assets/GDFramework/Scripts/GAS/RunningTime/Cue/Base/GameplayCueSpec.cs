@@ -1,6 +1,6 @@
-﻿using GDFramework_Core.GAS.RunningTime.Component;
+﻿using GDFramework.GAS.RunningTime.Component;
 
-namespace GDFramework_Core.GAS.RunningTime.Cue.Base
+namespace GDFramework.GAS.RunningTime.Cue.Base
 {
     public abstract class GameplayCueSpec
     {

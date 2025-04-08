@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability.TimelineAbility.AbilityTask.Tasks
+namespace GDFramework.GAS.RunningTime.Ability.TimelineAbility.AbilityTask.Tasks
 {
     [Serializable]
     public class ApplyCostAndCoolDown : InstantAbilityTask

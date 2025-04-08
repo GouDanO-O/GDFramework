@@ -1,11 +1,12 @@
 using System;
+using GDFramework;
 using GDFrameworkCore;
 using GDFrameworkExtend.FluentAPI;
 using UnityEngine;
 using UnityEngine.U2D;
 using GDFrameworkExtend.ResKit;
 
-namespace GDFramework_Core.Utility
+namespace GDFramework.Utility
 {
     public class ResoucesUtility : IUtility
     {

@@ -1,13 +1,9 @@
-using System.Collections.Generic;
-using GDFramework_Core;
-using GDFramework_Core.Cheater;
-using GDFramework_Core.Models;
+using GDFramework.Cheater;
+using GDFramework.Models;
 using GDFrameworkCore;
-using GDFramework;
-
 using UnityEngine;
 
-namespace GDFramework_Core.Utility
+namespace GDFramework.Utility
 {
     public class CheatMonoUtility : BasicToolMonoUtility, ICanGetModel
     {

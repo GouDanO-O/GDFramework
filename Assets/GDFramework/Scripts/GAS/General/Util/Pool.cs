@@ -2,7 +2,7 @@
 using System.Collections.Concurrent;
 using System.Threading;
 
-namespace GDFramework_Core.GAS.General.Util
+namespace GDFramework.GAS.General.Util
 {
     /// <summary>
     /// 线程安全的无锁对象池

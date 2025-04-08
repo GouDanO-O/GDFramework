@@ -1,7 +1,7 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Effects.Modifier
+namespace GDFramework.GAS.RunningTime.Effects.Modifier
 {
     [CreateAssetMenu(fileName = "AttributeBasedModCalculation", menuName = "GAS/MMC/AttributeBasedModCalculation")]
     public class AttributeBasedModCalculation : ModifierMagnitudeCalculation

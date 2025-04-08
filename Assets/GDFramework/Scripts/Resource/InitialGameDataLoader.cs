@@ -1,8 +1,8 @@
-﻿using GDFramework_Core.Models;
+﻿using GDFramework.Models;
 using GDFrameworkCore;
 using UnityEngine;
 
-namespace GDFramework_Core.Resource
+namespace GDFramework.Resource
 {
     public class InitialGameDataLoader : BaseResourcesLoader
     {

@@ -1,11 +1,9 @@
-using Game.Models.Resource;
-using GDFramework_Core.Models;
+using GDFramework.Models;
 using GDFrameworkCore;
-
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace GDFramework_Core.Input
+namespace GDFramework.Input
 {
     #region Mouse
 

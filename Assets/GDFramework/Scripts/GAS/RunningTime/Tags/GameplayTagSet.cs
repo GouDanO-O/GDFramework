@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GDFramework_Core.GAS.RunningTime.Tags
+namespace GDFramework.GAS.RunningTime.Tags
 {
     /// <summary>
     /// 如果标记集合稳定且不可更改

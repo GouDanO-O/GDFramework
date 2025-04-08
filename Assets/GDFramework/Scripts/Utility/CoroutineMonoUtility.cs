@@ -4,7 +4,7 @@ using GDFramework;
 using UnityEngine;
 
 
-namespace GDFramework_Core.Utility
+namespace GDFramework.Utility
 {
     public class CoroutineMonoUtility : BasicToolMonoUtility
     {

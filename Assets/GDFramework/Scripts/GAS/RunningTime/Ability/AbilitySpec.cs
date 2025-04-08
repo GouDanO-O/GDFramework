@@ -1,9 +1,9 @@
 ﻿using System;
-using GDFramework_Core.GAS.RunningTime.Component;
-using GDFramework_Core.GAS.RunningTime.Effects;
-using GDFramework_Core.GAS.RunningTime.Effects.Modifier;
+using GDFramework.GAS.RunningTime.Component;
+using GDFramework.GAS.RunningTime.Effects;
+using GDFramework.GAS.RunningTime.Effects.Modifier;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability
+namespace GDFramework.GAS.RunningTime.Ability
 {
     public abstract class AbilitySpec
     {

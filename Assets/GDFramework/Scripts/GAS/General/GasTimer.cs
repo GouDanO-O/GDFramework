@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.General
+namespace GDFramework.GAS.General
 {
     public class GasTimer
     {

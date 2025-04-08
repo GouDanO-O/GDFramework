@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GDFramework_Core.GAS.General.Util
+namespace GDFramework.GAS.General.Util
 {
     /// <summary>
     /// 按优先级取值

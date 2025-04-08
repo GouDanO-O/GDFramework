@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using GDFramework_Core.Models;
+using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFramework_Core.Utility;
-using GDFramework_Extend.Data;
-using GDFramework;
-
 using UnityEngine.Events;
 
-namespace GDFramework_Core.Resource
+namespace GDFramework.Resource
 {
     public struct SResourcesLoaderNode
     {

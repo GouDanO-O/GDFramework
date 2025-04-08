@@ -1,10 +1,9 @@
 using System.Collections.Generic;
-using GDFramework_Core.Cheater;
-using GDFrameworkCore;
 using GDFramework.Cheater;
+using GDFrameworkCore;
 
 
-namespace GDFramework_Core.Models
+namespace GDFramework.Models
 {
     public class CheatDataModel : AbstractModel
     {

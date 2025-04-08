@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Attribute
+namespace GDFramework.GAS.RunningTime.Attribute
 {
     /// <summary>
     /// 这是一个非常通用的数值计算器，用于计算各种属性的最终值。

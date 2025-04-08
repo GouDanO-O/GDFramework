@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using GDFramework_Core.GAS.RunningTime.Component;
-using GDFramework_Core.GAS.RunningTime.Tags;
+using GDFramework.GAS.RunningTime.Component;
+using GDFramework.GAS.RunningTime.Tags;
 using UnityEngine;
 
-namespace GDFramework_Core.GAS.RunningTime.Ability
+namespace GDFramework.GAS.RunningTime.Ability
 {
     public class AbilityContainer
     {

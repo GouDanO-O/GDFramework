@@ -1,10 +1,11 @@
-using GDFramework_Core.Cheater;
-using GDFrameworkCore;
+using GDFramework.Cheater;
 using GDFramework;
+using GDFramework;
+using GDFrameworkCore;
 using GDFrameworkExtend.SingletonKit;
 using UnityEngine;
 
-namespace GDFramework_Core.Utility
+namespace GDFramework.Utility
 {
     public class ToolsUtilityManager : MonoSingleton<ToolsUtilityManager>, IController
     {

@@ -1,10 +1,8 @@
 ﻿using Game.Procedure;
-using Game.Resource;
-using GDFramework_Core.Resource;
+using GDFramework.Resource;
 using GDFrameworkCore;
-using GDFramework;
 
-namespace GDFramework_Core.Procedure
+namespace GDFramework.Procedure
 {
     public class InitialGameProcedure : ProcedureBase, ICanGetSystem, ICanSendEvent
     {
