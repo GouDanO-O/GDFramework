@@ -8,6 +8,7 @@
  ****************************************************************************/
 
 using GDFrameworkCore;
+using GDFrameworkExtend.FluentAPI;
 
 namespace GDFrameworkExtend.EventKit
 {
@@ -30,7 +31,7 @@ namespace GDFrameworkExtend.EventKit
 
             if (mEvents.TryGetValue(kv, out var e))
             {
-                var easyEvent = e as EasyEvent<int,object[]>;
+                var easyEvent = e.As<EasyEvent<int,object[]>>();
                 return easyEvent.Register(onEvent);
             }
             else
@@ -46,8 +47,8 @@ namespace GDFrameworkExtend.EventKit
             var kv = key.ToInt32(null);
 
             if (mEvents.TryGetValue(kv, out var e))
-            {
-                (e as EasyEvent<int,object[]>) ?.UnRegister(onEvent);
+            { 
+                e.As<EasyEvent<int,object[]>>()?.UnRegister(onEvent);
             }
         }
 
@@ -72,7 +73,7 @@ namespace GDFrameworkExtend.EventKit
 
             if (mEvents.TryGetValue(kv, out var e))
             {
-                (e as EasyEvent<int,object[]>)?.Trigger(kv,args);
+                e.As<EasyEvent<int,object[]>>().Trigger(kv,args);
             }
         }
 

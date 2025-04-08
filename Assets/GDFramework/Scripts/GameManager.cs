@@ -13,6 +13,7 @@ namespace GDFramework
         private ProcedureManager _procedureManager;
 
         private GameDataModel _gameDataModel;
+        
         public IArchitecture GetArchitecture()
         {
             return Main.Interface;

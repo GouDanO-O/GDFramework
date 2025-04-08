@@ -69,7 +69,7 @@ namespace GDFramework
         {
             this.RegisterUtility(new ResoucesUtility());
             this.RegisterUtility(new MultilingualUtility());
-            this.RegisterUtility(new Sdk_Utility());
+            this.RegisterUtility(new SdkUtility());
         }
     
         /// <summary>

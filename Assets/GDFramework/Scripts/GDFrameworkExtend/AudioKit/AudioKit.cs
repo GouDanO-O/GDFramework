@@ -8,7 +8,7 @@
 
 using System;
 using System.Collections.Generic;
-
+using GDFrameworkExtend.FluentAPI;
 using GDFrameworkExtend.PoolKit;
 using UnityEngine;
 
@@ -400,7 +400,7 @@ namespace GDFrameworkExtend.AudioKit
             var resourceRequest = Resources.LoadAsync<AudioClip>(audioSearchKeys.AssetName);
             resourceRequest.completed += operation =>
             {
-                var clip = resourceRequest.asset as AudioClip;
+                var clip = resourceRequest.asset.As<AudioClip>();
                 onLoad(clip, clip);
             };
         }

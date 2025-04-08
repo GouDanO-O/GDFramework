@@ -51,7 +51,7 @@ namespace GDFramework_Core.Utility
                 GetArchitecture().RegisterUtility(_cheatMonoUtility);
 
                 var newCommand = new AddFreeVideoCheatCommand("是否开启免费广告模式",
-                    () => { return this.GetUtility<Sdk_Utility>().ChangeFreeVideoMod(); });
+                    () => { return this.GetUtility<SdkUtility>().ChangeFreeVideoMod(); });
                 this.SendCommand(newCommand);
                 canShowGUI = true;
             }

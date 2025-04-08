@@ -1,8 +1,8 @@
 using System;
 using GDFrameworkCore;
+using GDFrameworkExtend.FluentAPI;
 using UnityEngine;
 using UnityEngine.U2D;
-
 using GDFrameworkExtend.ResKit;
 
 namespace GDFramework_Core.Utility
@@ -43,7 +43,7 @@ namespace GDFramework_Core.Utility
         {
             resLoader.Add2Load(name, (succeed, res) =>
             {
-                if (succeed) action?.Invoke(res.Asset as SpriteAtlas);
+                if (succeed) action?.Invoke(res.Asset.As<SpriteAtlas>());
             });
             resLoader.LoadAsync();
         }
@@ -57,7 +57,7 @@ namespace GDFramework_Core.Utility
         {
             resLoader.Add2Load(name, (succeed, res) =>
             {
-                if (succeed) action?.Invoke(res.Asset as Sprite);
+                if (succeed) action?.Invoke(res.Asset.As<Sprite>());
             });
             resLoader.LoadAsync();
         }
@@ -71,7 +71,7 @@ namespace GDFramework_Core.Utility
         {
             resLoader.Add2Load(name, (succeed, res) =>
             {
-                if (succeed) action?.Invoke(res.Asset as AudioClip);
+                if (succeed) action?.Invoke(res.Asset.As<AudioClip>());
             });
             resLoader.LoadAsync();
         }
@@ -85,7 +85,7 @@ namespace GDFramework_Core.Utility
         {
             resLoader.Add2Load(name, (succeed, res) =>
             {
-                if (succeed) action?.Invoke(res.Asset as GameObject);
+                if (succeed) action?.Invoke(res.Asset.As<GameObject>());
             });
             resLoader.LoadAsync();
         }
@@ -125,7 +125,7 @@ namespace GDFramework_Core.Utility
         {
             resLoader.Add2Load(name, (succeed, res) =>
             {
-                if (succeed) action?.Invoke(res.Asset as TextAsset);
+                if (succeed) action?.Invoke(res.Asset.As<TextAsset>());
             });
             resLoader.LoadAsync();
         }

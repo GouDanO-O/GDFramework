@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using GDFrameworkCore;
+using GDFrameworkExtend.FluentAPI;
 
 namespace GDFrameworkExtend.EventKit
 {
@@ -22,7 +23,7 @@ namespace GDFrameworkExtend.EventKit
         {
             if (mEvents.TryGetValue(key, out var e))
             {
-                var easyEvent = e as EasyEvent;
+                var easyEvent = e.As<EasyEvent>();
                 return easyEvent.Register(onEvent);
             }
             else
@@ -38,7 +39,7 @@ namespace GDFrameworkExtend.EventKit
             
             if (mEvents.TryGetValue(key, out var e))
             {
-                var easyEvent = e as EasyEvent;
+                var easyEvent = e.As<EasyEvent>();
                 easyEvent?.UnRegister(onEvent);
             }
         }
@@ -47,7 +48,7 @@ namespace GDFrameworkExtend.EventKit
         {
             if (mEvents.TryGetValue(key, out var e))
             {
-                var easyEvent = e as EasyEvent;
+                var easyEvent = e.As<EasyEvent>();
                 easyEvent?.Trigger();
             }
         }
@@ -57,7 +58,7 @@ namespace GDFrameworkExtend.EventKit
         {
             if (mEvents.TryGetValue(key, out var e))
             {
-                var easyEvent = e as EasyEvent<T>;
+                var easyEvent = e.As<EasyEvent<T>>();
                 return easyEvent.Register(onEvent);
             }
             else
@@ -74,7 +75,7 @@ namespace GDFrameworkExtend.EventKit
             
             if (mEvents.TryGetValue(key, out var e))
             {
-                var easyEvent = e as EasyEvent<T>;
+                var easyEvent = e.As<EasyEvent<T>>();
                 easyEvent?.UnRegister(onEvent);
             }
         }
@@ -83,7 +84,7 @@ namespace GDFrameworkExtend.EventKit
         {
             if (mEvents.TryGetValue(key, out var e))
             {
-                var easyEvent = e as EasyEvent<T>;
+                var easyEvent = e.As<EasyEvent<T>>();
                 easyEvent?.Trigger(data);
             }
         }

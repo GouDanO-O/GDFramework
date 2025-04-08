@@ -75,8 +75,7 @@ namespace GDFrameworkExtend.ResKit
         public void OnGUI()
         {
             GUILayout.Label(LocaleText.ResKit, mResKitNameStyle.Value);
-
-
+            
             GUILayout.BeginVertical();
 
             GUILayout.BeginHorizontal("box");
@@ -128,24 +127,6 @@ namespace GDFrameworkExtend.ResKit
             }
 
             GUILayout.EndHorizontal();
-
-            // EasyIMGUI.Toggle()
-            //    .Text(LocaleText.EncryptAB)
-            //    .IsOn(GetConfig().EncryptAB)
-            //    .Parent(verticalLayout)
-            //    .ValueProperty.Bind(v => GetConfig().EncryptAB = v);
-
-
-            // var aesLine = EasyIMGUI.Horizontal();
-            // EasyIMGUI.Label().Text("AES秘钥:").Parent(aesLine).Width(100);
-            // EasyIMGUI.TextField().Text(GetConfig().AESKey).Parent(aesLine).Content.OnValueChanged.AddListener(_=>GetConfig().AESKey=_);
-            // aesLine.Parent(verticalLayout);
-
-            // EasyIMGUI.Toggle()
-            //    .Text(LocaleText.EncryptKey)
-            //    .IsOn(GetConfig().EncryptKey)
-            //    .Parent(verticalLayout)
-            //    .ValueProperty.Bind(v => GetConfig().EncryptKey = v);
 
             GUILayout.BeginHorizontal();
             mResVersion = EditorGUILayout.TextField(mResVersion);
@@ -315,26 +296,6 @@ namespace GDFrameworkExtend.ResKit
                 IsCN
                     ? "已标记的 AB"
                     : "Marked AB";
-
-            // public static string EncryptAB
-            // {
-            //     get
-            //     {
-            //         return Language.IsChinese
-            //             ? "加密AB(AES加密)"
-            //             : "EncryptAB";
-            //     }
-            // }
-            //
-            // public static string EncryptKey
-            // {
-            //     get
-            //     {
-            //         return Language.IsChinese
-            //             ? "加密秘钥(RSA加密)"
-            //             : "EncryptKey";
-            //     }
-            // }
         }
     }
 }

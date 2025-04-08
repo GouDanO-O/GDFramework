@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GDFramework_Core.Utility
 {
-    public class Sdk_Utility : IUtility
+    public class SdkUtility : IUtility
     {
         private Action succCallBack;
 

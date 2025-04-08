@@ -9,11 +9,11 @@ namespace GDFramework_Core.SDK
     {
         private EPlatform m_Platform = EPlatform.APK;
 
-        private Sdk_Utility m_SdkUtility;
+        private SdkUtility m_SdkUtility;
 
         protected override void OnInit()
         {
-            m_SdkUtility = this.GetUtility<Sdk_Utility>();
+            m_SdkUtility = this.GetUtility<SdkUtility>();
             m_SdkUtility.InitSDK();
             this.RegisterEvent<SOnShowADEvent>((data) => { m_SdkUtility.GetWillShowAdType(data); });
         }
