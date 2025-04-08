@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace GDFrameworkExtend.AudioKit
 {
-    [MonoSingletonPath("QFramework/ResKit/Timer")]
+    [MonoSingletonPath("GDFramework/Scripts/GDFrameworkExtend/ResKit/Timer")]
     public class Timer : MonoBehaviour,ISingleton
     {
         public static Timer Instance => MonoSingletonProperty<Timer>.Instance;

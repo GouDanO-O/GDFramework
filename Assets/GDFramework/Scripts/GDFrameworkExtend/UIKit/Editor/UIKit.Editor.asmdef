@@ -1,12 +1,11 @@
 {
     "name": "UIKit.Editor",
+    "rootNamespace": "",
     "references": [
         "UIKit",
-        "QFramework",
-        "QFramework.CoreKit",
-        "GDFrameworkCore"
+        "GDFrameworkCore",
+        "GDFrameworkExtend.CoreKit"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -15,5 +14,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

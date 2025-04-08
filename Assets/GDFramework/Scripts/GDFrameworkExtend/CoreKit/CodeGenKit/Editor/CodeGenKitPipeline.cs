@@ -55,7 +55,7 @@ namespace GDFrameworkExtend.CoreKit
         }
 
         private static readonly Lazy<string> Dir =
-            new Lazy<string>(() => "Assets/QFrameworkData/CodeGenKit/".CreateDirIfNotExists());
+            new Lazy<string>(() => "Assets/GDFramework/GDFrameworkData/CodeGenKit/".CreateDirIfNotExists());
 
         private const string FileName = "Pipeline.asset";
 
@@ -72,7 +72,7 @@ namespace GDFrameworkExtend.CoreKit
             
             var writer = new StringBuilder();
             writer.AppendLine("using UnityEngine;");
-            writer.AppendLine("using QFramework;");
+            writer.AppendLine("using GDFramework;");
             writer.AppendLine();
 
             if (CodeGenKit.Setting.IsDefaultNamespace)

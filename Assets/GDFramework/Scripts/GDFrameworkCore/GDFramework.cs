@@ -1123,14 +1123,14 @@ namespace GDFramework_Core.Scripts.GDFrameworkCore
 
     #endregion
 
-#if UNITY_EDITOR
-    internal class EditorMenus
-    {
-        [UnityEditor.MenuItem("QFramework/Install QFrameworkWithToolKits")]
-        public static void InstallPackageKit()
-        {
-            Application.OpenURL("https://cn/qf");
-        }
-    }
-#endif
+// #if UNITY_EDITOR
+//     internal class EditorMenus
+//     {
+//         [UnityEditor.MenuItem("QFramework/Install QFrameworkWithToolKits")]
+//         public static void InstallPackageKit()
+//         {
+//             Application.OpenURL("https://cn/qf");
+//         }
+//     }
+// #endif
 }

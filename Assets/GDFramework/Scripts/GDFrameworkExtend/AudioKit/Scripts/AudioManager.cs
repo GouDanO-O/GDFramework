@@ -17,7 +17,7 @@ namespace GDFrameworkExtend.AudioKit
     using System.Collections.Generic;
     using UnityEngine;
     
-    [MonoSingletonPath("QFramework/AudioKit/AudioManager")]
+    [MonoSingletonPath("GDFramework/Scripts/GDFrameworkExtend/AudioKit/AudioManager")]
     public class AudioManager : MonoBehaviour, ISingleton
     {
 

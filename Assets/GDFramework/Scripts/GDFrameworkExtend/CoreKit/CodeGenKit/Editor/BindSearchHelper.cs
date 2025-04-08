@@ -18,17 +18,6 @@ namespace GDFrameworkExtend.CoreKit
     {
         public static void Search(CodeGenTask task)
         {
-            // foreach (var componentsInChild in task.GameObject.GetComponentsInChildren<IBindGroup>())
-            // {
-            //     Debug.Log(componentsInChild.As<Component>().transform.name);
-            // }
-            //
-            // foreach (var componentsInChild in task.GameObject.GetComponentsInChildren<IBindOld>())
-            // {
-            //     Debug.Log(componentsInChild.Transform.name);
-            // }
-
-
             var bindGroupTransforms = task.GameObject.GetComponentsInChildren<IBindGroup>(true)
                 .Select(g => g.As<Component>().transform)
                 .Where(t => t != task.GameObject.transform);

@@ -67,26 +67,6 @@ namespace GDFrameworkExtend.ResKit
             FileUtil.ReplaceDirectory(outputPath, finalDir);
 
             AssetBundleExporter.BuildDataTable(defaultSubProjectData.Builds.Select(b => b.assetBundleName).ToArray(),appendHash:ResKitView.AppendHash);
-
-            // foreach (var subProjectData in subProjectDatas)
-            // {
-            //     outputPath = Path.Combine(ResKitAssetsMenu.AssetBundlesOutputPath + "/" + subProjectData.Name,
-            //         GetPlatformName());
-            //     outputPath.CreateDirIfNotExists();
-            //
-            //     BuildPipeline.BuildAssetBundles(outputPath, subProjectData.Builds.ToArray(),
-            //         BuildAssetBundleOptions.ChunkBasedCompression, buildTarget);
-            //     finalDir = Application.streamingAssetsPath + "/" + subProjectData.Name + "/AssetBundles/" +
-            //                GetPlatformName();
-            //
-            //     finalDir.DeleteDirIfExists();
-            //     finalDir.CreateDirIfNotExists();
-            //
-            //     FileUtil.ReplaceDirectory(outputPath, finalDir);
-            //     AssetBundleExporter.BuildDataTable(subProjectData.Builds.Select(b => b.assetBundleName).ToArray(),
-            //         finalDir + "/");
-            // }
-
             AssetDatabase.Refresh();
         }
 
@@ -100,12 +80,12 @@ namespace GDFrameworkExtend.ResKit
 
         public static void WriteClass()
         {
-            "Assets/QFrameworkData".CreateDirIfNotExists();
+            "Assets/GDFramework/GDFrameworkData".CreateDirIfNotExists();
 
             var path = Path.GetFullPath(
-                Application.dataPath + Path.DirectorySeparatorChar + "QFrameworkData/QAssets.cs");
+                Application.dataPath + Path.DirectorySeparatorChar + "GDFramework/GDFrameworkData/GDAssets.cs");
             var writer = new StreamWriter(File.Open(path, FileMode.Create));
-            ResDataCodeGenerator.WriteClass(writer, "QAssetBundle");
+            ResDataCodeGenerator.WriteClass(writer, "GDAssetBundle");
             writer.Close();
             AssetDatabase.Refresh();
         }

@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UIKit", "UIKit.csproj", "{b
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{1077aa01-2a2a-e27a-419e-c9c388bb67f7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QFramework.CoreKit", "QFramework.CoreKit.csproj", "{a82c8091-c488-7bac-c3e7-27242e572707}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GDFrameworkExtend.CoreKit", "GDFrameworkExtend.CoreKit.csproj", "{b8b7f558-1e03-cb2f-a8f6-73ffd5e0d9fd}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPSAnimationFramework.Editor", "FPSAnimationFramework.Editor.csproj", "{852c21ab-06f1-2aec-5150-d0afa47fdf45}"
 EndProject
@@ -40,8 +40,8 @@ Global
 		{bf3fab75-4151-4ff7-7e03-996b7760651e}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1077aa01-2a2a-e27a-419e-c9c388bb67f7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1077aa01-2a2a-e27a-419e-c9c388bb67f7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{a82c8091-c488-7bac-c3e7-27242e572707}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{a82c8091-c488-7bac-c3e7-27242e572707}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{b8b7f558-1e03-cb2f-a8f6-73ffd5e0d9fd}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{b8b7f558-1e03-cb2f-a8f6-73ffd5e0d9fd}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{852c21ab-06f1-2aec-5150-d0afa47fdf45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{852c21ab-06f1-2aec-5150-d0afa47fdf45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{854d2db7-da94-e354-2cd3-f6cafdab67c3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

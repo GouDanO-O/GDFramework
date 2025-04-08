@@ -32,8 +32,8 @@ namespace GDFrameworkExtend.ResKit
 	[InitializeOnLoad]
 	public class ResKitAssetsMenu
 	{
-		public const   string AssetBundlesOutputPath       = "AssetBundles";
-		private const string Mark_AssetBundle   = "Assets/@ResKit - AssetBundle Mark";
+		public const  string AssetBundlesOutputPath       = "AssetBundles";
+		private const string Mark_AssetBundle   = "Assets/@ResKit - 标记AB包";
 
 		static ResKitAssetsMenu()
 		{

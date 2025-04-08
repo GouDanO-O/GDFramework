@@ -325,9 +325,9 @@ namespace GDFrameworkExtend.CoreKit
 
                         var guidelineText = LocaleKitEditor.IsCN.Value ? "使用指南 " : "Guideline";
 
-                        var savedPath = EditorUtility.SaveFilePanel($"QFramework {framework.Version} {guidelineText}",
+                        var savedPath = EditorUtility.SaveFilePanel($"GDFramework {framework.Version} {guidelineText}",
                             Application.dataPath,
-                            $"QFramework {framework.Version} {guidelineText}", "md");
+                            $"GDFramework {framework.Version} {guidelineText}", "md");
 
                         File.WriteAllText(savedPath, builder.ToString());
 

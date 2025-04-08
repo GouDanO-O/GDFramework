@@ -26,6 +26,7 @@
 
 using System.Collections.Generic;
 using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkExtend.CoreKit;
 
 namespace GDFrameworkExtend.CoreKit
 {

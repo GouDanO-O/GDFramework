@@ -58,7 +58,7 @@ namespace GDFrameworkExtend.CoreKit
         }
 
         private static readonly Lazy<string> Dir =
-            new Lazy<string>(() => "Assets/QFrameworkData/LiveCodingKit/".CreateDirIfNotExists());
+            new Lazy<string>(() => "Assets/GDFramework/GDFrameworkData/LiveCodingKit/".CreateDirIfNotExists());
 
         private const string FileName = "Setting.asset";
     }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QAssetBundle
+namespace GDAssetBundle
 {
     
     public class English

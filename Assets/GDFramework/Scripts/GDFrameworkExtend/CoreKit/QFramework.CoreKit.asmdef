@@ -1,7 +1,0 @@
-{
-  "name": "QFramework.CoreKit",
-  "references": [
-    "QFramework",
-    "GDFrameworkCore"
-  ]
-}

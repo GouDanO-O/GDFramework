@@ -1,10 +1,7 @@
 {
-    "name": "AudioKit",
-    "rootNamespace": "",
-    "references": [
-        "GDFrameworkCore",
-        "GDFrameworkExtend.CoreKit"
-    ],
+    "name": "GDFrameworkExtend.CoreKit",
+    "rootNamespace": "GDFrameworkExtend.CoreKit",
+    "references": ["GUID:724f9990ee4a41a0bed91e3eacfa4330"],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
