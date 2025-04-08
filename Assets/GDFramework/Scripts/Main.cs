@@ -4,12 +4,11 @@ using GDFramework_Core.Multilingual;
 using GDFramework_Core.Procedure;
 using GDFramework_Core.Resource;
 using GDFramework_Core.Scene;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkCore;
 using GDFramework_Core.SDK;
 using GDFramework_Core.Utility;
 using GDFramework_Core.View;
 using GDFrameworkExtend.UIKit;
-
 
 namespace GDFramework
 {

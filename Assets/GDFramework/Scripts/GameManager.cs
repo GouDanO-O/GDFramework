@@ -2,8 +2,9 @@ using System;
 using Game.Procedure;
 using GDFramework_Core.Models;
 using GDFramework_Core.Procedure;
-using GDFramework_Core.Scripts.GDFrameworkCore;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkCore;
+
+using GDFrameworkExtend.SingletonKit;
 
 namespace GDFramework
 {

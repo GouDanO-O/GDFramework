@@ -1,4 +1,4 @@
-﻿using GDFramework_Core.Scripts.GDFrameworkCore;
+﻿using GDFrameworkCore;
 
 
 namespace Game.Models.Resource

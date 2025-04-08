@@ -2,7 +2,7 @@
 using Game.Models.Resource;
 using GDFramework_Core.Models;
 using GDFramework_Core.Resource;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkCore;
 using UnityEngine.Events;
 
 

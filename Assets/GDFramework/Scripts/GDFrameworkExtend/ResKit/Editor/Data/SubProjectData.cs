@@ -25,7 +25,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.FluentAPI;
 using UnityEditor;
 
 namespace GDFrameworkExtend.ResKit

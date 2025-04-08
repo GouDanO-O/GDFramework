@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.CodeGenKit;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;

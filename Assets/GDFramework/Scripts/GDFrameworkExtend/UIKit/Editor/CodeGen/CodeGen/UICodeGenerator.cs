@@ -24,7 +24,9 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
-using GDFrameworkExtend.CoreKit;
+
+using GDFrameworkExtend.CodeGenKit;
+using GDFrameworkExtend.FluentAPI;
 
 namespace GDFrameworkExtend.UIKit
 {

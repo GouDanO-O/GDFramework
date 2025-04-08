@@ -1,5 +1,5 @@
 using System.Collections;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkCore;
 using GDFramework_Core.Utility;
 using GDFramework;
 

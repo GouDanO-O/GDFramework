@@ -1,5 +1,6 @@
 using System.Collections.Generic;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.CodeGenKit;
+
 
 namespace GDFrameworkExtend.UIKit
 {

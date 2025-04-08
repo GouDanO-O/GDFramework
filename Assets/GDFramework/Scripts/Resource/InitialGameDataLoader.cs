@@ -1,5 +1,5 @@
 ﻿using GDFramework_Core.Models;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkCore;
 using UnityEngine;
 
 namespace GDFramework_Core.Resource

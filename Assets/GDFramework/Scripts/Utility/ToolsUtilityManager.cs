@@ -1,8 +1,7 @@
 using GDFramework_Core.Cheater;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkCore;
 using GDFramework;
-using GDFrameworkExtend.CoreKit;
-
+using GDFrameworkExtend.SingletonKit;
 using UnityEngine;
 
 namespace GDFramework_Core.Utility

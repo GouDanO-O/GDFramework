@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace GDFramework_Core.Scripts.GDFrameworkCore
+namespace GDFrameworkCore
 {
     #region Architecture
 

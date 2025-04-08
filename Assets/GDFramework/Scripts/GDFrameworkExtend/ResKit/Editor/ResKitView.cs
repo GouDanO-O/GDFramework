@@ -1,6 +1,6 @@
 using System;
 using System.Linq;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.FluentAPI;
 using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -245,7 +245,7 @@ namespace GDFrameworkExtend.ResKit
 
         public class LocaleText
         {
-            public static bool IsCN => LocaleKitEditor.IsCN.Value;
+            public static bool IsCN => true;
             public static string ResKit => IsCN ? "Res Kit 设置" : "Res Kit Setting";
 
             public static string TargetPlatform => IsCN ? "目标平台: " : "Target Platform: ";

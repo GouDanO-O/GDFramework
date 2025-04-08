@@ -2,7 +2,8 @@ using UnityEngine;
 using UnityEditor;
 using System.IO;
 using System.Collections.Generic;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.FluentAPI;
+
 
 namespace GDFrameworkExtend.ResKit
 {

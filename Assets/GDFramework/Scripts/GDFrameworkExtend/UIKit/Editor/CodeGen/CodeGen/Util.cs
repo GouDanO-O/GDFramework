@@ -1,6 +1,7 @@
 using System;
 using System.Text;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.CodeGenKit;
+using GDFrameworkExtend.FluentAPI;
 using UnityEngine;
 
 namespace GDFrameworkExtend.UIKit

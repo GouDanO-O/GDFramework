@@ -26,7 +26,7 @@
 
 using System;
 using System.IO;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.FluentAPI;
 using UnityEngine;
 
 namespace GDFrameworkExtend.UIKit

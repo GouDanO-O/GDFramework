@@ -6,7 +6,8 @@
  * https://gitee.com/liangxiegame/QFramework
  ****************************************************************************/
 
-using GDFrameworkExtend.CoreKit;
+
+using GDFrameworkExtend.FluentAPI;
 using UnityEditor;
 using UnityEngine;
 

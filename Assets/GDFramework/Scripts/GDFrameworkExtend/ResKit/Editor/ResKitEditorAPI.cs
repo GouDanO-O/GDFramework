@@ -23,7 +23,8 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
-using GDFrameworkExtend.CoreKit;
+
+using GDFrameworkExtend.FluentAPI;
 using UnityEditor;
 using UnityEngine;
 

@@ -25,7 +25,8 @@
 
 using System;
 using System.IO;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.CodeGenKit;
+
 
 namespace GDFrameworkExtend.UIKit
 {

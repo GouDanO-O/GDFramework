@@ -7,7 +7,7 @@
 
 
 using System;
-using GDFrameworkExtend.CoreKit;
+
 using UnityEditor;
 using UnityEngine;
 
@@ -127,7 +127,6 @@ namespace GDFrameworkExtend.UIKit
                 if (GUILayout.Button(LocaleText.Apply))
                 {
                     mUiKitSettingData.Save();
-                    CodeGenKit.Setting.Save();
                 }
             }
             GUILayout.EndVertical();
@@ -140,7 +139,7 @@ namespace GDFrameworkExtend.UIKit
 
         class LocaleText
         {
-            public static bool IsCN => LocaleKitEditor.IsCN.Value;
+            public static bool IsCN => true;
             public static string UINamespace => IsCN ? " UI 命名空间:" : "UI Namespace:";
 
             public static string UIScriptGenerateDir => IsCN ? " UI 脚本生成路径:" : " UI Scripts Generate Dir:";

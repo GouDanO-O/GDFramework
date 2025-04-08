@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using GDFramework_Core.Cheater;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkCore;
 using GDFramework.Cheater;
 
 

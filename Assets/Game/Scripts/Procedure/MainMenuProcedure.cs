@@ -1,6 +1,6 @@
 ﻿using GDFramework_Core.Procedure;
 using GDFramework_Core.Scene;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkCore;
 using GDFramework_Core.Utility;
 using GDFramework_Core.View;
 using GDFramework;

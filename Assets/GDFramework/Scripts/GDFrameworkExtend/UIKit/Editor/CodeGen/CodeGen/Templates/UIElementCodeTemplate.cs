@@ -24,7 +24,7 @@
  ****************************************************************************/
 
 using System;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.CodeGenKit;
 using UnityEngine;
 
 namespace GDFrameworkExtend.UIKit

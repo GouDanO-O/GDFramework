@@ -1,5 +1,5 @@
 using GDFramework_Core.Models.Enums;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkCore;
 using GDFramework_Core.Utility;
 
 

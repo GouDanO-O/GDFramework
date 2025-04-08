@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Game.Resource;
 using GDFramework_Core.Models;
-using GDFramework_Core.Scripts.GDFrameworkCore;
+using GDFrameworkCore;
 using GDFramework_Core.Utility;
 
 using UnityEngine;

@@ -8,7 +8,8 @@
 
 
 using System.Linq;
-using GDFrameworkExtend.CoreKit;
+using GDFrameworkExtend.FluentAPI;
+
 
 namespace GDFrameworkExtend.ResKit
 {
