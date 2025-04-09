@@ -1,6 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YooAsset", "YooAsset.csproj", "{e40d85cb-de09-f056-de66-f94c4691b31a}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YooAsset.Editor", "YooAsset.Editor.csproj", "{3fc659a6-0cea-31e2-b57f-c762cc126c9e}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{1077aa01-2a2a-e27a-419e-c9c388bb67f7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPSAnimationFramework.Editor", "FPSAnimationFramework.Editor.csproj", "{852c21ab-06f1-2aec-5150-d0afa47fdf45}"
@@ -20,6 +24,10 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{e40d85cb-de09-f056-de66-f94c4691b31a}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{e40d85cb-de09-f056-de66-f94c4691b31a}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3fc659a6-0cea-31e2-b57f-c762cc126c9e}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3fc659a6-0cea-31e2-b57f-c762cc126c9e}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1077aa01-2a2a-e27a-419e-c9c388bb67f7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1077aa01-2a2a-e27a-419e-c9c388bb67f7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{852c21ab-06f1-2aec-5150-d0afa47fdf45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

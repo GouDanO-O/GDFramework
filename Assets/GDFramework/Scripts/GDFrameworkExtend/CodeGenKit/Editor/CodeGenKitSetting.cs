@@ -52,7 +52,7 @@ namespace GDFrameworkExtend.CodeGenKit
         }
 
         private static readonly Lazy<string> Dir =
-            new Lazy<string>(() => "Assets/QFrameworkData/CodeGenKit/".CreateDirIfNotExists());
+            new Lazy<string>(() => "Assets/GDFramework/GDFrameworkData/CodeGenKit/".CreateDirIfNotExists());
 
         private const string FileName = "Setting.asset";
     }

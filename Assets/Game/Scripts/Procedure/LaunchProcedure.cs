@@ -9,6 +9,7 @@ namespace Game.Procedure
     /// <summary>
     /// 登录流程
     /// 开始初始化,加载数据
+    /// 主要加载游戏相关的配置
     /// </summary>
     public class LaunchProcedure : ProcedureBase, ICanGetSystem, ICanSendEvent
     {
@@ -24,7 +25,7 @@ namespace Game.Procedure
 
         public override void OnEnter()
         {
-            _resourcesManager.StartLoadingResources(EResourcesLoaderType.Launch, _launchResourcesLoader,
+            _resourcesManager.StartLoadingResources(typeof(LaunchResourcesLoader), _launchResourcesLoader,
                 () =>
                 {
                     DataLoadComplete();
@@ -36,16 +37,11 @@ namespace Game.Procedure
         /// </summary>
         private void DataLoadComplete()
         {
-            this.SendEvent<SChangeProcedureEvent>(new SChangeProcedureEvent(EProcedureType.MainMenu));
+            this.SendEvent<SChangeProcedureEvent>(new SChangeProcedureEvent(typeof(MainMenuProcedure)));
         }
 
         public override void OnUpdate()
         {
-        }
-
-        public override bool OnExitCondition()
-        {
-            return _resourcesManager.CheckIsLoadComplete();
         }
 
         public override void OnExit()

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using GDFramework.Utility;
 using GDFrameworkCore;
@@ -9,9 +10,9 @@ namespace GDFramework.Resource
     {
         private ResoucesUtility _loader;
 
-        private Dictionary<EResourcesLoaderType, BaseResourcesLoader> _resourcesLoaderDict = new();
+        private Dictionary<Type, BaseResourcesLoader> _resourcesLoaderDict = new();
 
-        private EResourcesLoaderType _currentLoaderType;
+        private Type _currentLoaderType;
 
         protected override void OnInit()
         {
@@ -24,7 +25,7 @@ namespace GDFramework.Resource
         /// </summary>
         /// <param name="loaderType"></param>
         /// <param name="callback"></param>
-        public void StartLoadingResources(EResourcesLoaderType loaderType, BaseResourcesLoader resourcesLoader,
+        public void StartLoadingResources(Type loaderType, BaseResourcesLoader resourcesLoader,
             UnityAction callback)
         {
             if (!_resourcesLoaderDict.ContainsKey(loaderType)) 

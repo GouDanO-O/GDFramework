@@ -1,5 +1,4 @@
-﻿
-
+﻿using System;
 using System.Collections.Generic;
 using Game.Procedure;
 using GDFramework.Utility;
@@ -10,54 +9,46 @@ namespace GDFramework.Procedure
 {
     public class ProcedureManager : AbstractSystem
     {
-        private Dictionary<EProcedureType, ProcedureBase> _procedureDict;
+        private readonly Dictionary<Type, ProcedureBase> _procedureDict = new();
 
         private ProcedureBase _currentProcedure;
-
         private ProcedureBase _lastProcedure;
 
         public bool Initialized { get; set; }
-        
-        /// <summary>
-        /// 当前流程
-        /// </summary>
-        public ProcedureBase CurrentProcedure => _currentProcedure;
 
-        /// <summary>
-        /// 上一个流程
-        /// </summary>
-        public ProcedureBase LastProcedure => _lastProcedure;
-        
+        public ProcedureBase CurrentProcedure => _currentProcedure;
+        public ProcedureBase LastProcedure    => _lastProcedure;
+
         protected override void OnInit()
         {
-            _procedureDict = new Dictionary<EProcedureType, ProcedureBase>();
-            this.RegisterEvent<SChangeProcedureEvent>((eventData) =>
-            {
-                ChangeProcedure(eventData._procedureType);
-            });
+            // ② 监听“切流程”事件
+            this.RegisterEvent<SChangeProcedureEvent>(evt => ChangeProcedure(evt._procedureType));
         }
 
         protected void DeInit()
         {
-            this.UnRegisterEvent<SChangeProcedureEvent>((eventData) => { });
+            this.UnRegisterEvent<SChangeProcedureEvent>(evt => { });
         }
 
-        /// <summary>
-        /// 获取流程
-        /// </summary>
-        public ProcedureBase GetProcedure(EProcedureType procedureType)
-        {
-            if (_procedureDict.TryGetValue(procedureType, out var procedure)) 
-                return procedure;
+        #region 注册 / 获取
 
-            LogMonoUtility.AddLog("流程为空");
+        ///<summary>
+        /// 根据 Type 取流程
+        /// </summary>
+        public ProcedureBase GetProcedure<T>() where T : ProcedureBase =>
+            GetProcedure(typeof(T));
+
+        public ProcedureBase GetProcedure(Type type)
+        {
+            if (_procedureDict.TryGetValue(type, out var p)) return p;
+            LogMonoUtility.AddLog($"流程 {type.Name} 未注册");
             return null;
         }
 
-        /// <summary>
-        /// 注册流程
+        ///<summary>
+        /// 注册流程（Type = procedure.GetType()）
         /// </summary>
-        public void RegisterProcedure(EProcedureType procedureType, ProcedureBase procedure)
+        public void RegisterProcedure(ProcedureBase procedure)
         {
             if (procedure == null)
             {
@@ -65,54 +56,53 @@ namespace GDFramework.Procedure
                 return;
             }
 
-            if (_procedureDict.ContainsKey(procedureType))
+            var type = procedure.GetType();
+            if (_procedureDict.ContainsKey(type))
             {
-                LogMonoUtility.AddLog($"'{procedureType}'流程已注册");
+                LogMonoUtility.AddLog($"流程 {type.Name} 已注册");
                 return;
             }
 
             procedure.OnInit();
-            _procedureDict.Add(procedureType, procedure);
+            _procedureDict.Add(type, procedure);
         }
 
+        #endregion
+
+        #region 切换 / 更新
+
         /// <summary>
-        /// 切换流程
+        /// 切换流程（通过 Type）
         /// </summary>
-        public void ChangeProcedure(EProcedureType procedureType)
+        public void ChangeProcedure<T>() where T : ProcedureBase =>
+            ChangeProcedure(typeof(T));
+
+        public void ChangeProcedure(Type type)
         {
-            if (!_procedureDict.TryGetValue(procedureType, out var procedure))
+            if (!_procedureDict.TryGetValue(type, out var next))
             {
-                LogMonoUtility.AddErrorLog($"无法改变流程,'{procedureType}'不存在");
+                LogMonoUtility.AddErrorLog($"无法切换，流程 {type.Name} 未注册");
                 return;
             }
 
-            if (_lastProcedure != null)
+            if (_currentProcedure != null)
             {
-                //当上一个流程的退出条件不满足时,无法进行切换
-                if (!_lastProcedure.OnExitCondition()) 
+                if (!_currentProcedure.OnExitCondition()) 
                     return;
-                _lastProcedure.OnExit();
+                _currentProcedure.OnExit();
+                _lastProcedure = _currentProcedure;
             }
 
-            //当要切换的进程条件不满足时
-            if (!procedure.OnEnterCondition()) 
+            if (!next.OnEnterCondition())
                 return;
 
-            _lastProcedure = _currentProcedure;
-            _currentProcedure = procedure;
+            _currentProcedure = next;
             _currentProcedure.OnEnter();
-            Debug.Log("切换流程:"+procedure);
+            Debug.Log($"切换流程: {type.Name}");
         }
 
-        /// <summary>
-        /// 更新流程
-        /// </summary>
-        public void UpdateProcedure()
-        {
-            if (_currentProcedure == null) 
-                return;
+        public void UpdateProcedure() => _currentProcedure?.OnUpdate();
 
-            _currentProcedure.OnUpdate();
-        }
+        #endregion
     }
 }

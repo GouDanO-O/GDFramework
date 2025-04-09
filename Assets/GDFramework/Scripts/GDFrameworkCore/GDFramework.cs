@@ -1079,8 +1079,7 @@ namespace GDFrameworkCore
     }
 
     #endregion
-
-
+    
     #region Event Extension
 
     public class OrEvent : IUnRegisterList
@@ -1122,15 +1121,5 @@ namespace GDFrameworkCore
     }
 
     #endregion
-
-// #if UNITY_EDITOR
-//     internal class EditorMenus
-//     {
-//         [UnityEditor.MenuItem("QFramework/Install QFrameworkWithToolKits")]
-//         public static void InstallPackageKit()
-//         {
-//             Application.OpenURL("https://cn/qf");
-//         }
-//     }
-// #endif
+    
 }

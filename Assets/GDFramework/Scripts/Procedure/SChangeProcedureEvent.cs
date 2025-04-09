@@ -6,9 +6,9 @@ namespace GDFramework.Procedure
 {
     public struct SChangeProcedureEvent
     {
-        public readonly EProcedureType _procedureType;
+        public readonly System.Type _procedureType;
 
-        public SChangeProcedureEvent(EProcedureType procedureType)
+        public SChangeProcedureEvent(Type procedureType)
         {
             _procedureType = procedureType;
         }

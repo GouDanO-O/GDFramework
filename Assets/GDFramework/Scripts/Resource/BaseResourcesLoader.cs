@@ -13,10 +13,10 @@ namespace GDFramework.Resource
         public Action<object> loaderCallback;
     }
     
-    /**
-     * 基础的资源加载器
-     * 不同过程中要加载的资源不同,可以选择性的进行加载和释放
-     */
+    /// <summary>
+    /// 基础的资源加载器
+    /// 不同过程中要加载的资源不同,可以选择性的进行加载和释放
+    /// </summary>
     public abstract class BaseResourcesLoader : ICanGetModel
     {
         protected UnityAction OnLoadComplete;

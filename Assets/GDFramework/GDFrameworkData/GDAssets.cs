@@ -15,6 +15,11 @@ namespace GDAssetBundle
     {
         public const string BundleName = "english";
     }
+    public class Gameinput_inputactions
+    {
+        public const string BundleName = "gameinput_inputactions";
+        public const string GameInput = "GameInput";
+    }
     public class Simplifiedchinese
     {
         public const string BundleName = "simplifiedchinese";
@@ -22,6 +27,6 @@ namespace GDAssetBundle
     public class Tbmultilingual_json
     {
         public const string BundleName = "tbmultilingual_json";
-        public const string TBMULTILINGUAL = "tbmultilingual";
+        public const string tbmultilingual = "tbmultilingual";
     }
 }
