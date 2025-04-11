@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.YooAssetKit;
 using UnityEngine.Events;
 
 namespace GDFramework.Resource
@@ -79,10 +80,10 @@ namespace GDFramework.Resource
             }
             else
             {
-                do
+                for (int i = 0; i < MaxLoadCount; i++)
                 {
-                    LoadingResources(curLoopCount);
-                } while (curLoopCount>=MaxLoadCount);
+                    LoadingResources(i);
+                }
             }
         }
 
@@ -94,7 +95,10 @@ namespace GDFramework.Resource
         private void LoadingResources(int curLoopCount)
         {
             SResourcesLoaderNode curNode = WillLoadResourcesList[curLoopCount];
-            ResLoader.LoadObjAsync(curNode.dataName,curNode.loaderCallback);
+            if (ResLoader!= null)
+            {
+                ResLoader.LoadObjAsync(curNode.dataName,curNode.loaderCallback);
+            }
         }
 
         /// <summary>

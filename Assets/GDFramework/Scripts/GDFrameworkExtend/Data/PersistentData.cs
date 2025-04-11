@@ -1,4 +1,4 @@
-namespace GDFramework_Extend.Data
+namespace GDFrameworkExtend.Data
 {
     /// <summary>
     /// 持久化对象---非池

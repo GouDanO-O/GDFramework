@@ -8,10 +8,9 @@ namespace GDFramework.Utility
     {
         public override void InitUtility()
         {
-            Main.Interface.RegisterUtility(this);
+            
         }
-
-
+        
         /// <summary>
         /// 将秒转换成时分秒
         /// </summary>

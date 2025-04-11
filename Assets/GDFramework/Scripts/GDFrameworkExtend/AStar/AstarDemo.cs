@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-namespace GDFramework_Extend.AStar
+namespace GDFrameworkExtend.AStar
 {
     public class AstarDemo : MonoBehaviour
     {

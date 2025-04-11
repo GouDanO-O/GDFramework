@@ -2,6 +2,8 @@
 using GDFramework.Input;
 using GDFramework.Resource;
 using GDFrameworkCore;
+using GDFrameworkExtend.FSM;
+using GDFrameworkExtend.YooAssetKit;
 
 namespace GDFramework.Procedure
 {
@@ -15,8 +17,9 @@ namespace GDFramework.Procedure
         
         private InitialFrameDataLoader _initialFrameDataLoader;
         
-        public override void OnInit()
+        public override void OnInit(FsmManager  fsmManager)
         {
+            base.OnInit(fsmManager);
             _resourcesManager = GetArchitecture().GetSystem<ResourcesManager>();
             _initialFrameDataLoader = new InitialFrameDataLoader();
         }
@@ -35,8 +38,7 @@ namespace GDFramework.Procedure
         /// </summary>
         private void DataLoadComplete()
         {
-            this.GetSystem<NewInputManager>().InitActionAsset();
-            this.SendEvent<SChangeProcedureEvent>(new SChangeProcedureEvent(typeof(LaunchProcedure)));
+            this.SendEvent(new SChangeProcedureEvent(typeof(LaunchProcedure)));
         }
 
         public override void OnUpdate()

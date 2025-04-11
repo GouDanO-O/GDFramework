@@ -3,6 +3,7 @@ using GDFramework.Procedure;
 using GDFramework.Scene;
 using GDFramework.Utility;
 using GDFramework.View;
+using GDFrameworkExtend.FSM;
 
 
 namespace Game.Procedure
@@ -12,9 +13,9 @@ namespace Game.Procedure
     /// </summary>
     public class MainMenuProcedure : ProcedureBase, ICanGetSystem
     {
-        public override void OnInit()
+        public override void OnInit(FsmManager  fsmManager)
         {
-            
+            base.OnInit(fsmManager);
         }
 
         public override void OnEnter()

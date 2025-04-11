@@ -1,5 +1,7 @@
 ﻿using Game.Procedure;
 using GDFrameworkCore;
+using UnityEngine;
+using YooAsset;
 
 namespace Game
 {
@@ -8,11 +10,13 @@ namespace Game
     /// </summary>
     public class GameManager : FrameManager
     {
+        
+
         protected override void InitProcedure()
         {
             base.InitProcedure();
-            _procedureManager.RegisterProcedure(new LaunchProcedure());
-            _procedureManager.RegisterProcedure(new MainMenuProcedure());
+            _procedureManager.RegisterFsmNode(new LaunchProcedure());
+            _procedureManager.RegisterFsmNode(new MainMenuProcedure());
         }
     }
 }

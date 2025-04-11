@@ -67,7 +67,10 @@ namespace GDFrameworkExtend.ResKit
 
             FileUtil.ReplaceDirectory(outputPath, finalDir);
 
-            AssetBundleExporter.BuildDataTable(defaultSubProjectData.Builds.Select(b => b.assetBundleName).ToArray(),appendHash:ResKitView.AppendHash);
+            AssetBundleExporter.BuildDataTable(
+                defaultSubProjectData.Builds.Select(b => b.assetBundleName).ToArray(),
+                appendHash:ResKitView.AppendHash);
+            
             AssetDatabase.Refresh();
         }
 

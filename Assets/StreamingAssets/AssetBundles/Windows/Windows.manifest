@@ -1,0 +1,12 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.0.30f1
+CRC: 1598961028
+HashAppended: 0
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: tbmultilingual_json
+      Dependencies: {}
+    Info_1:
+      Name: gameinput_inputactions
+      Dependencies: {}

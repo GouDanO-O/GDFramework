@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Extend.Data
+﻿namespace GDFrameworkExtend.Data
 {
     /// <summary>
     /// 临时对象数据--非池

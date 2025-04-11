@@ -5,19 +5,37 @@ using GDFrameworkExtend.FluentAPI;
 using UnityEngine;
 using UnityEngine.U2D;
 using GDFrameworkExtend.ResKit;
+using GDFrameworkExtend.YooAssetKit;
 
 namespace GDFramework.Utility
 {
-    public class ResoucesUtility : IUtility
+    public class ResoucesUtility : BasicToolUtility
     {
         private ResLoader resLoader;
         
-        public void InitLoader()
+        private YooLoadAssetsAsyncHandle _yooLoadAssetsAsyncHandle;
+
+        public ResoucesUtility()
+        {
+            InitUtility();
+        }
+        
+        public override void InitUtility()
+        {
+            InitLoader();
+        }
+        
+        private void InitLoader()
         {
             if (resLoader == null)
             {
                 ResKit.Init();
                 resLoader = ResLoader.Allocate();
+            }
+
+            if (_yooLoadAssetsAsyncHandle == null)
+            {
+                _yooLoadAssetsAsyncHandle = YooLoadAssetsAsyncHandle.Allocate();
             }
         }
 
@@ -28,11 +46,13 @@ namespace GDFramework.Utility
         /// <param name="action"></param>
         public void LoadObjAsync(string name, Action<object> action)
         {
-            resLoader.Add2Load(name, (succeed, res) =>
-            {
-                if (succeed) action?.Invoke(res.Asset);
-            });
-            resLoader.LoadAsync();
+            // resLoader.Add2Load(name, (succeed, res) =>
+            // {
+            //     if (succeed) action?.Invoke(res.Asset);
+            // });
+            // resLoader.LoadAsync();
+            
+            _yooLoadAssetsAsyncHandle.LoadAssetAsync(name, action);
         }
         
         /// <summary>
@@ -42,11 +62,11 @@ namespace GDFramework.Utility
         /// <param name="action"></param>
         public void LoadSpriteAtlasAsync(string name, Action<SpriteAtlas> action)
         {
-            resLoader.Add2Load(name, (succeed, res) =>
-            {
-                if (succeed) action?.Invoke(res.Asset.As<SpriteAtlas>());
-            });
-            resLoader.LoadAsync();
+            // resLoader.Add2Load(name, (succeed, res) =>
+            // {
+            //     if (succeed) action?.Invoke(res.Asset.As<SpriteAtlas>());
+            // });
+            // resLoader.LoadAsync();
         }
 
         /// <summary>

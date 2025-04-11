@@ -1,4 +1,4 @@
-﻿namespace GDFramework_Core.World
+﻿namespace GDFramework.World
 {
     public interface IObj
     {

@@ -1,0 +1,12 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.0.30f1
+CRC: 1727356418
+HashAppended: 0
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: defaultpackage_assets_gdframework_gdframeworkdata.bundle
+      Dependencies: {}
+    Info_1:
+      Name: defaultpackage_assets_gdframework_res_mul.bundle
+      Dependencies: {}

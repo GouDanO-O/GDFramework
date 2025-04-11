@@ -36,7 +36,7 @@ namespace GDFrameworkExtend.UIKit
 	[Serializable]
 	public class UIKitSettingData
 	{
-		static string mConfigSavedDir => (Application.dataPath + "/QFrameworkData/").CreateDirIfNotExists() + "ProjectConfig/";
+		static string mConfigSavedDir => (Application.dataPath + "/GDFramework/GDFrameworkData/").CreateDirIfNotExists() + "ProjectConfig/";
 
 		private const string mConfigSavedFileName = "ProjectConfig.json";
 
@@ -46,7 +46,7 @@ namespace GDFrameworkExtend.UIKit
 
 		public string UIPrefabDir = "/Art/UIPrefab";
 
-		public bool IsDefaultNamespace => Namespace == "QFramework.Example";
+		public bool IsDefaultNamespace => Namespace == "GDFramework.Example";
 
 
 		public static UIKitSettingData Load()
@@ -66,7 +66,7 @@ namespace GDFrameworkExtend.UIKit
 
 			if (frameworkConfigData == null || string.IsNullOrEmpty(frameworkConfigData.Namespace))
 			{
-				frameworkConfigData = new UIKitSettingData {Namespace = "QFramework.Example"};
+				frameworkConfigData = new UIKitSettingData {Namespace = "GDFramework.Example"};
 			}
 
 			return frameworkConfigData;

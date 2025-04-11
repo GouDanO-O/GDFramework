@@ -10,6 +10,7 @@ namespace GDFramework.Utility
 
         public virtual void DeInitUtility()
         {
+            
         }
     }
 }

@@ -1,11 +1,13 @@
 ﻿using GDFramework.Procedure;
+using GDFrameworkExtend.FSM;
 
 namespace Game.Procedure
 {
     public class GameSceneProcedure : ProcedureBase
     {
-        public override void OnInit()
+        public override void OnInit(FsmManager  fsmManager)
         {
+            base.OnInit(fsmManager);
         }
 
         public override void OnEnter()

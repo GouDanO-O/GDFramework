@@ -50,13 +50,13 @@ namespace GDFramework.Utility
         protected override void InitUtility()
         {
             Main.Interface.RegisterUtility(this);
-            Application.logMessageReceived += HandleLog;
+            //Application.logMessageReceived += HandleLog;
         }
 
         protected override void DeInitUtility()
         {
             base.DeInitUtility();
-            Application.logMessageReceived -= HandleLog;
+            //Application.logMessageReceived -= HandleLog;
         }
 
 

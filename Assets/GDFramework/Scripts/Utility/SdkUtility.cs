@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace GDFramework.Utility
 {
-    public class SdkUtility : IUtility
+    public class SdkUtility : BasicToolUtility
     {
         private Action succCallBack;
 
@@ -17,10 +17,15 @@ namespace GDFramework.Utility
 
         public bool isFreeVideoMod = false;
 
+        public override void InitUtility()
+        {
+            InitSDK();
+        }
+
         /// <summary>
         /// 初始化
         /// </summary>
-        public void InitSDK()
+        private void InitSDK()
         {
 #if KuaiShou
             KS.Login((ret) =>

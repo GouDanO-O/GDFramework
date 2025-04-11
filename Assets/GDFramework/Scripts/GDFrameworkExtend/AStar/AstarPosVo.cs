@@ -1,4 +1,4 @@
-namespace GDFramework_Extend.AStar
+namespace GDFrameworkExtend.AStar
 {
     public class AstarPosVo
     {

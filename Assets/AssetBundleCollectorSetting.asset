@@ -13,24 +13,37 @@ MonoBehaviour:
   m_Name: AssetBundleCollectorSetting
   m_EditorClassIdentifier: 
   ShowPackageView: 1
-  ShowEditorAlias: 0
-  UniqueBundleName: 0
+  ShowEditorAlias: 1
+  UniqueBundleName: 1
   Packages:
   - PackageName: DefaultPackage
-    PackageDesc: 
-    EnableAddressable: 0
+    PackageDesc: "\u9ED8\u8BA4\u5305\u7EC4"
+    EnableAddressable: 1
     LocationToLower: 0
     IncludeAssetGUID: 0
     AutoCollectShaders: 1
     IgnoreRuleName: NormalIgnoreRule
     Groups:
-    - GroupName: Default Group
+    - GroupName: Config
+      GroupDesc: 
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors: []
+    - GroupName: GameModelData
       GroupDesc: 
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
       - CollectPath: Assets/GDFramework/GDFrameworkData/GameInput.inputactions
         CollectorGUID: ae40928e1da2e2c458ab8cd43e6d4a5d
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/GDFramework/Res/Mul/tbmultilingual.json
+        CollectorGUID: 9edce2159fcc343409847abf95158075
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

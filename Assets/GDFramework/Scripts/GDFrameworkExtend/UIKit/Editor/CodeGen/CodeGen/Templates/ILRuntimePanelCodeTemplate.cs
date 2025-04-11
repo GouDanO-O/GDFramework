@@ -35,7 +35,7 @@ namespace GDFrameworkExtend.UIKit
             var sw = new StreamWriter(generateFilePath, false, Encoding.UTF8);
             var strBuilder = new StringBuilder();
 
-            strBuilder.AppendLine("using QFramework;").AppendLine();
+            strBuilder.AppendLine("using GDFrameworkCore;").AppendLine();
 
             strBuilder.AppendLine("namespace " + nameSpace);
             strBuilder.AppendLine("{");
@@ -72,7 +72,7 @@ namespace GDFrameworkExtend.UIKit
 
             strBuilder.AppendLine("using UnityEngine;");
             strBuilder.AppendLine("using UnityEngine.UI;");
-            strBuilder.AppendLine("using QFramework;");
+            strBuilder.AppendLine("using GDFrameworkCore;");
             strBuilder.AppendLine();
             strBuilder.AppendLine("namespace " + nameSpace);
             strBuilder.AppendLine("{");

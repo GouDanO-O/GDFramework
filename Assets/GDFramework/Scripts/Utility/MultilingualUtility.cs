@@ -22,20 +22,20 @@ namespace GDFramework.Utility
         public string En;
     }
 
-    public class MultilingualUtility : IUtility
+    public class MultilingualUtility : BasicToolUtility
     {
-        private MultilingualDataModel _multilingualData_Model;
+        private MultilingualDataModel _multilingualDataModel;
 
-        public IArchitecture GetArchitecture()
+        public override void InitUtility()
         {
-            return Main.Interface;
+            
         }
 
         public void InitLanguage(MultilingualDataModel multilingualData_Model)
         {
-            _multilingualData_Model = multilingualData_Model;
+            _multilingualDataModel = multilingualData_Model;
 
-            var languageTextAsset = _multilingualData_Model.LanguageTextAsset;
+            var languageTextAsset = _multilingualDataModel.LanguageTextAsset;
             if (languageTextAsset)
             {
                 var jsonText = languageTextAsset.text;
@@ -55,7 +55,7 @@ namespace GDFramework.Utility
                             ELanguageType.English, entry.En
                         }
                     };
-                    _multilingualData_Model.SetTranslation(entry.Key, languageDictionary);
+                    _multilingualDataModel.SetTranslation(entry.Key, languageDictionary);
                 }
             }
             else

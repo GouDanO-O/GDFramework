@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace GDFramework_Extend.AStar
+namespace GDFrameworkExtend.AStar
 {
     public class BinaryHeap
     {

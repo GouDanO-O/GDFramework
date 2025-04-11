@@ -1,4 +1,5 @@
 using Game.Models.Resource;
+using GDFramework.Input;
 using GDFramework.Models;
 using GDFramework.Multilingual;
 using GDFrameworkCore;
@@ -9,6 +10,7 @@ using GDFramework.SDK;
 using GDFramework.Utility;
 using GDFramework.View;
 using GDFrameworkExtend.UIKit;
+using GDFrameworkExtend.YooAssetKit;
 
 namespace GDFrameworkCore
 {
@@ -23,7 +25,6 @@ namespace GDFrameworkCore
             Register_Model();
             Register_System();
             Register_Event();
-            
             UIRoot.Instance.OnSingletonInit();
         }
     
@@ -37,7 +38,9 @@ namespace GDFrameworkCore
             this.RegisterSystem(new MultilingualManager());
             this.RegisterSystem(new ViewManager());
             this.RegisterSystem(new SdkManager());
-            this.RegisterSystem(new ProcedureManager());
+            this.RegisterSystem(new YooAssetManager());
+            
+            this.RegisterSystem(new NewInputManager());
         }
     
         /// <summary>
@@ -70,6 +73,27 @@ namespace GDFrameworkCore
             this.RegisterUtility(new ResoucesUtility());
             this.RegisterUtility(new MultilingualUtility());
             this.RegisterUtility(new SdkUtility());
+            
+            
+            LoadFrameSettingUtility();
+        }
+
+        /// <summary>
+        /// 根据框架设置来添加模块
+        /// </summary>
+        protected void LoadFrameSettingUtility()
+        {
+            if (FrameManager.Instance.WillShowCheatWindow)
+            {
+                this.RegisterUtility(FrameManager.Instance.gameObject.AddComponent<CheatMonoUtility>());;
+            }
+            
+            if (FrameManager.Instance.WillShowLogWindow)
+            {
+                this.RegisterUtility(FrameManager.Instance.gameObject.AddComponent<LogMonoUtility>());;
+            }
+            
+            this.RegisterUtility(FrameManager.Instance.gameObject.AddComponent<CoroutineMonoUtility>());;
         }
     
         /// <summary>

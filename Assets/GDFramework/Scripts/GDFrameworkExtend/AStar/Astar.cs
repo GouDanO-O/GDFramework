@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace GDFramework_Extend.AStar
+namespace GDFrameworkExtend.AStar
 {
     public class Astar
     {

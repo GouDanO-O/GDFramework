@@ -74,7 +74,6 @@ namespace GDFramework.Input
             if (enable)
             {
                 PlayerMouseMap.Enable();
-                ;
             }
             else
             {

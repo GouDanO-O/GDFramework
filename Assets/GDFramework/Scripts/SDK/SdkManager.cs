@@ -14,7 +14,6 @@ namespace GDFramework.SDK
         protected override void OnInit()
         {
             m_SdkUtility = this.GetUtility<SdkUtility>();
-            m_SdkUtility.InitSDK();
             this.RegisterEvent<SOnShowADEvent>((data) => { m_SdkUtility.GetWillShowAdType(data); });
         }
     }

@@ -1,6 +1,6 @@
 ﻿using GDFrameworkExtend.PoolKit;
 
-namespace GDFramework_Extend.Data
+namespace GDFrameworkExtend.Data
 {
     /// <summary>
     /// 临时对象数据--池
@@ -10,8 +10,14 @@ namespace GDFramework_Extend.Data
     {
         public bool IsRecycled { get; set; }
 
+        /// <summary>
+        /// 注销(用来回收)
+        /// </summary>
         public abstract void OnRecycled();
 
+        /// <summary>
+        /// 注销时执行
+        /// </summary>
         public abstract void Recycle2Cache();
     }
 }

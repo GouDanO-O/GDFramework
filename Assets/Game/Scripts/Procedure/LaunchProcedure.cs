@@ -2,6 +2,7 @@
 using GDFrameworkCore;
 using GDFramework.Procedure;
 using GDFramework.Resource;
+using GDFrameworkExtend.FSM;
 
 
 namespace Game.Procedure
@@ -17,8 +18,9 @@ namespace Game.Procedure
         
         private LaunchResourcesLoader _launchResourcesLoader;
 
-        public override void OnInit()
+        public override void OnInit(FsmManager fsmManager)
         {
+            base.OnInit(fsmManager);
             _resourcesManager = GetArchitecture().GetSystem<ResourcesManager>();
             _launchResourcesLoader = new LaunchResourcesLoader();
         }

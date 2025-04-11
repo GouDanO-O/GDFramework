@@ -1,7 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Game;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.YooAssetKit;
+using Unity.VisualScripting;
 using UnityEngine.Events;
 
 namespace GDFramework.Resource
@@ -14,12 +18,14 @@ namespace GDFramework.Resource
 
         private Type _currentLoaderType;
 
+        private bool _isInitialized = false;
+        
         protected override void OnInit()
         {
             _loader = this.GetUtility<ResoucesUtility>();
-            _loader.InitLoader();
         }
-
+        
+        
         /// <summary>
         /// 开始加载模块的资源
         /// </summary>
@@ -33,19 +39,6 @@ namespace GDFramework.Resource
 
             _resourcesLoaderDict[loaderType].InitLoader(_loader, callback);
             _currentLoaderType=loaderType;
-        }
-
-        /// <summary>
-        /// 检查当前资源段是否加载完成
-        /// </summary>
-        /// <returns></returns>
-        public bool CheckIsLoadComplete()
-        {
-            var isComplete = false;
-            if (_resourcesLoaderDict.ContainsKey(_currentLoaderType))
-                isComplete = _resourcesLoaderDict[_currentLoaderType].IsLoadComplete();
-
-            return isComplete;
         }
     }
 }

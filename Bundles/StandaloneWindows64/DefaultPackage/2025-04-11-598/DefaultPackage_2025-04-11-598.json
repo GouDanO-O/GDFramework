@@ -1,0 +1,52 @@
+{
+    "FileVersion": "2.3.1",
+    "EnableAddressable": true,
+    "LocationToLower": false,
+    "IncludeAssetGUID": false,
+    "OutputNameStyle": 0,
+    "BuildBundleType": 2,
+    "BuildPipeline": "BuiltinBuildPipeline",
+    "PackageName": "DefaultPackage",
+    "PackageVersion": "2025-04-11-598",
+    "PackageNote": "2025/4/11 9:58:30",
+    "AssetList": [
+        {
+            "Address": "GameInput",
+            "AssetPath": "Assets/GDFramework/GDFrameworkData/GameInput.inputactions",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 0,
+            "DependBundleIDs": []
+        },
+        {
+            "Address": "tbmultilingual",
+            "AssetPath": "Assets/GDFramework/Res/Mul/tbmultilingual.json",
+            "AssetGUID": "",
+            "AssetTags": [],
+            "BundleID": 1,
+            "DependBundleIDs": []
+        }
+    ],
+    "BundleList": [
+        {
+            "BundleName": "defaultpackage_assets_gdframework_gdframeworkdata.bundle",
+            "UnityCRC": 3509272408,
+            "FileHash": "b67e175b488eb14174c14986fd72c631",
+            "FileCRC": "171249a2",
+            "FileSize": 3197,
+            "Encrypted": false,
+            "Tags": [],
+            "DependBundleIDs": []
+        },
+        {
+            "BundleName": "defaultpackage_assets_gdframework_res_mul.bundle",
+            "UnityCRC": 3299200299,
+            "FileHash": "c2864d1287fc982da67bc488cfdc84aa",
+            "FileCRC": "cf7c36c7",
+            "FileSize": 1389,
+            "Encrypted": false,
+            "Tags": [],
+            "DependBundleIDs": []
+        }
+    ]
+}

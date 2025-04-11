@@ -19,6 +19,15 @@ namespace GDFramework.Resource
             _gameDataModel = this.GetModel<GameDataModel>();
             WillLoadResourcesList.Add(new SResourcesLoaderNode()
             {
+                dataName = GDAssetBundle.Gameinput_inputactions.GameInput,
+                loaderCallback = data =>
+                {
+                    _gameDataModel.InputActionAsset = data as InputActionAsset;
+                    LoadingCheck();
+                }
+            });
+            WillLoadResourcesList.Add(new SResourcesLoaderNode()
+            {
                 dataName = GDAssetBundle.Tbmultilingual_json.tbmultilingual,
                 loaderCallback = data =>
                 {
@@ -27,15 +36,7 @@ namespace GDFramework.Resource
                 }
             });
             
-            WillLoadResourcesList.Add(new SResourcesLoaderNode()
-            {
-                dataName = GDAssetBundle.Gameinput_inputactions.GameInput,
-                loaderCallback = data =>
-                {
-                    _gameDataModel.InputActionAsset = data as InputActionAsset;
-                    LoadingCheck();
-                }
-            });
+            
         }
     }
 }
