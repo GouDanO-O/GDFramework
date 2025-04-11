@@ -34,7 +34,7 @@ namespace GDFrameworkExtend.UIKit
             var rootCode = new RootCode()
                 .Using("UnityEngine")
                 .Using("UnityEngine.UI")
-                .Using("QFramework")
+                .Using("GDFrameworkExtend.UIKit")
                 .EmptyLine()
                 .Namespace(scriptNamespace, nsScope =>
                 {

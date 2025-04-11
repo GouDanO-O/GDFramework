@@ -43,7 +43,7 @@ namespace GDFrameworkExtend.UIKit
                 .Using("System")
                 .Using("UnityEngine")
                 .Using("UnityEngine.UI")
-                .Using("QFramework")
+                .Using("GDFrameworkExtend.UIKit")
                 .EmptyLine()
                 .Namespace(string.IsNullOrWhiteSpace(scriptNamespace)
                     ? uiKitSettingData.Namespace

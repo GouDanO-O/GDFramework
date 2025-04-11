@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185f6993d5150494d98da50e26cb1c25, type: 3}
   m_Name: AssetBundleCollectorSetting
   m_EditorClassIdentifier: 
-  ShowPackageView: 1
+  ShowPackageView: 0
   ShowEditorAlias: 1
   UniqueBundleName: 1
   Packages:
@@ -22,15 +22,15 @@ MonoBehaviour:
     LocationToLower: 0
     IncludeAssetGUID: 0
     AutoCollectShaders: 1
-    IgnoreRuleName: NormalIgnoreRule
+    IgnoreRuleName: RawFileIgnoreRule
     Groups:
     - GroupName: Config
-      GroupDesc: 
-      AssetTags: 
+      GroupDesc: "\u914D\u7F6E"
+      AssetTags: config
       ActiveRuleName: EnableGroup
       Collectors: []
     - GroupName: GameModelData
-      GroupDesc: 
+      GroupDesc: "\u6E38\u620F\u9ED8\u8BA4\u914D\u7F6E"
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
@@ -44,6 +44,19 @@ MonoBehaviour:
         UserData: 
       - CollectPath: Assets/GDFramework/Res/Mul/tbmultilingual.json
         CollectorGUID: 9edce2159fcc343409847abf95158075
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+    - GroupName: UGUI
+      GroupDesc: "UI\u9762\u677F"
+      AssetTags: ui
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Assets/GDFramework/Res/UIPrefabs/UI_TestPanel.prefab
+        CollectorGUID: 8279e2db18fed8f4d96fdc3ef9e32949
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

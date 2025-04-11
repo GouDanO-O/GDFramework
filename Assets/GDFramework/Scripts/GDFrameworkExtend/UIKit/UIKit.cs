@@ -16,9 +16,7 @@ namespace GDFrameworkExtend.UIKit
     {
 
         public static UIKitConfig Config = new UIKitConfig();
-
-
-
+        
         /// <summary>
         /// UIPanel  管理（数据结构）
         /// </summary>

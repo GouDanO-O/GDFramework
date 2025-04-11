@@ -7,10 +7,14 @@ using GDFramework.Procedure;
 using GDFrameworkExtend.FSM;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.ResKit;
 using YooAsset;
 
 namespace GDFrameworkExtend.YooAssetKit
 {
+    /// <summary>
+    /// 使用yooasset来进行分包管理和加载
+    /// </summary>
     public class YooAssetManager : AbstractSystem
     {
         public string PackageName = "DefaultPackage";
@@ -39,6 +43,9 @@ namespace GDFrameworkExtend.YooAssetKit
         public void InitYooAssetKit(Action callback)
         {
             this.GetUtility<CoroutineMonoUtility>().StartCoroutine(InitYooAsset(callback));
+            ResKit.ResKit.Init();
+            UIKit.UIKit.Config.PanelLoaderPool = new YooAssetsPanelLoaderPool();
+            ResFactory.AddResCreator<YooAssetResCreator>();
         }
         
         /// <summary>

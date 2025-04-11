@@ -35,8 +35,6 @@ namespace GDFramework.Resource
                     LoadingCheck();
                 }
             });
-            
-            
         }
     }
 }

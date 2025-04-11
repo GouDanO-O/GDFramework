@@ -46,7 +46,7 @@ namespace GDFrameworkExtend.UIKit
 
 		public string UIPrefabDir = "/Art/UIPrefab";
 
-		public bool IsDefaultNamespace => Namespace == "GDFramework.Example";
+		public bool IsDefaultNamespace => Namespace == "GDFramework.View";
 
 
 		public static UIKitSettingData Load()
@@ -66,7 +66,7 @@ namespace GDFrameworkExtend.UIKit
 
 			if (frameworkConfigData == null || string.IsNullOrEmpty(frameworkConfigData.Namespace))
 			{
-				frameworkConfigData = new UIKitSettingData {Namespace = "GDFramework.Example"};
+				frameworkConfigData = new UIKitSettingData {Namespace = "GDFramework.View"};
 			}
 
 			return frameworkConfigData;

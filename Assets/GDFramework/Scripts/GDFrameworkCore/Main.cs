@@ -25,7 +25,7 @@ namespace GDFrameworkCore
             Register_Model();
             Register_System();
             Register_Event();
-            UIRoot.Instance.OnSingletonInit();
+
         }
     
         /// <summary>

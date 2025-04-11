@@ -20,9 +20,23 @@ namespace GDFramework.Procedure
         }
 
         /// <summary>
-        /// 资源加载完毕
+        /// 资源加载完毕(校验)
         /// </summary>
         private void ResourceLoadComplete()
+        {
+            StartHotFix();
+            
+        }
+
+        /// <summary>
+        /// 开始热更新
+        /// </summary>
+        private void StartHotFix()
+        {
+            HotFixOver();
+        }
+
+        private void HotFixOver()
         {
             this.SendEvent(new SChangeProcedureEvent(typeof(InitialFrameProcedure)));
         }

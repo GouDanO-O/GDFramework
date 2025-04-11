@@ -13,13 +13,6 @@ namespace GDFramework.Utility
     {
         private ResLoader resLoader;
         
-        private YooLoadAssetsAsyncHandle _yooLoadAssetsAsyncHandle;
-
-        public ResoucesUtility()
-        {
-            InitUtility();
-        }
-        
         public override void InitUtility()
         {
             InitLoader();
@@ -29,14 +22,9 @@ namespace GDFramework.Utility
         {
             if (resLoader == null)
             {
-                ResKit.Init();
                 resLoader = ResLoader.Allocate();
             }
-
-            if (_yooLoadAssetsAsyncHandle == null)
-            {
-                _yooLoadAssetsAsyncHandle = YooLoadAssetsAsyncHandle.Allocate();
-            }
+            
         }
 
         /// <summary>
@@ -46,13 +34,13 @@ namespace GDFramework.Utility
         /// <param name="action"></param>
         public void LoadObjAsync(string name, Action<object> action)
         {
-            // resLoader.Add2Load(name, (succeed, res) =>
-            // {
-            //     if (succeed) action?.Invoke(res.Asset);
-            // });
-            // resLoader.LoadAsync();
+            resLoader.Add2Load(name, (succeed, res) =>
+            {
+                if (succeed) 
+                    action?.Invoke(res.Asset);
+            });
+            resLoader.LoadAsync();
             
-            _yooLoadAssetsAsyncHandle.LoadAssetAsync(name, action);
         }
         
         /// <summary>
@@ -62,11 +50,12 @@ namespace GDFramework.Utility
         /// <param name="action"></param>
         public void LoadSpriteAtlasAsync(string name, Action<SpriteAtlas> action)
         {
-            // resLoader.Add2Load(name, (succeed, res) =>
-            // {
-            //     if (succeed) action?.Invoke(res.Asset.As<SpriteAtlas>());
-            // });
-            // resLoader.LoadAsync();
+            resLoader.Add2Load(name, (succeed, res) =>
+            {
+                if (succeed)
+                    action?.Invoke(res.Asset.As<SpriteAtlas>());
+            });
+            resLoader.LoadAsync();
         }
 
         /// <summary>
@@ -78,7 +67,8 @@ namespace GDFramework.Utility
         {
             resLoader.Add2Load(name, (succeed, res) =>
             {
-                if (succeed) action?.Invoke(res.Asset.As<Sprite>());
+                if (succeed) 
+                    action?.Invoke(res.Asset.As<Sprite>());
             });
             resLoader.LoadAsync();
         }
@@ -92,7 +82,8 @@ namespace GDFramework.Utility
         {
             resLoader.Add2Load(name, (succeed, res) =>
             {
-                if (succeed) action?.Invoke(res.Asset.As<AudioClip>());
+                if (succeed) 
+                    action?.Invoke(res.Asset.As<AudioClip>());
             });
             resLoader.LoadAsync();
         }
@@ -106,7 +97,8 @@ namespace GDFramework.Utility
         {
             resLoader.Add2Load(name, (succeed, res) =>
             {
-                if (succeed) action?.Invoke(res.Asset.As<GameObject>());
+                if (succeed)
+                    action?.Invoke(res.Asset.As<GameObject>());
             });
             resLoader.LoadAsync();
         }
@@ -146,7 +138,8 @@ namespace GDFramework.Utility
         {
             resLoader.Add2Load(name, (succeed, res) =>
             {
-                if (succeed) action?.Invoke(res.Asset.As<TextAsset>());
+                if (succeed) 
+                    action?.Invoke(res.Asset.As<TextAsset>());
             });
             resLoader.LoadAsync();
         }

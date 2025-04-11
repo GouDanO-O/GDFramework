@@ -51,7 +51,7 @@ namespace GDFrameworkExtend.UIKit
 			strBuilder.AppendLine("using System.Collections.Generic;");
 			strBuilder.AppendLine("using UnityEngine;");
 			strBuilder.AppendLine("using UnityEngine.UI;");
-			strBuilder.AppendLine("using QFramework;").AppendLine();
+			strBuilder.AppendLine("using GDFrameworkExtend.UIKit;").AppendLine();
 
 			strBuilder.AppendLine("namespace " + nameSpace);
 			strBuilder.AppendLine("{");

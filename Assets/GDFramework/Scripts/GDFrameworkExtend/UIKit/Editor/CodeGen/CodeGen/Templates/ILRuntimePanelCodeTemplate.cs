@@ -35,7 +35,7 @@ namespace GDFrameworkExtend.UIKit
             var sw = new StreamWriter(generateFilePath, false, Encoding.UTF8);
             var strBuilder = new StringBuilder();
 
-            strBuilder.AppendLine("using GDFrameworkCore;").AppendLine();
+            strBuilder.AppendLine("using GDFrameworkExtend.UIKit;").AppendLine();
 
             strBuilder.AppendLine("namespace " + nameSpace);
             strBuilder.AppendLine("{");
