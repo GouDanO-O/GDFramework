@@ -20,12 +20,10 @@ namespace GDAssetBundle
         public const string BundleName = "gameinput_inputactions";
         public const string GameInput = "GameInput";
     }
-                                                                                                                 
     public class Simplifiedchinese
     {
         public const string BundleName = "simplifiedchinese";
     }
-    
     public class Tbmultilingual_json
     {
         public const string BundleName = "tbmultilingual_json";

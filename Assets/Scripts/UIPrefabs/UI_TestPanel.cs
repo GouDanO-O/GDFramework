@@ -1,8 +1,8 @@
-using GDFrameworkExtend.UIKit;
 using UnityEngine;
 using UnityEngine.UI;
+using GDFrameworkExtend.UIKit;
 
-namespace GDFramework.Example
+namespace GDFramework.View
 {
 	public class UI_TestPanelData : UIPanelData
 	{

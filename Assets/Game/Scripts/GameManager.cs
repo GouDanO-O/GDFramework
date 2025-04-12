@@ -10,8 +10,6 @@ namespace Game
     /// </summary>
     public class GameManager : FrameManager
     {
-        
-
         protected override void InitProcedure()
         {
             base.InitProcedure();

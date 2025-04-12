@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using GDFrameworkExtend.UIKit;
 
-namespace GDFramework.Example
+namespace GDFramework.View
 {
-	// Generate Id:5e5ccfee-1a68-418e-8f92-d2cfd5ec6c3e
+	// Generate Id:a0c92853-a5e6-4aaf-8b04-4450cf72c558
 	public partial class UI_TestPanel
 	{
 		public const string Name = "UI_TestPanel";

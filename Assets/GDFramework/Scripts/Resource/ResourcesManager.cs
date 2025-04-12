@@ -25,7 +25,6 @@ namespace GDFramework.Resource
             _loader = this.GetUtility<ResoucesUtility>();
         }
         
-        
         /// <summary>
         /// 开始加载模块的资源
         /// </summary>

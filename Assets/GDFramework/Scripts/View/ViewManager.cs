@@ -1,3 +1,4 @@
+
 using GDFrameworkCore;
 using GDFrameworkExtend.UIKit;
 
@@ -15,7 +16,7 @@ namespace GDFramework.View
         /// </summary>
         public void EnterMenu()
         {
-           
+            UIKit.OpenPanel<UI_TestPanel>();
         }
 
         /// <summary>

@@ -11,17 +11,14 @@ namespace GDFrameworkExtend.YooAssetKit
         private string _location;
         public override bool LoadSync()
         {
-            var pg = YooAssets.GetPackage("DefaultPackage");
             var _syncOperationHandle = YooAssets.LoadAssetSync<Object>(_location);
             mAsset = _syncOperationHandle.AssetObject;
             State = ResState.Ready;
-
             return true;
         }
 
         public override async void LoadAsync()
         {
-            var pg = YooAssets.GetPackage("DefaultPackage");
             var  _asyncOperationHandle =YooAssets.LoadAssetSync<Object>(_location);
             await _asyncOperationHandle.Task;
             mAsset = _asyncOperationHandle.AssetObject;
@@ -39,6 +36,15 @@ namespace GDFrameworkExtend.YooAssetKit
             var res = SafeObjectPool<YooAssetRes>.Instance.Allocate();
             if (res != null)
             {
+                if (originalAssetName.StartsWith("yoo://"))
+                {
+                    originalAssetName = originalAssetName.Substring("yoo://".Length);
+                }
+                if(originalAssetName.StartsWith("yoo:"))
+                {
+                    originalAssetName = originalAssetName.Substring("yoo:".Length);
+                }
+                
                 res.AssetName = name;
                 res._location = originalAssetName;
             }
@@ -62,7 +68,7 @@ namespace GDFrameworkExtend.YooAssetKit
 
         public bool Match(ResSearchKeys resSearchKeys)
         {
-            return true;
+            return resSearchKeys.AssetName.StartsWith("yoo://") || resSearchKeys.OriginalAssetName.StartsWith("yoo:");
         }
     }
 }

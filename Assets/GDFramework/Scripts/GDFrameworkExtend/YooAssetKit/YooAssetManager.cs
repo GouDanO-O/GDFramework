@@ -42,10 +42,10 @@ namespace GDFrameworkExtend.YooAssetKit
 
         public void InitYooAssetKit(Action callback)
         {
-            this.GetUtility<CoroutineMonoUtility>().StartCoroutine(InitYooAsset(callback));
             ResKit.ResKit.Init();
             UIKit.UIKit.Config.PanelLoaderPool = new YooAssetsPanelLoaderPool();
             ResFactory.AddResCreator<YooAssetResCreator>();
+            this.GetUtility<CoroutineMonoUtility>().StartCoroutine(InitYooAsset(callback));
         }
         
         /// <summary>
@@ -56,7 +56,7 @@ namespace GDFrameworkExtend.YooAssetKit
             YooAssets.Initialize();
             
             // 开始补丁更新流程
-            PatchOperation = new PatchOperation(PackageName, PlayMode);
+            PatchOperation = new PatchOperation();
             YooAssets.StartOperation(PatchOperation);
             yield return PatchOperation;
             

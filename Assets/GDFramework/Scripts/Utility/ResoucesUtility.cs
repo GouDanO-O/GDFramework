@@ -12,6 +12,11 @@ namespace GDFramework.Utility
     public class ResoucesUtility : BasicToolUtility
     {
         private ResLoader resLoader;
+
+        public ResoucesUtility()
+        {
+            InitUtility();
+        }
         
         public override void InitUtility()
         {
@@ -24,7 +29,6 @@ namespace GDFramework.Utility
             {
                 resLoader = ResLoader.Allocate();
             }
-            
         }
 
         /// <summary>

@@ -12,20 +12,13 @@ namespace GDFrameworkExtend.YooAssetKit
             Update,
             Done,
         }
-
-        private readonly string _packageName;
-        
-        private EPlayMode _playMode;
         
         private ESteps _steps = ESteps.None;
         
         private FsmManager _fsmManager;
 
-        public PatchOperation(string packageName, EPlayMode playMode)
+        public PatchOperation()
         {
-            _packageName = packageName;
-            _playMode = playMode;
-            
             _fsmManager = new FsmManager();
             _fsmManager.Init();
             AddFsmNode();

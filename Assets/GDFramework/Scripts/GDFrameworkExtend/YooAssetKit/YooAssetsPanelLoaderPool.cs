@@ -21,9 +21,10 @@ namespace GDFrameworkExtend.YooAssetKit
 
                 if (panelSearchKeys.PanelType.IsNotNull() && panelSearchKeys.GameObjName.IsNullOrEmpty())
                 {
-                    return _resLoader.LoadSync<GameObject>(panelSearchKeys.PanelType.Name);
+                    return _resLoader.LoadSync<GameObject>($"yoo:{panelSearchKeys.PanelType.Name}");
                 }
-               return _resLoader.LoadSync<GameObject>(panelSearchKeys.GameObjName);
+                
+                return _resLoader.LoadSync<GameObject>($"yoo:{panelSearchKeys.GameObjName}");
             }
 
             public void LoadPanelPrefabAsync(PanelSearchKeys panelSearchKeys, Action<GameObject> onLoad)
@@ -35,7 +36,7 @@ namespace GDFrameworkExtend.YooAssetKit
 
                 if (panelSearchKeys.PanelType.IsNotNull() && panelSearchKeys.GameObjName.IsNullOrEmpty())
                 {
-                    _resLoader.Add2Load<GameObject>(panelSearchKeys.PanelType.Name, (success, res) =>
+                    _resLoader.Add2Load<GameObject>($"yoo:{panelSearchKeys.PanelType.Name}", (success, res) =>
                     {
                         if (success)
                         {
@@ -46,7 +47,7 @@ namespace GDFrameworkExtend.YooAssetKit
                     return;
                 }
 
-                _resLoader.Add2Load<GameObject>(panelSearchKeys.GameObjName, (success, res) =>
+                _resLoader.Add2Load<GameObject>($"yoo:{panelSearchKeys.GameObjName}", (success, res) =>
                 {
                     if (success)
                     {

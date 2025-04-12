@@ -41,12 +41,10 @@ namespace GDFrameworkExtend.UIKit
 
         public IUIData UIData;
         
-        
         public IPanel Panel;
         
         public PanelOpenType OpenType = PanelOpenType.Single;
-
-
+        
         public void OnRecycled()
         {
             PanelType = null;
