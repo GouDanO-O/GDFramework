@@ -64,7 +64,7 @@ namespace YooAsset.Editor
         private bool _showPackageSettings = false;
 
 
-        public void CreateGUI()
+        public virtual void CreateGUI()
         {
             try
             {
