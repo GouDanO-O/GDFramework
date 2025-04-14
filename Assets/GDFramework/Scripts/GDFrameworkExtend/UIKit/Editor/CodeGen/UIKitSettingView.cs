@@ -18,7 +18,7 @@ namespace GDFrameworkExtend.UIKit
   public class UIKitEditorWindow : EditorWindow
     {
 
-        [MenuItem("GDFramework/UI Kit %#u")]
+        [MenuItem("Tools/UI Kit %#u")]
         public static void OpenWindow()
         {
             var window = (UIKitEditorWindow)GetWindow(typeof(UIKitEditorWindow), true);

@@ -11,7 +11,7 @@ namespace YooAsset.Editor
 {
     public class AssetCodeGenerator
     {
-        [MenuItem("YooAsset/Generate Asset Code", false, 102)]
+        [MenuItem("YooAsset/Generate Asset Code")]
         public static void GenerateAssetCode()
         {
             StringBuilder codeBuilder = new StringBuilder();
@@ -22,15 +22,8 @@ namespace YooAsset.Editor
             codeBuilder.AppendLine();
             
             // Add namespace
-            codeBuilder.AppendLine("namespace YooAsset");
+            codeBuilder.AppendLine("namespace GDFramework.FrameData");
             codeBuilder.AppendLine("{");
-            
-            // Begin main Assets class
-            codeBuilder.AppendLine("    /// <summary>");
-            codeBuilder.AppendLine("    /// Asset path constants for use with YooAsset");
-            codeBuilder.AppendLine("    /// </summary>");
-            codeBuilder.AppendLine("    public static class Assets");
-            codeBuilder.AppendLine("    {");
             
             // Process each package
             foreach (var package in AssetBundleCollectorSettingData.Setting.Packages)
@@ -38,8 +31,6 @@ namespace YooAsset.Editor
                 ProcessPackage(package, codeBuilder);
             }
             
-            // End class and namespace
-            codeBuilder.AppendLine("    }");
             codeBuilder.AppendLine("}");
             
             // Write to file
@@ -52,34 +43,26 @@ namespace YooAsset.Editor
         private static void ProcessPackage(AssetBundleCollectorPackage package, StringBuilder codeBuilder)
         {
             codeBuilder.AppendLine();
-            codeBuilder.AppendLine($"        /// <summary>");
-            codeBuilder.AppendLine($"        /// Assets in package: {package.PackageName}");
-            codeBuilder.AppendLine($"        /// </summary>");
-            codeBuilder.AppendLine($"        public static class {SanitizeIdentifier(package.PackageName)}");
-            codeBuilder.AppendLine("        {");
+            codeBuilder.AppendLine($"   public class {SanitizeIdentifier(package.PackageName)}");
+            codeBuilder.AppendLine("    {");
             
             // Process each group within the package
             foreach (var group in package.Groups)
             {
-                ProcessGroup(group, codeBuilder);
+                ProcessGroup(group, codeBuilder, package.PackageName);
             }
             
-            codeBuilder.AppendLine("        }");
+            codeBuilder.AppendLine("    }");
         }
         
-        private static void ProcessGroup(AssetBundleCollectorGroup group, StringBuilder codeBuilder)
+        private static void ProcessGroup(AssetBundleCollectorGroup group, StringBuilder codeBuilder, string packageName)
         {
             if (!IsGroupActive(group))
                 return;
                 
             codeBuilder.AppendLine();
-            codeBuilder.AppendLine($"            /// <summary>");
-            codeBuilder.AppendLine($"            /// Assets in group: {group.GroupName}");
-            if (!string.IsNullOrEmpty(group.GroupDesc))
-                codeBuilder.AppendLine($"            /// {group.GroupDesc}");
-            codeBuilder.AppendLine($"            /// </summary>");
-            codeBuilder.AppendLine($"            public static class {SanitizeIdentifier(group.GroupName)}");
-            codeBuilder.AppendLine("            {");
+            codeBuilder.AppendLine($"       public class {SanitizeIdentifier(group.GroupName)}");
+            codeBuilder.AppendLine("       {");
             
             // Process collectors within the group
             foreach (var collector in group.Collectors)
@@ -87,13 +70,13 @@ namespace YooAsset.Editor
                 if (string.IsNullOrEmpty(collector.CollectPath))
                     continue;
                     
-                ProcessCollector(collector, codeBuilder);
+                ProcessCollector(collector, codeBuilder, packageName);
             }
             
-            codeBuilder.AppendLine("            }");
+            codeBuilder.AppendLine("       }");
         }
         
-        private static void ProcessCollector(AssetBundleCollector collector, StringBuilder codeBuilder)
+        private static void ProcessCollector(AssetBundleCollector collector, StringBuilder codeBuilder, string packageName)
         {
             try
             {
@@ -101,17 +84,43 @@ namespace YooAsset.Editor
                     collector.CollectorType == ECollectorType.StaticAssetCollector)
                 {
                     string collectPath = collector.CollectPath;
+                    bool isFolder = AssetDatabase.IsValidFolder(collectPath);
                     
-                    // Handle folder collection
-                    if (AssetDatabase.IsValidFolder(collectPath))
+                    // Generate bundle name from collect path
+                    string bundleName = GenerateBundleName(packageName, collectPath);
+                    string className = SanitizeIdentifier(packageName);
+                    
+                    codeBuilder.AppendLine();
+                    codeBuilder.AppendLine($"           public class {className}");
+                    codeBuilder.AppendLine("           {");
+                    codeBuilder.AppendLine($"               public const string BundleName = \"{bundleName}\";");
+                    
+                    // Collect all valid asset addresses
+                    HashSet<string> addresses = new HashSet<string>();
+                    if (isFolder)
                     {
-                        ProcessFolder(collectPath, codeBuilder);
+                        string[] assetGuids = AssetDatabase.FindAssets("t:Object", new[] { collectPath });
+                        foreach (string guid in assetGuids)
+                        {
+                            string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+                            if (ShouldSkipAsset(assetPath)) 
+                                continue;
+                            addresses.Add(Path.GetFileNameWithoutExtension(assetPath));
+                        }
                     }
-                    // Handle single asset collection
                     else
                     {
-                        ProcessSingleAsset(collectPath, codeBuilder);
+                        addresses.Add(Path.GetFileNameWithoutExtension(collectPath));
                     }
+                    
+                    // Generate address constants
+                    foreach (var address in addresses)
+                    {
+                        string constantName = SanitizeIdentifier(address);
+                        codeBuilder.AppendLine($"               public const string {constantName} = \"yoo:{address}\";");
+                    }
+                    
+                    codeBuilder.AppendLine("           }");
                 }
             }
             catch (Exception ex)
@@ -120,46 +129,37 @@ namespace YooAsset.Editor
             }
         }
         
-        private static void ProcessFolder(string folderPath, StringBuilder codeBuilder)
+        private static bool ShouldSkipAsset(string assetPath)
         {
-            // Get all asset files in the folder and its subfolders
-            string[] assetGuids = AssetDatabase.FindAssets("t:Object", new[] { folderPath });
-            
-            foreach (string guid in assetGuids)
-            {
-                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                
-                // Skip folders and certain file types
-                if (AssetDatabase.IsValidFolder(assetPath) || 
-                    assetPath.EndsWith(".cs") || 
-                    assetPath.EndsWith(".js") || 
-                    assetPath.EndsWith(".dll"))
-                    continue;
-                    
-                ProcessSingleAsset(assetPath, codeBuilder);
-            }
+            return AssetDatabase.IsValidFolder(assetPath) || 
+                   assetPath.EndsWith(".cs") || 
+                   assetPath.EndsWith(".js") || 
+                   assetPath.EndsWith(".dll");
         }
         
-        private static void ProcessSingleAsset(string assetPath, StringBuilder codeBuilder)
+        // 生成与构建结果一致的BundleName
+        private static string GenerateBundleName(string packageName, string collectPath)
         {
-            if (string.IsNullOrEmpty(assetPath) || !File.Exists(assetPath))
-                return;
-                
-            // Get a clean asset name for the constant
-            string assetName = Path.GetFileNameWithoutExtension(assetPath);
-            string constantName = SanitizeIdentifier(assetName);
+            // 统一转换为小写
+            packageName = packageName.ToLower();
             
-            // Skip invalid names
-            if (string.IsNullOrEmpty(constantName) || char.IsDigit(constantName[0]))
-                constantName = "_" + constantName;
-                
-            if (string.IsNullOrEmpty(constantName))
-                return;
-                
-            // Add the constant declaration
-            codeBuilder.AppendLine($"                /// <summary>Asset: {assetPath}</summary>");
-            codeBuilder.AppendLine($"                public const string {constantName} = \"{assetPath}\";");
-            codeBuilder.AppendLine();
+            // 处理路径规则（与YooAsset构建逻辑匹配）
+            string normalizedPath = collectPath
+                .Replace("Assets/", "")      // 移除Assets前缀
+                .ToLower()                   // 全小写
+                .Replace('/', '_')           // 替换路径分隔符
+                .Replace(' ', '_');          // 替换空格
+            
+            // 如果是文件，取所在目录
+            if (!AssetDatabase.IsValidFolder(collectPath))
+            {
+                string dirPath = Path.GetDirectoryName(normalizedPath);
+                if (!string.IsNullOrEmpty(dirPath))
+                    normalizedPath = dirPath;
+            }
+            
+            // 合并包名与路径
+            return $"{packageName}_{normalizedPath}";
         }
         
         private static bool IsGroupActive(AssetBundleCollectorGroup group)
@@ -173,9 +173,8 @@ namespace YooAsset.Editor
             if (string.IsNullOrEmpty(input))
                 return "Default";
                 
-            // Replace non-alphanumeric characters with underscores
+            // 保留字母数字，其他字符转下划线
             StringBuilder sb = new StringBuilder();
-            
             foreach (char c in input)
             {
                 if (char.IsLetterOrDigit(c))
@@ -185,8 +184,6 @@ namespace YooAsset.Editor
             }
             
             string result = sb.ToString();
-            
-            // Ensure it doesn't start with a number
             if (char.IsDigit(result[0]))
                 result = "_" + result;
                 
@@ -195,17 +192,12 @@ namespace YooAsset.Editor
         
         private static void SaveToFile(string content)
         {
-            // Create the Scripts directory if it doesn't exist
-            string directoryPath = "Assets/Scripts/YooAsset";
+            string directoryPath = "Assets/GDFramework/GDFrameworkData";
             if (!Directory.Exists(directoryPath))
-            {
                 Directory.CreateDirectory(directoryPath);
-            }
             
-            // Write the generated code to a file
             string filePath = Path.Combine(directoryPath, "AssetPathConstants.cs");
             File.WriteAllText(filePath, content, Encoding.UTF8);
-            
             Debug.Log($"Asset constants saved to {filePath}");
         }
     }

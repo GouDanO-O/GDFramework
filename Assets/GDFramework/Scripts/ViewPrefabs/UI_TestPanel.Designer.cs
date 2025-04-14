@@ -5,7 +5,7 @@ using GDFrameworkExtend.UIKit;
 
 namespace GDFramework.View
 {
-	// Generate Id:a0c92853-a5e6-4aaf-8b04-4450cf72c558
+	// Generate Id:0d44ce71-64be-4667-b7e8-a58fbdf9b439
 	public partial class UI_TestPanel
 	{
 		public const string Name = "UI_TestPanel";

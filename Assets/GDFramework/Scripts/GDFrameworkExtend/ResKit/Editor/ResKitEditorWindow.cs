@@ -52,7 +52,7 @@ namespace GDFrameworkExtend.ResKit
             return mConfigInstance;
         }
 
-        [MenuItem("Tools/Res Kit %#r")]
+        //[MenuItem("Tools/Res Kit %#r")]
         public static void OpenWindow()
         {
             var window = (ResKitEditorWindow)GetWindow(typeof(ResKitEditorWindow), true);

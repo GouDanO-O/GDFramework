@@ -75,7 +75,6 @@ namespace GDFrameworkExtend.ResKit
         public static void Add2Load(this IResLoader self, string assetName, Action<bool, IRes> listener = null,
             bool lastOrder = true)
         {
-            
             var searchRule = ResSearchKeys.Allocate(assetName);
             self.Add2Load(searchRule, listener, lastOrder);
             searchRule.Recycle2Cache();
@@ -98,8 +97,7 @@ namespace GDFrameworkExtend.ResKit
                 searchRule.Recycle2Cache();
             }
         }
-
-
+        
         public static void Add2Load(this IResLoader self, string ownerBundle, string assetName,
             Action<bool, IRes> listener = null,
             bool lastOrder = true)

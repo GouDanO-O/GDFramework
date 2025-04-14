@@ -45,7 +45,7 @@ namespace GDFrameworkExtend.ResKit
 			var path = GetSelectedPathOrFallback();
 			if (!string.IsNullOrEmpty(path))
 			{
-				Menu.SetChecked(Mark_AssetBundle, Marked(path));
+				//Menu.SetChecked(Mark_AssetBundle, Marked(path));
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace GDFrameworkExtend.ResKit
 		}
 
 
-		[MenuItem(Mark_AssetBundle)]
+		//[MenuItem(Mark_AssetBundle)]
 		public static void MarkPTABDir()
 		{
 			var path = GetSelectedPathOrFallback();

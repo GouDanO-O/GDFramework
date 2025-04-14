@@ -1,4 +1,5 @@
-﻿using GDFramework.Input;
+﻿using GDFramework.FrameData;
+using GDFramework.Input;
 using GDFramework.Models;
 using GDFrameworkCore;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace GDFramework.Resource
             _gameDataModel = this.GetModel<GameDataModel>();
             WillLoadResourcesList.Add(new SResourcesLoaderNode()
             {
-                dataName = GDAssetBundle.Gameinput_inputactions.GameInput,
+                dataName = DefaultPackage.GameModelData.defaultpackage_gdframework_gdframeworkdata_gameinput_inputactions.GameInput,
                 loaderCallback = data =>
                 {
                     _gameDataModel.InputActionAsset = data as InputActionAsset;
@@ -28,7 +29,7 @@ namespace GDFramework.Resource
             });
             WillLoadResourcesList.Add(new SResourcesLoaderNode()
             {
-                dataName = GDAssetBundle.Tbmultilingual_json.tbmultilingual,
+                dataName = DefaultPackage.GameModelData.defaultpackage_gdframework_res_mul_tbmultilingual_json.tbmultilingual,
                 loaderCallback = data =>
                 {
                     this.GetModel<MultilingualDataModel>().SetTextAsset(data as TextAsset);

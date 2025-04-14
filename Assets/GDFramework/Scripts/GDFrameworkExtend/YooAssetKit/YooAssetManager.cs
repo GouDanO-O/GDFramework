@@ -35,6 +35,9 @@ namespace GDFrameworkExtend.YooAssetKit
         
         public PatchOperation PatchOperation;
         
+        private List<AssetHandle> _assetHandleList = new List<AssetHandle>();
+        private List<ResourcePackage> _resourcePackageList = new List<ResourcePackage>();
+        
         protected override void OnInit()
         {
             
@@ -42,7 +45,9 @@ namespace GDFrameworkExtend.YooAssetKit
 
         public void InitYooAssetKit(Action callback)
         {
+            YooAssets.Initialize();
             ResKit.ResKit.Init();
+            AudioKit.AudioKit.Config.AudioLoaderPool = new YooAssetsAudioLoaderPool();
             UIKit.UIKit.Config.PanelLoaderPool = new YooAssetsPanelLoaderPool();
             ResFactory.AddResCreator<YooAssetResCreator>();
             this.GetUtility<CoroutineMonoUtility>().StartCoroutine(InitYooAsset(callback));
@@ -53,8 +58,6 @@ namespace GDFrameworkExtend.YooAssetKit
         /// </summary>
         private IEnumerator InitYooAsset(Action callBack)
         {
-            YooAssets.Initialize();
-            
             // 开始补丁更新流程
             PatchOperation = new PatchOperation();
             YooAssets.StartOperation(PatchOperation);
@@ -102,7 +105,30 @@ namespace GDFrameworkExtend.YooAssetKit
         {
             
         }
+
+        public void AddAssetHandle(AssetHandle assetHandle,ResourcePackage resourcePackage)
+        {
+            _assetHandleList.Add(assetHandle);
+            _resourcePackageList.Add(resourcePackage);
+        }
         
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        public void Release() 
+        {
+            foreach (AssetHandle mHandles in _assetHandleList)
+            {
+                mHandles.Release();
+            }
+            _assetHandleList.Clear();
+
+            foreach (ResourcePackage mPackage in _resourcePackageList)
+            {
+                mPackage.UnloadUnusedAssetsAsync();
+            }
+            _resourcePackageList.Clear();
+        }
     }
 }
 
