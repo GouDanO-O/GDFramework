@@ -38,7 +38,7 @@ namespace GDFrameworkExtend.ResKit
                 {
                     mConfigInstance = new EncryptConfig();
 
-                    string savePath = Application.dataPath + "QFrameworkData/Resources/EncryptConfig.Json";
+                    string savePath = Application.dataPath + "GDFramework/GDFrameworkData/EncryptConfig.Json";
                     using (FileStream fs = new FileStream(savePath, FileMode.OpenOrCreate))
                     {
                         using (StreamWriter sw = new StreamWriter(fs, System.Text.Encoding.UTF8))

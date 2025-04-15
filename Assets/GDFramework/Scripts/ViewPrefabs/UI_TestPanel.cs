@@ -12,7 +12,6 @@ namespace GDFramework.View
 		protected override void OnInit(IUIData uiData = null)
 		{
 			mData = uiData as UI_TestPanelData ?? new UI_TestPanelData();
-			// please add init code here
 		}
 		
 		protected override void OnOpen(IUIData uiData = null)
