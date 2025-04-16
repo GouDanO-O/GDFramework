@@ -20,11 +20,11 @@ namespace Game.Procedure
 
         public override void OnEnter()
         {
-            SceneManager sceneManager = this.GetSystem<SceneManager>();
-            sceneManager.onLoadScene.Invoke(ESceneName.Menu);
+            SceneLoaderKit sceneLoaderKit = this.GetSystem<SceneLoaderKit>();
+            sceneLoaderKit.onLoadScene.Invoke(ESceneName.Menu);
 
-            sceneManager.OnSceneLoadStart += LoadMenuSceneStart;
-            sceneManager.OnSceneLoadComplete += LoadMenuSceneComplete;
+            sceneLoaderKit.OnSceneLoadStart += LoadMenuSceneStart;
+            sceneLoaderKit.OnSceneLoadComplete += LoadMenuSceneComplete;
         }
 
         /// <summary>

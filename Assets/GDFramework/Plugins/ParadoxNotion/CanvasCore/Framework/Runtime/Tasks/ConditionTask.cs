@@ -9,9 +9,16 @@ using UnityEngine;
 namespace NodeCanvas.Framework
 {
 
-    ///<summary>Base class for Conditions. Conditions dont span multiple frames like actions and return true or false immediately on execution. Derive this to create your own.</summary>
-    //Generic version to define the AgentType where T is the agentType (Component or Interface) required by the Condition.
-    //For GameObject, use 'Transform'
+    ///<summary>
+    /// 条件的基类
+    /// 条件不像动作那样跨越多个帧
+    /// 条件在执行时立即返回true或false
+    /// 推导出这个来创建你自己的
+    ///
+    /// 通用版本
+    /// 用于定义AgentType，其中T是条件要求的AgentType（组件或接口）
+    /// 对于GameObject，使用“Transform”
+    /// </summary>
     abstract public class ConditionTask<T> : ConditionTask where T : class
     {
         sealed public override Type agentType { get { return typeof(T); } }

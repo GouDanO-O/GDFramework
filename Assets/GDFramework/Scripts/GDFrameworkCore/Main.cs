@@ -1,5 +1,6 @@
 using Game.Models.Resource;
 using GDFramework.Input;
+using GDFramework.Mission;
 using GDFramework.Models;
 using GDFramework.Multilingual;
 using GDFrameworkCore;
@@ -34,7 +35,7 @@ namespace GDFrameworkCore
         protected void Register_System()
         {
             this.RegisterSystem(new ResourcesManager());
-            this.RegisterSystem(new SceneManager());
+            this.RegisterSystem(new SceneLoaderKit());
             this.RegisterSystem(new MultilingualManager());
             this.RegisterSystem(new ViewManager());
             this.RegisterSystem(new SdkManager());

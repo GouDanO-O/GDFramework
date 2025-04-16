@@ -10,44 +10,67 @@ using UnityEngine;
 namespace NodeCanvas.Framework
 {
 
-    ///<summary>Base class for actions. Extend this to create your own. T is the agentType required by the action. Generic version where T is the AgentType (Component or Interface) required by the Action. For GameObject, use 'Transform'</summary>
+    ///<summary>
+    /// 行为的基类
+    /// 扩展它来创建您自己的
+    /// T是操作所需的agentType
+    /// 通用版本，其中T是操作所需的AgentType（组件或接口）
+    /// 对于GameObject，使用“Transform”
+    /// </summary>
     abstract public class ActionTask<T> : ActionTask where T : class
     {
         sealed public override Type agentType => typeof(T);
         new public T agent => base.agent as T;
     }
 
-    ///----------------------------------------------------------------------------------------------
-
+    
+    /// <summary>
+    /// 所有动作的基类
+    /// 扩展它来创建您自己的
+    /// </summary>
 #if UNITY_EDITOR //handles missing types
     [fsObject(Processor = typeof(fsRecoveryProcessor<ActionTask, MissingAction>))]
 #endif
-
-    ///<summary>Base class for all actions. Extend this to create your own.</summary>
-    abstract public class ActionTask : Task
+    public abstract class ActionTask : Task
     {
         private Status status = Status.Resting;
         private float timeStarted;
         private bool latch;
 
-        ///<summary>The time in seconds this action is running if at all</summary>
+        ///<summary>
+        /// 此操作运行的时间（以秒为单位）
+        /// </summary>
         public float elapsedTime => ( isRunning ? ownerSystem.elapsedTime - timeStarted : 0 );
 
-        ///<summary>Is the action currently running?</summary>
+        ///<summary>
+        /// 操作当前是否正在运行？
+        /// </summary>
         public bool isRunning => status == Status.Running;
 
-        ///<summary>Is the action currently paused?</summary>
+        ///<summary>
+        /// 操作当前是否暂停？
+        /// </summary>
         public bool isPaused { get; private set; }
 
         ///----------------------------------------------------------------------------------------------
 
-        ///<summary>Used to call an action for standalone execution providing a callback. Be careful! *This will make the action execute as a coroutine*</summary>
+        ///<summary>
+        /// 用于调用提供回调的独立执行操作
+        /// 这将使动作作为协程执行
+        /// </summary>
         public void ExecuteIndependent(Component agent, IBlackboard blackboard, Action<Status> callback) {
             if ( !isRunning ) { MonoManager.current.StartCoroutine(IndependentActionUpdater(agent, blackboard, callback)); }
         }
 
-        //The internal updater for when an action has been called with a callback parameter and only then.
-        //This is only used and usefull if user needs to execute an action task completely as standalone.
+       
+        /// <summary>
+        /// 内部更新程序,用于在带有回调参数的操作被调用时使用
+        /// 这只在用户需要完全独立执行操作任务时才有用
+        /// </summary>
+        /// <param name="agent"></param>
+        /// <param name="blackboard"></param>
+        /// <param name="callback"></param>
+        /// <returns></returns>
         IEnumerator IndependentActionUpdater(Component agent, IBlackboard blackboard, Action<Status> callback) {
             while ( Execute(agent, blackboard) == Status.Running ) { yield return null; }
             if ( callback != null ) { callback(status); }
@@ -55,7 +78,9 @@ namespace NodeCanvas.Framework
 
         ///----------------------------------------------------------------------------------------------
 
-        ///<summary>Ticks the action for the provided agent and blackboard</summary>
+        ///<summary>
+        /// 勾出所提供的代理和黑板的动作
+        /// </summary>
         public Status Execute(Component agent, IBlackboard blackboard) {
 
             if ( !isUserEnabled ) {
@@ -73,7 +98,7 @@ namespace NodeCanvas.Framework
                 return status;
             }
 
-            //latch is used to be able to call EndAction anywhere
+            //latch用于能够在任何地方调用EndAction
             if ( latch ) {
                 latch = false;
                 return status;
@@ -94,7 +119,12 @@ namespace NodeCanvas.Framework
             return status;
         }
 
-        ///<summary>Ends the action either in success or failure. Ending with null means that it's a cancel/interrupt. Null is used by the external system. You should use true or false when calling EndAction within it.</summary>
+        ///<summary>
+        /// 以成功或失败结束动作
+        /// 以null结尾意味着这是一个取消/中断
+        /// Null由外部系统使用
+        /// 在它内部调用EndAction时应该使用true或false
+        /// </summary>
         public void EndAction() { EndAction(true); }
         public void EndAction(bool success) { EndAction((bool?)success); }
         public void EndAction(bool? success) {
@@ -111,7 +141,9 @@ namespace NodeCanvas.Framework
             OnStop(success == null);
         }
 
-        ///<summary>Pause the action from updating and calls OnPause</summary>
+        ///<summary>
+        /// 暂停动作更新并调用OnPause
+        /// </summary>
         public void Pause() {
 
             if ( status != Status.Running ) {
@@ -124,17 +156,40 @@ namespace NodeCanvas.Framework
 
         ///----------------------------------------------------------------------------------------------
 
-        ///<summary>Called once when the actions is executed.</summary>
+        ///<summary>
+        /// 在动作执行时调用一次
+        /// </summary>
         virtual protected void OnExecute() { }
-        ///<summary>Called every frame, if and while the action is running and until it ends.</summary>
+        
+        ///<summary>
+        /// 每一帧调用
+        /// 如果和当动作正在运行，直到它结束
+        /// </summary>
         virtual protected void OnUpdate() { }
-        ///<summary>Called whenever the action ends due to any reason with the argument denoting whether the action was interrupted or finished properly.</summary>
-        virtual protected void OnStop(bool interrupted) { OnStop(); }
-        ///<summary>Called whenever the action ends due to any reason.</summary>
+
+        ///<summary>
+        /// 当操作因任何原因结束时调用
+        /// 参数表示操作是否被中断或正确完成
+        /// </summary>
+        virtual protected void OnStop(bool interrupted)
+        {
+            OnStop();
+        }
+        
+        
+        ///<summary>
+        /// 当操作因任何原因结束时调用
+        /// </summary>
         virtual protected void OnStop() { }
-        ///<summary>Called when the action gets paused</summary>
+        
+        ///<summary>
+        /// 当动作暂停时调用
+        /// </summary>
         virtual protected void OnPause() { }
-        ///<summary>Called when the action resumes after being paused</summary>
+        
+        ///<summary>
+        /// 当动作暂停后恢复时调用
+        /// </summary>
         virtual protected void OnResume() { }
         ///----------------------------------------------------------------------------------------------
 

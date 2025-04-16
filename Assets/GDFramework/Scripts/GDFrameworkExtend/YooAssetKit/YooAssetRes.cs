@@ -54,15 +54,6 @@ namespace GDFrameworkExtend.YooAssetKit
                     originalAssetName = originalAssetName.Substring("yoo:".Length);
                 }
                 
-                // if(originalAssetName.StartsWith("yoo:"))
-                // {
-                //     originalAssetName = originalAssetName.Substring("yoo:".Length);
-                // }
-                // if(name.StartsWith("yoo:"))
-                // {
-                //     name = name.Substring("yoo:".Length);
-                // }
-                
                 res.AssetName = name;
                 res._location = originalAssetName;
             }
