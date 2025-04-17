@@ -1,6 +1,8 @@
-﻿namespace GDFramework.World
+﻿using UnityEngine;
+
+namespace GDFramework.World
 {
-    public abstract class BaseObj : IObj
+    public abstract class BaseObj : MonoBehaviour,IObj
     {
         public int UniqueObjId { get; set; }
 
@@ -9,5 +11,7 @@
         public abstract void InitObj();
 
         public abstract void DeInitObj();
+
+        public abstract void UpdateObjLogic();
     }
 }

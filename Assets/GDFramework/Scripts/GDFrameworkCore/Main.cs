@@ -1,17 +1,14 @@
 using Game.Models.Resource;
 using GDFramework.Input;
-using GDFramework.Mission;
+using GDFramework.LubanKit;
 using GDFramework.Models;
 using GDFramework.Multilingual;
-using GDFrameworkCore;
-using GDFramework.Procedure;
 using GDFramework.Resource;
 using GDFramework.Scene;
 using GDFramework.SDK;
 using GDFramework.Utility;
 using GDFramework.View;
-using GDFrameworkExtend.UIKit;
-using GDFrameworkExtend.YooAssetKit;
+using GDFramework.YooAssetKit;
 
 namespace GDFrameworkCore
 {
@@ -27,6 +24,7 @@ namespace GDFrameworkCore
             Register_System();
             Register_Event();
 
+            LoadFrameSettingUtility();
         }
     
         /// <summary>
@@ -40,6 +38,7 @@ namespace GDFrameworkCore
             this.RegisterSystem(new ViewManager());
             this.RegisterSystem(new SdkManager());
             this.RegisterSystem(new YooAssetManager());
+            this.RegisterSystem(new LubanKit());
             
             this.RegisterSystem(new NewInputManager());
         }
@@ -55,16 +54,6 @@ namespace GDFrameworkCore
             this.RegisterModel(new CheatDataModel());
             this.RegisterModel(new GameDataModel());
         }
-
-        /// <summary>
-        /// 注册Model
-        /// </summary>
-        /// <param name="model"></param>
-        /// <typeparam name="T"></typeparam>
-        public void Register_Model<T>(T model) where T : AbstractModel
-        {
-            this.RegisterModel(model);
-        }
     
         /// <summary>
         /// 注册Utility
@@ -74,9 +63,6 @@ namespace GDFrameworkCore
             this.RegisterUtility(new ResoucesUtility());
             this.RegisterUtility(new MultilingualUtility());
             this.RegisterUtility(new SdkUtility());
-            
-            
-            LoadFrameSettingUtility();
         }
 
         /// <summary>
@@ -84,17 +70,20 @@ namespace GDFrameworkCore
         /// </summary>
         protected void LoadFrameSettingUtility()
         {
-            if (FrameManager.Instance.WillShowCheatWindow)
+            FrameManager frameManager = FrameManager.Instance;
+            if (frameManager.WillShowCheatWindow)
             {
-                this.RegisterUtility(FrameManager.Instance.gameObject.AddComponent<CheatMonoUtility>());;
+                this.RegisterUtility(frameManager.gameObject.AddComponent<CheatMonoUtility>());;
             }
             
-            if (FrameManager.Instance.WillShowLogWindow)
+            if (frameManager.WillShowLogWindow)
             {
-                this.RegisterUtility(FrameManager.Instance.gameObject.AddComponent<LogMonoUtility>());;
+                this.RegisterUtility(frameManager.gameObject.AddComponent<LogMonoUtility>());;
             }
             
-            this.RegisterUtility(FrameManager.Instance.gameObject.AddComponent<CoroutineMonoUtility>());;
+            this.RegisterUtility(frameManager.gameObject.AddComponent<CoroutineMonoUtility>());;
+            
+            this.RegisterUtility(frameManager.gameObject.AddComponent<GUIUtility>());;
         }
     
         /// <summary>

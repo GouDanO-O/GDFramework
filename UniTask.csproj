@@ -47,8 +47,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\UniTask.Delay.cs" />
-    <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\CompilerServices\StateMachineRunner.cs" />
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\UniTask.Run.cs" />
+    <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\CompilerServices\StateMachineRunner.cs" />
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\MoveNextSource.cs" />
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\CompilerServices\AsyncUniTaskVoidMethodBuilder.cs" />
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\UniTask.Threading.cs" />

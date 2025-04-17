@@ -14,17 +14,17 @@ namespace GDFrameworkCore
     [DisallowMultipleComponent]
     public class FrameManager : MonoSingleton<FrameManager>, IController, ICanSendEvent
     {
-        [SerializeField] private EPlayMode playMode;
+        [SerializeField] private EPlayMode yooAssetPlayMode;
         
         [SerializeField] private bool willShowCheatWindow = false;
 
         [SerializeField] private bool willShowLogWindow = false;
 
-        public EPlayMode PlayMode
+        public EPlayMode YooAssetPlayMode
         {
             get
             {
-                return playMode;
+                return yooAssetPlayMode;
             }
         }
 
@@ -47,8 +47,6 @@ namespace GDFrameworkCore
         protected ProcedureManager _procedureManager;
         
         protected GameDataModel _gameDataModel;
-        
-        
         
         public IArchitecture GetArchitecture()
         {
@@ -104,38 +102,5 @@ namespace GDFrameworkCore
         
 
         #endregion
-       
-        // protected void DrawGUI()
-        // {
-        //     if (!canShowGUI)
-        //         return;
-        //     
-        //     var showCount = -1;
-        //     if (willShowLogWindow)
-        //     {
-        //         showCount++;
-        //         if (GUI.Button(new Rect(20 + showCount * 150, 0, 120, 30),
-        //                 _logMonoUtility.isShowing ? "关闭日志系统" : "打开日志系统"))
-        //         {
-        //             _logMonoUtility.CheckButtonWillShow();
-        //             if (_logMonoUtility.isShowing && _cheatMonoUtility)
-        //                 if (_cheatMonoUtility.isShowing)
-        //                     _cheatMonoUtility.CheckButtonWillShow();
-        //         }
-        //     }
-        //
-        //     if (willShowCheatWindow)
-        //     {
-        //         showCount++;
-        //         if (GUI.Button(new Rect(20 + showCount * 150, 0, 120, 30),
-        //                 _cheatMonoUtility.isShowing ? "关闭作弊系统" : "打开作弊系统"))
-        //         {
-        //             _cheatMonoUtility.CheckButtonWillShow();
-        //             if (_cheatMonoUtility.isShowing && _logMonoUtility)
-        //                 if (_logMonoUtility.isShowing)
-        //                     _logMonoUtility.CheckButtonWillShow();
-        //         }
-        //     }
-        // }
     }
 }

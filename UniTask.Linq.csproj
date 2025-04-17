@@ -82,8 +82,8 @@
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\Linq\ForEach.cs" />
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\Linq\ToList.cs" />
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\Linq\TakeUntilCanceled.cs" />
-    <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\Linq\MinMax.cs" />
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\Linq\ToDictionary.cs" />
+    <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\Linq\MinMax.cs" />
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\Linq\ToArray.cs" />
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\Linq\Skip.cs" />
     <Compile Include="Assets\GDFramework\Plugins\UniTask\Runtime\Linq\ToLookup.cs" />

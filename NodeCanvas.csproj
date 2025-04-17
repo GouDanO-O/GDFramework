@@ -231,8 +231,8 @@
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\Blackboard\SetEnumFlag.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\Movement\Pathfinding\Wander.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Modules\BehaviourTrees\Nodes\Decorators\Merge.cs" />
-    <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Conditions\Input\CheckMousePick.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\GameObject\RemoveComponent.cs" />
+    <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Conditions\Input\CheckMousePick.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\ScriptControl\SetField.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\Animator\MecanimSetLookAt.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\Input\WaitMousePick.cs" />
@@ -263,8 +263,8 @@
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\Input\WaitMousePick2D.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Conditions\ScriptControl\Standalone\CheckFunction.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\GameObject\FindWithName.cs" />
-    <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Conditions\ScriptControl\CheckField.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Modules\BehaviourTrees\Nodes\Composites\Switch.cs" />
+    <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Conditions\ScriptControl\CheckField.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\Movement\Pathfinding\MoveToPosition.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\Blackboard\List Specific\RemoveElementFromList.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Modules\DialogueTrees\Nodes\MultipleChoiceNode.cs" />
@@ -278,8 +278,8 @@
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\_DeprecatedFiles\Legacy_FlipSelector.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Modules\BehaviourTrees\BehaviourTreeOwner.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\ScriptControl\Standalone\ImplementedAction.cs" />
-    <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Modules\BehaviourTrees\Nodes\BTComposite.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Modules\StateMachines\Nodes\NestedBTState.cs" />
+    <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Modules\BehaviourTrees\Nodes\BTComposite.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Conditions\Blackboard\CheckEnumFlag.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Conditions\Movement\PathExists.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\NodeCanvas\Tasks\Actions\Blackboard\List Specific\GetIndexOfElement.cs" />

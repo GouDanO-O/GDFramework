@@ -1,6 +1,7 @@
 ﻿using GDFramework.FrameData;
 using GDFramework.Input;
 using GDFramework.Models;
+using GDFramework.Multilingual;
 using GDFrameworkCore;
 using UnityEngine;
 using UnityEngine.InputSystem;

@@ -1,6 +1,6 @@
 ﻿using GDFramework.Utility;
+using GDFramework.YooAssetKit;
 using GDFrameworkCore;
-using GDFrameworkExtend.YooAssetKit;
 
 namespace GDFramework.Procedure
 {

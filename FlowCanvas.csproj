@@ -196,8 +196,8 @@
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\FlowCanvas\Modules\FlowGraphs\FlowNodeNested.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\FlowCanvas\Modules\FlowGraphs\Nodes\Events\Object\TransformEvents.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\FlowCanvas\Modules\FlowGraphs\Nodes\Variables\SetOtherVariable.cs" />
-    <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\FlowCanvas\Modules\FlowGraphs\Nodes\FlowControllers\Togglers\MultiToggle.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\FlowCanvas\Modules\FlowGraphs\Nodes\Events\Application\ApplicationPauseEvent.cs" />
+    <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\FlowCanvas\Modules\FlowGraphs\Nodes\FlowControllers\Togglers\MultiToggle.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\FlowCanvas\Modules\FlowGraphs\Nodes\Functions\Reflected\Internal\Field\PureReflectedFieldNode.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\FlowCanvas\Modules\FlowGraphs\Nodes\Functions\Implemented\PureFunctionNode.cs" />
     <Compile Include="Assets\GDFramework\Plugins\ParadoxNotion\FlowCanvas\Modules\FlowGraphs\Nodes\CustomObjectWrappers\IExternalImplementedNode.cs" />

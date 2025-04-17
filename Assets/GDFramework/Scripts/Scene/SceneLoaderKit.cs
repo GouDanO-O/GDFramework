@@ -54,7 +54,7 @@ namespace GDFramework.Scene
         }
 
         /// <summary>
-        /// 携程加载
+        /// 协程加载
         /// </summary>
         /// <param name="sceneName"></param>
         /// <returns></returns>

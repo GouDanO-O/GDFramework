@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Game;
 using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFrameworkExtend.YooAssetKit;
+using GDFramework.YooAssetKit;
 using Unity.VisualScripting;
 using UnityEngine.Events;
 

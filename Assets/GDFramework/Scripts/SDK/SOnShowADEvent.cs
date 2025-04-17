@@ -1,5 +1,4 @@
 ﻿using System;
-using GDFramework.Models.Enums;
 
 namespace GDFramework.SDK
 {

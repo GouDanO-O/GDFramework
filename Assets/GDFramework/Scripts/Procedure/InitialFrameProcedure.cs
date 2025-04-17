@@ -3,7 +3,6 @@ using GDFramework.Input;
 using GDFramework.Resource;
 using GDFrameworkCore;
 using GDFrameworkExtend.FSM;
-using GDFrameworkExtend.YooAssetKit;
 
 namespace GDFramework.Procedure
 {
@@ -31,6 +30,8 @@ namespace GDFramework.Procedure
                 {
                     DataLoadComplete();
                 });
+            
+            this.GetSystem<LubanKit.LubanKit>().InitData();
         }
         
         /// <summary>

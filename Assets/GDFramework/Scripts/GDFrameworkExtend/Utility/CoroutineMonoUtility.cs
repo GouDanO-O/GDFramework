@@ -11,7 +11,7 @@ namespace GDFramework.Utility
     {
         protected override void InitUtility()
         {
-            Main.Interface.RegisterUtility(this);
+           
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFrameworkExtend.YooAssetKit;
+using GDFramework.YooAssetKit;
 using UnityEngine.Events;
 
 namespace GDFramework.Resource

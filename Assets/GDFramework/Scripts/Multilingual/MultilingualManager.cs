@@ -4,6 +4,26 @@ using GDFrameworkCore;
 
 namespace GDFramework.Multilingual
 {
+    public struct SOnChangeLanguageEvent
+    {
+        public ELanguageType WillChangeLanguage;
+    }
+    
+    public class SelectLanguageCommand : AbstractCommand
+    {
+        private ELanguageType _languageType;
+
+        public SelectLanguageCommand(ELanguageType willChangeLanguage)
+        {
+            _languageType = willChangeLanguage;
+        }
+
+        protected override void OnExecute()
+        {
+            this.GetSystem<MultilingualManager>().ChangeLanguage(_languageType);
+        }
+    }
+    
     public class MultilingualManager : AbstractSystem
     {
         private MultilingualDataModel _multilingualData_Model;
