@@ -1,4 +1,7 @@
-﻿namespace GDFramework.World
+﻿using GDFramework.LubanKit.Cfg.worldObj;
+using UnityEngine;
+
+namespace GDFramework.World.Object
 {
     public interface IObj
     { 
@@ -6,10 +9,12 @@
         
         string ObjName { get; set; }
 
-        void InitObj();
+        void InitObj(WorldObj objData);
         
         void DeInitObj();
 
         void UpdateObjLogic();
+        
+        Vector3 GetCurrentPosition();
     }
 }

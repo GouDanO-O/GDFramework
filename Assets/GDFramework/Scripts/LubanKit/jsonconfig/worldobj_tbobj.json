@@ -1,0 +1,112 @@
+[
+  {
+    "id": 10000,
+    "name": "1",
+    "desc": "",
+    "initialHealthy": 100,
+    "maxHealthy": 150,
+    "initialArmor": 100,
+    "maxArmor": 150,
+    "initialMana": 100,
+    "maxMana": 150
+  },
+  {
+    "id": 10001,
+    "name": "2",
+    "desc": "",
+    "initialHealthy": 100,
+    "maxHealthy": 150,
+    "initialArmor": 100,
+    "maxArmor": 150,
+    "initialMana": 100,
+    "maxMana": 150
+  },
+  {
+    "id": 10002,
+    "name": "3",
+    "desc": "",
+    "initialHealthy": 100,
+    "maxHealthy": 150,
+    "initialArmor": 100,
+    "maxArmor": 150,
+    "initialMana": 100,
+    "maxMana": 150
+  },
+  {
+    "id": 10003,
+    "name": "4",
+    "desc": "",
+    "initialHealthy": 100,
+    "maxHealthy": 150,
+    "initialArmor": 100,
+    "maxArmor": 150,
+    "initialMana": 100,
+    "maxMana": 150
+  },
+  {
+    "id": 10004,
+    "name": "5",
+    "desc": "",
+    "initialHealthy": 100,
+    "maxHealthy": 150,
+    "initialArmor": 100,
+    "maxArmor": 150,
+    "initialMana": 100,
+    "maxMana": 150
+  },
+  {
+    "id": 10005,
+    "name": "6",
+    "desc": "",
+    "initialHealthy": 100,
+    "maxHealthy": 150,
+    "initialArmor": 100,
+    "maxArmor": 150,
+    "initialMana": 100,
+    "maxMana": 150
+  },
+  {
+    "id": 10006,
+    "name": "7",
+    "desc": "",
+    "initialHealthy": 100,
+    "maxHealthy": 150,
+    "initialArmor": 100,
+    "maxArmor": 150,
+    "initialMana": 100,
+    "maxMana": 150
+  },
+  {
+    "id": 10007,
+    "name": "8",
+    "desc": "",
+    "initialHealthy": 100,
+    "maxHealthy": 150,
+    "initialArmor": 100,
+    "maxArmor": 150,
+    "initialMana": 100,
+    "maxMana": 150
+  },
+  {
+    "id": 10008,
+    "name": "9",
+    "desc": "",
+    "initialHealthy": 100,
+    "maxHealthy": 150,
+    "initialArmor": 100,
+    "maxArmor": 150,
+    "initialMana": 100,
+    "maxMana": 150
+  },
+  {
+    "id": 10009,
+    "name": "10",
+    "desc": "",
+    "initialHealthy": 100,
+    "maxHealthy": 150,
+    "initialArmor": 100,
+    "maxArmor": 150,
+    "initialMana": 100,
+    "maxMana": 150
+  }
+]

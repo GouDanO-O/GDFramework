@@ -15,16 +15,19 @@ namespace GDFramework.LubanKit.Cfg
 public partial class LubanTablesData
 {
     public item.TbItem TbItem {get; }
+    public worldObj.TbObj TbObj {get; }
 
     public LubanTablesData(System.Func<string, JSONNode> loader)
     {
         TbItem = new item.TbItem(loader("item_tbitem"));
+        TbObj = new worldObj.TbObj(loader("worldobj_tbobj"));
         ResolveRef();
     }
     
     private void ResolveRef()
     {
         TbItem.ResolveRef(this);
+        TbObj.ResolveRef(this);
     }
 }
 

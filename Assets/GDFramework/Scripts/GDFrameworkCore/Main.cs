@@ -8,6 +8,8 @@ using GDFramework.Scene;
 using GDFramework.SDK;
 using GDFramework.Utility;
 using GDFramework.View;
+using GDFramework.World;
+using GDFramework.World.Object;
 using GDFramework.YooAssetKit;
 
 namespace GDFrameworkCore
@@ -41,6 +43,8 @@ namespace GDFrameworkCore
             this.RegisterSystem(new LubanKit());
             
             this.RegisterSystem(new NewInputManager());
+
+            this.RegisterSystem(new WorldObjectManager());
         }
     
         /// <summary>
@@ -53,6 +57,8 @@ namespace GDFrameworkCore
             this.RegisterModel(new MultilingualDataModel());
             this.RegisterModel(new CheatDataModel());
             this.RegisterModel(new GameDataModel());
+            
+            this.RegisterModel(new WorldObjectModel());
         }
     
         /// <summary>
