@@ -1,17 +1,18 @@
 ﻿using GDFrameworkCore;
+using GDFrameworkExtend.SingletonKit;
 
 namespace GDFramework.World.Map
 {
     /// <summary>
     /// 世界地图管理器
     /// </summary>
-    public class WorldMapManager : AbstractSystem
+    public class WorldMapManager : MonoSingleton<WorldMapManager>,IController
     {
         private WorldMapModel _worldMapModel;
         
-        protected override void OnInit()
+        public IArchitecture GetArchitecture()
         {
-            
+            return Main.Interface;
         }
 
         public void FixedUpdateWorldMap()

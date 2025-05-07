@@ -7,6 +7,8 @@ namespace GDFramework.World.Map
     {
         private Biology _hostPlayer;
         
+        
+        
         protected override void OnInit()
         {
             
