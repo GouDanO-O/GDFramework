@@ -15,8 +15,6 @@ namespace GDFramework.World.Weather
     /// </summary>
     public class WorldWeatherManager : AbstractSystem,IUnRegisterList
     {
-        private WorldWeatherModel _worldWeatherModel;
-        
         public List<IUnRegister> UnregisterList { get; }
         
         protected override void OnInit()
@@ -68,7 +66,7 @@ namespace GDFramework.World.Weather
         /// <param name="dateTime"></param>
         private void WorldTimeHourChange(GameDateTime dateTime)
         {
-            _worldWeatherModel.CaculateNextWeather();
+            
         }
         
         /// <summary>

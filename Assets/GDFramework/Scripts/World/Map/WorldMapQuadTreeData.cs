@@ -6,7 +6,7 @@ namespace GDFramework.World.Map
 {
     public class WorldMapQuadTreeData
     {
-        public enum EShowGOType
+        public enum EShowGoType
         {
             None = 0,
             ShowInFrustum = 1,

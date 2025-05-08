@@ -16,7 +16,7 @@ namespace GDFramework.World
         
         private WorldTimeManager _worldTimeManager;
         
-        public WorldMapManager _worldMapManager => WorldMapManager.Instance;
+        private WorldMapManager _worldMapManager => WorldMapManager.Instance;
         
         private WorldWeatherManager _worldWeatherManager;
 

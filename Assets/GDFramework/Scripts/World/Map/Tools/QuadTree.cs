@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using GDFrameworkExtend.PoolKit;
 using UnityEngine;
 
@@ -125,6 +126,47 @@ namespace GDFramework.World
 
         private List<AABB_Check> _aabbHelpersPool = ListPool<AABB_Check>.Get();
 
+        private Dictionary<T, AABB_Check> _dirtyLeaves = new Dictionary<T, AABB_Check>();
+
+        // 更新叶子方法
+        public void UpdateLeaf(T value, AABB_Check newAabb)
+        {
+            if (LeavesDict.TryGetValue(value, out Leaf leaf))
+            {
+                if (!newAabb.Equals(leaf.Aabb))
+                {
+                    // 记录旧AABB用于后续移除
+                    _dirtyLeaves[value] = leaf.Aabb; 
+                    Insert(value, newAabb);
+                }
+            }
+        }
+
+        // 批量移除旧位置的叶子
+        public void ProcessDirtyLeaves()
+        {
+            foreach (var kvp in _dirtyLeaves)
+            {
+                RemoveLeaf(kvp.Key, kvp.Value);
+            }
+            _dirtyLeaves.Clear();
+        }
+
+        // 新增移除方法
+        private void RemoveLeaf(T value, AABB_Check oldAabb)
+        {
+            if (LeavesDict.TryGetValue(value, out Leaf leaf))
+            {
+                if (leaf.Branch != null)
+                {
+                    leaf.Branch.LeaveList.Remove(leaf);
+                    leaf.Branch.CrossBranchesLeaveList.Remove(leaf);
+                }
+                RecycleLeafToPool(leaf);
+                LeavesDict.Remove(value);
+            }
+        }
+        
         /// <summary>
         /// 构建四叉树
         /// </summary>
@@ -606,20 +648,10 @@ namespace GDFramework.World
             
             if (branch != null)
             {
-                foreach (var l in branch.LeaveList)
-                {
-                    ret.Add(l.Value);
-                }
-
-                foreach (var l in branch.CrossBranchesLeaveList)
-                {
-                    ret.Add(l.Value);
-                }
-
-                foreach (var b in branch.Branches)
-                {
+                ret.AddRange(branch.LeaveList.Select(l => l.Value));
+                ret.AddRange(branch.CrossBranchesLeaveList.Select(l => l.Value));
+                foreach (var b in branch.Branches) 
                     SelectAllValues(b, ret);
-                }
             }
 
         }
@@ -853,6 +885,7 @@ namespace GDFramework.World
 
             branch.CrossBranchesLeaveList.Clear();
 
+            
             for (int i = 0; i < branch.Branches.Length; i++)
             {
                 RecycleBranchToPool(branch.Branches[i]);
@@ -878,7 +911,7 @@ namespace GDFramework.World
         private void Reset(float x, float y, float w, float h,
             int maxLevel = DefaulDepthLevel, int maxLeafPerBranch = DefaultMaxLeafPerBranch)
         {
-            System.Diagnostics.Debug.Assert(w == 0 || h == 0, "四叉树为Zero");
+            System.Diagnostics.Debug.Assert(w != 0 || h != 0, "四叉树为Zero");
             System.Diagnostics.Debug.Assert(maxLevel < MaxLimitDepthLevel, $"四叉树无法超过这个深度: {MaxLimitDepthLevel}");
 
             this.MaxLevel = maxLevel;
@@ -892,6 +925,20 @@ namespace GDFramework.World
             else
             {
                 Root = GetBranchFromPool(null, 0, ref aabb);
+            }
+        }
+        
+        /// <summary>
+        /// 动态扩展根节点AABB
+        /// </summary>
+        /// <param name="newAabb"></param>
+        public void ExpandRoot(AABB_Check newAabb)
+        {
+            if (Root == null || !Root.Aabb.Contains(ref newAabb))
+            {
+                var unionAabb = Root.Aabb;
+                unionAabb.Union(ref newAabb);
+                Reset(unionAabb.X, unionAabb.Y, unionAabb.W, unionAabb.H, MaxLevel, _maxLeafPerBranch);
             }
         }
     }

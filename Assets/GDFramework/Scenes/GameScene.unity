@@ -220,7 +220,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 269031595}
-  - component: {fileID: 269031596}
   m_Layer: 0
   m_Name: MapTest
   m_TagString: Untagged
@@ -245,36 +244,6 @@ Transform:
   - {fileID: 920329607}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &269031596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 269031594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 952b6c73f1a34995a85ce6aa544a72f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cam: {fileID: 93402095}
-  goes: []
-  goes_root: {fileID: 545764474}
-  cam_aabb_color: {r: 1, g: 0, b: 0, a: 1}
-  cam_frustum_color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  qt_branches_color: {r: 0, g: 1, b: 1, a: 1}
-  qt_leaves_color: {r: 0, g: 1, b: 0, a: 1}
-  qt_leaves_in_frustum_color: {r: 0, g: 0, b: 1, a: 1}
-  draw_gizmos_cam_aabb: 1
-  draw_gizmos_cam_wireframe: 1
-  draw_gizmos_qt_branches: 1
-  draw_gizmos_qt_leaves: 1
-  draw_gizmos_qt_leaves_in_frustum_aabb: 1
-  show_GO_type: 1
-  frustum_h_padding: 5
-  frustum_AABB_level: 5
-  more_actually_select: 1
-  reconstrct_qt_runtime: 0
 --- !u!1 &489363400
 GameObject:
   m_ObjectHideFlags: 0

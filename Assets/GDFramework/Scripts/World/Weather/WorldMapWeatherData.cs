@@ -16,7 +16,7 @@ namespace GDFramework.World.Weather
         Snowstorm,
     }
     
-    public class WorldWeatherModel : AbstractModel
+    public class WorldMapWeatherData : ICanSendEvent
     {
         public EWorldWeatherType _curWorldWeatherType;
         
@@ -25,9 +25,9 @@ namespace GDFramework.World.Weather
         /// </summary>
         private Queue<EWorldWeatherType> _laterWeatherType;
         
-        protected override void OnInit()
+        public IArchitecture GetArchitecture()
         {
-            
+            return Main.Interface;
         }
 
         /// <summary>
