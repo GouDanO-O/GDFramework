@@ -31,6 +31,19 @@ namespace GDFramework.World.Weather
         }
 
         /// <summary>
+        /// 设置初始天气
+        /// 从配置中读取每个区域的初始天气
+        /// </summary>
+        /// <param name="weatherTypes"></param>
+        public void SetInitalWeather(List<EWorldWeatherType> weatherTypes)
+        {
+            for (int i = 0; i < weatherTypes.Count; i++)
+            {
+                _laterWeatherType.Enqueue(weatherTypes[i]);
+            }
+        }
+
+        /// <summary>
         /// 加载存档中当前地图块的天气
         /// </summary>
         public void LoadSavingLaterWeathers()
