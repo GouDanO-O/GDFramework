@@ -7,6 +7,7 @@ namespace GDFrameworkExtend.Data
     {
         public virtual void SaveData()
         {
+            
         }
     }
 }

@@ -415,9 +415,6 @@
     <Reference Include="Sirenix.Reflection.Editor">
       <HintPath>D:\UnityProject\GDFrame_Qf\Assets\GDFramework\Plugins\Sirenix\Assemblies\Sirenix.Reflection.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="FuzzySharp">
-      <HintPath>D:\UnityProject\GDFrame_Qf\Assets\GDFramework\Plugins\KINEMATION\Plugins\FuzzySharp\FuzzySharp.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:\UnityProject\GDFrame_Qf\Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
