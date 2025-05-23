@@ -4,7 +4,7 @@ using GDFrameworkExtend.Data;
 namespace Game.World
 {
     
-    public class AreaBlockData : PersistentData
+    public class AreaBlockDto
     {
         
     }
@@ -16,6 +16,6 @@ namespace Game.World
     /// </summary>
     public class AreaBlock
     {
-        public List<Room> AreaBlockRoomList;
+        
     }
 }

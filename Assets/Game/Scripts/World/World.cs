@@ -2,7 +2,7 @@
 
 namespace Game.World
 {
-    public class WorldData : PersistentData
+    public class WorldDot
     {
         
     }
