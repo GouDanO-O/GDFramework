@@ -5,7 +5,7 @@ namespace GDFrameworkExtend.Data
     /// </summary>
     public class PersistentData : IPersistentData
     {
-        public void LoadData()
+        public void LoadData(IPersistentData data)
         {
             
         }

@@ -15,7 +15,7 @@ namespace Game.World
         public string roomName;
         
         [LabelText("房间里面持有的所有节点")]
-        public List<NodeDto> nodeDtoList;
+        public List<NodeData> nodeDataList;
         
         [LabelText("可选：多个入口，支持非线性关卡")]
         public List<string> entryNodeIds = new();

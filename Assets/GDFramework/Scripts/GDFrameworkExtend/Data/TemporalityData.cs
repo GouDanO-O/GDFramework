@@ -5,6 +5,8 @@
     /// </summary>
     public abstract class TemporalityData
     {
+        public abstract void InitData();
+        
         public abstract void DeInitData();
     }
 }
