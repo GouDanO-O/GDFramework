@@ -1,71 +1,69 @@
+using Game.World;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class NodeComponent : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
 {
+    [Header("节点数据")]
+    public NodeData nodeData;
+    
     [Header("拖拽设置")]
     public bool isDraggable = true;
-    public bool constrainToParent = true;
-    private RectTransform constraintArea; // 如果为空，则使用直接父级
+    public float dragSensitivity = 1f;
     
-    [Header("拖拽反馈")]
-    public float dragScale = 1.1f;
-    public Color dragColor = new Color(1, 1, 1, 0.8f);
+    [Header("视觉反馈")]
+    public Image nodeImage;
+    public Color normalColor = Color.white;
+    public Color hoverColor = Color.yellow;
+    public Color dragColor = Color.green;
+    public float scaleOnHover = 1.1f;
     
-    private RectTransform rectTransform;
-    private CanvasGroup canvasGroup;
-    private Image buttonImage;
-    
-    // 拖拽状态
+    private Vector2 originalPosition;
     private bool isDragging = false;
+    private RectTransform rectTransform;
+    private Canvas parentCanvas;
+    private NodeCanvasController canvasController;
     private Vector3 originalScale;
-    private Color originalColor;
-    private int originalSortingOrder;
     
-    // 约束区域
-    private RectTransform parentRect;
-    private Rect constraintBounds;
+    // 连线相关
+    private BatchConnectionLines connectionLines;
     
-    // 拖拽偏移
-    private Vector2 dragOffset;
+    void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        parentCanvas = GetComponentInParent<Canvas>();
+        canvasController = GetComponentInParent<NodeCanvasController>();
+        connectionLines = FindObjectOfType<BatchConnectionLines>();
+        
+        if (nodeImage == null)
+            nodeImage = GetComponent<Image>();
+            
+        originalScale = transform.localScale;
+    }
     
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
-        canvasGroup = GetComponent<CanvasGroup>();
-        buttonImage = GetComponent<Image>();
-        
-        // 如果没有CanvasGroup，添加一个
-        if (canvasGroup == null)
-            canvasGroup = gameObject.AddComponent<CanvasGroup>();
-        
-        // 设置约束区域
-        if (constraintArea == null)
-        {
-            parentRect = rectTransform.parent.GetComponent<RectTransform>();
-        }
-        else
-        {
-            parentRect = constraintArea;
-        }
-        
-        // 保存原始状态
-        originalScale = rectTransform.localScale;
-        if (buttonImage != null)
-            originalColor = buttonImage.color;
+        // 设置初始颜色
+        if (nodeImage != null)
+            nodeImage.color = normalColor;
     }
     
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!isDraggable) return;
+        // 通知画布控制器，当前有节点被选中
+        if (canvasController != null)
+        {
+            canvasController.OnNodeSelected(this);
+        }
         
-        // 计算拖拽偏移，让鼠标不一定要在按钮中心
-        Vector2 localPointerPosition;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            rectTransform, eventData.position, eventData.pressEventCamera, out localPointerPosition);
+        // 记录原始位置
+        originalPosition = rectTransform.anchoredPosition;
         
-        dragOffset = localPointerPosition;
+        // 视觉反馈
+        SetNodeColor(dragColor);
+        
+        Debug.Log($"节点 {nodeData?.NodeDataPersistent.nodeName ?? "Unknown"} 被点击");
     }
     
     public void OnBeginDrag(PointerEventData eventData)
@@ -73,184 +71,140 @@ public class NodeComponent : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (!isDraggable) return;
         
         isDragging = true;
-        // 更新约束边界
-        UpdateConstraintBounds();
         
-        // 应用拖拽视觉效果
-        ApplyDragVisuals(true);
+        // 通知画布控制器开始拖拽节点
+        if (canvasController != null)
+        {
+            canvasController.SetDragMode(NodeCanvasController.DragMode.Node);
+        }
         
-        // 提升层级
+        // 将节点移到最前面
         transform.SetAsLastSibling();
+        
+        Debug.Log($"开始拖拽节点: {nodeData?.NodeDataPersistent.nodeName ?? "Unknown"}");
     }
-    
+
     public void OnDrag(PointerEventData eventData)
     {
         if (!isDraggable || !isDragging) return;
         
-        Vector2 globalMousePos;
+        // 计算新位置
+        Vector2 localPoint;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            parentRect, eventData.position, eventData.pressEventCamera, out globalMousePos))
+            rectTransform.parent as RectTransform, 
+            eventData.position, 
+            eventData.pressEventCamera, 
+            out localPoint))
         {
-            // 减去拖拽偏移
-            Vector2 targetPosition = globalMousePos - dragOffset * rectTransform.localScale.x;
-            
-            // 应用约束
-            if (constrainToParent)
-            {
-                targetPosition = ConstrainToParent(targetPosition);
-            }
-            
-            rectTransform.anchoredPosition = targetPosition;
+            rectTransform.anchoredPosition = localPoint * dragSensitivity;
+        }
+        
+        // 通知连线系统更新
+        if (connectionLines != null)
+        {
+            connectionLines.SetDirtyAll();
         }
     }
-    
+
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (!isDraggable || !isDragging) return;
+        if (!isDraggable) return;
         
         isDragging = false;
         
-        // 恢复视觉效果
-        ApplyDragVisuals(false);
-        
-        // 最后一次约束检查
-        if (constrainToParent)
+        // 恢复画布控制器的拖拽模式
+        if (canvasController != null)
         {
-            Vector2 constrainedPos = ConstrainToParent(rectTransform.anchoredPosition);
-            rectTransform.anchoredPosition = constrainedPos;
+            canvasController.SetDragMode(NodeCanvasController.DragMode.Canvas);
         }
         
-        // 触发位置改变事件
-        OnPositionChanged?.Invoke(rectTransform.anchoredPosition);
+        // 恢复视觉状态
+        SetNodeColor(normalColor);
+        
+        Debug.Log($"结束拖拽节点: {nodeData?.NodeDataPersistent.nodeName ?? "Unknown"}");
+        Debug.Log($"节点最终位置: {rectTransform.anchoredPosition}");
     }
     
-    void UpdateConstraintBounds()
+    // 鼠标悬停效果
+    public void OnPointerEnter()
     {
-        if (parentRect == null) 
-            return;
-        
-        // 获取父级的实际可用区域
-        constraintBounds = parentRect.rect;
-        
-        // 考虑当前缩放
-        float currentScale = rectTransform.localScale.x;
-        Vector2 buttonSize = rectTransform.rect.size * currentScale;
-        
-        // 调整约束边界以确保按钮完全在父级内部
-        constraintBounds.xMin += buttonSize.x * 0.5f;
-        constraintBounds.xMax -= buttonSize.x * 0.5f;
-        constraintBounds.yMin += buttonSize.y * 0.5f;
-        constraintBounds.yMax -= buttonSize.y * 0.5f;
-    }
-    
-    Vector2 ConstrainToParent(Vector2 position)
-    {
-        // 实时更新约束边界（因为缩放可能改变）
-        UpdateConstraintBounds();
-        
-        Vector2 constrainedPos = position;
-        
-        // X轴约束
-        constrainedPos.x = Mathf.Clamp(constrainedPos.x, constraintBounds.xMin, constraintBounds.xMax);
-        
-        // Y轴约束
-        constrainedPos.y = Mathf.Clamp(constrainedPos.y, constraintBounds.yMin, constraintBounds.yMax);
-        
-        return constrainedPos;
-    }
-    
-    void ApplyDragVisuals(bool isDragging)
-    {
-        if (isDragging)
+        if (!isDragging)
         {
-            // 放大
-            rectTransform.localScale = originalScale * dragScale;
-            
-            // 改变颜色
-            if (buttonImage != null)
-                buttonImage.color = dragColor;
-            
-            // 降低透明度
-            if (canvasGroup != null)
-                canvasGroup.alpha = 0.8f;
-        }
-        else
-        {
-            // 恢复原状
-            rectTransform.localScale = originalScale;
-            
-            if (buttonImage != null)
-                buttonImage.color = originalColor;
-            
-            if (canvasGroup != null)
-                canvasGroup.alpha = 1f;
+            SetNodeColor(hoverColor);
+            transform.localScale = originalScale * scaleOnHover;
         }
     }
     
-    // 公共API和事件
-    public System.Action<Vector2> OnPositionChanged;
-    public System.Action<NodeComponent> OnDragStart;
-    public System.Action<NodeComponent> OnDragEnd;
+    public void OnPointerExit()
+    {
+        if (!isDragging)
+        {
+            SetNodeColor(normalColor);
+            transform.localScale = originalScale;
+        }
+    }
     
+    private void SetNodeColor(Color color)
+    {
+        if (nodeImage != null)
+        {
+            nodeImage.color = color;
+        }
+    }
+    
+    // 重置节点位置
+    public void ResetPosition()
+    {
+        rectTransform.anchoredPosition = originalPosition;
+        if (connectionLines != null)
+        {
+            connectionLines.SetDirtyAll();
+        }
+    }
+    
+    // 设置节点是否可拖拽
     public void SetDraggable(bool draggable)
     {
         isDraggable = draggable;
     }
     
-    public void SetConstraintArea(RectTransform area)
+    // 获取节点的世界坐标
+    public Vector3 GetWorldPosition()
     {
-        constraintArea = area;
-        parentRect = area;
+        return rectTransform.position;
     }
     
-    public Vector2 GetPosition()
+    // 获取连接点位置（用于连线）
+    public RectTransform GetConnectionPoint()
     {
-        return rectTransform.anchoredPosition;
+        return rectTransform;
     }
     
-    public void SetPosition(Vector2 position, bool forceConstrain = true)
+    // 节点交互方法（预留接口）
+    public virtual void OnNodeInteract()
     {
-        if (forceConstrain && constrainToParent)
+        Debug.Log($"与节点 {nodeData?.NodeDataPersistent.nodeName ?? "Unknown"} 交互");
+        // 子类可以重写此方法实现具体的交互逻辑
+    }
+    
+    // 节点连接方法（预留接口）
+    public virtual bool CanConnectTo(NodeComponent otherNode)
+    {
+        // 基础连接规则，子类可以重写
+        return otherNode != null && otherNode != this;
+    }
+    
+    // 创建到其他节点的连接
+    public void CreateConnectionTo(NodeComponent targetNode, Color? connectionColor = null)
+    {
+        if (connectionLines != null && CanConnectTo(targetNode))
         {
-            position = ConstrainToParent(position);
+            connectionLines.AddConnection(
+                this.GetConnectionPoint(),
+                targetNode.GetConnectionPoint(),
+                5f,
+                connectionColor ?? Color.white
+            );
         }
-        
-        rectTransform.anchoredPosition = position;
-    }
-    
-    public bool IsWithinBounds()
-    {
-        if (!constrainToParent || parentRect == null) return true;
-        
-        UpdateConstraintBounds();
-        Vector2 currentPos = rectTransform.anchoredPosition;
-        
-        return currentPos.x >= constraintBounds.xMin && currentPos.x <= constraintBounds.xMax &&
-               currentPos.y >= constraintBounds.yMin && currentPos.y <= constraintBounds.yMax;
-    }
-    
-    public void SnapToConstraints()
-    {
-        if (constrainToParent)
-        {
-            Vector2 constrainedPos = ConstrainToParent(rectTransform.anchoredPosition);
-            rectTransform.anchoredPosition = constrainedPos;
-        }
-    }
-    
-    // 调试用：绘制约束边界
-    void OnDrawGizmosSelected()
-    {
-        if (parentRect == null) return;
-        
-        UpdateConstraintBounds();
-        
-        // 转换到世界坐标
-        Vector3[] corners = new Vector3[4];
-        Vector3 center = parentRect.TransformPoint(constraintBounds.center);
-        Vector3 size = parentRect.TransformVector(constraintBounds.size);
-        
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(center, size);
     }
 }
