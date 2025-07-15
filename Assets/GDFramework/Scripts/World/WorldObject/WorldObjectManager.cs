@@ -11,11 +11,6 @@ namespace GDFramework.World.Object
         
         protected override void OnInit()
         {
-            
-        }
-
-        public WorldObjectManager()
-        {
             InitManager();
         }
 

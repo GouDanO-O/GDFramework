@@ -1,210 +1,504 @@
-using Game.World;
+// 1. 完善 NodeComponent.cs 的缺失部分
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using TMPro;
+using System.Collections;
 
-public class NodeComponent : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerDownHandler
+namespace Game.World
 {
-    [Header("节点数据")]
-    public NodeData nodeData;
-    
-    [Header("拖拽设置")]
-    public bool isDraggable = true;
-    public float dragSensitivity = 1f;
-    
-    [Header("视觉反馈")]
-    public Image nodeImage;
-    public Color normalColor = Color.white;
-    public Color hoverColor = Color.yellow;
-    public Color dragColor = Color.green;
-    public float scaleOnHover = 1.1f;
-    
-    private Vector2 originalPosition;
-    private bool isDragging = false;
-    private RectTransform rectTransform;
-    private Canvas parentCanvas;
-    private NodeCanvasController canvasController;
-    private Vector3 originalScale;
-    
-    // 连线相关
-    private BatchConnectionLines connectionLines;
-    
-    void Awake()
+    public class NodeComponent : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
-        rectTransform = GetComponent<RectTransform>();
-        parentCanvas = GetComponentInParent<Canvas>();
-        canvasController = GetComponentInParent<NodeCanvasController>();
-        connectionLines = FindObjectOfType<BatchConnectionLines>();
+        [Header("UI 组件引用")]
+        [SerializeField] private Button nodeButton;
+        [SerializeField] private Image nodeImage;
+        [SerializeField] private TextMeshProUGUI nodeNameText;
+        [SerializeField] private Image nodeStateIndicator;
+        [SerializeField] private GameObject nodeTooltip;
+        [SerializeField] private CanvasGroup canvasGroup;
         
-        if (nodeImage == null)
-            nodeImage = GetComponent<Image>();
+        [Header("节点状态颜色")]
+        [SerializeField] private Color normalColor = Color.white;
+        [SerializeField] private Color triggerableColor = Color.green;
+        [SerializeField] private Color triggeredColor = Color.gray;
+        [SerializeField] private Color lockedColor = Color.red;
+        
+        [Header("动画设置")]
+        [SerializeField] private float hoverScale = 1.1f;
+        [SerializeField] private float hoverDuration = 0.2f;
+        [SerializeField] private AnimationCurve hoverCurve = AnimationCurve.EaseInOut(0, 0, 1, 1);
+        
+        // 节点数据
+        private NodeData nodeData;
+        private int depth = 0;
+        private bool isVisible = false;
+        private bool isInteractable = true;
+        
+        // 状态
+        private NodeState currentState = NodeState.Normal;
+        
+        // 动画相关
+        private Coroutine hoverAnimation;
+        private Vector3 originalScale;
+        
+        // 事件
+        public event Action<NodeComponent> OnNodeClicked;
+        public event Action<NodeComponent> OnNodeHovered;
+        public event Action<NodeComponent> OnNodeUnhovered;
+        
+        private void Awake()
+        {
+            InitializeComponents();
+            originalScale = transform.localScale;
+        }
+        
+        private void Start()
+        {
+            InitNodeComponent();
+        }
+        
+        /// <summary>
+        /// 初始化组件引用
+        /// </summary>
+        private void InitializeComponents()
+        {
+            // 自动获取组件引用（如果没有手动设置）
+            if (nodeButton == null)
+                nodeButton = GetComponent<Button>();
             
-        originalScale = transform.localScale;
-    }
-    
-    void Start()
-    {
-        // 设置初始颜色
-        if (nodeImage != null)
-            nodeImage.color = normalColor;
-    }
-    
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        // 通知画布控制器，当前有节点被选中
-        if (canvasController != null)
-        {
-            canvasController.OnNodeSelected(this);
+            if (nodeImage == null)
+                nodeImage = GetComponent<Image>();
+            
+            if (nodeNameText == null)
+                nodeNameText = GetComponentInChildren<TextMeshProUGUI>();
+            
+            if (canvasGroup == null)
+                canvasGroup = GetComponent<CanvasGroup>();
+            
+            // 如果没有CanvasGroup，添加一个
+            if (canvasGroup == null)
+                canvasGroup = gameObject.AddComponent<CanvasGroup>();
+            
+            // 设置默认状态
+            if (nodeImage != null)
+                nodeImage.color = normalColor;
         }
         
-        // 记录原始位置
-        originalPosition = rectTransform.anchoredPosition;
-        
-        // 视觉反馈
-        SetNodeColor(dragColor);
-        
-        Debug.Log($"节点 {nodeData?.NodeDataPersistent.nodeName ?? "Unknown"} 被点击");
-    }
-    
-    public void OnBeginDrag(PointerEventData eventData)
-    {
-        if (!isDraggable) return;
-        
-        isDragging = true;
-        
-        // 通知画布控制器开始拖拽节点
-        if (canvasController != null)
+        /// <summary>
+        /// 初始化节点组件
+        /// </summary>
+        public void InitNodeComponent()
         {
-            canvasController.SetDragMode(NodeCanvasController.DragMode.Node);
+            if (nodeData != null)
+            {
+                UpdateNodeDisplay();
+                UpdateNodeState();
+            }
         }
         
-        // 将节点移到最前面
-        transform.SetAsLastSibling();
+        #region 数据设置和获取
         
-        Debug.Log($"开始拖拽节点: {nodeData?.NodeDataPersistent.nodeName ?? "Unknown"}");
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (!isDraggable || !isDragging) return;
-        
-        // 计算新位置
-        Vector2 localPoint;
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            rectTransform.parent as RectTransform, 
-            eventData.position, 
-            eventData.pressEventCamera, 
-            out localPoint))
+        /// <summary>
+        /// 设置节点数据
+        /// </summary>
+        public void SetNodeData(NodeData data)
         {
-            rectTransform.anchoredPosition = localPoint * dragSensitivity;
+            nodeData = data;
+            UpdateNodeDisplay();
+            UpdateNodeState();
         }
         
-        // 通知连线系统更新
-        if (connectionLines != null)
+        /// <summary>
+        /// 获取节点数据
+        /// </summary>
+        public NodeData GetNodeData()
         {
-            connectionLines.SetDirtyAll();
-        }
-    }
-
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        if (!isDraggable) return;
-        
-        isDragging = false;
-        
-        // 恢复画布控制器的拖拽模式
-        if (canvasController != null)
-        {
-            canvasController.SetDragMode(NodeCanvasController.DragMode.Canvas);
+            return nodeData;
         }
         
-        // 恢复视觉状态
-        SetNodeColor(normalColor);
+        /// <summary>
+        /// 设置节点深度
+        /// </summary>
+        public void SetDepth(int nodeDepth)
+        {
+            depth = nodeDepth;
+        }
         
-        Debug.Log($"结束拖拽节点: {nodeData?.NodeDataPersistent.nodeName ?? "Unknown"}");
-        Debug.Log($"节点最终位置: {rectTransform.anchoredPosition}");
-    }
-    
-    // 鼠标悬停效果
-    public void OnPointerEnter()
-    {
-        if (!isDragging)
+        /// <summary>
+        /// 获取节点深度
+        /// </summary>
+        public int GetDepth()
         {
-            SetNodeColor(hoverColor);
-            transform.localScale = originalScale * scaleOnHover;
+            return depth;
+        }
+        
+        #endregion
+        
+        #region 显示和状态更新
+        
+        /// <summary>
+        /// 更新节点显示
+        /// </summary>
+        private void UpdateNodeDisplay()
+        {
+            if (nodeData?.NodeDataPersistent == null) return;
+            
+            // 更新节点名称
+            if (nodeNameText != null)
+            {
+                nodeNameText.text = nodeData.NodeDataPersistent.nodeName;
+            }
+            
+            // 更新按钮状态
+            if (nodeButton != null)
+            {
+                nodeButton.interactable = isInteractable;
+            }
+        }
+        
+        /// <summary>
+        /// 更新节点状态
+        /// </summary>
+        public void UpdateNodeState()
+        {
+            if (nodeData?.NodeDataTemporary == null) return;
+            
+            NodeState newState = DetermineNodeState();
+            if (newState != currentState)
+            {
+                currentState = newState;
+                ApplyStateVisuals();
+            }
+        }
+        
+        /// <summary>
+        /// 确定节点状态
+        /// </summary>
+        private NodeState DetermineNodeState()
+        {
+            if (nodeData.NodeDataTemporary.hasBeanTrigger)
+            {
+                return NodeState.Triggered;
+            }
+            
+            // 检查是否可以触发（简化版本，实际应该调用NodeManager的检查方法）
+            if (CanBTriggered())
+            {
+                return NodeState.Triggerable;
+            }
+            
+            if (!nodeData.NodeDataTemporary.hasBeanShowing)
+            {
+                return NodeState.Hidden;
+            }
+            
+            return NodeState.Locked;
+        }
+        
+        /// <summary>
+        /// 简化的触发条件检查
+        /// </summary>
+        private bool CanBTriggered()
+        {
+            // 如果已经触发过，不能再次触发
+            if (nodeData.NodeDataTemporary.hasBeanTrigger)
+                return false;
+            
+            // 如果还没有显示，不能触发
+            if (!nodeData.NodeDataTemporary.hasBeanShowing)
+                return false;
+            
+            // 这里应该有更复杂的条件检查逻辑
+            // 实际项目中应该通过NodeManager来检查
+            return true;
+        }
+        
+        /// <summary>
+        /// 应用状态视觉效果
+        /// </summary>
+        private void ApplyStateVisuals()
+        {
+            if (nodeImage == null) return;
+            
+            Color targetColor = normalColor;
+            bool interactable = true;
+            
+            switch (currentState)
+            {
+                case NodeState.Normal:
+                    targetColor = normalColor;
+                    break;
+                case NodeState.Triggerable:
+                    targetColor = triggerableColor;
+                    break;
+                case NodeState.Triggered:
+                    targetColor = triggeredColor;
+                    interactable = false;
+                    break;
+                case NodeState.Locked:
+                    targetColor = lockedColor;
+                    interactable = false;
+                    break;
+                case NodeState.Hidden:
+                    SetVisible(false);
+                    return;
+            }
+            
+            nodeImage.color = targetColor;
+            SetInteractable(interactable);
+            
+            // 更新状态指示器
+            if (nodeStateIndicator != null)
+            {
+                nodeStateIndicator.color = targetColor;
+                nodeStateIndicator.gameObject.SetActive(currentState != NodeState.Normal);
+            }
+        }
+        
+        #endregion
+        
+        #region 可见性和交互性控制
+        
+        /// <summary>
+        /// 设置节点可见性
+        /// </summary>
+        public void SetVisible(bool visible)
+        {
+            isVisible = visible;
+            if (canvasGroup != null)
+            {
+                canvasGroup.alpha = visible ? 1f : 0f;
+                canvasGroup.blocksRaycasts = visible;
+            }
+            else
+            {
+                gameObject.SetActive(visible);
+            }
+        }
+        
+        /// <summary>
+        /// 获取节点可见性
+        /// </summary>
+        public bool IsVisible()
+        {
+            return isVisible;
+        }
+        
+        /// <summary>
+        /// 设置节点交互性
+        /// </summary>
+        public void SetInteractable(bool interactable)
+        {
+            isInteractable = interactable;
+            if (nodeButton != null)
+            {
+                nodeButton.interactable = interactable && isVisible;
+            }
+            
+            if (canvasGroup != null)
+            {
+                canvasGroup.interactable = interactable;
+            }
+        }
+        
+        /// <summary>
+        /// 获取节点交互性
+        /// </summary>
+        public bool IsInteractable()
+        {
+            return isInteractable;
+        }
+        
+        #endregion
+        
+        #region 事件处理
+        
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (isInteractable && isVisible)
+            {
+                OnNodeClicked?.Invoke(this);
+            }
+        }
+        
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            if (isInteractable && isVisible)
+            {
+                OnNodeHovered?.Invoke(this);
+                StartHoverAnimation();
+                ShowTooltip();
+            }
+        }
+        
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (isInteractable && isVisible)
+            {
+                OnNodeUnhovered?.Invoke(this);
+                StopHoverAnimation();
+                HideTooltip();
+            }
+        }
+        
+        #endregion
+        
+        #region 动画效果
+        
+        /// <summary>
+        /// 开始悬停动画
+        /// </summary>
+        private void StartHoverAnimation()
+        {
+            if (hoverAnimation != null)
+                StopCoroutine(hoverAnimation);
+            
+            hoverAnimation = StartCoroutine(PlayHoverAnimation(true));
+        }
+        
+        /// <summary>
+        /// 停止悬停动画
+        /// </summary>
+        private void StopHoverAnimation()
+        {
+            if (hoverAnimation != null)
+                StopCoroutine(hoverAnimation);
+            
+            hoverAnimation = StartCoroutine(PlayHoverAnimation(false));
+        }
+        
+        /// <summary>
+        /// 播放悬停动画
+        /// </summary>
+        private IEnumerator PlayHoverAnimation(bool hoverIn)
+        {
+            Vector3 startScale = transform.localScale;
+            Vector3 targetScale = hoverIn ? originalScale * hoverScale : originalScale;
+            
+            float elapsedTime = 0f;
+            while (elapsedTime < hoverDuration)
+            {
+                elapsedTime += Time.deltaTime;
+                float progress = elapsedTime / hoverDuration;
+                float curveValue = hoverCurve.Evaluate(progress);
+                
+                transform.localScale = Vector3.Lerp(startScale, targetScale, curveValue);
+                yield return null;
+            }
+            
+            transform.localScale = targetScale;
+            hoverAnimation = null;
+        }
+        
+        #endregion
+        
+        #region 工具提示
+        
+        /// <summary>
+        /// 显示工具提示
+        /// </summary>
+        private void ShowTooltip()
+        {
+            if (nodeTooltip != null && nodeData?.NodeDataPersistent != null)
+            {
+                nodeTooltip.SetActive(true);
+                // 这里可以更新工具提示的内容
+                UpdateTooltipContent();
+            }
+        }
+        
+        /// <summary>
+        /// 隐藏工具提示
+        /// </summary>
+        private void HideTooltip()
+        {
+            if (nodeTooltip != null)
+            {
+                nodeTooltip.SetActive(false);
+            }
+        }
+        
+        /// <summary>
+        /// 更新工具提示内容
+        /// </summary>
+        private void UpdateTooltipContent()
+        {
+            if (nodeTooltip == null || nodeData?.NodeDataPersistent == null) return;
+            
+            // 查找工具提示中的文本组件并更新内容
+            var tooltipText = nodeTooltip.GetComponentInChildren<TextMeshProUGUI>();
+            if (tooltipText != null)
+            {
+                string content = $"节点: {nodeData.NodeDataPersistent.nodeName}\n";
+                content += $"状态: {GetStateDisplayName(currentState)}\n";
+                content += $"深度: {depth}";
+                
+                tooltipText.text = content;
+            }
+        }
+        
+        /// <summary>
+        /// 获取状态显示名称
+        /// </summary>
+        private string GetStateDisplayName(NodeState state)
+        {
+            switch (state)
+            {
+                case NodeState.Normal: return "正常";
+                case NodeState.Triggerable: return "可触发";
+                case NodeState.Triggered: return "已触发";
+                case NodeState.Locked: return "锁定";
+                case NodeState.Hidden: return "隐藏";
+                default: return "未知";
+            }
+        }
+        
+        #endregion
+        
+        #region 公共方法
+        
+        /// <summary>
+        /// 获取当前状态
+        /// </summary>
+        public NodeState GetCurrentState()
+        {
+            return currentState;
+        }
+        
+        /// <summary>
+        /// 强制更新显示
+        /// </summary>
+        public void ForceUpdateDisplay()
+        {
+            UpdateNodeDisplay();
+            UpdateNodeState();
+        }
+        
+        #endregion
+        
+        private void OnDestroy()
+        {
+            // 清理事件
+            OnNodeClicked = null;
+            OnNodeHovered = null;
+            OnNodeUnhovered = null;
+            
+            // 停止所有协程
+            if (hoverAnimation != null)
+                StopCoroutine(hoverAnimation);
         }
     }
     
-    public void OnPointerExit()
+    /// <summary>
+    /// 节点状态枚举
+    /// </summary>
+    public enum NodeState
     {
-        if (!isDragging)
-        {
-            SetNodeColor(normalColor);
-            transform.localScale = originalScale;
-        }
-    }
-    
-    private void SetNodeColor(Color color)
-    {
-        if (nodeImage != null)
-        {
-            nodeImage.color = color;
-        }
-    }
-    
-    // 重置节点位置
-    public void ResetPosition()
-    {
-        rectTransform.anchoredPosition = originalPosition;
-        if (connectionLines != null)
-        {
-            connectionLines.SetDirtyAll();
-        }
-    }
-    
-    // 设置节点是否可拖拽
-    public void SetDraggable(bool draggable)
-    {
-        isDraggable = draggable;
-    }
-    
-    // 获取节点的世界坐标
-    public Vector3 GetWorldPosition()
-    {
-        return rectTransform.position;
-    }
-    
-    // 获取连接点位置（用于连线）
-    public RectTransform GetConnectionPoint()
-    {
-        return rectTransform;
-    }
-    
-    // 节点交互方法（预留接口）
-    public virtual void OnNodeInteract()
-    {
-        Debug.Log($"与节点 {nodeData?.NodeDataPersistent.nodeName ?? "Unknown"} 交互");
-        // 子类可以重写此方法实现具体的交互逻辑
-    }
-    
-    // 节点连接方法（预留接口）
-    public virtual bool CanConnectTo(NodeComponent otherNode)
-    {
-        // 基础连接规则，子类可以重写
-        return otherNode != null && otherNode != this;
-    }
-    
-    // 创建到其他节点的连接
-    public void CreateConnectionTo(NodeComponent targetNode, Color? connectionColor = null)
-    {
-        if (connectionLines != null && CanConnectTo(targetNode))
-        {
-            connectionLines.AddConnection(
-                this.GetConnectionPoint(),
-                targetNode.GetConnectionPoint(),
-                5f,
-                connectionColor ?? Color.white
-            );
-        }
+        Normal,      // 正常状态
+        Triggerable, // 可触发状态
+        Triggered,   // 已触发状态
+        Locked,      // 锁定状态
+        Hidden       // 隐藏状态
     }
 }

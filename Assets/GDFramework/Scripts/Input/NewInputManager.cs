@@ -1,5 +1,8 @@
 using GDFramework.Models;
+using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.Data;
+using GDFrameworkExtend.PoolKit;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,10 +17,27 @@ namespace GDFramework.Input
 
     public struct SInputEvent_MouseLeftClick
     {
+        
     }
 
     public struct SInputEvent_MouseRightClick
     {
+        
+    }
+
+    public struct SInputEvent_MouseMiddleDown
+    {
+        
+    }
+
+    public struct SInputEvent_MouseMiddleUp
+    {
+        
+    }
+
+    public struct SInputEvent_MouseMiddleScroll
+    {
+        public Vector2 scrollValue;
     }
 
     #endregion
@@ -27,19 +47,21 @@ namespace GDFramework.Input
     /// </summary>
     public class NewInputManager : AbstractSystem
     {
-        private InputActionAsset actionAsset;
+        private InputActionAsset _actionAsset;
 
         #region Mouse
 
-        private InputActionMap PlayerMouseMap;
+        private InputActionMap _playerMouseMap;
 
-        private InputAction mouseDrag;
+        private InputAction _mouseDrag;
 
-        private InputAction mouseLeftClick;
+        private InputAction _mouseLeftClick;
 
-        private InputAction mouseRightClick;
+        private InputAction _mouseRightClick;
 
-        private Vector2 curMousePosition;
+        private InputAction _mouseMiddleClick;
+
+        private InputAction _mouseMiddleScroll;
 
         #endregion
 
@@ -50,7 +72,8 @@ namespace GDFramework.Input
         protected override void OnDeinit()
         {
             UnregisterInputCallbacks();
-            if (actionAsset != null) actionAsset.Disable();
+            if (_actionAsset != null) 
+                _actionAsset.Disable();
         }
 
         /// <summary>
@@ -58,13 +81,16 @@ namespace GDFramework.Input
         /// </summary>
         public void InitActionAsset()
         {
-            actionAsset = this.GetModel<GameDataModel>().InputActionAsset;
+            _actionAsset = this.GetModel<GameDataModel>().InputActionAsset;
 
-            PlayerMouseMap = actionAsset.FindActionMap("PlayerMouseMap");
-            mouseDrag = actionAsset.FindAction("MouseDrag");
-            mouseLeftClick = actionAsset.FindAction("MouseLeftClick");
-            mouseRightClick = actionAsset.FindAction("MouseRightClick");
-
+            _playerMouseMap = _actionAsset.FindActionMap("PlayerMouseMap");
+            _mouseDrag = _actionAsset.FindAction("MouseDrag");
+            _mouseLeftClick = _actionAsset.FindAction("MouseLeftClick");
+            _mouseRightClick = _actionAsset.FindAction("MouseRightClick");
+            
+            _mouseMiddleClick = _actionAsset.FindAction("MouseMiddleClick");
+            _mouseMiddleScroll = _actionAsset.FindAction("MouseMiddleScroll");
+            
             CheckMouseMap(true);
             RegisterInputCallbacks();
         }
@@ -73,11 +99,11 @@ namespace GDFramework.Input
         {
             if (enable)
             {
-                PlayerMouseMap.Enable();
+                _playerMouseMap.Enable();
             }
             else
             {
-                PlayerMouseMap.Disable();
+                _playerMouseMap.Disable();
             }
         }
 
@@ -86,15 +112,32 @@ namespace GDFramework.Input
         /// </summary>
         private void RegisterInputCallbacks()
         {
-            if (mouseDrag != null)
+            if (_playerMouseMap != null)
             {
-                mouseDrag.performed += HandleMouseDrag;
-                mouseDrag.canceled += HandleMouseDrag_Cancel;
+                _mouseDrag.performed += HandleMouseDrag;
+                _mouseDrag.canceled += HandleMouseDragCancel;
             }
 
-            if (mouseLeftClick != null) mouseLeftClick.performed += HandleMouseLeftClick;
-
-            if (mouseRightClick != null) mouseRightClick.performed += HandleMouseRightClick;
+            if (_mouseLeftClick != null)
+            {
+                _mouseLeftClick.performed += HandleMouseLeftClick;
+            }
+            
+            if (_mouseRightClick != null)
+            {
+                _mouseRightClick.performed += HandleMouseRightClick;
+            }
+            
+            if (_mouseMiddleClick != null)
+            {
+                _mouseMiddleClick.performed += HandleMouseMiddleDown;
+                _mouseMiddleClick.canceled += HandleMouseMiddleUp;
+            }
+            
+            if (_mouseMiddleScroll != null)
+            {
+                _mouseMiddleScroll.performed += HandleMouseMiddleScroll;
+            }
         }
 
         /// <summary>
@@ -102,15 +145,17 @@ namespace GDFramework.Input
         /// </summary>
         private void UnregisterInputCallbacks()
         {
-            if (mouseDrag != null)
+            if (_mouseDrag != null)
             {
-                mouseDrag.performed -= HandleMouseDrag;
-                mouseDrag.canceled -= HandleMouseDrag_Cancel;
+                _mouseDrag.performed -= HandleMouseDrag;
+                _mouseDrag.canceled -= HandleMouseDragCancel;
             }
 
-            if (mouseLeftClick != null) mouseLeftClick.performed -= HandleMouseLeftClick;
+            if (_mouseLeftClick != null) 
+                _mouseLeftClick.performed -= HandleMouseLeftClick;
 
-            if (mouseRightClick != null) mouseRightClick.performed -= HandleMouseRightClick;
+            if (_mouseRightClick != null) 
+                _mouseRightClick.performed -= HandleMouseRightClick;
         }
 
         #region Mouse
@@ -135,19 +180,18 @@ namespace GDFramework.Input
         /// <param name="context"></param>
         private void HandleMouseDrag(InputAction.CallbackContext context)
         {
-            curMousePosition = context.ReadValue<Vector2>();
+            this.SendEvent(new SInputEvent_MouseDrag(){mousePos = context.ReadValue<Vector2>()});
         }
 
         /// <summary>
         /// 清空鼠标输入（鼠标停止时）
         /// </summary>
         /// <param name="context"></param>
-        private void HandleMouseDrag_Cancel(InputAction.CallbackContext context)
+        private void HandleMouseDragCancel(InputAction.CallbackContext context)
         {
-            curMousePosition = Vector2.zero;
+            this.SendEvent(new SInputEvent_MouseDrag(){mousePos = Vector2.zero});
         }
-
-
+        
         /// <summary>
         /// 处理输入--鼠标左键
         /// </summary>
@@ -164,6 +208,37 @@ namespace GDFramework.Input
             this.SendEvent<SInputEvent_MouseRightClick>();
         }
 
+        /// <summary>
+        /// 处理输入--鼠标中键按住不放
+        /// </summary>
+        /// <param name="context"></param>
+        private void HandleMouseMiddleDown(InputAction.CallbackContext context)
+        {
+            LogMonoUtility.AddLog("按住鼠标中键");
+            this.SendEvent<SInputEvent_MouseMiddleDown>();
+        }
+        
+        /// <summary>
+        /// 处理输入--鼠标中键松开
+        /// </summary>
+        /// <param name="context"></param>
+        private void HandleMouseMiddleUp(InputAction.CallbackContext context)
+        {
+            LogMonoUtility.AddLog("松开鼠标中键");
+            this.SendEvent<SInputEvent_MouseMiddleUp>();
+        }
+
+        /// <summary>
+        /// 处理输入--鼠标滚轮
+        /// </summary>
+        /// <param name="context"></param>
+        private void HandleMouseMiddleScroll(InputAction.CallbackContext context)
+        {
+            this.SendEvent<SInputEvent_MouseMiddleScroll>(new SInputEvent_MouseMiddleScroll()
+            {
+                scrollValue = context.ReadValue<Vector2>()
+            });
+        }
         #endregion
 
         /// <summary>

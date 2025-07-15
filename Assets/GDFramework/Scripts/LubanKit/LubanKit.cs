@@ -38,7 +38,6 @@ namespace GDFramework.LubanKit
             var _mloader = ResLoader.Allocate();
             _mloader.Add2Load<TextAsset>($"yoo:{files}", (a, res) =>
             {
-
                 if (a)
                 {
                     jsons = res.Asset.As<TextAsset>().bytes;

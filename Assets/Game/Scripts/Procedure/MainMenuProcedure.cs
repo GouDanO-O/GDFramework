@@ -1,4 +1,5 @@
-﻿using GDFrameworkCore;
+﻿using GDFramework.Input;
+using GDFrameworkCore;
 using GDFramework.Procedure;
 using GDFramework.Scene;
 using GDFramework.Utility;
@@ -13,18 +14,31 @@ namespace Game.Procedure
     /// </summary>
     public class MainMenuProcedure : ProcedureBase, ICanGetSystem
     {
-        public override void OnInit(FsmManager  fsmManager)
+        public override void OnInit(FsmManager fsmManager)
         {
             base.OnInit(fsmManager);
         }
 
         public override void OnEnter()
         {
+            //StartLoadMenu();
+            StartTestScene();
+        }
+
+        private void StartLoadMenu()
+        {
             SceneLoaderKit sceneLoaderKit = this.GetSystem<SceneLoaderKit>();
             sceneLoaderKit.onLoadScene.Invoke(ESceneName.Menu);
 
             sceneLoaderKit.OnSceneLoadStart += LoadMenuSceneStart;
             sceneLoaderKit.OnSceneLoadComplete += LoadMenuSceneComplete;
+        }
+
+        private void StartTestScene()
+        {
+            this.GetSystem<NewInputManager>().InitActionAsset();
+            SceneLoaderKit sceneLoaderKit = this.GetSystem<SceneLoaderKit>();
+            sceneLoaderKit.onLoadScene.Invoke(ESceneName.TestScene);
         }
 
         /// <summary>

@@ -24,16 +24,10 @@ namespace GDFramework.YooAssetKit
         public string PackageVersion ="1.0.0";
         
         public ResourceDownloaderOperation ResourceDownloaderOperation{get;private set;}
-
-        private EPlayMode PlayMode => FrameManager.Instance.YooAssetPlayMode;
-
+        
         private ResourcePackage package;
 
         private IRemoteServices remoteServices;
-        
-        private string _defaultHostServer = "http://127.0.0.1/CDN/Android/v1.0";
-        
-        private string _fallbackHostServer = "http://127.0.0.1/CDN/Android/v1.0";
         
         public PatchOperation PatchOperation;
         
