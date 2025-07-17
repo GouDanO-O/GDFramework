@@ -1,4 +1,5 @@
-﻿using GDFrameworkCore;
+﻿using System;
+using GDFrameworkCore;
 using GDFrameworkExtend.SingletonKit;
 
 namespace Game.World.Player
@@ -14,6 +15,11 @@ namespace Game.World.Player
             return Main.Interface;
         }
 
+        private void Start()
+        {
+            InitPlayer();
+        }
+
         /// <summary>
         /// 初始化玩家
         /// </summary>
@@ -25,6 +31,7 @@ namespace Game.World.Player
         private void InitData()
         {
             _playerHealthy = this.GetSystem<PlayerHealthy>();
+            _playerHealthy.InitPlayerHealthy();
             _playerInventory = this.GetSystem<PlayerInventory>();
         }
     }

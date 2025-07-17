@@ -1,4 +1,5 @@
 ﻿using System;
+using GDFramework.Utility;
 using GDFrameworkCore;
 using GDFrameworkExtend.StorageKit;
 using UnityEngine;
@@ -7,34 +8,36 @@ namespace Game.World.Player
 {
     public class PlayerHealthyModel : AbstractModel
     {
-        public BindableProperty<int> CurrentHealth { get; set; }
+        [AutoSave] 
+        public BindableProperty<int> CurrentHealth = new BindableProperty<int>();
+
+        public BindableProperty<int> MaxHealth = new BindableProperty<int>();
         
-        public BindableProperty<int> MaxHealth { get; set; }
-        
-        public BindableProperty<int> CurrentArmor { get; set; }
-        
-        public BindableProperty<int> MaxArmor { get; set; }
-        
-        public BindableProperty<bool> IsDeath { get; set; }
-        
-        public BindableProperty<bool> IsInvincible { get; set; }
+        [AutoSave] 
+        public BindableProperty<int> CurrentArmor = new BindableProperty<int>();
+
+        public BindableProperty<int> MaxArmor = new BindableProperty<int>();
+
+        public BindableProperty<bool> IsDeath = new BindableProperty<bool>();
+
+        public BindableProperty<bool> IsInvincible = new BindableProperty<bool>();
         
         protected override void OnInit()
         {
             
         }
 
-        private void InitPlayerHealthyModel()
+        public void InitPlayerHealthyModel()
         {
             RegisterBindableProperties();
+            
+            BeHarmed(1);
         }
 
         private void RegisterBindableProperties()
         {
-            
-            
             this.CurrentArmor.Value=this.MaxArmor.Value;
-            this.CurrentHealth.Value=this.MaxHealth.Value;
+            //this.CurrentHealth.Value=this.MaxHealth.Value;
             
             this.IsDeath.SetValueWithoutEvent(false);
             this.IsInvincible.Value = false;

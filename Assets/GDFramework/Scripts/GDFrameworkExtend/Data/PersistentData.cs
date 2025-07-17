@@ -8,9 +8,6 @@ namespace GDFrameworkExtend.Data
     /// </summary>
     public abstract class PersistentData 
     {
-        public PersistentData()
-        {
-            
-        }
+        
     }
 }

@@ -11,7 +11,6 @@ namespace Game.World
     /// 游戏节点固定数据
     /// 不会受到玩家行为的变更而产生变化
     /// </summary>
-    [CreateAssetMenu(fileName = "NodeDataPersistent", menuName = "节点固定数据")]
     public class NodeDataPersistent : ConfigData
     {
         [LabelText("节点ID(对玩家不可见)")]

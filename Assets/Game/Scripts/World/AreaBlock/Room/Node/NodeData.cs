@@ -42,7 +42,6 @@ namespace Game.World
         {
             _nodeDataPersistent = nodeDataPersistent;
             _nodeDataTemporary = new NodeDataTemporary();
-            _nodeDataTemporary.InitData();
         }
 
         /// <summary>
@@ -54,8 +53,6 @@ namespace Game.World
             {
                 _nodeDataPersistent = nodeData._nodeDataPersistent;
                 _nodeDataTemporary = new NodeDataTemporary();
-
-                _nodeDataTemporary.InitData();
             }
         }
 
@@ -103,7 +100,7 @@ namespace Game.World
         /// </summary>
         public void SaveNodeData()
         {
-            _nodeDataPersistent.SaveData();
+            
         }
 
         /// <summary>
@@ -111,7 +108,7 @@ namespace Game.World
         /// </summary>
         public void DestroyNodeData()
         {
-            _nodeDataTemporary.DeInitData();
+            
         }
     }
 }

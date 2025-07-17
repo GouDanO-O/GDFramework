@@ -1,4 +1,5 @@
 ﻿using GDFrameworkCore;
+using GDFrameworkExtend.StorageKit;
 
 namespace Game.World.Player
 {
@@ -8,13 +9,17 @@ namespace Game.World.Player
         
         protected override void OnInit()
         {
-            InitPlayerHealthy();
+            
         }
 
-        private void InitPlayerHealthy()
+        public void InitPlayerHealthy()
         {
+            
             _playerHealthyModel = this.GetModel<PlayerHealthyModel>();
-
+            this.GetSystem<StorageKit>().RegisterSaveableObject(_playerHealthyModel);
+            
+            _playerHealthyModel.InitPlayerHealthyModel();
+            
             _playerHealthyModel.IsDeath.Register((value) =>
             {
                 PlayerDeath(value);

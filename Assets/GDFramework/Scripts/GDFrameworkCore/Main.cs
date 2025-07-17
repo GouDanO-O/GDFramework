@@ -1,3 +1,4 @@
+using Game;
 using Game.Models.Resource;
 using GDFramework.Input;
 using GDFramework.LubanKit;
@@ -11,10 +12,11 @@ using GDFramework.View;
 using GDFramework.World;
 using GDFramework.World.Object;
 using GDFramework.YooAssetKit;
+using GDFrameworkExtend.StorageKit;
 
 namespace GDFrameworkCore
 {
-    public class Main : Architecture<Main>
+    public class Main : Architecture<GameMain>
     {
         /// <summary>
         /// 初始化
@@ -40,7 +42,7 @@ namespace GDFrameworkCore
             this.RegisterSystem(new SdkManager());
             this.RegisterSystem(new YooAssetManager());
             this.RegisterSystem(new LubanKit());
-            
+            this.RegisterSystem(new StorageKit());
             this.RegisterSystem(new NewInputManager());
 
             this.RegisterSystem(new WorldObjectManager());

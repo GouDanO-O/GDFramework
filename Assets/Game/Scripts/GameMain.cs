@@ -1,5 +1,6 @@
 ﻿using Game.World.Player;
 using GDFrameworkCore;
+using GDFrameworkExtend.StorageKit;
 
 namespace Game
 {

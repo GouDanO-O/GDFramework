@@ -1,376 +1,499 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using GDFramework.Utility;
 using GDFrameworkCore;
 using GDFrameworkExtend.Data;
+using GDFrameworkExtend.SingletonKit;
 using UnityEngine;
 
 namespace GDFrameworkExtend.StorageKit
 {
     public class StorageKit : AbstractSystem
     {
-        private Dictionary<Type, string> _persistentDataKeys = new Dictionary<Type, string>();
-        private Dictionary<Type, string> _temporalityDataKeys = new Dictionary<Type, string>();
-        private Dictionary<Type, string> _modelKeys = new Dictionary<Type, string>();
+        private Dictionary<object, Dictionary<string, MemberInfo>> _registeredObjects =
+            new Dictionary<object, Dictionary<string, MemberInfo>>();
 
-        private string _currentSaveSlot = "DefaultSave";
+        /// <summary>
+        /// 默认存档槽
+        /// </summary>
+        private string _currentSaveSlot = "default";
 
         protected override void OnInit()
         {
-            // 初始化默认存档槽
-            SetCurrentSaveSlot("DefaultSave");
+        }
+
+        /// <summary>
+        /// 注册可存储的对象
+        /// </summary>
+        public void RegisterSaveableObject(object obj)
+        {
+            if (_registeredObjects.ContainsKey(obj))
+                return;
+            Debug.Log($"注册对象: {obj.GetType().Name}");
+            var memberInfos = GetAutoSaveMembers(obj.GetType());
+            Debug.Log($"发现 {memberInfos.Count} 个AutoSave成员");
+            _registeredObjects[obj] = memberInfos;
+            // 立即加载数据
+            LoadObjectData(obj, memberInfos);
+            // 注册BindableProperty变化监听
+            RegisterPropertyChangeListeners(obj, memberInfos);
+        }
+
+        /// <summary>
+        /// 注销可存储的对象
+        /// </summary>
+        public void UnregisterSaveableObject(object obj)
+        {
+            if (_registeredObjects.ContainsKey(obj))
+            {
+                _registeredObjects.Remove(obj);
+            }
         }
 
         /// <summary>
         /// 设置当前存档槽
         /// </summary>
-        /// <param name="saveSlot">存档槽名称</param>
-        public void SetCurrentSaveSlot(string saveSlot)
+        public void SetCurrentSaveSlot(string slotName)
         {
-            _currentSaveSlot = saveSlot;
+            _currentSaveSlot = slotName;
         }
 
         /// <summary>
-        /// 获取当前存档槽
+        /// 保存单个字段/属性
         /// </summary>
-        /// <returns></returns>
-        public string GetCurrentSaveSlot()
+        public void SaveSingleField(object obj, string memberName)
         {
-            return _currentSaveSlot;
-        }
-
-        #region Model存储相关方法
-
-        /// <summary>
-        /// 保存AbstractModel数据
-        /// </summary>
-        /// <typeparam name="T">Model类型</typeparam>
-        /// <param name="model">要保存的Model实例</param>
-        public void SaveModel<T>(T model) where T : AbstractModel
-        {
-            string key = GetModelKey<T>();
-            try
+            Debug.Log($"尝试保存字段: {obj.GetType().Name}.{memberName}");
+            if (!_registeredObjects.ContainsKey(obj))
             {
-                ES3.Save(key, model);
-                Debug.Log($"Model {typeof(T).Name} saved successfully with key: {key}");
+                Debug.LogWarning($"对象 {obj.GetType().Name} 未注册");
+                return;
             }
-            catch (Exception e)
+
+
+            var memberInfos = _registeredObjects[obj];
+            if (!memberInfos.ContainsKey(memberName))
+                return;
+
+            var memberInfo = memberInfos[memberName];
+            var saveKey = GetSaveKey(memberInfo, obj.GetType(), obj);
+
+            object value = null;
+            Type memberType = null;
+
+            if (memberInfo is FieldInfo fieldInfo)
             {
-                Debug.LogError($"Failed to save model {typeof(T).Name}: {e.Message}");
+                value = fieldInfo.GetValue(obj);
+                memberType = fieldInfo.FieldType;
+            }
+            else if (memberInfo is PropertyInfo propertyInfo)
+            {
+                value = propertyInfo.GetValue(obj);
+                memberType = propertyInfo.PropertyType;
+            }
+
+            if (IsBindableProperty(memberType))
+            {
+                var bindableValue = GetBindablePropertyValue(value);
+                SaveValue(saveKey, bindableValue, GetBindablePropertyInnerType(memberType));
+            }
+            else
+            {
+                SaveValue(saveKey, value, memberType);
             }
         }
 
         /// <summary>
-        /// 加载AbstractModel数据
+        /// 保存对象的所有数据
         /// </summary>
-        /// <typeparam name="T">Model类型</typeparam>
-        /// <param name="defaultValue">默认值</param>
-        /// <returns>加载的Model实例</returns>
-        public T LoadModel<T>(T defaultValue = null) where T : AbstractModel
+        public void SaveObjectData(object obj)
         {
-            string key = GetModelKey<T>();
-            try
+            if (!_registeredObjects.ContainsKey(obj))
+                return;
+
+            var memberInfos = _registeredObjects[obj];
+            foreach (var kvp in memberInfos)
             {
-                if (ES3.KeyExists(key))
+                SaveSingleField(obj, kvp.Key);
+            }
+        }
+
+        /// <summary>
+        /// 加载对象数据
+        /// </summary>
+        private void LoadObjectData(object obj, Dictionary<string, MemberInfo> memberInfos)
+        {
+            foreach (var kvp in memberInfos)
+            {
+                var memberInfo = kvp.Value;
+                var saveKey = GetSaveKey(memberInfo, obj.GetType(), obj);
+
+                if (memberInfo is FieldInfo fieldInfo)
                 {
-                    T loadedModel = ES3.Load<T>(key);
-                    Debug.Log($"Model {typeof(T).Name} loaded successfully with key: {key}");
-                    return loadedModel;
+                    if (IsBindableProperty(fieldInfo.FieldType))
+                    {
+                        var bindableProperty = fieldInfo.GetValue(obj);
+                        if (bindableProperty == null)
+                        {
+                            bindableProperty = CreateBindableProperty(fieldInfo.FieldType);
+                            fieldInfo.SetValue(obj, bindableProperty);
+                        }
+
+                        var loadedValue = LoadValue(saveKey, GetBindablePropertyInnerType(fieldInfo.FieldType));
+                        if (loadedValue != null)
+                        {
+                            SetBindablePropertyValue(bindableProperty, loadedValue);
+                        }
+                    }
+                    else
+                    {
+                        var loadedValue = LoadValue(saveKey, fieldInfo.FieldType);
+                        if (loadedValue != null)
+                        {
+                            fieldInfo.SetValue(obj, loadedValue);
+                        }
+                    }
+                }
+                else if (memberInfo is PropertyInfo propertyInfo)
+                {
+                    if (IsBindableProperty(propertyInfo.PropertyType))
+                    {
+                        var bindableProperty = propertyInfo.GetValue(obj);
+                        if (bindableProperty == null)
+                        {
+                            bindableProperty = CreateBindableProperty(propertyInfo.PropertyType);
+                            propertyInfo.SetValue(obj, bindableProperty);
+                        }
+
+                        var loadedValue = LoadValue(saveKey, GetBindablePropertyInnerType(propertyInfo.PropertyType));
+                        if (loadedValue != null)
+                        {
+                            SetBindablePropertyValue(bindableProperty, loadedValue);
+                        }
+                    }
+                    else
+                    {
+                        var loadedValue = LoadValue(saveKey, propertyInfo.PropertyType);
+                        if (loadedValue != null)
+                        {
+                            propertyInfo.SetValue(obj, loadedValue);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 注册BindableProperty变化监听
+        /// </summary>
+        private void RegisterPropertyChangeListeners(object obj, Dictionary<string, MemberInfo> memberInfos)
+        {
+            foreach (var kvp in memberInfos)
+            {
+                var memberInfo = kvp.Value;
+                var memberName = kvp.Key;
+
+                object bindableProperty = null;
+                Type memberType = null;
+
+                if (memberInfo is FieldInfo fieldInfo && IsBindableProperty(fieldInfo.FieldType))
+                {
+                    bindableProperty = fieldInfo.GetValue(obj);
+                    memberType = fieldInfo.FieldType;
+
+                    // 如果BindableProperty为null，先创建实例
+                    if (bindableProperty == null)
+                    {
+                        bindableProperty = CreateBindableProperty(fieldInfo.FieldType);
+                        fieldInfo.SetValue(obj, bindableProperty);
+                    }
+                }
+                else if (memberInfo is PropertyInfo propertyInfo && IsBindableProperty(propertyInfo.PropertyType))
+                {
+                    bindableProperty = propertyInfo.GetValue(obj);
+                    memberType = propertyInfo.PropertyType;
+
+                    // 如果BindableProperty为null，先创建实例
+                    if (bindableProperty == null)
+                    {
+                        bindableProperty = CreateBindableProperty(propertyInfo.PropertyType);
+                        propertyInfo.SetValue(obj, bindableProperty);
+                    }
+                }
+
+                if (bindableProperty != null)
+                {
+                    // 创建特定的回调，捕获当前的obj和memberName
+                    var specificCallback =
+                        CreateSpecificCallback(obj, memberName, GetBindablePropertyInnerType(memberType));
+
+                    // 使用反射注册监听
+                    var registerMethod = memberType.GetMethod("Register",
+                        new[] { typeof(Action<>).MakeGenericType(GetBindablePropertyInnerType(memberType)) });
+                    if (registerMethod != null)
+                    {
+                        registerMethod.Invoke(bindableProperty, new[] { specificCallback });
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 创建特定的回调，避免闭包问题
+        /// </summary>
+        private object CreateSpecificCallback(object targetObj, string memberName, Type valueType)
+        {
+            var actionType = typeof(Action<>).MakeGenericType(valueType);
+            var method = typeof(StorageKit).GetMethod(nameof(SpecificCallbackWrapper),
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            var genericMethod = method.MakeGenericMethod(valueType);
+
+            // 创建一个包装方法，传递必要的参数
+            var wrapper = new Action<object>(value => SaveSingleField(targetObj, memberName));
+
+            return Delegate.CreateDelegate(actionType, this, genericMethod);
+        }
+
+        private void SpecificCallbackWrapper<T>(T value)
+        {
+            // 这里需要通过其他方式获取对象和成员信息
+            // 由于闭包限制，暂时保持全量保存
+            SaveAllRegisteredObjects();
+        }
+
+        /// <summary>
+        /// 保存所有注册的对象
+        /// </summary>
+        public void SaveAllRegisteredObjects()
+        {
+            foreach (var obj in _registeredObjects.Keys.ToList())
+            {
+                SaveObjectData(obj);
+            }
+        }
+
+        /// <summary>
+        /// 获取存储键
+        /// </summary>
+        private string GetSaveKey(MemberInfo member, Type objectType, object instance)
+        {
+            var autoSaveAttr = member.GetCustomAttribute<AutoSaveAttribute>();
+            var baseKey = autoSaveAttr?.SaveKey ?? $"{objectType.Name}_{member.Name}";
+
+            if (typeof(PersistentData).IsAssignableFrom(objectType))
+            {
+                return $"Persistent_{baseKey}";
+            }
+            else if (typeof(TemporalityData).IsAssignableFrom(objectType))
+            {
+                // 为每个TemporalityData实例生成唯一标识
+                var instanceId = instance.GetHashCode();
+                return $"Temporal_{_currentSaveSlot}_{objectType.Name}_{instanceId}_{baseKey}";
+            }
+            else if (typeof(AbstractModel).IsAssignableFrom(objectType))
+            {
+                return $"Model_{_currentSaveSlot}_{baseKey}";
+            }
+            else
+            {
+                return $"Data_{_currentSaveSlot}_{baseKey}";
+            }
+        }
+
+        /// <summary>
+        /// 获取标记了AutoSave特性的成员
+        /// </summary>
+        private Dictionary<string, MemberInfo> GetAutoSaveMembers(Type type)
+        {
+            var result = new Dictionary<string, MemberInfo>();
+
+            // 获取字段
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(f => f.GetCustomAttribute<AutoSaveAttribute>() != null);
+
+            foreach (var field in fields)
+            {
+                result[field.Name] = field;
+            }
+
+            // 获取属性
+            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+                .Where(p => p.GetCustomAttribute<AutoSaveAttribute>() != null);
+
+            foreach (var property in properties)
+            {
+                result[property.Name] = property;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 保存值到Easy Save
+        /// </summary>
+        private void SaveValue(string key, object value, Type valueType)
+        {
+            if (value == null) 
+                return;
+            
+            try
+            {
+                if (valueType == typeof(int))
+                {
+                    ES3.Save(key, (int)value);
+                }
+                else if (valueType == typeof(float))
+                {
+                    ES3.Save(key, (float)value);
+                }
+                else if (valueType == typeof(string))
+                {
+                    ES3.Save(key, (string)value);
+                }
+                else if (valueType == typeof(bool))
+                {
+                    ES3.Save(key, (bool)value);
+                }
+                else if (valueType == typeof(Vector2))
+                {
+                    ES3.Save(key, (Vector2)value);
+                }
+                else if (valueType == typeof(Vector3))
+                {
+                    ES3.Save(key, (Vector3)value);
+                }
+                else if (valueType.IsEnum)
+                {
+                    ES3.Save(key, value.ToString());
                 }
                 else
                 {
-                    Debug.Log($"No saved data found for model {typeof(T).Name}, returning default value");
-                    return defaultValue;
+                    ES3.Save(key, value);
                 }
+                LogMonoUtility.AddLog("保存字段:"+key+"=>"+value.ToString()+"=>"+valueType.ToString());
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to load model {typeof(T).Name}: {e.Message}");
-                return defaultValue;
+                Debug.LogError($"保存数据失败: {key}, 错误: {e.Message}");
             }
         }
 
         /// <summary>
-        /// 检查Model是否存在存档
+        /// 从Easy Save加载值
         /// </summary>
-        /// <typeparam name="T">Model类型</typeparam>
-        /// <returns>是否存在存档</returns>
-        public bool HasModelSave<T>() where T : AbstractModel
+        private object LoadValue(string key, Type valueType)
         {
-            string key = GetModelKey<T>();
-            return ES3.KeyExists(key);
-        }
+            if (!ES3.KeyExists(key)) return null;
 
-        /// <summary>
-        /// 删除Model存档
-        /// </summary>
-        /// <typeparam name="T">Model类型</typeparam>
-        public void DeleteModel<T>() where T : AbstractModel
-        {
-            string key = GetModelKey<T>();
-            if (ES3.KeyExists(key))
-            {
-                ES3.DeleteKey(key);
-                Debug.Log($"Model {typeof(T).Name} save data deleted");
-            }
-        }
-
-        private string GetModelKey<T>() where T : AbstractModel
-        {
-            Type type = typeof(T);
-            if (!_modelKeys.ContainsKey(type))
-            {
-                _modelKeys[type] = $"Model_{type.Name}_{_currentSaveSlot}";
-            }
-
-            return _modelKeys[type];
-        }
-
-        #endregion
-
-        #region PersistentData存储相关方法
-
-        /// <summary>
-        /// 保存PersistentData数据（全局数据，不受存档影响）
-        /// </summary>
-        /// <typeparam name="T">PersistentData类型</typeparam>
-        /// <param name="data">要保存的数据实例</param>
-        public void SavePersistentData<T>(T data) where T : PersistentData
-        {
-            string key = GetPersistentDataKey<T>();
             try
             {
-                ES3.Save(key, data);
-                Debug.Log($"PersistentData {typeof(T).Name} saved successfully with key: {key}");
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to save PersistentData {typeof(T).Name}: {e.Message}");
-            }
-        }
-
-        /// <summary>
-        /// 加载PersistentData数据
-        /// </summary>
-        /// <typeparam name="T">PersistentData类型</typeparam>
-        /// <param name="defaultValue">默认值</param>
-        /// <returns>加载的数据实例</returns>
-        public T LoadPersistentData<T>(T defaultValue = null) where T : PersistentData
-        {
-            string key = GetPersistentDataKey<T>();
-            try
-            {
-                if (ES3.KeyExists(key))
+                if (valueType == typeof(int))
                 {
-                    T loadedData = ES3.Load<T>(key);
-                    Debug.Log($"PersistentData {typeof(T).Name} loaded successfully with key: {key}");
-                    return loadedData;
+                    return ES3.Load<int>(key);
+                }
+                else if (valueType == typeof(float))
+                {
+                    return ES3.Load<float>(key);
+                }
+                else if (valueType == typeof(string))
+                {
+                    return ES3.Load<string>(key);
+                }
+                else if (valueType == typeof(bool))
+                {
+                    return ES3.Load<bool>(key);
+                }
+                else if (valueType == typeof(Vector2))
+                {
+                    return ES3.Load<Vector2>(key);
+                }
+                else if (valueType == typeof(Vector3))
+                {
+                    return ES3.Load<Vector3>(key);
+                }
+                else if (valueType.IsEnum)
+                {
+                    var enumString = ES3.Load<string>(key);
+                    return Enum.Parse(valueType, enumString);
                 }
                 else
                 {
-                    Debug.Log($"No saved data found for PersistentData {typeof(T).Name}, returning default value");
-                    return defaultValue;
+                    return ES3.Load(key, valueType);
                 }
             }
             catch (Exception e)
             {
-                Debug.LogError($"Failed to load PersistentData {typeof(T).Name}: {e.Message}");
-                return defaultValue;
+                Debug.LogError($"加载数据失败: {key}, 错误: {e.Message}");
+                return null;
             }
         }
 
         /// <summary>
-        /// 检查PersistentData是否存在存档
+        /// 判断是否为BindableProperty类型
         /// </summary>
-        /// <typeparam name="T">PersistentData类型</typeparam>
-        /// <returns>是否存在存档</returns>
-        public bool HasPersistentDataSave<T>() where T : PersistentData
+        private bool IsBindableProperty(Type type)
         {
-            string key = GetPersistentDataKey<T>();
-            return ES3.KeyExists(key);
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(BindableProperty<>);
         }
 
         /// <summary>
-        /// 删除PersistentData存档
+        /// 获取BindableProperty的内部类型
         /// </summary>
-        /// <typeparam name="T">PersistentData类型</typeparam>
-        public void DeletePersistentData<T>() where T : PersistentData
+        private Type GetBindablePropertyInnerType(Type bindablePropertyType)
         {
-            string key = GetPersistentDataKey<T>();
-            if (ES3.KeyExists(key))
+            return bindablePropertyType.GetGenericArguments()[0];
+        }
+
+        /// <summary>
+        /// 创建BindableProperty实例
+        /// </summary>
+        private object CreateBindableProperty(Type bindablePropertyType)
+        {
+            return Activator.CreateInstance(bindablePropertyType);
+        }
+
+        /// <summary>
+        /// 获取BindableProperty的值
+        /// </summary>
+        private object GetBindablePropertyValue(object bindableProperty)
+        {
+            if (bindableProperty == null) return null;
+            var valueProperty = bindableProperty.GetType().GetProperty("Value");
+            return valueProperty?.GetValue(bindableProperty);
+        }
+
+        /// <summary>
+        /// 设置BindableProperty的值
+        /// </summary>
+        private void SetBindablePropertyValue(object bindableProperty, object value)
+        {
+            if (bindableProperty == null) return;
+            var valueProperty = bindableProperty.GetType().GetProperty("Value");
+            valueProperty?.SetValue(bindableProperty, value);
+        }
+
+        /// <summary>
+        /// 删除存档
+        /// </summary>
+        public void DeleteSaveSlot(string slotName)
+        {
+            var keys = ES3.GetKeys();
+            var keysToDelete = keys.Where(key => key.Contains($"_{slotName}_")).ToList();
+
+            foreach (var key in keysToDelete)
             {
                 ES3.DeleteKey(key);
-                Debug.Log($"PersistentData {typeof(T).Name} save data deleted");
-            }
-        }
-
-        private string GetPersistentDataKey<T>() where T : PersistentData
-        {
-            Type type = typeof(T);
-            if (!_persistentDataKeys.ContainsKey(type))
-            {
-                // PersistentData不受存档槽影响，全局唯一
-                _persistentDataKeys[type] = $"PersistentData_{type.Name}";
-            }
-
-            return _persistentDataKeys[type];
-        }
-
-        #endregion
-
-        #region TemporalityData存储相关方法
-
-        /// <summary>
-        /// 保存TemporalityData数据（临时数据，受存档影响）
-        /// </summary>
-        /// <typeparam name="T">TemporalityData类型</typeparam>
-        /// <param name="data">要保存的数据实例</param>
-        public void SaveTemporalityData<T>(T data) where T : TemporalityData
-        {
-            string key = GetTemporalityDataKey<T>();
-            try
-            {
-                ES3.Save(key, data);
-                Debug.Log($"TemporalityData {typeof(T).Name} saved successfully with key: {key}");
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to save TemporalityData {typeof(T).Name}: {e.Message}");
             }
         }
 
         /// <summary>
-        /// 加载TemporalityData数据
+        /// 清除所有数据
         /// </summary>
-        /// <typeparam name="T">TemporalityData类型</typeparam>
-        /// <param name="defaultValue">默认值</param>
-        /// <returns>加载的数据实例</returns>
-        public T LoadTemporalityData<T>(T defaultValue = null) where T : TemporalityData
+        public void ClearAllData()
         {
-            string key = GetTemporalityDataKey<T>();
-            try
-            {
-                if (ES3.KeyExists(key))
-                {
-                    T loadedData = ES3.Load<T>(key);
-                    Debug.Log($"TemporalityData {typeof(T).Name} loaded successfully with key: {key}");
-                    return loadedData;
-                }
-                else
-                {
-                    Debug.Log($"No saved data found for TemporalityData {typeof(T).Name}, returning default value");
-                    return defaultValue;
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError($"Failed to load TemporalityData {typeof(T).Name}: {e.Message}");
-                return defaultValue;
-            }
+            ES3.DeleteFile();
         }
-
-        /// <summary>
-        /// 检查TemporalityData是否存在存档
-        /// </summary>
-        /// <typeparam name="T">TemporalityData类型</typeparam>
-        /// <returns>是否存在存档</returns>
-        public bool HasTemporalityDataSave<T>() where T : TemporalityData
-        {
-            string key = GetTemporalityDataKey<T>();
-            return ES3.KeyExists(key);
-        }
-
-        /// <summary>
-        /// 删除TemporalityData存档
-        /// </summary>
-        /// <typeparam name="T">TemporalityData类型</typeparam>
-        public void DeleteTemporalityData<T>() where T : TemporalityData
-        {
-            string key = GetTemporalityDataKey<T>();
-            if (ES3.KeyExists(key))
-            {
-                ES3.DeleteKey(key);
-                Debug.Log($"TemporalityData {typeof(T).Name} save data deleted");
-            }
-        }
-
-        private string GetTemporalityDataKey<T>() where T : TemporalityData
-        {
-            Type type = typeof(T);
-            if (!_temporalityDataKeys.ContainsKey(type))
-            {
-                // TemporalityData受存档槽影响
-                _temporalityDataKeys[type] = $"TemporalityData_{type.Name}_{_currentSaveSlot}";
-            }
-
-            return _temporalityDataKeys[type];
-        }
-
-        #endregion
-
-        #region 存档管理方法
-
-        /// <summary>
-        /// 删除整个存档槽的所有数据
-        /// </summary>
-        /// <param name="saveSlot">存档槽名称</param>
-        public void DeleteSaveSlot(string saveSlot)
-        {
-            string oldSaveSlot = _currentSaveSlot;
-            SetCurrentSaveSlot(saveSlot);
-
-            // 删除所有Model和TemporalityData
-            _modelKeys.Clear();
-            _temporalityDataKeys.Clear();
-
-            // 这里需要根据你的具体需求来删除相关键值
-            ES3.DeleteDirectory($"SaveSlot_{saveSlot}");
-
-            Debug.Log($"Save slot {saveSlot} deleted");
-
-            SetCurrentSaveSlot(oldSaveSlot);
-        }
-
-        /// <summary>
-        /// 检查存档槽是否存在
-        /// </summary>
-        /// <param name="saveSlot">存档槽名称</param>
-        /// <returns>是否存在</returns>
-        public bool SaveSlotExists(string saveSlot)
-        {
-            return ES3.DirectoryExists($"SaveSlot_{saveSlot}");
-        }
-
-        /// <summary>
-        /// 获取所有存档槽名称
-        /// </summary>
-        /// <returns>存档槽名称数组</returns>
-        public string[] GetAllSaveSlots()
-        {
-            return ES3.GetDirectories();
-        }
-
-        #endregion
-
-        #region 便捷方法
-
-        /// <summary>
-        /// 保存所有数据
-        /// </summary>
-        public void SaveAll()
-        {
-            // 这里你可以根据需要保存所有已注册的数据
-            Debug.Log("SaveAll called - implement based on your specific models");
-        }
-
-        /// <summary>
-        /// 加载所有数据
-        /// </summary>
-        public void LoadAll()
-        {
-            // 这里你可以根据需要加载所有已注册的数据
-            Debug.Log("LoadAll called - implement based on your specific models");
-        }
-
-        #endregion
     }
 }
