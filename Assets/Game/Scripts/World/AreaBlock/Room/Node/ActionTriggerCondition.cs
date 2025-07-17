@@ -6,10 +6,12 @@ namespace Game.World
 {
     public enum TriggerConditionType
     {
-        Always,        // 总是满足
-        HasItem,       // 拥有特定物品
-        PlayerLevel,   // 玩家等级
-        CustomScript   // 自定义脚本
+        [LabelText("没有限制条件,直接满足")]
+        Always,        
+        [LabelText("拥有特定物品")]
+        HasItem,      
+        [LabelText("玩家等级")]
+        PlayerLevel,   
     }
     
     [Serializable]
@@ -30,11 +32,7 @@ namespace Game.World
         [LabelText("需要的等级")]
         [ShowIf("conditionType", TriggerConditionType.PlayerLevel)]
         public int requiredLevel = 1;
-
-        [LabelText("自定义条件脚本")]
-        [ShowIf("conditionType", TriggerConditionType.CustomScript)]
-        public MonoBehaviour customConditionScript;
-
+        
         /// <summary>
         /// 检查条件是否满足
         /// </summary>
@@ -49,9 +47,6 @@ namespace Game.World
                     return true;
                 case TriggerConditionType.PlayerLevel:
                     // TODO: 实现等级检查逻辑
-                    return true;
-                case TriggerConditionType.CustomScript:
-                    // TODO: 实现自定义脚本检查逻辑
                     return true;
                 default:
                     return false;

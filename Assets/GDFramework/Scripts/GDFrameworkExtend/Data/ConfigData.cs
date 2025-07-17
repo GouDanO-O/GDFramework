@@ -1,15 +1,11 @@
-﻿using UnityEngine;
+﻿using System.IO;
+using UnityEngine;
 
 namespace GDFrameworkExtend.Data
 {
-    public class ConfigData : ScriptableObject,IPersistentData
+    public abstract class ConfigData : PersistentData
     {
-        public void LoadData(IPersistentData data)
-        {
-            
-        }
-
-        public void SaveData()
+        public virtual void LoadFromFile()
         {
             
         }

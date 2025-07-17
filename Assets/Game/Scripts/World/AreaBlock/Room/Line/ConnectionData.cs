@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Game.World
 {
-    [System.Serializable]
+    [Serializable]
     public class ConnectionData
     {
         [Header("连接点")]
@@ -26,11 +27,6 @@ namespace Game.World
         public float dashLength = 10f; // 虚线长度
         public float gapLength = 5f;   // 虚线间隔
         public AnimationCurve widthCurve = AnimationCurve.Linear(0, 1, 1, 1); // 宽度变化曲线
-        
-        [Header("动画效果")]
-        public bool enableAnimation = false;
-        public float animationSpeed = 1f;
-        public ConnectionAnimation animationType = ConnectionAnimation.None;
         
         [Header("箭头")]
         public bool showArrow = false;
@@ -166,15 +162,6 @@ namespace Game.World
         Dashed,     // 虚线
         Dotted,     // 点线
         Wave        // 波浪线
-    }
-    
-    public enum ConnectionAnimation
-    {
-        None,           // 无动画
-        Flow,           // 流动效果
-        Pulse,          // 脉冲效果
-        Glow,           // 发光效果
-        Dash            // 虚线流动
     }
     
     public enum ArrowType

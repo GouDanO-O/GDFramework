@@ -3,12 +3,6 @@ using GDFrameworkExtend.Data;
 
 namespace Game.World
 {
-    
-    public class AreaBlockDto
-    {
-        
-    }
-    
     /// <summary>
     /// 每个区块里面包含有多个房间
     /// 区块都必定会有入口,但是不一定会有出口

@@ -1,0 +1,27 @@
+﻿using Game.World.Player;
+using GDFrameworkCore;
+
+namespace Game
+{
+    public class GameMain : Main
+    {
+        protected override void Register_System()
+        {
+            base.Register_System();
+            this.RegisterSystem(new PlayerHealthy());
+            this.RegisterSystem(new PlayerInventory());
+        }
+        
+        protected override void Register_Model()
+        {
+            base.Register_Model();
+            this.RegisterModel(new PlayerHealthyModel());
+            this.RegisterModel(new PlayerInventoryModel());
+        }
+
+        protected override void Register_Utility()
+        {
+            base.Register_Utility();
+        }
+    }
+}

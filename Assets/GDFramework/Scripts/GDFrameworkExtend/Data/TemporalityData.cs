@@ -1,12 +1,16 @@
-﻿namespace GDFrameworkExtend.Data
+﻿using GDFrameworkExtend.StorageKit;
+
+namespace GDFrameworkExtend.Data
 {
     /// <summary>
-    /// 临时对象数据--非池
+    /// 临时游戏数据
+    /// 仅当前存档中持续存在,会被玩家的行为影响而产生影响
     /// </summary>
     public abstract class TemporalityData
     {
-        public abstract void InitData();
-        
-        public abstract void DeInitData();
+        public TemporalityData()
+        {
+            
+        }
     }
 }

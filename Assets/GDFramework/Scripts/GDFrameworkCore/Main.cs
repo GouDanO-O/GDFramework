@@ -24,7 +24,6 @@ namespace GDFrameworkCore
             Register_Utility();
             Register_Model();
             Register_System();
-            Register_Event();
 
             LoadFrameSettingUtility();
         }
@@ -32,7 +31,7 @@ namespace GDFrameworkCore
         /// <summary>
         /// 注册System
         /// </summary>
-        protected void Register_System()
+        protected virtual void Register_System()
         {
             this.RegisterSystem(new ResourcesManager());
             this.RegisterSystem(new SceneLoaderKit());
@@ -50,7 +49,7 @@ namespace GDFrameworkCore
         /// <summary>
         /// 注册Model
         /// </summary>
-        protected void Register_Model()
+        protected virtual void Register_Model()
         {
             this.RegisterModel(new LaunchResourcesDataModel());
             this.RegisterModel(new GameSceneResourcesDataModel());
@@ -64,7 +63,7 @@ namespace GDFrameworkCore
         /// <summary>
         /// 注册Utility
         /// </summary>
-        protected void Register_Utility()
+        protected virtual void Register_Utility()
         {
             this.RegisterUtility(new ResoucesUtility());
             this.RegisterUtility(new MultilingualUtility());
@@ -74,7 +73,7 @@ namespace GDFrameworkCore
         /// <summary>
         /// 根据框架设置来添加模块
         /// </summary>
-        protected void LoadFrameSettingUtility()
+        protected virtual void LoadFrameSettingUtility()
         {
             FrameManager frameManager = FrameManager.Instance;
             if (frameManager.WillShowCheatWindow)
@@ -90,20 +89,6 @@ namespace GDFrameworkCore
             this.RegisterUtility(frameManager.gameObject.AddComponent<CoroutineMonoUtility>());;
             
             this.RegisterUtility(frameManager.gameObject.AddComponent<GUIUtility>());;
-        }
-    
-        /// <summary>
-        /// 注册事件
-        /// </summary>
-        protected void Register_Event()
-        {
-        }
-    
-        /// <summary>
-        /// 注销事件
-        /// </summary>
-        protected void UnRegister_Event()
-        {
         }
     }
 }

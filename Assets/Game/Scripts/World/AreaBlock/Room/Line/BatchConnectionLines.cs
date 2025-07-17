@@ -2,28 +2,179 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 namespace Game.World
 {
     [RequireComponent(typeof(CanvasRenderer))]
     public class BatchConnectionLines : MaskableGraphic
     {
-        [Header("连接线数据")] public List<ConnectionData> connections = new List<ConnectionData>();
+        [TabGroup("连接管理")]
+        [ListDrawerSettings(
+            Expanded = true,
+            ShowIndexLabels = true,
+            ShowPaging = true,
+            NumberOfItemsPerPage = 5,
+            DraggableItems = true,
+            HideAddButton = false,
+            HideRemoveButton = false,
+            CustomAddFunction = nameof(AddNewConnection),
+            CustomRemoveIndexFunction = nameof(RemoveConnectionAt)
+        )]
+        [PropertySpace(SpaceAfter = 10)]
+        public List<ConnectionData> connections = new List<ConnectionData>();
 
-        [Header("性能优化")] public bool enableCulling = true;
+        [TabGroup("连接管理")]
+        [Button("全部展开", ButtonSizes.Medium)]
+        [GUIColor(0.7f, 1f, 0.7f)]
+        private void ExpandAll()
+        {
+            Debug.Log("全部展开连接");
+        }
+
+        [TabGroup("连接管理")]
+        [Button("全部收起", ButtonSizes.Medium)]
+        [GUIColor(1f, 0.7f, 0.7f)]
+        private void CollapseAll()
+        {
+            Debug.Log("全部收起连接");
+        }
+
+        [TabGroup("连接管理")]
+        [Button("清空全部", ButtonSizes.Medium)]
+        [GUIColor(1f, 0.5f, 0.5f)]
+        private void ClearAllConnectionsInspector()
+        {
+            ClearAllConnections();
+        }
+
+        [TabGroup("连接管理")]
+        [LabelWidth(80)]
+        [LabelText("连线样式"),SerializeField] 
+        private ConnectionStyle _batchStyle = ConnectionStyle.Solid;
+
+        [TabGroup("连接管理")]
+        [Button("应用样式", ButtonSizes.Medium)]
+        [GUIColor(0.7f, 0.7f, 1f)]
+        private void ApplyBatchStyle()
+        {
+            SetAllConnectionsStyle(_batchStyle);
+        }
+
+        [TabGroup("连接管理")]
+        [LabelWidth(80)]
+        [LabelText("连线颜色"),SerializeField] 
+        private Color _batchColor = Color.white;
+
+        [TabGroup("连接管理")]
+        [Button("应用颜色", ButtonSizes.Medium)]
+        [GUIColor(0.7f, 1f, 1f)]
+        private void ApplyBatchColor()
+        {
+            foreach (var connection in connections)
+            {
+                connection.startColor = _batchColor;
+                connection.endColor = _batchColor;
+                connection.isDirty = true;
+            }
+            needsRebuild = true;
+        }
+
+        [TabGroup("性能设置")]
+        [LabelText("是否允许剔除"),PropertySpace(SpaceAfter = 5)]
+        public bool enableCulling = true;
+
+        [TabGroup("性能设置")]
+        [ShowIf("enableCulling")]
+        [Range(100, 5000)]
+        [LabelText("剔除距离"),SuffixLabel("pixels")]
         public float cullingDistance = 2000f;
+
+        [TabGroup("性能设置")]
+        [Range(1, 100)]
+        [LabelText("最大同时渲染线数量"),SuffixLabel("lines/frame")]
         public int maxLinesPerFrame = 50;
 
-        [Header("全局设置")] public int globalCurveResolution = 20; // 全局曲线分辨率
-        public bool enableGlobalAnimation = true;
+        [TabGroup("性能设置")]
+        [Range(3, 50)]
+        [LabelText("渲染质量设置"),SuffixLabel("segments")]
+        public int globalCurveResolution = 20;
 
+        [TabGroup("性能设置")]
+        [ShowInInspector]
+        [ReadOnly]
+        [LabelText("当前连接数")]
+        private int ConnectionCount => connections.Count;
+
+        [TabGroup("性能设置")]
+        [ShowInInspector]
+        [ReadOnly]
+        [LabelText("需要重建")]
+        private bool NeedsRebuild => needsRebuild;
+
+        [TabGroup("调试")]
+        [ShowInInspector]
+        [ReadOnly]
+        [LabelText("脏连接数")]
+        private int DirtyConnectionCount
+        {
+            get
+            {
+                int count = 0;
+                foreach (var connection in connections)
+                {
+                    if (connection.isDirty) count++;
+                }
+                return count;
+            }
+        }
+
+        [TabGroup("调试")]
+        [ShowInInspector]
+        [ReadOnly]
+        [LabelText("缓存位置数")]
+        private int CachedPositionCount => cachedPositions.Count;
+
+        [TabGroup("调试")]
+        [Button("强制重建所有", ButtonSizes.Large)]
+        [GUIColor(1f, 0.8f, 0.6f)]
+        private void ForceRebuildAll()
+        {
+            SetDirtyAll();
+        }
+
+        [TabGroup("调试")]
+        [Button("清理缓存", ButtonSizes.Large)]
+        [GUIColor(0.8f, 0.8f, 1f)]
+        private void ClearCache()
+        {
+            cachedPositions.Clear();
+            foreach (var connection in connections)
+            {
+                connection.cachedCurvePoints = null;
+                connection.isDirty = true;
+            }
+            needsRebuild = true;
+        }
+
+        // 私有字段（不显示在 Inspector 中）
+        [HideInInspector]
         private List<Vector2> cachedPositions = new List<Vector2>();
+        
+        [HideInInspector]
         private int updateIndex = 0;
+        
+        [HideInInspector]
         private bool needsRebuild = true;
+        
+        [HideInInspector]
         private float globalAnimationTime = 0f;
 
         // 对象池
+        [HideInInspector]
         private Queue<List<UIVertex>> vertexListPool = new Queue<List<UIVertex>>();
+        
+        [HideInInspector]
         private Queue<List<int>> triangleListPool = new Queue<List<int>>();
 
         protected override void Start()
@@ -37,21 +188,11 @@ namespace Game.World
             }
         }
 
-        void Update()
+        /// <summary>
+        /// 更新所有点位
+        /// </summary>
+        public void UpdateLineRender()
         {
-            UpdateLineRender();
-        }
-
-        private void UpdateLineRender()
-        {
-            // 更新全局动画时间
-            if (enableGlobalAnimation)
-            {
-                globalAnimationTime += Time.deltaTime;
-                UpdateAnimations();
-            }
-
-            // 分帧检查连接点是否移动
             CheckForMovement();
 
             if (needsRebuild)
@@ -60,29 +201,11 @@ namespace Game.World
                 needsRebuild = false;
             }
         }
-
-        void UpdateAnimations()
-        {
-            bool hasAnimatedConnections = false;
-
-            foreach (var connection in connections)
-            {
-                if (connection.enableAnimation && connection.animationType != ConnectionAnimation.None)
-                {
-                    connection.animationTime += Time.deltaTime * connection.animationSpeed;
-                    hasAnimatedConnections = true;
-                }
-            }
-
-            if (hasAnimatedConnections)
-            {
-                needsRebuild = true;
-            }
-        }
-
+        
         void CheckForMovement()
         {
-            if (connections.Count == 0) return;
+            if (connections.Count == 0) 
+                return;
 
             int checkCount = Mathf.Min(maxLinesPerFrame, connections.Count);
             int startIdx = updateIndex;
@@ -99,7 +222,6 @@ namespace Game.World
                 {
                     connection.isDirty = true;
                     needsRebuild = true;
-                    // 清除缓存的曲线点
                     connection.cachedCurvePoints = null;
                 }
             }
@@ -236,6 +358,14 @@ namespace Game.World
             }
         }
 
+        /// <summary>
+        /// 线条
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="connection"></param>
+        /// <param name="vertexOffset"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
         int AddSolidCurve(VertexHelper vh, ConnectionData connection, int vertexOffset, int resolution)
         {
             Vector2 localPos1, localPos2;
@@ -284,9 +414,16 @@ namespace Game.World
             return vertexCount;
         }
 
+        /// <summary>
+        /// 虚线
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="connection"></param>
+        /// <param name="vertexOffset"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
         int AddDashedCurve(VertexHelper vh, ConnectionData connection, int vertexOffset, int resolution)
         {
-            // 虚线实现
             Vector2 localPos1, localPos2;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rectTransform, connection.startPoint.position, null, out localPos1);
@@ -342,9 +479,17 @@ namespace Game.World
             return vertexCount;
         }
 
+        /// <summary>
+        /// 点线
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="connection"></param>
+        /// <param name="vertexOffset"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
         int AddDottedCurve(VertexHelper vh, ConnectionData connection, int vertexOffset, int resolution)
         {
-            // 点线实现
+
             Vector2 localPos1, localPos2;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rectTransform, connection.startPoint.position, null, out localPos1);
@@ -370,9 +515,16 @@ namespace Game.World
             return vertexCount;
         }
 
+        /// <summary>
+        /// 波浪线
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="connection"></param>
+        /// <param name="vertexOffset"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
         int AddWaveCurve(VertexHelper vh, ConnectionData connection, int vertexOffset, int resolution)
         {
-            // 波浪线实现
             Vector2 localPos1, localPos2;
             RectTransformUtility.ScreenPointToLocalPointInRectangle(
                 rectTransform, connection.startPoint.position, null, out localPos1);
@@ -428,6 +580,13 @@ namespace Game.World
             return vertexCount;
         }
 
+        /// <summary>
+        /// 添加箭头
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="connection"></param>
+        /// <param name="vertexOffset"></param>
+        /// <returns></returns>
         int AddArrows(VertexHelper vh, ConnectionData connection, int vertexOffset)
         {
             Vector2 localPos1, localPos2;
@@ -460,6 +619,15 @@ namespace Game.World
             return vertexCount;
         }
 
+        /// <summary>
+        /// 添加箭头
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="position"></param>
+        /// <param name="direction"></param>
+        /// <param name="connection"></param>
+        /// <param name="vertexOffset"></param>
+        /// <returns></returns>
         int AddArrow(VertexHelper vh, Vector2 position, Vector2 direction, ConnectionData connection, int vertexOffset)
         {
             switch (connection.arrowType)
@@ -475,6 +643,15 @@ namespace Game.World
             }
         }
 
+        /// <summary>
+        /// 添加三角形箭头
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="position"></param>
+        /// <param name="direction"></param>
+        /// <param name="connection"></param>
+        /// <param name="vertexOffset"></param>
+        /// <returns></returns>
         int AddTriangleArrow(VertexHelper vh, Vector2 position, Vector2 direction, ConnectionData connection,
             int vertexOffset)
         {
@@ -498,6 +675,15 @@ namespace Game.World
             return 3;
         }
 
+        /// <summary>
+        /// 添加钻石箭头
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="position"></param>
+        /// <param name="direction"></param>
+        /// <param name="connection"></param>
+        /// <param name="vertexOffset"></param>
+        /// <returns></returns>
         int AddDiamondArrow(VertexHelper vh, Vector2 position, Vector2 direction, ConnectionData connection,
             int vertexOffset)
         {
@@ -525,6 +711,16 @@ namespace Game.World
             return 4;
         }
 
+        /// <summary>
+        /// 添加圆点
+        /// </summary>
+        /// <param name="vh"></param>
+        /// <param name="center"></param>
+        /// <param name="radius"></param>
+        /// <param name="color"></param>
+        /// <param name="vertexOffset"></param>
+        /// <param name="segments"></param>
+        /// <returns></returns>
         int AddCircle(VertexHelper vh, Vector2 center, float radius, Color color, int vertexOffset, int segments)
         {
             // 添加中心点
@@ -550,49 +746,29 @@ namespace Game.World
             return vertexCount;
         }
 
+        /// <summary>
+        /// 渲染动画颜色
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
         Color GetAnimatedColor(ConnectionData connection, float t)
         {
             Color baseColor = connection.useGradient
                 ? Color.Lerp(connection.startColor, connection.endColor, t)
                 : connection.startColor;
-
-            if (!connection.enableAnimation)
-                return baseColor;
-
-            switch (connection.animationType)
-            {
-                case ConnectionAnimation.Flow:
-                {
-                    float flowPos = (connection.animationTime + t) % 1f;
-                    float intensity = Mathf.Sin(flowPos * Mathf.PI * 2) * 0.5f + 0.5f;
-                    return Color.Lerp(baseColor, Color.white, intensity * 0.3f);
-                }
-                case ConnectionAnimation.Pulse:
-                {
-                    float pulse = Mathf.Sin(connection.animationTime * 2) * 0.5f + 0.5f;
-                    return Color.Lerp(baseColor, Color.white, pulse * 0.5f);
-                }
-                case ConnectionAnimation.Glow:
-                {
-                    float glow = Mathf.Sin(connection.animationTime + t * Mathf.PI) * 0.5f + 0.5f;
-                    baseColor.a *= glow;
-                    return baseColor;
-                }
-                case ConnectionAnimation.Dash:
-                {
-                    float dashPos = (connection.animationTime * 2 + t * 4) % 2f;
-                    float alpha = dashPos < 1f ? 1f : 0.3f;
-                    baseColor.a *= alpha;
-                    return baseColor;
-                }
-                default:
-                    return baseColor;
-            }
+            return baseColor;
         }
 
+        /// <summary>
+        /// 简化的曲线长度计算
+        /// </summary>
+        /// <param name="connection"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
         float GetCurveLength(ConnectionData connection, Vector2 start, Vector2 end)
         {
-            // 简化的曲线长度计算
             if (connection.curveType == ConnectionCurveType.Straight)
                 return Vector2.Distance(start, end);
 
@@ -620,7 +796,16 @@ namespace Game.World
             return vertex;
         }
 
-        // 公共API - 基础连接管理
+        #region 公共API--基础连接管理
+
+        /// <summary>
+        /// 添加连线
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="width"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
+        ///</summary>
         public int AddConnection(RectTransform start, RectTransform end, float width = 5f, Color? color = null)
         {
             var connection = new ConnectionData
@@ -638,7 +823,18 @@ namespace Game.World
             return connections.Count - 1;
         }
 
-        // 高级连接API
+        /// <summary>
+        /// 添加曲线
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="curveType"></param>
+        /// <param name="curvature"></param>
+        /// <param name="width"></param>
+        /// <param name="startColor"></param>
+        /// <param name="endColor"></param>
+        /// <param name="useGradient"></param>
+        /// <returns></returns>
         public int AddCurvedConnection(RectTransform start, RectTransform end,
             ConnectionCurveType curveType = ConnectionCurveType.Bezier,
             float curvature = 0.5f, float width = 5f,
@@ -662,31 +858,17 @@ namespace Game.World
             return connections.Count - 1;
         }
 
-        // 带动画的连接API
-        public int AddAnimatedConnection(RectTransform start, RectTransform end,
-            ConnectionAnimation animationType = ConnectionAnimation.Flow,
-            float animationSpeed = 1f, float width = 5f,
-            Color? color = null)
-        {
-            var connection = new ConnectionData
-            {
-                startPoint = start,
-                endPoint = end,
-                width = width,
-                startColor = color ?? Color.white,
-                endColor = color ?? Color.white,
-                enableAnimation = true,
-                animationType = animationType,
-                animationSpeed = animationSpeed
-            };
-
-            connections.Add(connection);
-            needsRebuild = true;
-
-            return connections.Count - 1;
-        }
-
-        // 带箭头的连接API
+        /// <summary>
+        /// 带箭头的连接API
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="arrowType"></param>
+        /// <param name="arrowPosition"></param>
+        /// <param name="arrowSize"></param>
+        /// <param name="width"></param>
+        /// <param name="color"></param>
+        /// <returns></returns>
         public int AddArrowConnection(RectTransform start, RectTransform end,
             ArrowType arrowType = ArrowType.Triangle,
             ArrowPosition arrowPosition = ArrowPosition.End,
@@ -711,15 +893,16 @@ namespace Game.World
 
             return connections.Count - 1;
         }
-
-        // 完全自定义连接API
-        public int AddCustomConnection(ConnectionData connectionData)
+        
+        public void RemoveConnection()
         {
-            connections.Add(connectionData);
-            needsRebuild = true;
-            return connections.Count - 1;
+            
         }
-
+        
+        /// <summary>
+        /// 移除连线--通过索引
+        /// </summary>
+        /// <param name="index"></param>
         public void RemoveConnection(int index)
         {
             if (index >= 0 && index < connections.Count)
@@ -729,6 +912,29 @@ namespace Game.World
             }
         }
 
+        public void RemoveConnection(ConnectionData connection)
+        {
+            
+        }
+        
+        /// <summary>
+        /// 更新连线
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="newData"></param>
+        public void UpdateConnection(ConnectionData newData)
+        {
+            if (connections.Contains(newData))
+            {
+                
+            }
+        }
+        
+        /// <summary>
+        /// 更新连线
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="newData"></param>
         public void UpdateConnection(int index, ConnectionData newData)
         {
             if (index >= 0 && index < connections.Count)
@@ -738,6 +944,9 @@ namespace Game.World
                 needsRebuild = true;
             }
         }
+
+        #endregion
+
 
         // 批量更新连接属性
         public void UpdateConnectionStyle(int index, ConnectionStyle style, float dashLength = 10f,
@@ -762,20 +971,6 @@ namespace Game.World
                 connection.curveType = curveType;
                 connection.curvature = curvature;
                 connection.cachedCurvePoints = null; // 清除缓存
-                connection.isDirty = true;
-                needsRebuild = true;
-            }
-        }
-
-        public void UpdateConnectionAnimation(int index, ConnectionAnimation animationType, float speed = 1f)
-        {
-            if (index >= 0 && index < connections.Count)
-            {
-                var connection = connections[index];
-                connection.enableAnimation = animationType != ConnectionAnimation.None;
-                connection.animationType = animationType;
-                connection.animationSpeed = speed;
-                connection.animationTime = 0f;
                 connection.isDirty = true;
                 needsRebuild = true;
             }
@@ -849,19 +1044,48 @@ namespace Game.World
 
             needsRebuild = true;
         }
-
-        public void SetAllConnectionsAnimation(ConnectionAnimation animationType, float speed = 1f)
+        
+        private void AddNewConnection()
         {
-            foreach (var connection in connections)
-            {
-                connection.enableAnimation = animationType != ConnectionAnimation.None;
-                connection.animationType = animationType;
-                connection.animationSpeed = speed;
-                connection.animationTime = UnityEngine.Random.Range(0f, 1f); // 随机起始时间
-                connection.isDirty = true;
-            }
-
+            var newConnection = new ConnectionData();
+            connections.Add(newConnection);
             needsRebuild = true;
+        }
+
+        // 自定义移除连接方法
+        private void RemoveConnectionAt(int index)
+        {
+            if (index >= 0 && index < connections.Count)
+            {
+                connections.RemoveAt(index);
+                needsRebuild = true;
+            }
+        }
+        
+        [TabGroup("调试")]
+        [Button("验证所有连接", ButtonSizes.Medium)]
+        [GUIColor(0.6f, 1f, 0.6f)]
+        private void ValidateAllConnections()
+        {
+            int invalidCount = 0;
+            for (int i = 0; i < connections.Count; i++)
+            {
+                var connection = connections[i];
+                if (connection.startPoint == null || connection.endPoint == null)
+                {
+                    Debug.LogWarning($"连接 {i} 的起点或终点为空");
+                    invalidCount++;
+                }
+            }
+            
+            if (invalidCount == 0)
+            {
+                Debug.Log("所有连接都有效");
+            }
+            else
+            {
+                Debug.LogWarning($"发现 {invalidCount} 个无效连接");
+            }
         }
     }
 }

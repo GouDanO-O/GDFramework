@@ -6,33 +6,25 @@ using GDFrameworkCore;
 using GDFrameworkExtend.Data;
 using GDFrameworkExtend.SingletonKit;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Game.World
 {
-    [Serializable]
-    public class RoomData : PersistentData
-    {
-        /// <summary>
-        /// 进行伸缩的比例
-        /// </summary>
-        public float zoomScaleRatio=0.25f;
-        
-        /// <summary>
-        /// 能够进行缩放的范围
-        /// </summary>
-        public Vector2 zoomScaleArea=new Vector2(0.25f,2f); 
-    }
-    
+    /// <summary>
+    /// 有且仅能同时显示一个房间
+    /// </summary>
     [RequireComponent(typeof(RoomScroll))]
-    public class Room : MonoSingleton<Room>,ICanRegisterEvent,IPointerEnterHandler, IPointerExitHandler
+    public class Room : MonoSingleton<Room>,IController
     {
         public RoomData roomData;
         
         private RoomZoom _roomZoom;
 
         private RoomScroll _roomScroll;
+        
+        private RoomPointerChecker _roomPointerChecker;
         
         /// <summary>
         /// 是否在房间的UI区域
@@ -44,7 +36,7 @@ namespace Game.World
         /// </summary>
         public bool isPressMouseMiddle = false;
 
-        public RectTransform contentRectTransform;
+        private RectTransform contentRectTransform;
         
         public IArchitecture GetArchitecture()
         {
@@ -59,81 +51,35 @@ namespace Game.World
 
         private void InitData()
         {
+            if (_roomPointerChecker == null)
+            {
+                _roomPointerChecker = this.AddComponent<RoomPointerChecker>();
+                _roomPointerChecker.InitRoomPointChecker(this);
+            }
             _roomZoom = new RoomZoom();
             _roomZoom.InitRoomZoom(this,roomData.zoomScaleRatio,roomData.zoomScaleArea);
+            contentRectTransform = this.GetComponent<RectTransform>();
         }
+        
         
         private void RegistEvent()
         {
-            this.RegisterEvent<SInputEvent_MouseMiddleDown>((data) =>
-            {
-                this.HandleMouseMiddleDown();
-            });
             
-            this.RegisterEvent<SInputEvent_MouseMiddleUp>((data) =>
-            {
-                this.HandleMouseMiddleUp();
-            });
-
-            this.RegisterEvent<SInputEvent_MouseDrag>((data) =>
-            {
-                this.HandleMouseMiddleMove(data);
-            });
-
-            this.RegisterEvent<SInputEvent_MouseMiddleScroll>((data) =>
-            {
-                this.HandleMouseMiddleScroll(data);
-            });
         }
+
+        #region RoomManage
+
+        /// <summary>
+        /// 更换房间
+        /// </summary>
+        public void ChangeRoom()
+        {
+            
+        }
+
+        #endregion
         
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            isInRoomArea = true;
-        }
-
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            isInRoomArea = false;
-        }
-
-        /// <summary>
-        /// 按住鼠标中键
-        /// </summary>
-        private void HandleMouseMiddleDown()
-        {
-            isPressMouseMiddle = true;
-        }
-
-        /// <summary>
-        /// 松开鼠标中键
-        /// </summary>
-        private void HandleMouseMiddleUp()
-        {
-            isPressMouseMiddle = false;
-        }
-        
-        /// <summary>
-        /// 处理鼠标移动
-        /// 只有按住鼠标中键且在当前区域时才能进行移动
-        /// </summary>
-        /// <param name="moveData"></param>
-        private void HandleMouseMiddleMove(SInputEvent_MouseDrag moveData)
-        {
-            if (isPressMouseMiddle && isInRoomArea)
-            {
-                LogMonoUtility.AddLog("当鼠标在房间区域内进行移动:"+moveData.mousePos);
-            }
-        }
-
-        private void HandleMouseMiddleScroll(SInputEvent_MouseMiddleScroll scrollData)
-        {
-            if(!isInRoomArea)
-                return;
-
-            float curValue = scrollData.scrollValue.y;
-            LogMonoUtility.AddLog("滚动:"+curValue);
-            _roomZoom.HandleMouseMiddleScroll(curValue);
-        }
+        #region CheckPoint
 
         /// <summary>
         /// 更改房间区域的伸缩比例
@@ -152,5 +98,16 @@ namespace Game.World
         {
             return contentRectTransform.localScale.x;
         }
+
+        /// <summary>
+        /// 滚动鼠标中间滚轮来缩放比例
+        /// </summary>
+        /// <param name="curValue"></param>
+        public void HandleMouseMiddleScroll(float curValue)
+        {
+            _roomZoom.HandleMouseMiddleScroll(curValue);
+        }
+
+        #endregion
     }
 }

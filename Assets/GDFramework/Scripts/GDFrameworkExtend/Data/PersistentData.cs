@@ -1,16 +1,14 @@
+using GDFrameworkExtend.StorageKit;
+
 namespace GDFrameworkExtend.Data
 {
     /// <summary>
-    /// 持久化对象---非池
+    /// 游戏固有数据
+    /// 会在所有存档中持续存在,不会被玩家的行为影响
     /// </summary>
-    public class PersistentData : IPersistentData
+    public abstract class PersistentData 
     {
-        public void LoadData(IPersistentData data)
-        {
-            
-        }
-
-        public void SaveData()
+        public PersistentData()
         {
             
         }
