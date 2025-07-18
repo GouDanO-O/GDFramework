@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using GDFramework.Models;
+using GDFramework.Scripts.Cheater;
 using GDFramework.Utility;
 using GDFrameworkCore;
 using GDFrameworkExtend.Data;
@@ -22,6 +24,28 @@ namespace GDFrameworkExtend.StorageKit
 
         protected override void OnInit()
         {
+            this.RegisterEvents();
+        }
+
+        private void RegisterEvents()
+        {
+            this.GetModel<CheatDataModel>().AddCheatModule("存储所有数据", new StorageSaveAllCheatCommand());
+            this.GetModel<CheatDataModel>().AddCheatModule("清除所有数据", new StorageClearAllCheatCommand());
+        }
+
+        public bool IsNewGame()
+        {
+            bool isNewGame = false;
+            var keys = ES3.GetKeys();
+            if (keys==null || keys.Length == 0)
+                return true;
+            
+            var saveSlotKeys = keys.Where(key => key.Contains($"_{_currentSaveSlot}_")).ToList();
+            
+            isNewGame = saveSlotKeys.Count == 0;
+            
+            LogMonoUtility.AddLog("是否是新游戏:"+isNewGame);
+            return isNewGame;
         }
 
         /// <summary>
@@ -33,7 +57,6 @@ namespace GDFrameworkExtend.StorageKit
                 return;
             Debug.Log($"注册对象: {obj.GetType().Name}");
             var memberInfos = GetAutoSaveMembers(obj.GetType());
-            Debug.Log($"发现 {memberInfos.Count} 个AutoSave成员");
             _registeredObjects[obj] = memberInfos;
             // 立即加载数据
             LoadObjectData(obj, memberInfos);
@@ -284,11 +307,12 @@ namespace GDFrameworkExtend.StorageKit
 
             if (typeof(PersistentData).IsAssignableFrom(objectType))
             {
-                return $"Persistent_{baseKey}";
+                //生成唯一标识
+                var instanceId = instance.GetHashCode();
+                return $"Persistent_{_currentSaveSlot}_{objectType.Name}_{instanceId}_{baseKey}";
             }
             else if (typeof(TemporalityData).IsAssignableFrom(objectType))
             {
-                // 为每个TemporalityData实例生成唯一标识
                 var instanceId = instance.GetHashCode();
                 return $"Temporal_{_currentSaveSlot}_{objectType.Name}_{instanceId}_{baseKey}";
             }
@@ -385,7 +409,8 @@ namespace GDFrameworkExtend.StorageKit
         /// </summary>
         private object LoadValue(string key, Type valueType)
         {
-            if (!ES3.KeyExists(key)) return null;
+            if (!ES3.KeyExists(key)) 
+                return null;
 
             try
             {
@@ -422,6 +447,7 @@ namespace GDFrameworkExtend.StorageKit
                 {
                     return ES3.Load(key, valueType);
                 }
+                LogMonoUtility.AddLog("加载值:"+key+"=>"+valueType.ToString());
             }
             catch (Exception e)
             {
@@ -472,6 +498,7 @@ namespace GDFrameworkExtend.StorageKit
             if (bindableProperty == null) return;
             var valueProperty = bindableProperty.GetType().GetProperty("Value");
             valueProperty?.SetValue(bindableProperty, value);
+            LogMonoUtility.AddLog("设置存储值:"+bindableProperty.GetType().ToString()+"=>"+value.ToString());
         }
 
         /// <summary>
@@ -493,6 +520,7 @@ namespace GDFrameworkExtend.StorageKit
         /// </summary>
         public void ClearAllData()
         {
+            LogMonoUtility.AddLog("清除所有数据");
             ES3.DeleteFile();
         }
     }

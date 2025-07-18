@@ -16,7 +16,7 @@ namespace Game.World
         public ENodeState curNodeState;
         
         [LabelText("节点所处的位置")]
-        public Vector2 NodePosition;
+        public Vector2 curNodePosition;
         
         /// <summary>
         /// 改变节点状态

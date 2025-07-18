@@ -5,16 +5,20 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 using System.Collections;
+using GDFrameworkCore;
 using GDFrameworkExtend.PoolKit;
+using GDFrameworkExtend.StorageKit;
+using Sirenix.OdinInspector;
 using UnityEngine.Events;
 using UnityEngine.Pool;
 
 namespace Game.World
 {
-    public class Node : MonoBehaviour,IPoolable
+    public class Node : MonoBehaviour,ICanGetSystem,IPoolable
     {
         public bool IsRecycled { get; set; }
         
+        [ShowInInspector,AutoSave]
         protected NodeData CurNodeData;
         
         protected NodePointChecker NodePointChecker;
@@ -22,9 +26,21 @@ namespace Game.World
         public UnityAction<Vector2> OnDragNodeEvent;
         
         public UnityAction OnClickNodeEvent;
-        
+
+        public IArchitecture GetArchitecture()
+        {
+            return GameMain.Interface;
+        }
+
+        private void Start()
+        {
+            InitNode();
+        }
+
         public void InitNode()
         {
+            this.CurNodeData = new NodeData();
+            this.GetSystem<StorageKit>().RegisterSaveableObject(this.CurNodeData);
             this.InitData();
             this.RegisterEvents();
         }
@@ -48,7 +64,7 @@ namespace Game.World
 
         private void RegisterEvents()
         {
-            
+            this.OnDragNodeEvent += OnDragEventHandle;
         }
 
         public void SetNodeData(NodeData nodeData)
@@ -102,7 +118,10 @@ namespace Game.World
         {
             return CurNodeData.CanMoveable();
         }
-        
-        
+
+        private void OnDragEventHandle(Vector2 point)
+        {
+            CurNodeData.ChangeTempPosition(point);
+        }
     }
 }

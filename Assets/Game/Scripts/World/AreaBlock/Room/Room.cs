@@ -40,7 +40,7 @@ namespace Game.World
         
         public IArchitecture GetArchitecture()
         {
-            return Main.Interface;
+            return GameMain.Interface;
         }
 
         private void Start()

@@ -1,7 +1,9 @@
 using System;
+using Game;
 using GDFramework.Models;
 using GDFramework.Procedure;
 using GDFrameworkExtend.SingletonKit;
+using GDFrameworkExtend.StorageKit;
 using UnityEngine;
 using YooAsset;
 
@@ -12,7 +14,7 @@ namespace GDFrameworkCore
     /// </summary>
     [AddComponentMenu("")]
     [DisallowMultipleComponent]
-    public class FrameManager : MonoSingleton<FrameManager>, IController, ICanSendEvent
+    public class FrameManager : MonoSingleton<GameManager>, IController, ICanSendEvent
     {
         [SerializeField] private EPlayMode yooAssetPlayMode;
         
@@ -102,5 +104,14 @@ namespace GDFrameworkCore
         
 
         #endregion
+        
+        /// <summary>
+        /// 是否是新游戏
+        /// </summary>
+        /// <returns></returns>
+        public bool IsNewGame()
+        {
+            return this.GetSystem<StorageKit>().IsNewGame();
+        }
     }
 }

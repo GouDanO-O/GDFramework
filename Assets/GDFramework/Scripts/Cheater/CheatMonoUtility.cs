@@ -35,7 +35,7 @@ namespace GDFramework.Utility
                 var thisCommand = cheat.Value;
 
                 // 显示作弊功能的名称和描述
-                GUILayout.Label(thisCommand.Name, GUILayout.Width(200));
+                GUILayout.Label(cheat.Key, GUILayout.Width(200));
 
                 if (thisCommand is AddFreeVideoCheatCommand)
                 {
@@ -47,7 +47,8 @@ namespace GDFramework.Utility
                 else
                 {
                     // 按钮执行作弊功能
-                    if (GUILayout.Button("激活")) cheat.Value.Execute();
+                    if (GUILayout.Button("执行")) 
+                        cheat.Value.Execute();
                 }
 
 

@@ -3,8 +3,10 @@
 using System;
 using System.Collections.Generic;
 using GDFrameworkExtend.Data;
+using GDFrameworkExtend.StorageKit;
 using NUnit.Framework;
 using Sirenix.OdinInspector;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -18,12 +20,14 @@ namespace Game.World
     /// 每次进入区域,首先,序列化所有房间,房间里面又存储
     /// 只存储当前节点的触发状态和位置
     /// </summary>
-    [Serializable, LabelText("节点数据")]
+    [ES3Serializable, LabelText("节点数据")]
     public class NodeData
     {
-        [ShowInInspector] private NodeDataPersistent _nodeDataPersistent;
+        [ShowInInspector,LabelText("节点固定属性")] 
+        private NodeDataPersistent _nodeDataPersistent = new NodeDataPersistent();
 
-        [ShowInInspector] private NodeDataTemporary _nodeDataTemporary;
+        [ShowInInspector,LabelText("节点临时属性")] 
+        private NodeDataTemporary _nodeDataTemporary = new NodeDataTemporary();
 
         public NodeDataPersistent NodeDataPersistent
         {
@@ -35,25 +39,9 @@ namespace Game.World
             get { return _nodeDataTemporary; }
         }
 
-        /// <summary>
-        /// 从持久化数据创建节点数据
-        /// </summary>
-        public NodeData(NodeDataPersistent nodeDataPersistent)
+        public void InitNodeData()
         {
-            _nodeDataPersistent = nodeDataPersistent;
-            _nodeDataTemporary = new NodeDataTemporary();
-        }
-
-        /// <summary>
-        /// 复制节点
-        /// </summary>
-        public NodeData(NodeData nodeData)
-        {
-            if (nodeData?._nodeDataPersistent != null)
-            {
-                _nodeDataPersistent = nodeData._nodeDataPersistent;
-                _nodeDataTemporary = new NodeDataTemporary();
-            }
+            
         }
 
         /// <summary>
@@ -109,6 +97,11 @@ namespace Game.World
         public void DestroyNodeData()
         {
             
+        }
+
+        public void ChangeTempPosition(Vector2 position)
+        {
+            _nodeDataTemporary.curNodePosition = position;
         }
     }
 }

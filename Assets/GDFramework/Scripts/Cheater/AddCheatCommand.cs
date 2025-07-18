@@ -1,4 +1,5 @@
 ﻿using System;
+using GDFramework.Models;
 using GDFrameworkCore;
 
 namespace GDFramework.Cheater
@@ -6,20 +7,14 @@ namespace GDFramework.Cheater
     /// <summary>
     /// 添加作弊模块
     /// </summary>
-    public abstract class AddCheatCommand : AbstractCommand
+    public abstract class AddCheatCommand : ICanGetSystem,ICanGetModel,ICanGetUtility
     {
-        public string Name { get; protected set; }
-
-        public virtual void InitData(string name, Action action)
+        public IArchitecture GetArchitecture()
         {
-            Name = name;
+            return Main.Interface;
         }
-
-        protected override void OnExecute()
-        {
-            //this.GetModel<CheatDataModel>().AddCheatModule(Name, this);
-        }
-
+        
         public abstract void Execute();
+
     }
 }

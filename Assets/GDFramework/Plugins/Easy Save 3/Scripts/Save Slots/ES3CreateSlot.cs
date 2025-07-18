@@ -7,88 +7,87 @@ using UnityEngine.UI;
 using System.Linq;
 
 /// <summary>
-/// A script attached to the Create Slot button to manage slot creation.
+/// 附加到创建槽位按钮的脚本，用于管理槽位创建。
 /// </summary>
 public class ES3CreateSlot : MonoBehaviour
 {
-    [Tooltip("The button used to bring up the 'Create Slot' dialog.")]
-    public Button createButton;
-    [Tooltip("The ES3SlotDialog Component of the Create Slot dialog")]
-    public ES3SlotDialog createDialog;
-    [Tooltip("The TMP_Text input text field of the create slot dialog.")]
-    public TMP_InputField inputField;
-    [Tooltip("The ES3SlotManager this Create Slot Dialog belongs to.")]
+    [Tooltip("用于弹出'创建槽位'对话框的按钮。")] public Button createButton;
+    [Tooltip("创建槽位对话框的ES3SlotDialog组件")] public ES3SlotDialog createDialog;
+    [Tooltip("创建槽位对话框的TMP_Text输入文本字段。")] public TMP_InputField inputField;
+
+    [Tooltip("此创建槽位对话框所属的ES3SlotManager。")]
     public ES3SlotManager mgr;
 
     protected virtual void OnEnable()
     {
-        // Whether we should show or hide this Create Slot button based on the settings in the slot manager.
+        // 根据槽位管理器中的设置，是否应该显示或隐藏此创建槽位按钮。
         gameObject.SetActive(mgr.showCreateSlotButton);
-        // Make it so the Create Slot button brings up the Create Slot dialog.
+        // 使创建槽位按钮弹出创建槽位对话框。
         createButton.onClick.AddListener(ShowCreateSlotDialog);
-        // Add listener to the confirmation button.
+        // 为确认按钮添加监听器。
         createDialog.confirmButton.onClick.AddListener(TryCreateNewSlot);
     }
 
     protected virtual void OnDisable()
     {
-        // Make sure the text field is empty for next time.
+        // 确保文本字段为下次使用而清空。
         inputField.text = string.Empty;
-        // Remove all listeners.
+        // 移除所有监听器。
         createButton.onClick.RemoveAllListeners();
         createDialog.confirmButton.onClick.RemoveAllListeners();
     }
 
-    // Called when the Create new slot button is pressed.
+    // 当创建新槽位按钮被按下时调用。
     protected void ShowCreateSlotDialog()
     {
-        // Make the dialog visible and active.
+        // 使对话框可见并激活。
         createDialog.gameObject.SetActive(true);
-        // Set the input field as active so the player doesn't need to click it to input their name.
+        // 设置输入字段为活动状态，这样玩家不需要点击它就能输入名称。
         inputField.Select();
         inputField.ActivateInputField();
     }
 
-    // Called when the Create button is pressed in the Create New Slot dialog.
+    // 当创建新槽位对话框中的创建按钮被按下时调用。
     public virtual void TryCreateNewSlot()
     {
-        // If the user hasn't specified a name, throw an error.
-        // Note that no other validation of the name is a required as this is handled using a REGEX in the TMP_InputField Component.
+        // 如果用户没有指定名称，抛出错误。
+        // 注意不需要对名称进行其他验证，因为这是通过TMP_InputField组件中的REGEX处理的。
         if (string.IsNullOrEmpty(inputField.text))
         {
-            mgr.ShowErrorDialog("You must specify a name for your save slot");
+            mgr.ShowErrorDialog("您必须为您的存档槽位指定一个名称");
             return;
         }
 
-        // Get the file path for the slot we're trying to create.
+        // 获取我们尝试创建的槽位的文件路径。
         var slotPath = mgr.GetSlotPath(inputField.text);
 
-        // If a slot with this name already exists, require the user to enter a different name,
-        // or if the slot is marked to be deleted, delete it's file so that this one can be created.
+        // 如果具有此名称的槽位已经存在，要求用户输入不同的名称，
+        // 或者如果槽位被标记为删除，删除它的文件以便可以创建这个槽位。
         if (ES3.FileExists(slotPath))
         {
-            // Check whether a slot exists with this name which has been marked for deletion.
-            var slotMarkedForDeletion = mgr.slots.Select(go => go.GetComponent<ES3Slot>()).FirstOrDefault(slot => mgr.GetSlotPath(slot.nameLabel.text) == slotPath && slot.markedForDeletion);
+            // 检查是否存在具有此名称且已被标记为删除的槽位。
+            var slotMarkedForDeletion = mgr.slots.Select(go => go.GetComponent<ES3Slot>()).FirstOrDefault(slot =>
+                mgr.GetSlotPath(slot.nameLabel.text) == slotPath && slot.markedForDeletion);
 
-            // If there's not a slot with this path marked for deletion, force user to choose another name.
+            // 如果没有具有此路径且被标记为删除的槽位，强制用户选择另一个名称。
             if (slotMarkedForDeletion == null)
             {
-                mgr.ShowErrorDialog("A slot already exists with this name. Please choose a different name.");
+                mgr.ShowErrorDialog("已存在具有此名称的槽位。请选择不同的名称。");
                 return;
             }
-            // Otherwise, delete the slot so that it can be created from scratch.
+            // 否则，删除槽位以便可以从头创建。
             else
                 slotMarkedForDeletion.DeleteSlot();
         }
 
-        // Create the slot.
+        // 创建槽位。
         var slot = mgr.CreateNewSlot(inputField.text);
-        // Clear the input field so the value isn't there when we reopen it.
+        // 清空输入字段，这样当我们重新打开时值不会在那里。
         inputField.text = "";
-        // Hide the dialog.
+        // 隐藏对话框。
         createDialog.gameObject.SetActive(false);
 
-        // If we've specified an event to be called after the user creaktes a slot, invoke it.
+        // 如果我们指定了用户创建槽位后要调用的事件，调用它。
         mgr.onAfterCreateSlot?.Invoke();
     }
 }

@@ -8,14 +8,16 @@ namespace Game.World.Player
 {
     public class PlayerHealthyModel : AbstractModel
     {
-        [AutoSave] 
+        [AutoSave]
         public BindableProperty<int> CurrentHealth = new BindableProperty<int>();
 
+        [AutoSave]
         public BindableProperty<int> MaxHealth = new BindableProperty<int>();
         
-        [AutoSave] 
+        [AutoSave]
         public BindableProperty<int> CurrentArmor = new BindableProperty<int>();
 
+        [AutoSave]
         public BindableProperty<int> MaxArmor = new BindableProperty<int>();
 
         public BindableProperty<bool> IsDeath = new BindableProperty<bool>();
@@ -30,17 +32,19 @@ namespace Game.World.Player
         public void InitPlayerHealthyModel()
         {
             RegisterBindableProperties();
-            
-            BeHarmed(1);
         }
-
+        
         private void RegisterBindableProperties()
         {
-            this.CurrentArmor.Value=this.MaxArmor.Value;
-            //this.CurrentHealth.Value=this.MaxHealth.Value;
+            if (GameManager.Instance.IsNewGame())
+            {
+                this.CurrentArmor.Value = this.MaxArmor.Value;
+                this.CurrentHealth.Value =this.MaxHealth.Value;
             
-            this.IsDeath.SetValueWithoutEvent(false);
-            this.IsInvincible.Value = false;
+                this.IsDeath.SetValueWithoutEvent(false);
+                this.IsInvincible.Value = false;
+            }
+
         }
 
         /// <summary>
