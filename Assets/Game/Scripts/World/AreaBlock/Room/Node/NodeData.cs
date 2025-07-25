@@ -1,8 +1,8 @@
-﻿// 2. 完善 NodeData 构造函数
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+using GDFrameworkCore;
 using GDFrameworkExtend.Data;
+using GDFrameworkExtend.EventKit;
 using GDFrameworkExtend.StorageKit;
 using NUnit.Framework;
 using Sirenix.OdinInspector;
@@ -24,11 +24,11 @@ namespace Game.World
     public class NodeData
     {
         [ShowInInspector,LabelText("节点固定属性")] 
-        private NodeDataPersistent _nodeDataPersistent = new NodeDataPersistent();
-
-        [ShowInInspector,LabelText("节点临时属性")] 
-        private NodeDataTemporary _nodeDataTemporary = new NodeDataTemporary();
-
+        private NodeDataPersistent _nodeDataPersistent;
+        
+        [ShowInInspector, LabelText("节点临时属性")]
+        private BindableProperty<NodeDataTemporary> _nodeDataTemporary;
+        
         public NodeDataPersistent NodeDataPersistent
         {
             get { return _nodeDataPersistent; }
@@ -36,21 +36,39 @@ namespace Game.World
 
         public NodeDataTemporary NodeDataTemporary
         {
-            get { return _nodeDataTemporary; }
+            get { return _nodeDataTemporary.Value; }
         }
 
-        public void InitNodeData()
+        public void InitNodeData(Node node)
         {
-            
-        }
+            if (this._nodeDataPersistent == null)
+            {
+                this._nodeDataPersistent = new NodeDataPersistent();
+            }
 
+            if (this._nodeDataTemporary == null)
+            {
+                this._nodeDataTemporary= new BindableProperty<NodeDataTemporary>();
+                this._nodeDataTemporary.SetValueWithoutEvent(new NodeDataTemporary());
+                node.GetSystem<StorageKit>().RegisterSaveableObject(_nodeDataTemporary);
+            }
+
+            this._nodeDataTemporary.Register(OnNodeDataTemporaryChanged);
+        }
+        
+        private void OnNodeDataTemporaryChanged(NodeDataTemporary newData)
+        {
+            // 处理临时数据变化的逻辑
+            Debug.Log($"节点临时数据发生变化: {newData}");
+        }
+        
         /// <summary>
         /// 能否进行互动
         /// </summary>
         /// <returns></returns>
         public bool CanTrigger()
         {
-            return _nodeDataTemporary.curNodeState == ENodeState.Triggerable;
+            return _nodeDataTemporary.Value.curNodeState == ENodeState.Triggerable;
         }
 
         /// <summary>
@@ -59,7 +77,7 @@ namespace Game.World
         /// <returns></returns>
         public bool CanMoveable()
         {
-            return _nodeDataTemporary.curNodeState != ENodeState.Hidden || _nodeDataTemporary.curNodeState != ENodeState.Locked;
+            return _nodeDataTemporary.Value.curNodeState != ENodeState.Hidden || _nodeDataTemporary.Value.curNodeState != ENodeState.Locked;
         }
 
         /// <summary>
@@ -68,7 +86,7 @@ namespace Game.World
         /// <returns></returns>
         public bool CheckCondition()
         {
-            return _nodeDataTemporary.curNodeState == ENodeState.Triggerable &&
+            return _nodeDataTemporary.Value.curNodeState == ENodeState.Triggerable &&
                    _nodeDataPersistent.ActionTriggerData.CanTrigger();
         }
         
@@ -101,7 +119,7 @@ namespace Game.World
 
         public void ChangeTempPosition(Vector2 position)
         {
-            _nodeDataTemporary.curNodePosition = position;
+            _nodeDataTemporary.Value.curNodePosition = position;
         }
     }
 }

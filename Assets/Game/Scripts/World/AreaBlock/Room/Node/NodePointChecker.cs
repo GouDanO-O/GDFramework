@@ -20,17 +20,25 @@ namespace Game.World
         
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (_node.CanInteract())
+            if (_node != null && _node.CanInteract())
             {
-                _node.OnClickNodeEvent.Invoke();
+                _node.TriggerInteraction();
             }
         }
 
         public void OnDrag(PointerEventData eventData)
         {
-            if (_node.CanMoveable())
+            if (_node != null && _node.CanMoveable())
             {
-                _node.OnDragNodeEvent.Invoke(eventData.position);
+                Vector2 localPoint;
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                    _node.transform.parent as RectTransform,
+                    eventData.position,
+                    eventData.pressEventCamera,
+                    out localPoint
+                );
+                
+                _node.OnDragNodeEvent?.Invoke(localPoint);
             }
         }
     }

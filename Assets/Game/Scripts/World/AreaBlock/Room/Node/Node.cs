@@ -1,16 +1,9 @@
-// 1. 完善 NodeComponent.cs 的缺失部分
-using System;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using TMPro;
-using System.Collections;
 using GDFrameworkCore;
 using GDFrameworkExtend.PoolKit;
 using GDFrameworkExtend.StorageKit;
 using Sirenix.OdinInspector;
 using UnityEngine.Events;
-using UnityEngine.Pool;
 
 namespace Game.World
 {
@@ -18,7 +11,7 @@ namespace Game.World
     {
         public bool IsRecycled { get; set; }
         
-        [ShowInInspector,AutoSave]
+        [ShowInInspector]
         protected NodeData CurNodeData;
         
         protected NodePointChecker NodePointChecker;
@@ -26,6 +19,8 @@ namespace Game.World
         public UnityAction<Vector2> OnDragNodeEvent;
         
         public UnityAction OnClickNodeEvent;
+        
+        protected RectTransform RectTransform;
 
         public IArchitecture GetArchitecture()
         {
@@ -40,9 +35,13 @@ namespace Game.World
         public void InitNode()
         {
             this.CurNodeData = new NodeData();
+            this.CurNodeData.InitNodeData(this);
             this.GetSystem<StorageKit>().RegisterSaveableObject(this.CurNodeData);
+
             this.InitData();
             this.RegisterEvents();
+
+            this.CurNodeData.ChangeTempPosition(RectTransform.anchoredPosition);
         }
         
         public void InitNode(NodeData nodeData)
@@ -60,21 +59,57 @@ namespace Game.World
                 NodePointChecker = this.gameObject.AddComponent<NodePointChecker>();
                 NodePointChecker.InitNodePointChecker(this);
             }
+            
+            RectTransform=this.GetComponent<RectTransform>();
         }
 
         private void RegisterEvents()
         {
             this.OnDragNodeEvent += OnDragEventHandle;
         }
+        
+        private void UnregisterEvents()
+        {
+            this.OnDragNodeEvent -= OnDragEventHandle;
+        }
 
         public void SetNodeData(NodeData nodeData)
         {
-            
+            if (nodeData?.NodeDataTemporary != null)
+            {
+                // 同步位置
+                RectTransform.anchoredPosition = nodeData.NodeDataTemporary.curNodePosition;
+                
+                // 同步显示状态
+                UpdateVisualState(nodeData.NodeDataTemporary.curNodeState);
+            }
+        }
+
+        private void UpdateVisualState(ENodeState state)
+        {
+            switch (state)
+            {
+                case ENodeState.Hidden:
+                    HideThisNode();
+                    break;
+                case ENodeState.Locked:
+                    ShowThisNode();
+                    // 可以添加锁定状态的视觉效果
+                    break;
+                case ENodeState.Triggerable:
+                    ShowThisNode();
+                    break;
+                case ENodeState.Triggered:
+
+                    break;
+            }
         }
 
         public void OnRecycled()
         {
-            
+            UnregisterEvents();
+            CurNodeData?.DestroyNodeData();
+            CurNodeData = null;
         }
 
         /// <summary>
@@ -122,6 +157,20 @@ namespace Game.World
         private void OnDragEventHandle(Vector2 point)
         {
             CurNodeData.ChangeTempPosition(point);
+        }
+        
+        /// <summary>
+        /// 触发节点交互
+        /// </summary>
+        public void TriggerInteraction()
+        {
+            if (CheckCondition())
+            {
+                OnClickNodeEvent?.Invoke();
+                
+                // 这里可以添加具体的交互逻辑
+                Debug.Log($"节点 {CurNodeData.NodeDataPersistent.NodeName} 被触发");
+            }
         }
     }
 }

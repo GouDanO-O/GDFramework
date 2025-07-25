@@ -36,6 +36,8 @@ namespace GDFrameworkExtend.StorageKit
         public bool IsNewGame()
         {
             bool isNewGame = false;
+            if (!ES3.FileExists())
+                return true;
             var keys = ES3.GetKeys();
             if (keys==null || keys.Length == 0)
                 return true;
