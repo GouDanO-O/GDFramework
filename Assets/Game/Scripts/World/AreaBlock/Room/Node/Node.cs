@@ -36,8 +36,7 @@ namespace Game.World
         {
             this.CurNodeData = new NodeData();
             this.CurNodeData.InitNodeData(this);
-            this.GetSystem<StorageKit>().RegisterSaveableObject(this.CurNodeData);
-
+            
             this.InitData();
             this.RegisterEvents();
 
@@ -167,9 +166,6 @@ namespace Game.World
             if (CheckCondition())
             {
                 OnClickNodeEvent?.Invoke();
-                
-                // 这里可以添加具体的交互逻辑
-                Debug.Log($"节点 {CurNodeData.NodeDataPersistent.NodeName} 被触发");
             }
         }
     }

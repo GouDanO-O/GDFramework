@@ -7,14 +7,13 @@ namespace GDFramework.Cheater
     /// <summary>
     /// 添加作弊模块
     /// </summary>
-    public abstract class AddCheatCommand : ICanGetSystem,ICanGetModel,ICanGetUtility
+    public abstract class AddCheatCommand : AbstractCommand
     {
-        public IArchitecture GetArchitecture()
+        protected override void OnExecute()
         {
-            return Main.Interface;
+            ExecuteCommand();
         }
-        
-        public abstract void Execute();
 
+        public abstract void ExecuteCommand();
     }
 }

@@ -4,9 +4,9 @@ using GDFrameworkExtend.StorageKit;
 
 namespace GDFramework.Scripts.Cheater
 {
-    public class StorageClearAllCheatCommand: AddCheatCommand
+    public class StorageClearAllCheatCommand : AddCheatCommand
     {
-        public override void Execute()
+        public override void ExecuteCommand()
         {
             this.GetSystem<StorageKit>().ClearAllData();
         }

@@ -1,20 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using GDFrameworkExtend.Data;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game.World
 {
     [Serializable]
-    public class RoomData : ConfigData
+    public class RoomData
     {
-        /// <summary>
-        /// 进行伸缩的比例
-        /// </summary>
-        public float zoomScaleRatio = 0.25f;
+
+        public RoomDataPersistent roomDataPersistent;
         
-        /// <summary>
-        /// 能够进行缩放的范围
-        /// </summary>
-        public Vector2 zoomScaleArea = new Vector2(0.25f,2f);
+        public RoomDataTemporary roomDataTemporary;
     }
 }

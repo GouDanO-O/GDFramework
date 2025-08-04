@@ -42,13 +42,14 @@ namespace GDFramework.Utility
                     var newCommand = (AddFreeVideoCheatCommand)thisCommand;
                     var isActivite = newCommand.IsActive ? "关闭" : "开启";
                     // 按钮执行作弊功能
-                    if (GUILayout.Button(isActivite)) newCommand.Execute();
+                    if (GUILayout.Button(isActivite)) 
+                        newCommand.ExecuteCommand();
                 }
                 else
                 {
                     // 按钮执行作弊功能
                     if (GUILayout.Button("执行")) 
-                        cheat.Value.Execute();
+                        cheat.Value.ExecuteCommand();
                 }
 
 

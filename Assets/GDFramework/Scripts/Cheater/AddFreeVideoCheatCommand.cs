@@ -13,8 +13,8 @@ namespace GDFramework.Cheater
             //Name = name;
             FreeVideoCheatAction = freeVideoCheatAction;
         }
-    
-        public override void Execute()
+
+        public override void ExecuteCommand()
         {
             IsActive = FreeVideoCheatAction?.Invoke() ?? false;
         }

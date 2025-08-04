@@ -44,5 +44,8 @@ TagManager:
   - name: Game
     uniqueID: 2319180753
     locked: 0
+  - name: WorldRoot
+    uniqueID: 2539223109
+    locked: 0
   m_RenderingLayers:
   - Default

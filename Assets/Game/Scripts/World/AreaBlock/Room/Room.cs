@@ -16,28 +16,30 @@ namespace Game.World
     /// 有且仅能同时显示一个房间
     /// </summary>
     [RequireComponent(typeof(RoomScroll))]
-    public class Room : MonoSingleton<Room>,IController
+    public class Room : MonoSingleton<Room>, IController
     {
         public RoomData roomData;
-        
+
         private RoomZoom _roomZoom;
 
         private RoomScroll _roomScroll;
-        
+
         private RoomPointerChecker _roomPointerChecker;
-        
+
         /// <summary>
         /// 是否在房间的UI区域
         /// </summary>
-        public bool isInRoomArea =false;
+        public bool isInRoomArea = false;
 
         /// <summary>
         /// 是否按住了鼠标中键
         /// </summary>
         public bool isPressMouseMiddle = false;
 
-        private RectTransform contentRectTransform;
-        
+        private RectTransform _contentRectTransform;
+
+        private Transform _contentRoot;
+
         public IArchitecture GetArchitecture()
         {
             return GameMain.Interface;
@@ -56,15 +58,17 @@ namespace Game.World
                 _roomPointerChecker = this.AddComponent<RoomPointerChecker>();
                 _roomPointerChecker.InitRoomPointChecker(this);
             }
+
             _roomZoom = new RoomZoom();
-            _roomZoom.InitRoomZoom(this,roomData.zoomScaleRatio,roomData.zoomScaleArea);
-            contentRectTransform = this.GetComponent<RectTransform>();
+            _contentRectTransform = this.GetComponent<RectTransform>();
+
+            _contentRoot = transform.Find("Viewport/Content");
         }
-        
-        
+
+
         private void RegistEvent()
         {
-            
+
         }
 
         #region RoomManage
@@ -74,10 +78,35 @@ namespace Game.World
         /// </summary>
         public void ChangeRoom()
         {
-            
+
         }
 
-        #endregion
+        /// <summary>
+        /// 读取当前房间的数据
+        /// </summary>
+        public void LoadCurRoomNodeData()
+        {
+            SaveCurRoomNodeData();
+            ClearCurRoomNodeData();
+        }
+
+        /// <summary>
+        /// 存储当前房间的节点数据
+        /// </summary>
+        public void SaveCurRoomNodeData()
+        {
+
+        }
+
+        /// <summary>
+        /// 清除当前房间节点数据
+        /// </summary>
+        public void ClearCurRoomNodeData()
+        {
+
+        }
+
+    #endregion
         
         #region CheckPoint
 
@@ -87,7 +116,7 @@ namespace Game.World
         /// <param name="willChangeValue"></param>
         public void ChangeContentRectLoaclScale(Vector3 willChangeValue)
         {
-            contentRectTransform.localScale = willChangeValue;
+            _contentRectTransform.localScale = willChangeValue;
         }
 
         /// <summary>
@@ -96,7 +125,7 @@ namespace Game.World
         /// <returns></returns>
         public float GetContentLoaclScale()
         {
-            return contentRectTransform.localScale.x;
+            return _contentRectTransform.localScale.x;
         }
 
         /// <summary>

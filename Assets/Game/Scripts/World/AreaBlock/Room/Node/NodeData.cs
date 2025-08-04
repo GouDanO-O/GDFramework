@@ -20,46 +20,16 @@ namespace Game.World
     /// 每次进入区域,首先,序列化所有房间,房间里面又存储
     /// 只存储当前节点的触发状态和位置
     /// </summary>
-    [ES3Serializable, LabelText("节点数据")]
+    [LabelText("节点数据")]
     public class NodeData
     {
-        [ShowInInspector,LabelText("节点固定属性")] 
-        private NodeDataPersistent _nodeDataPersistent;
+        public NodeDataPersistent NodeDataPersistent;
         
-        [ShowInInspector, LabelText("节点临时属性")]
-        private BindableProperty<NodeDataTemporary> _nodeDataTemporary;
-        
-        public NodeDataPersistent NodeDataPersistent
-        {
-            get { return _nodeDataPersistent; }
-        }
-
-        public NodeDataTemporary NodeDataTemporary
-        {
-            get { return _nodeDataTemporary.Value; }
-        }
+        public NodeDataTemporary NodeDataTemporary;
 
         public void InitNodeData(Node node)
         {
-            if (this._nodeDataPersistent == null)
-            {
-                this._nodeDataPersistent = new NodeDataPersistent();
-            }
-
-            if (this._nodeDataTemporary == null)
-            {
-                this._nodeDataTemporary= new BindableProperty<NodeDataTemporary>();
-                this._nodeDataTemporary.SetValueWithoutEvent(new NodeDataTemporary());
-                node.GetSystem<StorageKit>().RegisterSaveableObject(_nodeDataTemporary);
-            }
-
-            this._nodeDataTemporary.Register(OnNodeDataTemporaryChanged);
-        }
-        
-        private void OnNodeDataTemporaryChanged(NodeDataTemporary newData)
-        {
-            // 处理临时数据变化的逻辑
-            Debug.Log($"节点临时数据发生变化: {newData}");
+   
         }
         
         /// <summary>
@@ -68,7 +38,7 @@ namespace Game.World
         /// <returns></returns>
         public bool CanTrigger()
         {
-            return _nodeDataTemporary.Value.curNodeState == ENodeState.Triggerable;
+            return true;
         }
 
         /// <summary>
@@ -77,7 +47,7 @@ namespace Game.World
         /// <returns></returns>
         public bool CanMoveable()
         {
-            return _nodeDataTemporary.Value.curNodeState != ENodeState.Hidden || _nodeDataTemporary.Value.curNodeState != ENodeState.Locked;
+            return true;
         }
 
         /// <summary>
@@ -86,8 +56,7 @@ namespace Game.World
         /// <returns></returns>
         public bool CheckCondition()
         {
-            return _nodeDataTemporary.Value.curNodeState == ENodeState.Triggerable &&
-                   _nodeDataPersistent.ActionTriggerData.CanTrigger();
+            return true;
         }
         
         /// <summary>
@@ -95,10 +64,7 @@ namespace Game.World
         /// </summary>
         public void ResetNodeState()
         {
-            if (_nodeDataTemporary != null)
-            {
 
-            }
         }
 
         /// <summary>
@@ -119,7 +85,7 @@ namespace Game.World
 
         public void ChangeTempPosition(Vector2 position)
         {
-            _nodeDataTemporary.Value.curNodePosition = position;
+            
         }
     }
 }

@@ -6,7 +6,7 @@ namespace GDFramework.Scripts.Cheater
 {
     public class StorageSaveAllCheatCommand : AddCheatCommand
     {
-        public override void Execute()
+        public override void ExecuteCommand()
         {
             this.GetSystem<StorageKit>().SaveAllRegisteredObjects();
         }
