@@ -10,7 +10,7 @@ namespace Game.World
         [LabelText("地图区块固定数据")]
         public AreaBlockDataPersistent areaBlockDataPersistent;
         
-        [LabelText("地图区块对局数据")]
+        [LabelText("地图区块对局数据"),ReadOnly]
         public AreaBlockDataTemporary areaBlockDataTemporary;
         
         

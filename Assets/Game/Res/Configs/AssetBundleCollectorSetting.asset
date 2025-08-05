@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 185f6993d5150494d98da50e26cb1c25, type: 3}
   m_Name: AssetBundleCollectorSetting
   m_EditorClassIdentifier: 
-  ShowPackageView: 0
+  ShowPackageView: 1
   ShowEditorAlias: 1
   UniqueBundleName: 1
   Packages:
@@ -26,7 +26,7 @@ MonoBehaviour:
     Groups:
     - GroupName: Config
       GroupDesc: "\u914D\u7F6E"
-      AssetTags: config
+      AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
       - CollectPath: Assets/Game/Res/Configs/WorldData/WorldPersistent.json
@@ -58,13 +58,73 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-    - GroupName: UGUI
+    - GroupName: UI
       GroupDesc: "UI\u9762\u677F"
-      AssetTags: ui
+      AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/GDFramework/Res/UIPrefabs/UI_TestPanel.prefab
-        CollectorGUID: 8279e2db18fed8f4d96fdc3ef9e32949
+      - CollectPath: Assets/Game/Res/Prefabs/UI_Node.prefab
+        CollectorGUID: d2e12be19e6e17047a93870dde6bc4aa
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+    - GroupName: Prefabs
+      GroupDesc: "\u9884\u5236\u4F53"
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Assets/Game/Res/Prefabs/Player.prefab
+        CollectorGUID: f9cc9204647b4a941ad12c3c6e556f33
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectPrefab
+        AssetTags: 
+        UserData: 
+  - PackageName: Music
+    PackageDesc: "\u97F3\u4E50"
+    EnableAddressable: 0
+    LocationToLower: 0
+    IncludeAssetGUID: 0
+    AutoCollectShaders: 1
+    IgnoreRuleName: NormalIgnoreRule
+    Groups:
+    - GroupName: BGM
+      GroupDesc: 
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors: []
+  - PackageName: Particle
+    PackageDesc: "\u7C92\u5B50\u7279\u6548"
+    EnableAddressable: 0
+    LocationToLower: 0
+    IncludeAssetGUID: 0
+    AutoCollectShaders: 1
+    IgnoreRuleName: NormalIgnoreRule
+    Groups:
+    - GroupName: Default Group
+      GroupDesc: 
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors: []
+  - PackageName: Prefabs
+    PackageDesc: "\u9884\u5236\u4F53"
+    EnableAddressable: 0
+    LocationToLower: 0
+    IncludeAssetGUID: 0
+    AutoCollectShaders: 1
+    IgnoreRuleName: NormalIgnoreRule
+    Groups:
+    - GroupName: Default Group
+      GroupDesc: 
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Assets/Game/Res/Prefabs/Player.prefab
+        CollectorGUID: f9cc9204647b4a941ad12c3c6e556f33
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

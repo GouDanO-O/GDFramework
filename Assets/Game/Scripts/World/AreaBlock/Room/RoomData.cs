@@ -12,7 +12,7 @@ namespace Game.World
         [LabelText("房间固定数据")]
         public RoomDataPersistent roomDataPersistent;
         
-        [LabelText("房间对局数据")]
+        [LabelText("房间对局数据"),ReadOnly]
         public RoomDataTemporary roomDataTemporary;
     }
 }

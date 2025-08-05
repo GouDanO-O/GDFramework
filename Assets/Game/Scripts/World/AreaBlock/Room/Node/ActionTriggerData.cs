@@ -1,6 +1,4 @@
-﻿// 4. 添加 ActionTriggerData 和相关类
-
-using System;
+﻿using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -17,19 +15,19 @@ namespace Game.World
         public bool willShakeScreen = false;
 
         [LabelText("震动强度")] [ShowIf("willShakeScreen")] [Range(1, 10)]
-        public int shakeSceenStrength = 5;
+        public int shakeScreenStrength = 5;
 
-        [LabelText("音频剪辑")] 
-        public AudioClip audioClip;
+        [LabelText("音频剪辑唯一ID")] 
+        public string audioClipId;
 
-        [LabelText("粒子对象")] 
-        public GameObject particleObject;
+        [LabelText("粒子对象唯一ID")] 
+        public string particleObjectId;
 
-        [LabelText("粒子位置偏移")] [ShowIf("particleObject")]
-        public Vector2 particlePos = Vector2.zero;
+        [LabelText("粒子位置偏移")] [ShowIf("particleObjectId")]
+        public Vector2 particleObjectOffset = Vector2.zero;
 
-        [LabelText("延迟时间")]
-        public float delayTime = 0f;
+        [LabelText("触发延迟时间")]
+        public float triggerDelayTime = 0f;
 
         /// <summary>
         /// 检查是否可以触发

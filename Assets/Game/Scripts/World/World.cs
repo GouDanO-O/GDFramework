@@ -13,7 +13,6 @@ namespace Game.World
     {
         public WorldData currentWorldData;
 
-        // 在编辑器中可配置的路径
         [Tooltip("JSON文件路径")]
         public string persistentDataPath = "Assets/Game/Res/Configs/WorldData/WorldPersistent.json";
 
@@ -245,20 +244,20 @@ namespace Game.World
 
             foreach (var node in roomData.roomDataPersistent.NodeDatas)
             {
-                if (string.IsNullOrEmpty(node.NodeDataPersistent.nodeId))
+                if (string.IsNullOrEmpty(node.nodeDataPersistent.nodeId))
                 {
                     errorMessage = $"房间 {roomData.roomDataPersistent.roomId} 中存在节点ID为空";
                     return false;
                 }
 
-                if (nodeIds.Contains(node.NodeDataPersistent.nodeId))
+                if (nodeIds.Contains(node.nodeDataPersistent.nodeId))
                 {
                     errorMessage =
-                        $"房间 {roomData.roomDataPersistent.roomId} 中存在重复的节点ID: {node.NodeDataPersistent.nodeId}";
+                        $"房间 {roomData.roomDataPersistent.roomId} 中存在重复的节点ID: {node.nodeDataPersistent.nodeId}";
                     return false;
                 }
 
-                nodeIds.Add(node.NodeDataPersistent.nodeId);
+                nodeIds.Add(node.nodeDataPersistent.nodeId);
             }
 
             errorMessage = null;

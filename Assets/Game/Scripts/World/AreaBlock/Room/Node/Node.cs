@@ -74,13 +74,13 @@ namespace Game.World
 
         public void SetNodeData(NodeData nodeData)
         {
-            if (nodeData?.NodeDataTemporary != null)
+            if (nodeData?.nodeDataTemporary != null)
             {
                 // 同步位置
-                RectTransform.anchoredPosition = nodeData.NodeDataTemporary.curNodePosition;
+                RectTransform.anchoredPosition = nodeData.nodeDataTemporary.curNodePosition;
                 
                 // 同步显示状态
-                UpdateVisualState(nodeData.NodeDataTemporary.curNodeState);
+                UpdateVisualState(nodeData.nodeDataTemporary.curNodeState);
             }
         }
 

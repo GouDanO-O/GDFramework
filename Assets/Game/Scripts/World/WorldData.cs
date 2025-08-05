@@ -9,8 +9,10 @@ namespace Game.World
         [LabelText("世界固定数据")]
         public WorldDataPersistent worldDataPersistent;
         
-        [LabelText("世界对局数据")]
+        [LabelText("世界对局数据"),ReadOnly]
         public WorldDataTemporary worldDataTemporary;
-        
+
+        [LabelText("世界画布数据")]
+        public WorldCanvasDataPersistent worldCanvasDataPersistent;
     }
 }

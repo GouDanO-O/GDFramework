@@ -20,14 +20,14 @@ namespace Game.World
     /// 每次进入区域,首先,序列化所有房间,房间里面又存储
     /// 只存储当前节点的触发状态和位置
     /// </summary>
-    [LabelText("节点数据")]
+    [Serializable,LabelText("节点数据")]
     public class NodeData
     {
         [LabelText("节点固定数据")]
-        public NodeDataPersistent NodeDataPersistent;
+        public NodeDataPersistent nodeDataPersistent;
         
-        [LabelText("节点对局数据")]
-        public NodeDataTemporary NodeDataTemporary;
+        [LabelText("节点对局数据"),ReadOnly]
+        public NodeDataTemporary nodeDataTemporary;
 
         public void InitNodeData(Node node)
         {

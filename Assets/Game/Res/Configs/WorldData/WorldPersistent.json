@@ -2,13 +2,57 @@
     "worldDataPersistent": {
         "worldName": "地球",
         "worldId": "earth",
+        "worldDes": "",
         "areaBlockDatas": [
             {
                 "areaBlockDataPersistent": {
                     "areaBlockName": "中国",
                     "areaBlockId": "china",
-                    "areaBlockDes": "",
-                    "roomDatas": []
+                    "areaBlockDes": "中国",
+                    "roomDatas": [
+                        {
+                            "roomDataPersistent": {
+                                "roomName": "广州",
+                                "roomId": "guangzhou",
+                                "roomDes": "广州",
+                                "NodeDatas": [
+                                    {
+                                        "nodeDataPersistent": {
+                                            "nodeId": "testNode_01",
+                                            "nodeName": "testNode_01",
+                                            "nodeDes": "",
+                                            "childNodeDataList": [],
+                                            "actionTriggerData": {
+                                                "actionTriggerCondition": {
+                                                    "conditionType": 0,
+                                                    "requiredItemId": "",
+                                                    "requiredAmount": 1,
+                                                    "requiredLevel": 1
+                                                },
+                                                "willShakeScreen": false,
+                                                "shakeSceenStrength": 5,
+                                                "audioClip": "",
+                                                "particleObjectName": "",
+                                                "particleObjectOffset": {
+                                                    "x": 0.0,
+                                                    "y": 0.0
+                                                },
+                                                "triggerDelayTime": 0.0
+                                            }
+                                        },
+                                        "nodeDataTemporary": {
+                                            "curNodeState": 0,
+                                            "curNodePosition": {
+                                                "x": 0.0,
+                                                "y": 0.0
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            "roomDataTemporary": {}
+                        }
+                    ]
                 },
                 "areaBlockDataTemporary": {
                     "isUnlocked": false,
@@ -22,5 +66,12 @@
         "curWorldDayTime": 1,
         "curWorldHourTime": 9,
         "curWorldMinutesTime": 0
+    },
+    "worldCanvasDataPersistent": {
+        "zoomScaleRatio": 0.25,
+        "zoomScaleArea": {
+            "x": 0.25,
+            "y": 2.0
+        }
     }
 }

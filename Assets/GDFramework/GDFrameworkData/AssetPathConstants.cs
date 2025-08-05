@@ -4,42 +4,82 @@
 namespace GDFramework.FrameData
 {
 
-   public class DefaultPackage
+   public struct DefaultPackage
     {
 
-       public class Config
+       public struct Config
        {
 
-           public class WorldPersistentAsset
+           public struct WorldPersistentAsset
            {
                public const string BundleName = "defaultpackage_game_res_configs_worlddata_worldpersistent.json";
                public const string WorldPersistent = "yoo:WorldPersistent";
            }
        }
 
-       public class GameModelData
+       public struct GameModelData
        {
 
-           public class GameInputAsset
+           public struct GameInputAsset
            {
                public const string BundleName = "defaultpackage_gdframework_res_input_gameinput.inputactions";
                public const string GameInput = "yoo:GameInput";
            }
 
-           public class TbmultilingualAsset
+           public struct TbmultilingualAsset
            {
                public const string BundleName = "defaultpackage_gdframework_res_mul_tbmultilingual.json";
                public const string tbmultilingual = "yoo:tbmultilingual";
            }
        }
 
-       public class UGUI
+       public struct UI
        {
 
-           public class UI_TestPanelAsset
+           public struct UI_NodeAsset
            {
-               public const string BundleName = "defaultpackage_gdframework_res_uiprefabs_ui_testpanel.prefab";
-               public const string UI_TestPanel = "yoo:UI_TestPanel";
+               public const string BundleName = "defaultpackage_game_res_prefabs_ui_node.prefab";
+               public const string UI_Node = "yoo:UI_Node";
+           }
+       }
+
+       public struct Prefabs
+       {
+
+           public struct PlayerAsset
+           {
+               public const string BundleName = "defaultpackage_game_res_prefabs_player.prefab";
+               public const string Player = "yoo:Player";
+           }
+       }
+    }
+
+   public struct Music
+    {
+
+       public struct BGM
+       {
+       }
+    }
+
+   public struct Particle
+    {
+
+       public struct Default_Group
+       {
+       }
+    }
+
+   public struct Prefabs
+    {
+
+       public struct Default_Group
+       {
+
+           public struct PlayerAsset
+           {
+               public const string BundleName = "prefabs_game_res_prefabs_player.prefab";
+               public const string Player = "yoo:Player";
            }
        }
     }
