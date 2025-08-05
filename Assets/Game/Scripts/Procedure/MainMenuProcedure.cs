@@ -12,13 +12,8 @@ namespace Game.Procedure
     /// <summary>
     /// 主界面流程
     /// </summary>
-    public class MainMenuProcedure : ProcedureBase, ICanGetSystem
+    public class MainMenuProcedure : ProcedureBase
     {
-        public override void OnInit(FsmManager fsmManager)
-        {
-            base.OnInit(fsmManager);
-        }
-
         public override void OnEnter()
         {
             //StartLoadMenu();
@@ -37,9 +32,10 @@ namespace Game.Procedure
         private void StartTestScene()
         {
             this.GetSystem<NewInputManager>().InitActionAsset();
-            SceneLoaderKit sceneLoaderKit = this.GetSystem<SceneLoaderKit>();
-            sceneLoaderKit.onLoadScene.Invoke(ESceneName.TestScene);
+            this.SendEvent(new SChangeProcedureEvent(typeof(GameSceneProcedure)));
         }
+
+       
 
         /// <summary>
         /// 开始加载菜单场景

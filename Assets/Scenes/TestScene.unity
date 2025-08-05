@@ -316,6 +316,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 79065306}
+  - component: {fileID: 79065307}
   m_Layer: 5
   m_Name: AreaBlockCanvas
   m_TagString: Untagged
@@ -343,6 +344,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 800, y: -300}
   m_Pivot: {x: 0, y: 0.5}
+--- !u!114 &79065307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79065305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7496acefb06a4c09a5246915cdb5a296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaBlockData:
+    areaBlockDataPersistent:
+      areaBlockName: 
+      areaBlockId: 
+      areaBlockDes: 
+      roomDatas: []
+    areaBlockDataTemporary:
+      isUnlocked: 0
+      curExploreProgress: 0
 --- !u!1 &98828006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1316,17 +1338,17 @@ MonoBehaviour:
       - areaBlockDataPersistent:
           areaBlockName: "\u4E2D\u56FD"
           areaBlockId: china
+          areaBlockDes: 
           roomDatas: []
         areaBlockDataTemporary:
           isUnlocked: 0
-          isExplored: 0
+          curExploreProgress: 0
     worldDataTemporary:
       curWorldYearTime: 1
       curWorldDayTime: 1
       curWorldHourTime: 9
       curWorldMinutesTime: 0
-  persistentDataPath: WorldData/world_persistent.json
-  temporaryDataPath: WorldData/world_temporary.json
+  persistentDataPath: Assets/Game/Res/Configs/WorldData/WorldPersistent.json
 --- !u!1001 &1274986777
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1676,7 +1698,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 870684772}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1805,8 +1827,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomData:
     roomDataPersistent:
-      roomId: 
       roomName: 
+      roomId: 
       roomDes: 
       zoomScaleRatio: 0.25
       zoomScaleArea: {x: 0.25, y: 2}

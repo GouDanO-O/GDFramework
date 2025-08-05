@@ -18,6 +18,7 @@ namespace Game.World
     [RequireComponent(typeof(RoomScroll))]
     public class Room : MonoSingleton<Room>, IController
     {
+        [ReadOnly]
         public RoomData roomData;
 
         private RoomZoom _roomZoom;

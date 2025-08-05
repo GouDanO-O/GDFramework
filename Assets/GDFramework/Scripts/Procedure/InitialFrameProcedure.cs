@@ -10,7 +10,7 @@ namespace GDFramework.Procedure
     /// 框架初始化流程
     /// 主要初始化一些框架内容配置
     /// </summary>
-    public class InitialFrameProcedure : ProcedureBase, ICanGetSystem, ICanSendEvent
+    public class InitialFrameProcedure : ProcedureBase
     {
         private ResourcesManager _resourcesManager;
         
@@ -35,7 +35,7 @@ namespace GDFramework.Procedure
         }
         
         /// <summary>
-        /// 初始数据加载完成
+        /// 数据加载完成
         /// </summary>
         private void DataLoadComplete()
         {

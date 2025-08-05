@@ -9,7 +9,7 @@ namespace GDFramework.Procedure
     /// 用来获取必要的初始化资源
     /// 和加载ab包
     /// </summary>
-    public class LoadResProcedure : ProcedureBase,ICanGetSystem,ICanSendEvent
+    public class LoadResProcedure : ProcedureBase
     {
         public override void OnEnter()
         {
@@ -25,7 +25,6 @@ namespace GDFramework.Procedure
         private void ResourceLoadComplete()
         {
             StartHotFix();
-            
         }
 
         /// <summary>
@@ -54,11 +53,6 @@ namespace GDFramework.Procedure
         public override void OnDeinit()
         {
             
-        }
-
-        public IArchitecture GetArchitecture()
-        {
-            return Main.Interface;
         }
     }
 }

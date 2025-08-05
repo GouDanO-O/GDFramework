@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using GDFrameworkCore;
 using GDFrameworkExtend.Data;
+using GDFrameworkExtend.SingletonKit;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game.World
@@ -9,8 +12,14 @@ namespace Game.World
     /// 区块都必定会有入口,但是不一定会有出口
     /// 同时,也可能一个区块具有多个入口或者多个出口
     /// </summary>
-    public class AreaBlock : MonoBehaviour
+    public class AreaBlock : MonoSingleton<AreaBlock>,IController
     {
+        [ReadOnly]
+        public AreaBlockData areaBlockData;
         
+        public IArchitecture GetArchitecture()
+        {
+            return GameMain.Interface;
+        }
     }
 }

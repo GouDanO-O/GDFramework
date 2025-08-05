@@ -9,9 +9,10 @@ namespace Game.World
     [Serializable]
     public class RoomData
     {
-
+        [LabelText("房间固定数据")]
         public RoomDataPersistent roomDataPersistent;
         
+        [LabelText("房间对局数据")]
         public RoomDataTemporary roomDataTemporary;
     }
 }

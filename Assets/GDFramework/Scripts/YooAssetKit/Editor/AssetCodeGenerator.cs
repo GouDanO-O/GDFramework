@@ -88,12 +88,6 @@ namespace YooAsset.Editor
                     
                     // Generate bundle name from collect path
                     string bundleName = GenerateBundleName(packageName, collectPath);
-                    string className = SanitizeIdentifier(packageName);
-                    
-                    codeBuilder.AppendLine();
-                    codeBuilder.AppendLine($"           public class {className}");
-                    codeBuilder.AppendLine("           {");
-                    codeBuilder.AppendLine($"               public const string BundleName = \"{bundleName}\";");
                     
                     // Collect all valid asset addresses
                     HashSet<string> addresses = new HashSet<string>();
@@ -113,14 +107,22 @@ namespace YooAsset.Editor
                         addresses.Add(Path.GetFileNameWithoutExtension(collectPath));
                     }
                     
-                    // Generate address constants
+                    // Generate class for each asset
                     foreach (var address in addresses)
                     {
+                        // 使用资源名称生成类名，首字母大写并添加Asset后缀
+                        string className = GenerateAssetClassName(address);
+                        
+                        codeBuilder.AppendLine();
+                        codeBuilder.AppendLine($"           public class {className}");
+                        codeBuilder.AppendLine("           {");
+                        codeBuilder.AppendLine($"               public const string BundleName = \"{bundleName}\";");
+                        
                         string constantName = SanitizeIdentifier(address);
                         codeBuilder.AppendLine($"               public const string {constantName} = \"yoo:{address}\";");
+                        
+                        codeBuilder.AppendLine("           }");
                     }
-                    
-                    codeBuilder.AppendLine("           }");
                 }
             }
             catch (Exception ex)
@@ -160,6 +162,35 @@ namespace YooAsset.Editor
             
             // 合并包名与路径
             return $"{packageName}_{normalizedPath}";
+        }
+        
+        // 新增：根据资源名称生成Asset类名
+        private static string GenerateAssetClassName(string assetName)
+        {
+            if (string.IsNullOrEmpty(assetName))
+                return "DefaultAsset";
+            
+            // 首字母大写
+            string className = char.ToUpper(assetName[0]) + assetName.Substring(1);
+            
+            // 清理无效字符
+            StringBuilder sb = new StringBuilder();
+            foreach (char c in className)
+            {
+                if (char.IsLetterOrDigit(c))
+                    sb.Append(c);
+                else
+                    sb.Append('_');
+            }
+            
+            string result = sb.ToString();
+            
+            // 确保不以数字开头
+            if (char.IsDigit(result[0]))
+                result = "_" + result;
+            
+            // 添加Asset后缀
+            return result + "Asset";
         }
         
         private static bool IsGroupActive(AssetBundleCollectorGroup group)

@@ -1,4 +1,5 @@
-﻿using Game.World.Player;
+﻿using Game.Models.Resource;
+using Game.World.Player;
 using GDFrameworkCore;
 using GDFrameworkExtend.StorageKit;
 
@@ -16,6 +17,8 @@ namespace Game
         protected override void Register_Model()
         {
             base.Register_Model();
+            this.RegisterModel(new LaunchResourcesDataModel());
+            this.RegisterModel(new GameSceneResourcesDataModel());
             this.RegisterModel(new PlayerHealthyModel());
             this.RegisterModel(new PlayerInventoryModel());
         }

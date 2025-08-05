@@ -15,6 +15,7 @@ namespace Game
             base.InitProcedure();
             _procedureManager.RegisterFsmNode(new LaunchProcedure());
             _procedureManager.RegisterFsmNode(new MainMenuProcedure());
+            _procedureManager.RegisterFsmNode(new GameSceneProcedure());
         }
     }
 }

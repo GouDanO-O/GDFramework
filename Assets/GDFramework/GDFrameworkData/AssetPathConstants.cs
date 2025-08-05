@@ -9,18 +9,24 @@ namespace GDFramework.FrameData
 
        public class Config
        {
+
+           public class WorldPersistentAsset
+           {
+               public const string BundleName = "defaultpackage_game_res_configs_worlddata_worldpersistent.json";
+               public const string WorldPersistent = "yoo:WorldPersistent";
+           }
        }
 
        public class GameModelData
        {
 
-           public class defaultpackage_gdframework_gdframeworkdata_gameinput_inputactions
+           public class GameInputAsset
            {
-               public const string BundleName = "defaultpackage_gdframework_gdframeworkdata_gameinput.inputactions";
+               public const string BundleName = "defaultpackage_gdframework_res_input_gameinput.inputactions";
                public const string GameInput = "yoo:GameInput";
            }
 
-           public class defaultpackage_gdframework_res_mul_tbmultilingual_json
+           public class TbmultilingualAsset
            {
                public const string BundleName = "defaultpackage_gdframework_res_mul_tbmultilingual.json";
                public const string tbmultilingual = "yoo:tbmultilingual";
@@ -29,7 +35,8 @@ namespace GDFramework.FrameData
 
        public class UGUI
        {
-           public class defaultpackage_gdframework_res_uiprefabs_ui_testpanel_prefab
+
+           public class UI_TestPanelAsset
            {
                public const string BundleName = "defaultpackage_gdframework_res_uiprefabs_ui_testpanel.prefab";
                public const string UI_TestPanel = "yoo:UI_TestPanel";

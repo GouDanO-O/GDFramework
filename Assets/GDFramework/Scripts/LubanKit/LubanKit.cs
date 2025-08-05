@@ -1,5 +1,4 @@
-﻿using GDFramework.LubanKit.Cfg;
-using GDFrameworkCore;
+﻿using GDFrameworkCore;
 using GDFrameworkExtend.FluentAPI;
 using GDFrameworkExtend.ResKit;
 using Luban;
@@ -10,8 +9,6 @@ namespace GDFramework.LubanKit
 {
     public class LubanKit : AbstractSystem
     {
-        public LubanTablesData LubanTablesData;
-        
         protected override void OnInit()
         {
             
@@ -19,12 +16,7 @@ namespace GDFramework.LubanKit
 
         public void InitData()
         {
-            var tablesCtor = typeof(LubanTablesData).GetConstructors()[0];
-            var loaderReturnType = tablesCtor.GetParameters()[0].ParameterType.GetGenericArguments()[1];
-            System.Delegate loader = loaderReturnType == typeof(ByteBuf) ?
-                new System.Func<string, ByteBuf>(LoadByteBuf)
-                : (System.Delegate)new System.Func<string, JSONNode>(LoadJson);
-            LubanTablesData = (LubanTablesData)tablesCtor.Invoke(new object[] { loader });
+
         }
         
         /// <summary>

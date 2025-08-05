@@ -29,16 +29,8 @@ MonoBehaviour:
       AssetTags: config
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/GDFramework/Scripts/LubanKit/jsonconfig/item_tbitem.json
-        CollectorGUID: af7dee6ef190c8248b8795d113201536
-        CollectorType: 0
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackDirectory
-        FilterRuleName: CollectAll
-        AssetTags: 
-        UserData: 
-      - CollectPath: Assets/GDFramework/Scripts/LubanKit/jsonconfig/worldobj_tbobj.json
-        CollectorGUID: 35418df95d8b2b2429373da2da44a84b
+      - CollectPath: Assets/Game/Res/Configs/WorldData/WorldPersistent.json
+        CollectorGUID: 23913bb5fa8e300498112a8cc0a5ed01
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

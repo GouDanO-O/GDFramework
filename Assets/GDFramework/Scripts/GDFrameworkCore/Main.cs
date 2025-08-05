@@ -49,8 +49,6 @@ namespace GDFrameworkCore
         /// </summary>
         protected virtual void Register_Model()
         {
-            this.RegisterModel(new LaunchResourcesDataModel());
-            this.RegisterModel(new GameSceneResourcesDataModel());
             this.RegisterModel(new MultilingualDataModel());
             this.RegisterModel(new CheatDataModel());
             this.RegisterModel(new GameDataModel());

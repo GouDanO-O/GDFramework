@@ -23,8 +23,10 @@ namespace Game.World
     [LabelText("节点数据")]
     public class NodeData
     {
+        [LabelText("节点固定数据")]
         public NodeDataPersistent NodeDataPersistent;
         
+        [LabelText("节点对局数据")]
         public NodeDataTemporary NodeDataTemporary;
 
         public void InitNodeData(Node node)

@@ -2,21 +2,24 @@
 using System.IO;
 using GDFrameworkCore;
 using System.Collections.Generic;
+using Game.Models.Resource;
+using GDFrameworkExtend.SingletonKit;
 using Sirenix.OdinInspector;
 
 namespace Game.World
 {
-    public class World : MonoBehaviour, IController
+    public class World : MonoSingleton<World>, IController
     {
         public WorldData currentWorldData;
         
         // 在编辑器中可配置的路径
-        [Tooltip("JSON文件路径 (相对StreamingAssets)")]
-        public string persistentDataPath = "WorldData/world_persistent.json";
-        [Tooltip("运行时数据路径 (相对Application.persistentDataPath)")]
-        public string temporaryDataPath = "WorldData/world_temporary.json";
-        
-        public IArchitecture GetArchitecture() => new GameMain();
+        [Tooltip("JSON文件路径")]
+        public string persistentDataPath = "Assets/Game/Res/Configs/WorldData/WorldPersistent.json";
+
+        public IArchitecture GetArchitecture()
+        {
+            return GameMain.Interface;
+        }
 
         private void Start()
         {
@@ -35,18 +38,18 @@ namespace Game.World
 
         private void InitWorldComponent()
         {
-            // UI初始化代码将放在这里
+            
         }
         
         // JSON持久化操作 ---------------------------------
         [Button("加载json")]
         public WorldDataPersistent LoadPersistentData()
         {
-            string fullPath = Path.Combine(Application.streamingAssetsPath, persistentDataPath);
+            TextAsset curAsset = this.GetModel<GameSceneResourcesDataModel>().WorldDataAsset;
             
-            if (File.Exists(fullPath))
+            if (curAsset)
             {
-                string json = File.ReadAllText(fullPath);
+                string json = curAsset.text;
                 return JsonUtility.FromJson<WorldDataPersistent>(json);
             }
             
@@ -61,25 +64,19 @@ namespace Game.World
             return defaultData;
         }
 
+        /// <summary>
+        /// 保存世界固有数据
+        /// </summary>
         [Button("保存世界固有数据")]
         public void SavePersistentData()
         {
-            if (!ValidateWorldData(currentWorldData.worldDataPersistent, out string errorMessage))
-            {
-                Debug.LogError($"数据验证失败: {errorMessage}");
-                return;
-            }
-            
-            string dirPath = Path.GetDirectoryName(Path.Combine(Application.streamingAssetsPath, persistentDataPath));
-            if (!Directory.Exists(dirPath)) 
-                Directory.CreateDirectory(dirPath);
-            
-            string fullPath = Path.Combine(Application.streamingAssetsPath, persistentDataPath);
-            File.WriteAllText(fullPath, JsonUtility.ToJson(currentWorldData, true));
-            Debug.Log("保存数据");
+            this.SavePersistentData(currentWorldData.worldDataPersistent);
         }
         
-
+        /// <summary>
+        /// 保存世界固有数据
+        /// </summary>
+        /// <param name="data"></param>
         public void SavePersistentData(WorldDataPersistent data)
         {
             if (!ValidateWorldData(data, out string errorMessage))
@@ -88,20 +85,21 @@ namespace Game.World
                 return;
             }
             
-            string dirPath = Path.GetDirectoryName(Path.Combine(Application.streamingAssetsPath, persistentDataPath));
-            if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+            string dirPath = Path.GetDirectoryName(persistentDataPath);
+            if (!Directory.Exists(dirPath)) 
+                Directory.CreateDirectory(dirPath);
             
-            string fullPath = Path.Combine(Application.streamingAssetsPath, persistentDataPath);
-            File.WriteAllText(fullPath, JsonUtility.ToJson(data, true));
+            File.WriteAllText(persistentDataPath, JsonUtility.ToJson(data, true));
+            Debug.Log("保存数据");
         }
 
         public WorldDataTemporary LoadTemporaryData()
         {
-            string fullPath = Path.Combine(Application.persistentDataPath, temporaryDataPath);
+            TextAsset curAsset = this.GetModel<GameSceneResourcesDataModel>().WorldDataAsset;
             
-            if (File.Exists(fullPath))
+            if (curAsset)
             {
-                string json = File.ReadAllText(fullPath);
+                string json = curAsset.text;
                 return JsonUtility.FromJson<WorldDataTemporary>(json);
             }
             return new WorldDataTemporary();
@@ -109,11 +107,11 @@ namespace Game.World
 
         public void SaveTemporaryData(WorldDataTemporary data)
         {
-            string fullPath = Path.Combine(Application.persistentDataPath, temporaryDataPath);
-            string dirPath = Path.GetDirectoryName(fullPath);
-            if (!Directory.Exists(dirPath)) Directory.CreateDirectory(dirPath);
+            string dirPath = Path.GetDirectoryName(persistentDataPath);
+            if (!Directory.Exists(dirPath)) 
+                Directory.CreateDirectory(dirPath);
             
-            File.WriteAllText(fullPath, JsonUtility.ToJson(data, true));
+            File.WriteAllText(persistentDataPath, JsonUtility.ToJson(data, true));
         }
         
         private bool ValidateWorldData(WorldDataPersistent data, out string errorMessage)

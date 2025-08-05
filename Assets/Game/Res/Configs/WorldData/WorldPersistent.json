@@ -1,0 +1,18 @@
+{
+    "worldName": "地球",
+    "worldId": "world",
+    "areaBlockDatas": [
+        {
+            "areaBlockDataPersistent": {
+                "areaBlockName": "中国",
+                "areaBlockId": "china",
+                "areaBlockDes": "",
+                "roomDatas": []
+            },
+            "areaBlockDataTemporary": {
+                "isUnlocked": false,
+                "curExploreProgress": 0.0
+            }
+        }
+    ]
+}
