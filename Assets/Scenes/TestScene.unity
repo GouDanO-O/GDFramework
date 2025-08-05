@@ -1333,7 +1333,7 @@ MonoBehaviour:
   currentWorldData:
     worldDataPersistent:
       worldName: "\u5730\u7403"
-      worldId: world
+      worldId: earth
       areaBlockDatas:
       - areaBlockDataPersistent:
           areaBlockName: "\u4E2D\u56FD"

@@ -1,18 +1,26 @@
 {
-    "worldName": "地球",
-    "worldId": "world",
-    "areaBlockDatas": [
-        {
-            "areaBlockDataPersistent": {
-                "areaBlockName": "中国",
-                "areaBlockId": "china",
-                "areaBlockDes": "",
-                "roomDatas": []
-            },
-            "areaBlockDataTemporary": {
-                "isUnlocked": false,
-                "curExploreProgress": 0.0
+    "worldDataPersistent": {
+        "worldName": "地球",
+        "worldId": "earth",
+        "areaBlockDatas": [
+            {
+                "areaBlockDataPersistent": {
+                    "areaBlockName": "中国",
+                    "areaBlockId": "china",
+                    "areaBlockDes": "",
+                    "roomDatas": []
+                },
+                "areaBlockDataTemporary": {
+                    "isUnlocked": false,
+                    "curExploreProgress": 0.0
+                }
             }
-        }
-    ]
+        ]
+    },
+    "worldDataTemporary": {
+        "curWorldYearTime": 1,
+        "curWorldDayTime": 1,
+        "curWorldHourTime": 9,
+        "curWorldMinutesTime": 0
+    }
 }
