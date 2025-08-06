@@ -184,7 +184,6 @@ namespace YooAsset
         /// <param name="operation">异步操作对象</param>
         public static void StartOperation(GameAsyncOperation operation)
         {
-            // 注意：游戏业务逻辑的包裹填写为空
             OperationSystem.StartOperation(string.Empty, operation);
         }
 

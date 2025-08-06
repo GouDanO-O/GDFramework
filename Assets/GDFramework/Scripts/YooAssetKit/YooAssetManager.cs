@@ -20,7 +20,7 @@ namespace GDFramework.YooAssetKit
     public class YooAssetManager : AbstractSystem
     {
         public string PackageName = "DefaultPackage";
-
+        
         public string PackageVersion ="1.0.0";
         
         public ResourceDownloaderOperation ResourceDownloaderOperation{get;private set;}

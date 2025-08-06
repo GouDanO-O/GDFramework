@@ -8,6 +8,12 @@ namespace GDFramework.FrameData
     public static class AssetIDMapping
     {
 
+        public struct MusicIDs
+        {
+            public const int DUNGEON_01 = 1000;
+            public const int DUNGEON_02 = 1001;
+        }
+
         public struct PrefabsIDs
         {
             public const int PLAYER = 2000;
@@ -16,12 +22,16 @@ namespace GDFramework.FrameData
         // ID到资源地址的映射
         public static readonly Dictionary<int, string> IDToAssetPath = new Dictionary<int, string>
         {
+            {1000, "yoo:Dungeon_01"},
+            {1001, "yoo:Dungeon_02"},
             {2000, "yoo:Player"},
         };
 
         // 资源地址到ID的映射
         public static readonly Dictionary<string, int> AssetPathToID = new Dictionary<string, int>
         {
+            {"yoo:Dungeon_01", 1000},
+            {"yoo:Dungeon_02", 1001},
             {"yoo:Player", 2000},
         };
 

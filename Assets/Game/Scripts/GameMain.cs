@@ -1,4 +1,5 @@
 ﻿using Game.Models.Resource;
+using Game.World;
 using Game.World.Player;
 using GDFrameworkCore;
 using GDFrameworkExtend.StorageKit;
@@ -19,6 +20,7 @@ namespace Game
             base.Register_Model();
             this.RegisterModel(new LaunchResourcesDataModel());
             this.RegisterModel(new GameSceneResourcesDataModel());
+            this.RegisterModel(new WorldDataModel());
             this.RegisterModel(new PlayerHealthyModel());
             this.RegisterModel(new PlayerInventoryModel());
         }

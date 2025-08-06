@@ -11,8 +11,8 @@ namespace YooAsset.Editor
 {
     public class AssetCodeGenerator
     {
-        // ID分配规则：Music(1000-1999), Prefabs(2000-2999), Particle(3000-3999)
-        private static readonly Dictionary<string, int> PackageIDRanges = new Dictionary<string, int>
+        // ID分配规则：基于Group名称分配ID范围
+        private static readonly Dictionary<string, int> GroupIDRanges = new Dictionary<string, int>
         {
             {"Music", 1000},
             {"Prefabs", 2000}, 
@@ -45,21 +45,17 @@ namespace YooAsset.Editor
             idMappingBuilder.AppendLine("    public static class AssetIDMapping");
             idMappingBuilder.AppendLine("    {");
             
-            // 存储所有资源的ID映射
-            Dictionary<string, List<AssetInfo>> packageAssets = new Dictionary<string, List<AssetInfo>>();
+            // 存储所有资源的ID映射 - 按Group分组
+            Dictionary<string, List<AssetInfo>> groupAssets = new Dictionary<string, List<AssetInfo>>();
             
             // Process each package
             foreach (var package in AssetBundleCollectorSettingData.Setting.Packages)
             {
-                var assets = ProcessPackage(package, codeBuilder);
-                if (assets.Count > 0)
-                {
-                    packageAssets[package.PackageName] = assets;
-                }
+                ProcessPackageForMapping(package, codeBuilder, groupAssets);
             }
             
             // 生成ID映射
-            GenerateIDMapping(packageAssets, idMappingBuilder);
+            GenerateIDMapping(groupAssets, idMappingBuilder);
             
             codeBuilder.AppendLine("}");
             idMappingBuilder.AppendLine("    }");
@@ -73,10 +69,8 @@ namespace YooAsset.Editor
             AssetDatabase.Refresh();
         }
         
-        private static List<AssetInfo> ProcessPackage(AssetBundleCollectorPackage package, StringBuilder codeBuilder)
+        private static void ProcessPackageForMapping(AssetBundleCollectorPackage package, StringBuilder codeBuilder, Dictionary<string, List<AssetInfo>> groupAssets)
         {
-            List<AssetInfo> packageAssets = new List<AssetInfo>();
-            
             codeBuilder.AppendLine();
             codeBuilder.AppendLine($"   public struct {SanitizeIdentifier(package.PackageName)}");
             codeBuilder.AppendLine("    {");
@@ -84,12 +78,19 @@ namespace YooAsset.Editor
             // Process each group within the package
             foreach (var group in package.Groups)
             {
-                var groupAssets = ProcessGroup(group, codeBuilder, package.PackageName);
-                packageAssets.AddRange(groupAssets);
+                var assets = ProcessGroup(group, codeBuilder, package.PackageName);
+                
+                // 按Group名称收集资源
+                if (assets.Count > 0)
+                {
+                    if (!groupAssets.ContainsKey(group.GroupName))
+                        groupAssets[group.GroupName] = new List<AssetInfo>();
+                    
+                    groupAssets[group.GroupName].AddRange(assets);
+                }
             }
             
             codeBuilder.AppendLine("    }");
-            return packageAssets;
         }
         
         private static List<AssetInfo> ProcessGroup(AssetBundleCollectorGroup group, StringBuilder codeBuilder, string packageName)
@@ -188,23 +189,23 @@ namespace YooAsset.Editor
             return collectorAssets;
         }
         
-        private static void GenerateIDMapping(Dictionary<string, List<AssetInfo>> packageAssets, StringBuilder idMappingBuilder)
+        private static void GenerateIDMapping(Dictionary<string, List<AssetInfo>> groupAssets, StringBuilder idMappingBuilder)
         {
-            // 生成各个包的ID常量类
-            foreach (var package in packageAssets)
+            // 生成各个Group的ID常量类
+            foreach (var group in groupAssets)
             {
-                string packageName = package.Key;
-                var assets = package.Value;
+                string groupName = group.Key;
+                var assets = group.Value;
                 
-                // 只为指定的包生成ID
-                if (!PackageIDRanges.ContainsKey(packageName))
+                // 只为指定的Group生成ID
+                if (!GroupIDRanges.ContainsKey(groupName))
                     continue;
                 
                 idMappingBuilder.AppendLine();
-                idMappingBuilder.AppendLine($"        public struct {packageName}IDs");
+                idMappingBuilder.AppendLine($"        public struct {groupName}IDs");
                 idMappingBuilder.AppendLine("        {");
                 
-                int baseID = PackageIDRanges[packageName];
+                int baseID = GroupIDRanges[groupName];
                 int currentID = baseID;
                 
                 foreach (var asset in assets)
@@ -223,15 +224,15 @@ namespace YooAsset.Editor
             idMappingBuilder.AppendLine("        public static readonly Dictionary<int, string> IDToAssetPath = new Dictionary<int, string>");
             idMappingBuilder.AppendLine("        {");
             
-            foreach (var package in packageAssets)
+            foreach (var group in groupAssets)
             {
-                string packageName = package.Key;
-                var assets = package.Value;
+                string groupName = group.Key;
+                var assets = group.Value;
                 
-                if (!PackageIDRanges.ContainsKey(packageName))
+                if (!GroupIDRanges.ContainsKey(groupName))
                     continue;
                 
-                int baseID = PackageIDRanges[packageName];
+                int baseID = GroupIDRanges[groupName];
                 int currentID = baseID;
                 
                 foreach (var asset in assets)
@@ -249,15 +250,15 @@ namespace YooAsset.Editor
             idMappingBuilder.AppendLine("        public static readonly Dictionary<string, int> AssetPathToID = new Dictionary<string, int>");
             idMappingBuilder.AppendLine("        {");
             
-            foreach (var package in packageAssets)
+            foreach (var group in groupAssets)
             {
-                string packageName = package.Key;
-                var assets = package.Value;
+                string groupName = group.Key;
+                var assets = group.Value;
                 
-                if (!PackageIDRanges.ContainsKey(packageName))
+                if (!GroupIDRanges.ContainsKey(groupName))
                     continue;
                 
-                int baseID = PackageIDRanges[packageName];
+                int baseID = GroupIDRanges[groupName];
                 int currentID = baseID;
                 
                 foreach (var asset in assets)

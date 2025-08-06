@@ -10,10 +10,10 @@ namespace GDFramework.FrameData
        public struct Config
        {
 
-           public struct WorldPersistentAsset
+           public struct WorldDataAsset
            {
-               public const string BundleName = "defaultpackage_game_res_configs_worlddata_worldpersistent.json";
-               public const string WorldPersistent = "yoo:WorldPersistent";
+               public const string BundleName = "defaultpackage_game_res_configs_worlddata_worlddata.json";
+               public const string WorldData = "yoo:WorldData";
            }
        }
 
@@ -43,42 +43,32 @@ namespace GDFramework.FrameData
            }
        }
 
+       public struct Music
+       {
+
+           public struct Dungeon_01Asset
+           {
+               public const string BundleName = "defaultpackage_game_res_musics_bgm_dungeon_01.mp3";
+               public const string Dungeon_01 = "yoo:Dungeon_01";
+           }
+
+           public struct Dungeon_02Asset
+           {
+               public const string BundleName = "defaultpackage_game_res_musics_bgm_dungeon_02.mp3";
+               public const string Dungeon_02 = "yoo:Dungeon_02";
+           }
+       }
+
+       public struct Particle
+       {
+       }
+
        public struct Prefabs
        {
 
            public struct PlayerAsset
            {
                public const string BundleName = "defaultpackage_game_res_prefabs_player.prefab";
-               public const string Player = "yoo:Player";
-           }
-       }
-    }
-
-   public struct Music
-    {
-
-       public struct BGM
-       {
-       }
-    }
-
-   public struct Particle
-    {
-
-       public struct Default_Group
-       {
-       }
-    }
-
-   public struct Prefabs
-    {
-
-       public struct Default_Group
-       {
-
-           public struct PlayerAsset
-           {
-               public const string BundleName = "prefabs_game_res_prefabs_player.prefab";
                public const string Player = "yoo:Player";
            }
        }

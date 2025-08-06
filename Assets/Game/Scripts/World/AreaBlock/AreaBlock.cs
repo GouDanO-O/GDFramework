@@ -14,12 +14,18 @@ namespace Game.World
     /// </summary>
     public class AreaBlock : MonoSingleton<AreaBlock>,IController
     {
-        [ReadOnly]
-        public AreaBlockData areaBlockData;
+        [ReadOnly,LabelText("当前区块的数据")]
+        public AreaBlockData curAreaBlockData;
         
         public IArchitecture GetArchitecture()
         {
             return GameMain.Interface;
+        }
+
+        public void InitAreaBlock()
+        {
+            string curAreaBlockId = this.GetModel<WorldDataModel>().worldDataTemporary.curPlayerLocateAreaBlockId;
+            this.curAreaBlockData = this.GetModel<WorldDataModel>().GetCurrentAreaBlockData(curAreaBlockId);
         }
     }
 }

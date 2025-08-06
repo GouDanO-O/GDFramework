@@ -30,5 +30,11 @@ namespace Game.World
         /// </summary>
         [LabelText("当前的分钟数")]
         public int curWorldMinutesTime = 0;
+
+        /// <summary>
+        /// 当前玩家所处的区块ID
+        /// </summary>
+        [LabelText("当前玩家所处的区块ID")]
+        public string curPlayerLocateAreaBlockId;
     }
 }

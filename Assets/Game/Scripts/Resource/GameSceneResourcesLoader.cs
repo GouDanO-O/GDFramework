@@ -15,7 +15,7 @@ namespace Game.Resource
             _gameSceneResourcesDataModel = this.GetModel<GameSceneResourcesDataModel>();
             WillLoadResourcesList.Add(new SResourcesLoaderNode()
             {
-                dataName = DefaultPackage.Config.WorldPersistentAsset.WorldPersistent,
+                dataName = DefaultPackage.Config.WorldDataAsset.WorldData,
                 loaderCallback = data =>
                 {
                     _gameSceneResourcesDataModel.WorldDataAsset = data as TextAsset;
