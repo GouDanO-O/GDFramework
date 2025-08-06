@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using GDFramework.FrameData;
 
-namespace YooAsset.Editor
+namespace Game.Asset.Editors
 {
     public class AssetIDViewerWindow : EditorWindow
     {

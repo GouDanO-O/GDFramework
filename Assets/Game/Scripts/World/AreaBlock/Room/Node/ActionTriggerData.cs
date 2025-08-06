@@ -1,4 +1,5 @@
 ﻿using System;
+using GDFramework.Asset;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -17,11 +18,14 @@ namespace Game.World
         [LabelText("震动强度")] [ShowIf("willShakeScreen")] [Range(1, 10)]
         public int shakeScreenStrength = 5;
 
-        [LabelText("音频剪辑唯一ID")] 
+        [LabelText("音频剪辑唯一ID"),AssetIDSelector(EAssetGroupType.Music)] 
         public string audioClipId;
 
-        [LabelText("粒子对象唯一ID")] 
+        [LabelText("粒子对象唯一ID"),AssetIDSelector(EAssetGroupType.Particle)] 
         public string particleObjectId;
+        
+        [LabelText("对象唯一ID"),AssetIDSelector(EAssetGroupType.Prefabs)] 
+        public string testobjId;
 
         [LabelText("粒子位置偏移")] [ShowIf("particleObjectId")]
         public Vector2 particleObjectOffset = Vector2.zero;

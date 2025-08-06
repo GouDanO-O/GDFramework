@@ -1347,8 +1347,8 @@ MonoBehaviour:
               roomDes: "\u5E7F\u5DDE"
               NodeDatas:
               - nodeDataPersistent:
-                  nodeId: testNode_01
-                  nodeName: testNode_01
+                  nodeId: 
+                  nodeName: 
                   nodeDes: 
                   childNodeDataList: []
                   actionTriggerData:
@@ -1358,9 +1358,10 @@ MonoBehaviour:
                       requiredAmount: 1
                       requiredLevel: 1
                     willShakeScreen: 0
-                    shakeSceenStrength: 5
+                    shakeScreenStrength: 5
                     audioClipId: 
                     particleObjectId: 
+                    testobjId: 
                     particleObjectOffset: {x: 0, y: 0}
                     triggerDelayTime: 0
                 nodeDataTemporary:
@@ -1684,7 +1685,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 870684772}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
