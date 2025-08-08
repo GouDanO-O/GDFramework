@@ -10,10 +10,16 @@ namespace GDFramework.FrameData
        public struct Config
        {
 
-           public struct WorldDataAsset
+           public struct ChinaAsset
            {
-               public const string BundleName = "defaultpackage_game_res_configs_worlddata_worlddata.json";
-               public const string WorldData = "yoo:WorldData";
+               public const string BundleName = "defaultpackage_game_res_configs_worlddata";
+               public const string china = "yoo:china";
+           }
+
+           public struct WorldConfigAsset
+           {
+               public const string BundleName = "defaultpackage_game_res_configs_worlddata";
+               public const string WorldConfig = "yoo:WorldConfig";
            }
        }
 

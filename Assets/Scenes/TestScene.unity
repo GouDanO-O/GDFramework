@@ -1330,6 +1330,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2020719ea69b456693f7457483da2bb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentWorldDataModel:
+    persistentDataPath: Assets/Game/Res/Configs/WorldData/WorldData.json
+    worldDataPersistent:
+      worldName: "\u5730\u7403"
+      worldId: earth
+      worldDes: 
+      areaBlockDatas:
+      - areaBlockDataPersistent:
+          areaBlockName: "\u4E2D\u56FD"
+          areaBlockId: china
+          areaBlockDes: "\u4E2D\u56FD"
+          roomDatas:
+          - roomDataPersistent:
+              roomName: "\u5E7F\u5DDE"
+              roomId: guangzhou
+              roomDes: "\u5E7F\u5DDE"
+              NodeDatas:
+              - nodeDataPersistent:
+                  nodeId: testnode_01
+                  nodeName: "\u8282\u70B91"
+                  nodeDes: "\u8282\u70B91"
+                  childNodeDataList: []
+                  actionTriggerData:
+                    actionTriggerCondition:
+                      conditionType: 0
+                      requiredItemId: 
+                      requiredAmount: 1
+                      requiredLevel: 1
+                    willShakeScreen: 0
+                    shakeScreenStrength: 5
+                    audioClipId: 1000
+                    particleObjectId: 
+                    particleObjectOffset: {x: 0, y: 0}
+                    triggerDelayTime: 0
+                nodeDataTemporary:
+                  curNodeState: 0
+                  curNodePosition: {x: 0, y: 0}
+        areaBlockDataTemporary:
+          isUnlocked: 0
+          curExploreProgress: 0
+    worldDataTemporary:
+      curWorldYearTime: 1
+      curWorldDayTime: 1
+      curWorldHourTime: 9
+      curWorldMinutesTime: 0
+      curPlayerLocateAreaBlockId: china
+    worldCanvasDataPersistent:
+      zoomScaleRatio: 0.25
+      zoomScaleArea: {x: 0.25, y: 2}
 --- !u!1001 &1274986777
 PrefabInstance:
   m_ObjectHideFlags: 0

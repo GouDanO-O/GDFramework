@@ -46,13 +46,15 @@ namespace Game.World
             return GameMain.Interface;
         }
 
-        private void Start()
+        public void InitRoom(AreaBlockData curAreaBlockData)
         {
-            InitData();
             RegistEvent();
+            InitRoomComponent();
+            InitRoomData(curAreaBlockData);
+            LoadCurRoomNodeData();
         }
 
-        private void InitData()
+        private void InitRoomComponent()
         {
             if (_roomPointerChecker == null)
             {
@@ -62,7 +64,6 @@ namespace Game.World
 
             _roomZoom = new RoomZoom();
             _contentRectTransform = this.GetComponent<RectTransform>();
-
             _contentRoot = transform.Find("Viewport/Content");
         }
 
@@ -72,6 +73,17 @@ namespace Game.World
 
         }
 
+        private void InitRoomData(AreaBlockData curAreaBlockData)
+        {
+            string curRoomId = curAreaBlockData.areaBlockDataTemporary.curPlayerLocateRoomId;
+            this.roomData = curAreaBlockData.GetCurrentRoomData(curRoomId);
+        }
+
+        private void InitNodeData()
+        {
+            
+        }
+        
         #region RoomManage
 
         /// <summary>
@@ -96,7 +108,7 @@ namespace Game.World
         /// </summary>
         public void SaveCurRoomNodeData()
         {
-
+            
         }
 
         /// <summary>

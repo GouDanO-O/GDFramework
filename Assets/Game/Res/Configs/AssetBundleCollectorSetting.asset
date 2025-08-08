@@ -29,8 +29,8 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Game/Res/Configs/WorldData/WorldData.json
-        CollectorGUID: 701883f5db84163499c95f72b372aee5
+      - CollectPath: Assets/Game/Res/Configs/WorldData
+        CollectorGUID: b966c6009220437418d1f0265b904d85
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

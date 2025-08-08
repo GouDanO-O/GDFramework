@@ -14,5 +14,21 @@ namespace Game.World
         
         [LabelText("房间对局数据"),ReadOnly]
         public RoomDataTemporary roomDataTemporary;
+        
+        /// <summary>
+        /// 当前区块的数据字典
+        /// </summary>
+        private Dictionary<string,NodeData> _roomDataDict = new Dictionary<string,NodeData>();
+
+        public void SetNodeDictData()
+        {
+            _roomDataDict.Clear();
+            for (int i = 0; i < roomDataPersistent.NodeDatas.Count; i++)
+            {
+                NodeData nodeData = roomDataPersistent.NodeDatas[i];
+                string key=nodeData.nodeDataPersistent.nodeId;
+                _roomDataDict.Add(key, nodeData);
+            }
+        }
     }
 }

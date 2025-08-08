@@ -60,6 +60,16 @@ namespace Game.World
             return null;
         }
         
+        /// <summary>
+        /// 更换区块
+        /// </summary>
+        public void ChangeAreaBlock()
+        {
+            
+        }
+        
+
+        
         #region 解析世界数据
         
         /// <summary>
@@ -106,19 +116,25 @@ namespace Game.World
                     {
                         this.worldCanvasDataPersistent = loadedDataModel.worldCanvasDataPersistent;
                     }
-                    
-                    _areaBlockDataDict.Clear();
-                    for (int i = 0; i < this.worldDataPersistent.areaBlockDatas.Count; i++)
-                    {
-                        AreaBlockData areaBlockData = this.worldDataPersistent.areaBlockDatas[i];
-                        string key = areaBlockData.areaBlockDataPersistent.areaBlockId;
-                        _areaBlockDataDict.Add(key, areaBlockData);
-                    }
+
+                    SetAreaBlockDictData();
                 }
                 catch (System.Exception e)
                 {
                     Debug.LogError($"加载世界数据失败: {e.Message}，创建默认数据");
                 }
+            }
+        }
+
+        private void SetAreaBlockDictData()
+        {
+            _areaBlockDataDict.Clear();
+            for (int i = 0; i < this.worldDataPersistent.areaBlockDatas.Count; i++)
+            {
+                AreaBlockData areaBlockData = this.worldDataPersistent.areaBlockDatas[i];
+                areaBlockData.SetRoomDictData();
+                string key = areaBlockData.areaBlockDataPersistent.areaBlockId;
+                _areaBlockDataDict.Add(key, areaBlockData);
             }
         }
         
