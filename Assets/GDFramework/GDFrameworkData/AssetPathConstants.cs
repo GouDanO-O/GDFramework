@@ -7,42 +7,43 @@ namespace GDFramework.FrameData
    public struct DefaultPackage
     {
 
-       public struct Config
+       public struct GameConfig
        {
 
-           public struct ChinaAsset
+           public struct WorldDataAssetGroup
            {
-               public const string BundleName = "defaultpackage_game_res_configs_worlddata";
-               public const string china = "yoo:china";
+               public const string BundleName = "defaultpackage_game_res_configs_worlddata_worlddata.json";
+               public const string WorldData = "yoo:WorldData";
            }
 
-           public struct WorldConfigAsset
+           public struct AreaBlocksAssetGroup
            {
-               public const string BundleName = "defaultpackage_game_res_configs_worlddata";
-               public const string WorldConfig = "yoo:WorldConfig";
+               public const string BundleName = "defaultpackage_game_res_configs_worlddata_areablocks";
+               public const string china = "yoo:china";
+               public const string japan = "yoo:japan";
            }
        }
 
        public struct GameModelData
        {
 
-           public struct GameInputAsset
+           public struct GameInputAssetGroup
            {
                public const string BundleName = "defaultpackage_gdframework_res_input_gameinput.inputactions";
                public const string GameInput = "yoo:GameInput";
            }
 
-           public struct TbmultilingualAsset
+           public struct TbmultilingualAssetGroup
            {
                public const string BundleName = "defaultpackage_gdframework_res_mul_tbmultilingual.json";
-               public const string tbmultilingual = "yoo:tbmultilingual";
+               public const string Tbmultilingual = "yoo:Tbmultilingual";
            }
        }
 
        public struct UI
        {
 
-           public struct UI_NodeAsset
+           public struct UI_NodeAssetGroup
            {
                public const string BundleName = "defaultpackage_game_res_prefabs_ui_node.prefab";
                public const string UI_Node = "yoo:UI_Node";
@@ -52,13 +53,13 @@ namespace GDFramework.FrameData
        public struct Music
        {
 
-           public struct Dungeon_01Asset
+           public struct Dungeon_01AssetGroup
            {
                public const string BundleName = "defaultpackage_game_res_musics_bgm_dungeon_01.mp3";
                public const string Dungeon_01 = "yoo:Dungeon_01";
            }
 
-           public struct Dungeon_02Asset
+           public struct Dungeon_02AssetGroup
            {
                public const string BundleName = "defaultpackage_game_res_musics_bgm_dungeon_02.mp3";
                public const string Dungeon_02 = "yoo:Dungeon_02";
@@ -72,7 +73,7 @@ namespace GDFramework.FrameData
        public struct Prefabs
        {
 
-           public struct PlayerAsset
+           public struct PlayerAssetGroup
            {
                public const string BundleName = "defaultpackage_game_res_prefabs_player.prefab";
                public const string Player = "yoo:Player";

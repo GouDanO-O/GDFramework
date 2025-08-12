@@ -24,6 +24,11 @@ namespace Game.World
 
         public void InitAreaBlock()
         {
+            WorldDataModel curWorldData = this.GetModel<WorldDataModel>();
+            if (curWorldData==null || curWorldData.worldDataPersistent==null||curWorldData.worldDataTemporary == null)
+            {
+                return;
+            }
             string curAreaBlockId = this.GetModel<WorldDataModel>().worldDataTemporary.curPlayerLocateAreaBlockId;
             this.curAreaBlockData = this.GetModel<WorldDataModel>().GetCurrentAreaBlockData(curAreaBlockId);
             InitRoomData(this.curAreaBlockData);

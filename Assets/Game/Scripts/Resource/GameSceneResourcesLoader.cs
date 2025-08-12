@@ -15,8 +15,10 @@ namespace Game.Resource
             _gameSceneResourcesDataModel = this.GetModel<GameSceneResourcesDataModel>();
             WillLoadResourcesList.Add(new SResourcesLoaderNode()
             {
-
+                
             });
+            
+            
         }
     }
 }

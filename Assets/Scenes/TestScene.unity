@@ -361,10 +361,14 @@ MonoBehaviour:
       areaBlockName: 
       areaBlockId: 
       areaBlockDes: 
+      initialAreaBlockId: 
+      willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock: 0
       roomDatas: []
     areaBlockDataTemporary:
       isUnlocked: 0
       curExploreProgress: 0
+      playerIsLocateThisAreaBlock: 0
+      curPlayerLocateRoomId: 
 --- !u!1 &98828006
 GameObject:
   m_ObjectHideFlags: 0
@@ -1336,11 +1340,14 @@ MonoBehaviour:
       worldName: "\u5730\u7403"
       worldId: earth
       worldDes: 
+      initialAreaBlockId: 
       areaBlockDatas:
       - areaBlockDataPersistent:
           areaBlockName: "\u4E2D\u56FD"
           areaBlockId: china
           areaBlockDes: "\u4E2D\u56FD"
+          initialAreaBlockId: 
+          willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock: 0
           roomDatas:
           - roomDataPersistent:
               roomName: "\u5E7F\u5DDE"
@@ -1370,11 +1377,14 @@ MonoBehaviour:
         areaBlockDataTemporary:
           isUnlocked: 0
           curExploreProgress: 0
+          playerIsLocateThisAreaBlock: 0
+          curPlayerLocateRoomId: 
     worldDataTemporary:
       curWorldYearTime: 1
       curWorldDayTime: 1
       curWorldHourTime: 9
       curWorldMinutesTime: 0
+      playerIsLocateThisWorld: 0
       curPlayerLocateAreaBlockId: china
     worldCanvasDataPersistent:
       zoomScaleRatio: 0.25
@@ -1685,7 +1695,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 870684772}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

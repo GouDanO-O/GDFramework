@@ -24,13 +24,21 @@ MonoBehaviour:
     AutoCollectShaders: 1
     IgnoreRuleName: RawFileIgnoreRule
     Groups:
-    - GroupName: Config
+    - GroupName: GameConfig
       GroupDesc: "\u914D\u7F6E"
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Game/Res/Configs/WorldData
-        CollectorGUID: b966c6009220437418d1f0265b904d85
+      - CollectPath: Assets/Game/Res/Configs/WorldData/WorldData.json
+        CollectorGUID: ad382d863ea2c3049b1e4fb52efbfc66
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Game/Res/Configs/WorldData/AreaBlocks
+        CollectorGUID: a93e85814f7b317438903f28794e7756
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
@@ -50,7 +58,7 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/GDFramework/Res/Mul/tbmultilingual.json
+      - CollectPath: Assets/GDFramework/Res/Mul/Tbmultilingual.json
         CollectorGUID: 9edce2159fcc343409847abf95158075
         CollectorType: 0
         AddressRuleName: AddressByFileName
