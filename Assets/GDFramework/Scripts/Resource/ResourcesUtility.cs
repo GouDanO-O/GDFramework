@@ -1,18 +1,21 @@
 using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using GDFramework;
 using GDFrameworkCore;
 using GDFrameworkExtend.FluentAPI;
 using UnityEngine;
 using UnityEngine.U2D;
 using GDFrameworkExtend.ResKit;
+using YooAsset;
 
 namespace GDFramework.Utility
 {
-    public class ResoucesUtility : BasicToolUtility
+    public class ResourcesUtility : BasicToolUtility
     {
         private ResLoader resLoader;
 
-        public ResoucesUtility()
+        public ResourcesUtility()
         {
             InitUtility();
         }
@@ -43,7 +46,6 @@ namespace GDFramework.Utility
                     action?.Invoke(res.Asset);
             });
             resLoader.LoadAsync();
-            
         }
         
         /// <summary>
@@ -146,5 +148,24 @@ namespace GDFramework.Utility
             });
             resLoader.LoadAsync();
         }
+        
+        public async UniTask LoadRawTextAsync(string yooAddress, System.Action<string> onText)
+        {
+            var pkg = YooAssets.GetPackage("DefaultPackage");
+            var info = pkg.GetAssetInfo(yooAddress.Substring("yoo:".Length));
+            var handle = pkg.LoadRawFileAsync(info);
+            await handle.Task;
+            if (handle.Status == EOperationStatus.Succeed)
+            {
+                var text = System.Text.Encoding.UTF8.GetString(handle.GetRawFileData());
+                onText?.Invoke(text);
+            }
+            else
+            {
+                Debug.LogError(handle.LastError);
+            }
+            handle.Release();
+        }
+
     }
 }

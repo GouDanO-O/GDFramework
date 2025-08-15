@@ -15,11 +15,11 @@ namespace GDFramework.Multilingual
 
         public Dictionary<string, Dictionary<ELanguageType, string>> TranslationDict = new();
 
-        private ResoucesUtility _resoucesUtility;
+        private ResourcesUtility _resoucesUtility;
 
         protected override void OnInit()
         {
-            _resoucesUtility = this.GetUtility<ResoucesUtility>();
+            _resoucesUtility = this.GetUtility<ResourcesUtility>();
         }
 
         public void SetTranslation(string key, Dictionary<ELanguageType, string> languageData)

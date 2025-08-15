@@ -18,9 +18,21 @@ namespace GDFramework.FrameData
 
            public struct AreaBlocksAssetGroup
            {
-               public const string BundleName = "defaultpackage_game_res_configs_worlddata_areablocks";
+               public const string BundleName = "defaultpackage_game_res_configs_areablocks";
                public const string china = "yoo:china";
                public const string japan = "yoo:japan";
+           }
+
+           public struct RoomsAssetGroup
+           {
+               public const string BundleName = "defaultpackage_game_res_configs_rooms";
+               public const string room_01 = "yoo:room_01";
+           }
+
+           public struct NodesAssetGroup
+           {
+               public const string BundleName = "defaultpackage_game_res_configs_nodes";
+               public const string node_01 = "yoo:node_01";
            }
        }
 

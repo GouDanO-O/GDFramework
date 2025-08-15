@@ -12,7 +12,7 @@ namespace GDFramework.Resource
 {
     public class ResourcesManager : AbstractSystem
     {
-        private ResoucesUtility _loader;
+        private ResourcesUtility _loader;
 
         private Dictionary<Type, BaseResourcesLoader> _resourcesLoaderDict = new();
 
@@ -22,7 +22,7 @@ namespace GDFramework.Resource
         
         protected override void OnInit()
         {
-            _loader = this.GetUtility<ResoucesUtility>();
+            _loader = this.GetUtility<ResourcesUtility>();
         }
         
         /// <summary>

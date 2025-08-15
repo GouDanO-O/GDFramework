@@ -59,7 +59,7 @@ namespace GDFrameworkCore
         /// </summary>
         protected virtual void Register_Utility()
         {
-            this.RegisterUtility(new ResoucesUtility());
+            this.RegisterUtility(new ResourcesUtility());
             this.RegisterUtility(new MultilingualUtility());
             this.RegisterUtility(new SdkUtility());
         }

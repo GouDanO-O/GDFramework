@@ -28,6 +28,7 @@ namespace Game
         protected override void Register_Utility()
         {
             base.Register_Utility();
+            this.RegisterUtility(new WorldDataUtility());
         }
     }
 }

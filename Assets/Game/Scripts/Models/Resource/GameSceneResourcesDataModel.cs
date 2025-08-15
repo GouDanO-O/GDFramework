@@ -1,4 +1,5 @@
-﻿using GDFrameworkCore;
+﻿using System.Collections.Generic;
+using GDFrameworkCore;
 using UnityEngine;
 
 
@@ -8,17 +9,16 @@ namespace Game.Models.Resource
     {
         public TextAsset WorldDataAsset;
 
-        public AssetBundle AreaBlockAssetBundle;
+        public readonly Dictionary<string, TextAsset> AreaBlocks = new();
+        public readonly Dictionary<string, TextAsset> Rooms = new();
+        public readonly Dictionary<string, TextAsset> Nodes = new();
 
-        public AssetBundle RoomAssetBundleBundle;
+        public void AddAreaBlock(string address, TextAsset ta) => AreaBlocks[address] = ta;
+        public void AddRoom(string address, TextAsset ta) => Rooms[address] = ta;
+        public void AddNode(string address, TextAsset ta) => Nodes[address] = ta;
 
-        public AssetBundle NodesAssetBundle;
-        
         protected override void OnInit()
         {
-            
         }
-        
-        
     }
 }

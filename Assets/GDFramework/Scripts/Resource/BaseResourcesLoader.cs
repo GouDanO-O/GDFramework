@@ -23,7 +23,7 @@ namespace GDFramework.Resource
     {
         protected UnityAction OnLoadComplete;
 
-        protected ResoucesUtility ResLoader;
+        protected ResourcesUtility ResLoader;
 
         protected int LoadedCount { get; private set; }
 
@@ -44,7 +44,7 @@ namespace GDFramework.Resource
         /// 初始化加载器
         /// </summary>
         /// <param name="resLoader"></param>
-        public void InitLoader(ResoucesUtility resLoader)
+        public void InitLoader(ResourcesUtility resLoader)
         {
             ResLoader = resLoader;
             AddLoadingResource();
@@ -55,7 +55,7 @@ namespace GDFramework.Resource
         /// 初始化加载器
         /// </summary>
         /// <param name="resLoader"></param>
-        public void InitLoader(ResoucesUtility resLoader, UnityAction callBack)
+        public void InitLoader(ResourcesUtility resLoader, UnityAction callBack)
         {
             ResLoader = resLoader;
             OnLoadComplete = callBack;
@@ -122,7 +122,7 @@ namespace GDFramework.Resource
         /// <returns></returns>
         public bool IsLoadComplete()
         {
-            return LoadedCount < MaxLoadCount;
+            return LoadedCount == MaxLoadCount;
         }
     }
 }

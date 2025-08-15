@@ -29,7 +29,7 @@ namespace Game.World
         private void InitWorldData()
         {
             _currentWorldDataModel = this.GetModel<WorldDataModel>();
-            _currentWorldDataModel.LoadCompleteWorldData();
+            _currentWorldDataModel.GetWorldData();
         }
 
         private void InitAreaBlockData()
@@ -43,9 +43,9 @@ namespace Game.World
         }
         
         [Button("解析世界数据json")]
-        public void SetWorldData(TextAsset curAsset)
+        public void SetWorldData()
         {
-            this._currentWorldDataModel.LoadCompleteWorldData(curAsset);
+            _currentWorldDataModel.GetWorldData();
         }
     }
 }
