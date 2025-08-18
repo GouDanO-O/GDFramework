@@ -20,8 +20,6 @@ namespace Game.Procedure
             _gameSceneResourcesLoader=new GameSceneResourcesLoader();
         }
         
-
-
         public override void OnEnter()
         {
           

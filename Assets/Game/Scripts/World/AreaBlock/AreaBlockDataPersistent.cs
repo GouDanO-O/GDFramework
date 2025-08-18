@@ -8,15 +8,6 @@ namespace Game.World
     [Serializable]
     public class AreaBlockDataPersistent : ConfigData
     {
-        [LabelText("区块名称")]
-        public string areaBlockName;
-
-        [LabelText("区块ID")]
-        public string areaBlockId;
-
-        [LabelText("区块描述")]
-        public string areaBlockDes;
-        
         [LabelText("初始房间ID(玩家第一次进入区块所处的房间ID\n如果为空,则默认取索引第一位)")]
         public string initialAreaBlockId;
 

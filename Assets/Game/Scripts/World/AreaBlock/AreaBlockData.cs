@@ -17,18 +17,6 @@ namespace Game.World
         
         private Dictionary<string,RoomData> _roomDataDict = new Dictionary<string, RoomData>();
         
-        public void SetRoomDictData()
-        {
-            _roomDataDict.Clear();
-            for (int i = 0; i < this.areaBlockDataPersistent.roomDatas.Count; i++)
-            {
-                RoomData roomData = this.areaBlockDataPersistent.roomDatas[i];
-                roomData.SetNodeDictData();
-                string key = roomData.roomDataPersistent.roomId;
-                _roomDataDict.Add(key, roomData);
-            }
-        }
-        
         public RoomData GetCurrentRoomData(string roomId)
         {
             if (areaBlockDataPersistent == null)

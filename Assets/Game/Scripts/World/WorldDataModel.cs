@@ -12,9 +12,15 @@ namespace Game.World
     [Serializable]
     public class WorldDataModel : AbstractModel
     {
-        private const string PersistentDataPath = "Assets/Game/Res/Configs/WorldData";
+        private const string PersistentDataPath = "Assets/Game/Res/Configs/";
         
-        private const string AreaBlockPersistentDataPath = PersistentDataPath+"/AreaBlock";
+        public string WorldDataDataPath = PersistentDataPath+"World/";
+        
+        public string AreaBlockDataPath = PersistentDataPath+"AreaBlocks/";
+        
+        public string RoomDataPath = PersistentDataPath+"Rooms/";
+        
+        public string NodeDataPath = PersistentDataPath+"Nodes/";
         
         [LabelText("世界固定数据")]
         public WorldDataPersistent worldDataPersistent;
@@ -49,7 +55,18 @@ namespace Game.World
 
         public void GetWorldData()
         {
+#if UNITY_EDITOR
+            _worldDataUtility = new WorldDataUtility();
+#endif
             _worldDataUtility.LoadCompleteWorldData(this);
+        }
+
+        public void SaveWorldData()
+        {
+#if UNITY_EDITOR
+            _worldDataUtility = new WorldDataUtility();
+#endif
+            _worldDataUtility.SaveCompleteWorldData(this);
         }
 
         public AreaBlockData GetCurrentAreaBlockData(string areaBlockId)

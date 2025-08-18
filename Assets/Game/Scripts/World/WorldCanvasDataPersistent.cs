@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Game.World
 {
     [Serializable]
-    public class WorldCanvasDataPersistent : ConfigData
+    public class WorldCanvasDataPersistent
     {
         /// <summary>
         /// 房间里面控制画布进行伸缩的比例

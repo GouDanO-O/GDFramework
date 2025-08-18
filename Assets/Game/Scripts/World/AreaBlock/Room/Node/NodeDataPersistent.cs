@@ -16,15 +16,6 @@ namespace Game.World
     [Serializable]
     public class NodeDataPersistent : ConfigData
     {
-        [LabelText("节点ID(对玩家不可见)")]
-        public string nodeId;
-
-        [LabelText("节点名称")]
-        public string nodeName;
-
-        [LabelText("节点描述")]
-        public string nodeDes;
-        
         [LabelText("拥有的子节点ID")]
         public List<string> childNodeDataList = new List<string>();
         

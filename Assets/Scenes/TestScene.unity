@@ -358,9 +358,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curAreaBlockData:
     areaBlockDataPersistent:
-      areaBlockName: 
-      areaBlockId: 
-      areaBlockDes: 
+      configName: 
+      configId: 
+      configDes: 
       initialAreaBlockId: 
       willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock: 0
       roomDatas: []
@@ -1335,50 +1335,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _currentWorldDataModel:
-    persistentDataPath: Assets/Game/Res/Configs/WorldData/WorldData.json
+    WorldDataDataPath: Assets/Game/Res/Configs/World/
+    AreaBlockDataPath: Assets/Game/Res/Configs/AreaBlocks/
+    RoomDataPath: Assets/Game/Res/Configs/Rooms/
+    NodeDataPath: Assets/Game/Res/Configs/Nodes/
     worldDataPersistent:
-      worldName: "\u5730\u7403"
-      worldId: earth
-      worldDes: 
+      configName: world
+      configId: world_01
+      configDes: world
       initialAreaBlockId: 
-      areaBlockDatas:
-      - areaBlockDataPersistent:
-          areaBlockName: "\u4E2D\u56FD"
-          areaBlockId: china
-          areaBlockDes: "\u4E2D\u56FD"
-          initialAreaBlockId: 
-          willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock: 0
-          roomDatas:
-          - roomDataPersistent:
-              roomName: "\u5E7F\u5DDE"
-              roomId: guangzhou
-              roomDes: "\u5E7F\u5DDE"
-              NodeDatas:
-              - nodeDataPersistent:
-                  nodeId: testnode_01
-                  nodeName: "\u8282\u70B91"
-                  nodeDes: "\u8282\u70B91"
-                  childNodeDataList: []
-                  actionTriggerData:
-                    actionTriggerCondition:
-                      conditionType: 0
-                      requiredItemId: 
-                      requiredAmount: 1
-                      requiredLevel: 1
-                    willShakeScreen: 0
-                    shakeScreenStrength: 5
-                    audioClipId: 1000
-                    particleObjectId: 
-                    particleObjectOffset: {x: 0, y: 0}
-                    triggerDelayTime: 0
-                nodeDataTemporary:
-                  curNodeState: 0
-                  curNodePosition: {x: 0, y: 0}
-        areaBlockDataTemporary:
-          isUnlocked: 0
-          curExploreProgress: 0
-          playerIsLocateThisAreaBlock: 0
-          curPlayerLocateRoomId: 
+      areaBlockDatas: []
+      areaBlockIds: []
     worldDataTemporary:
       curWorldYearTime: 1
       curWorldDayTime: 1
@@ -1695,7 +1662,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 870684772}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1824,10 +1791,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomData:
     roomDataPersistent:
-      roomName: 
-      roomId: 
-      roomDes: 
-      NodeDatas: []
+      configName: 
+      configId: 
+      configDes: 
+      nodeDatas: []
   isInRoomArea: 0
   isPressMouseMiddle: 0
 --- !u!114 &1687532918

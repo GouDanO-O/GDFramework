@@ -14,28 +14,25 @@ public class GameSceneResourcesLoader : BaseResourcesLoader
     protected override void AddLoadingResource()
     {
         _model = this.GetModel<GameSceneResourcesDataModel>();
-        
+
         WillLoadResourcesList.Add(new SResourcesLoaderNode
         {
-            dataName = DefaultPackage.GameConfig.WorldDataAssetGroup.WorldData, 
+            dataName = DefaultPackage.GameConfig.WorldDataAssetGroup.WorldData,
             loaderCallback = data =>
             {
                 _model.WorldDataAsset = data as TextAsset;
                 LoadingCheck();
             }
         });
-
-        // // 1) 批量添加 AreaBlocks
-        // AddJsonFolderByLabel("area_blocks",
-        //     onOneJson: (addr, ta) => { _model.AddAreaBlock(addr, ta); });
-        //
-        // // 2) 批量添加 Rooms
-        // AddJsonFolderByLabel("rooms",
-        //     onOneJson: (addr, ta) => { _model.AddRoom(addr, ta); });
-        //
-        // // 3) 批量添加 Nodes
-        // AddJsonFolderByLabel("nodes",
-        //     onOneJson: (addr, ta) => { _model.AddNode(addr, ta); });
+        
+        AddJsonFolderByLabel("area_blocks",
+            onOneJson: (addr, ta) => { _model.AddAreaBlock(addr, ta); });
+        
+        AddJsonFolderByLabel("rooms",
+            onOneJson: (addr, ta) => { _model.AddRoom(addr, ta); });
+        
+        AddJsonFolderByLabel("nodes",
+            onOneJson: (addr, ta) => { _model.AddNode(addr, ta); });
     }
 
     /// <summary>
@@ -48,8 +45,8 @@ public class GameSceneResourcesLoader : BaseResourcesLoader
 
         // 只取 .json，并按地址排序，保证顺序稳定
         foreach (var info in infos
-            .Where(i => i.AssetPath.EndsWith(".json", System.StringComparison.OrdinalIgnoreCase))
-            .OrderBy(i => i.Address))
+                     .Where(i => i.AssetPath.EndsWith(".json", System.StringComparison.OrdinalIgnoreCase))
+                     .OrderBy(i => i.Address))
         {
             var yooAddress = $"yoo:{info.Address}"; // 让你的 YooAssetResCreator 匹配到
 
@@ -67,6 +64,7 @@ public class GameSceneResourcesLoader : BaseResourcesLoader
                     {
                         onOneJson?.Invoke(info.Address, ta);
                     }
+
                     LoadingCheck();
                 }
             });

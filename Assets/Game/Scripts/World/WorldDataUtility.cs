@@ -1,5 +1,7 @@
-﻿using GDFramework.Utility;
+﻿using System.IO;
+using GDFramework.Utility;
 using GDFrameworkCore;
+using UnityEngine;
 
 namespace Game.World
 {
@@ -41,11 +43,11 @@ namespace Game.World
         /// <summary>
         /// 保存完整的世界数据
         /// </summary>
-        public void SaveCompleteWorldData()
+        public void SaveCompleteData()
         {
             if (this._worldDataModel != null)
             {
-                
+                SaveCompleteWorldData(this._worldDataModel);
             }
             else
             {
@@ -57,7 +59,8 @@ namespace Game.World
         {
             if (worldDataModel != null)
             {
-                
+                SaveWorldDataPersistent(worldDataModel);
+                SaveWorldDataTemporary(worldDataModel);
             }
             else
             {
@@ -65,27 +68,76 @@ namespace Game.World
             }
         }
 
-        private void SaveWorldData()
+        /// <summary>
+        /// 保存世界数据
+        /// </summary>
+        private void SaveWorldDataPersistent(WorldDataModel worldDataModel)
+        {
+            worldDataModel.worldDataPersistent.SaveConfigData(worldDataModel.WorldDataDataPath);
+        }
+
+        /// <summary>
+        /// 保存世界--临时数据
+        /// </summary>
+        /// <param name="worldDataModel"></param>
+        private void SaveWorldDataTemporary(WorldDataModel worldDataModel)
+        {
+            string willSavePath = worldDataModel.WorldDataDataPath;
+            
+            string dirPath = Path.GetDirectoryName(willSavePath);
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
+            
+            object curData = worldDataModel.worldDataTemporary;
+            willSavePath += curData.GetType()+".json";
+            
+            // 保存完整的WorldData对象
+            string json = JsonUtility.ToJson(curData, true);
+            File.WriteAllText(willSavePath, json);
+            Debug.Log("保存世界临时数据成功");
+        }
+        
+        /// <summary>
+        /// 保存世界--临时数据
+        /// </summary>
+        /// <param name="worldDataModel"></param>
+        private void SaveWorldCanvasData(WorldDataModel worldDataModel)
+        {
+            string willSavePath = worldDataModel.WorldDataDataPath;
+            
+            string dirPath = Path.GetDirectoryName(willSavePath);
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
+            
+            object curData = worldDataModel.worldCanvasDataPersistent;
+            willSavePath += curData.GetType()+".json";
+            
+            // 保存完整的WorldData对象
+            string json = JsonUtility.ToJson(curData, true);
+            File.WriteAllText(willSavePath, json);
+            Debug.Log("保存世界画布数据成功");
+        }
+        
+        /// <summary>
+        /// 保存所有区块数据
+        /// </summary>
+        private void SaveAllAreaBlockData()
         {
             
         }
 
-        private void SaveAreaBlockData()
+        /// <summary>
+        /// 保存所有房间数据
+        /// </summary>
+        private void SaveAllRoomData()
         {
             
         }
 
-        private void SaveRoomData()
-        {
-            
-        }
-
-        private void SaveNodeData()
-        {
-            
-        }
-
-        public void SaveCurWorldPersistentData()
+        /// <summary>
+        /// 保存所有节点数据
+        /// </summary>
+        private void SaveAllNodeData()
         {
             
         }
