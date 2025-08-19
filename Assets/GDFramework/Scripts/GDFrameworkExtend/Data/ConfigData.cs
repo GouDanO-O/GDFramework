@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using GDFramework.Utility;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -24,12 +26,21 @@ namespace GDFrameworkExtend.Data
         
         public virtual void SaveConfigData()
         {
-
+            
         }
 
         public virtual void SaveConfigData(string path)
         {
+            string willSavePath = path;
             
+            string dirPath = Path.GetDirectoryName(willSavePath);
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
+            
+            willSavePath += this.configId+".json";
+            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+            File.WriteAllText(willSavePath, json);
+            LogMonoUtility.AddLog($"保存{willSavePath}数据成功");
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Game.World
         [LabelText("当前玩家是否所处这边区块")]
         public bool playerIsLocateThisAreaBlock;
         
-        [ShowIf("当前玩家所处的房间ID")]
+        [ShowIf("playerIsLocateThisAreaBlock"),LabelText("当前玩家所处的区块的房间ID")]
         public string curPlayerLocateRoomId;
 
         /// <summary>

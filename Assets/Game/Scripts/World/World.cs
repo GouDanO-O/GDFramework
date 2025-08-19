@@ -11,8 +11,7 @@ namespace Game.World
 {
     public class World : MonoSingleton<World>, IController
     {
-        [SerializeField]
-        private WorldDataModel _currentWorldDataModel;
+        public WorldDataModel _currentWorldDataModel;
         
         public IArchitecture GetArchitecture()
         {

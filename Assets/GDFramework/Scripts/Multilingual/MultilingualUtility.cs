@@ -4,6 +4,7 @@ using GDFramework.Models.Enums;
 using GDFramework.Utility;
 using GDFrameworkCore;
 using UnityEngine;
+using JsonUtility = UnityEngine.JsonUtility;
 
 namespace GDFramework.Multilingual
 {

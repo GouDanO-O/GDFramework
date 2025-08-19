@@ -1,10 +1,13 @@
 ﻿using System;
+using System.IO;
+using GDFramework.Utility;
 using GDFrameworkExtend.Data;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 
 namespace Game.World
 {
-    [Serializable]
+    [Serializable,JsonObject]
     public class WorldDataTemporary : TemporalityData
     {
         /// <summary>
@@ -52,6 +55,5 @@ namespace Game.World
                 this.curPlayerLocateAreaBlockId = curAreaBlockId;
             }
         }
-        
     }
 }

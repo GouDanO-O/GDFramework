@@ -1,11 +1,13 @@
 ﻿using System;
 using GDFramework.Asset;
+using GDFrameworkExtend.JsonKit;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game.World
 {
-    [Serializable]
+    [Serializable,JsonObject]
     [LabelText("行为触发数据")]
     public class ActionTriggerData
     {
@@ -24,7 +26,7 @@ namespace Game.World
         [LabelText("粒子对象ID"),AssetIDSelector(EAssetGroupType.Particle)] 
         public string particleObjectId;
 
-        [LabelText("粒子位置偏移")] [ShowIf("particleObjectId")]
+        [LabelText("粒子位置偏移")] [ShowIf("particleObjectId"),JsonConverter(typeof(Vector2JsonConverter))]
         public Vector2 particleObjectOffset = Vector2.zero;
 
         [LabelText("触发延迟时间")]

@@ -1,0 +1,10 @@
+{
+  "initialAreaBlockId": "",
+  "areaBlockIds": [
+    "areaBlock_01",
+    "areaBlock_02"
+  ],
+  "configName": "地球",
+  "configId": "earth",
+  "configDes": "地球"
+}

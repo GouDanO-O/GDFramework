@@ -3,52 +3,43 @@ using System.Collections.Generic;
 using System.IO;
 using GDFramework.Utility;
 using GDFrameworkExtend.Data;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Game.World
 {
-    [Serializable]
+    [Serializable,JsonObject]
     public class WorldDataPersistent : ConfigData
     {
         [LabelText("初始区块ID(玩家第一次进入世界所处的区块ID)")]
         public string initialAreaBlockId;
         
-        [LabelText("区块数据列表")]
+        [LabelText("区块数据列表"),JsonIgnore]
         public List<AreaBlockData> areaBlockDatas = new List<AreaBlockData>();
 
-        [HideInInspector]
+        [LabelText("当前世界拥有的区块ID"),ReadOnly]
         public List<string> areaBlockIds = new List<string>();
-
-        public override void SaveConfigData(string path)
+        
+        
+        public void SaveConfigData(string worldataPath,string areaBlockPath,string roomPath,string nodePath)
         {
-            string willSavePath = path;
-            
-            string dirPath = Path.GetDirectoryName(willSavePath);
-            if (!Directory.Exists(dirPath))
-                Directory.CreateDirectory(dirPath);
-
             areaBlockIds.Clear();
             for (int i = 0; i < areaBlockDatas.Count; i++)
             {
-                string curId = areaBlockDatas[i].areaBlockDataPersistent.configId;
+                AreaBlockDataPersistent areaBlockDataPersistent = areaBlockDatas[i].areaBlockDataPersistent;
+                string curId = areaBlockDataPersistent.configId;
                 if (areaBlockIds.Contains(curId))
                 {
                     LogMonoUtility.AddErrorLog("重复的房间ID");
                 }
                 else
                 {
+                    areaBlockDataPersistent.SaveConfigData(areaBlockPath,roomPath,nodePath);
                     areaBlockIds.Add(curId);
                 }
             }
-
-            object curData = this;
-            willSavePath += curData.GetType()+".json";
-            
-            // 保存完整的WorldData对象
-            string json = JsonUtility.ToJson(this, true);
-            File.WriteAllText(willSavePath, json);
-            Debug.Log("保存完整世界数据成功");
+            this.SaveConfigData(worldataPath);
         }
     }
 }

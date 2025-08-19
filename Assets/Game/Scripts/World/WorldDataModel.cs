@@ -4,6 +4,7 @@ using System.IO;
 using Game.Models.Resource;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -25,7 +26,7 @@ namespace Game.World
         [LabelText("世界固定数据")]
         public WorldDataPersistent worldDataPersistent;
         
-        [LabelText("世界对局数据"),ReadOnly]
+        [LabelText("世界对局数据")]
         public WorldDataTemporary worldDataTemporary;
 
         [LabelText("世界画布数据")]
@@ -51,6 +52,7 @@ namespace Game.World
         protected override void OnInit()
         {
             _worldDataUtility = this.GetUtility<WorldDataUtility>();
+            
         }
 
         public void GetWorldData()

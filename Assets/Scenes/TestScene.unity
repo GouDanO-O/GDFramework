@@ -364,7 +364,9 @@ MonoBehaviour:
       initialAreaBlockId: 
       willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock: 0
       roomDatas: []
+      roomIds: []
     areaBlockDataTemporary:
+      temporalityDataId: 
       isUnlocked: 0
       curExploreProgress: 0
       playerIsLocateThisAreaBlock: 0
@@ -1340,20 +1342,94 @@ MonoBehaviour:
     RoomDataPath: Assets/Game/Res/Configs/Rooms/
     NodeDataPath: Assets/Game/Res/Configs/Nodes/
     worldDataPersistent:
-      configName: world
-      configId: world_01
-      configDes: world
+      configName: "\u5730\u7403"
+      configId: earth
+      configDes: "\u5730\u7403"
       initialAreaBlockId: 
-      areaBlockDatas: []
-      areaBlockIds: []
+      areaBlockDatas:
+      - areaBlockDataPersistent:
+          configName: areaBlock_01
+          configId: areaBlock_01
+          configDes: 
+          initialAreaBlockId: 
+          willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock: 0
+          roomDatas:
+          - roomDataPersistent:
+              configName: room_01
+              configId: room_01
+              configDes: 
+              nodeDatas:
+              - nodeDataPersistent:
+                  configName: node_01
+                  configId: node_01
+                  configDes: 
+                  childNodeDataList: []
+                  actionTriggerData:
+                    actionTriggerCondition:
+                      conditionType: 0
+                      requiredItemId: 
+                      requiredAmount: 1
+                      requiredLevel: 1
+                    willShakeScreen: 0
+                    shakeScreenStrength: 5
+                    audioClipId: 
+                    particleObjectId: 
+                    particleObjectOffset: {x: 0, y: 0}
+                    triggerDelayTime: 0
+                nodeDataTemporary:
+                  temporalityDataId: 
+                  curNodeState: 0
+                  curNodePosition: {x: 0, y: 0}
+              nodeIds:
+              - node_01
+            roomDataTemporary:
+              temporalityDataId: 
+          roomIds:
+          - room_01
+        areaBlockDataTemporary:
+          temporalityDataId: 
+          isUnlocked: 0
+          curExploreProgress: 0
+          playerIsLocateThisAreaBlock: 0
+          curPlayerLocateRoomId: 
+      - areaBlockDataPersistent:
+          configName: areaBlock_02
+          configId: areaBlock_02
+          configDes: 
+          initialAreaBlockId: 
+          willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock: 0
+          roomDatas:
+          - roomDataPersistent:
+              configName: room_01
+              configId: room_01
+              configDes: 
+              nodeDatas: []
+              nodeIds: []
+            roomDataTemporary:
+              temporalityDataId: 
+          roomIds:
+          - room_01
+        areaBlockDataTemporary:
+          temporalityDataId: 
+          isUnlocked: 0
+          curExploreProgress: 0
+          playerIsLocateThisAreaBlock: 0
+          curPlayerLocateRoomId: 
+      areaBlockIds:
+      - areaBlock_01
+      - areaBlock_02
     worldDataTemporary:
+      temporalityDataId: 
       curWorldYearTime: 1
       curWorldDayTime: 1
       curWorldHourTime: 9
       curWorldMinutesTime: 0
       playerIsLocateThisWorld: 0
-      curPlayerLocateAreaBlockId: china
+      curPlayerLocateAreaBlockId: 
     worldCanvasDataPersistent:
+      configName: "\u4E16\u754C\u753B\u5E03\u5C5E\u6027"
+      configId: GameCanvasConfig
+      configDes: 
       zoomScaleRatio: 0.25
       zoomScaleArea: {x: 0.25, y: 2}
 --- !u!1001 &1274986777
@@ -1795,6 +1871,9 @@ MonoBehaviour:
       configId: 
       configDes: 
       nodeDatas: []
+      nodeIds: []
+    roomDataTemporary:
+      temporalityDataId: 
   isInRoomArea: 0
   isPressMouseMiddle: 0
 --- !u!114 &1687532918

@@ -1,0 +1,10 @@
+{
+  "initialAreaBlockId": "",
+  "willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock": false,
+  "roomIds": [
+    "room_01"
+  ],
+  "configName": "areaBlock_02",
+  "configId": "areaBlock_02",
+  "configDes": ""
+}

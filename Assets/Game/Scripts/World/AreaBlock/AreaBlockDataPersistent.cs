@@ -1,21 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
+using GDFramework.Utility;
 using GDFrameworkExtend.Data;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Game.World
 {
-    [Serializable]
+    [Serializable,JsonObject]
     public class AreaBlockDataPersistent : ConfigData
     {
-        [LabelText("初始房间ID(玩家第一次进入区块所处的房间ID\n如果为空,则默认取索引第一位)")]
+        [Title("玩家第一次进入区块所处的房间ID,如果为空,则默认取索引第一位"),LabelText("初始房间ID")]
         public string initialAreaBlockId;
 
-        [LabelText("当玩家进入又离开区块时,是否需要缓存当前所处房间ID\n如果不缓存,则每次进入都进入初始房间,否则进入历史房间")]
+        [Title("当玩家进入又离开区块时,是否需要缓存当前所处房间ID,如果不缓存,则每次进入都进入初始房间,否则进入历史房间"),LabelText("是否缓存当前房间id")]
         public bool willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock = false;
         
-        [LabelText("区块里面的房间")]
+        [LabelText("区块里面的房间"),JsonIgnore]
         public List<RoomData> roomDatas = new List<RoomData>();
         
+        [LabelText("区块所拥有的房间ID"),ReadOnly]
+        public List<string> roomIds = new List<string>();
+        
+        public void SaveConfigData(string areaBlockPath,string roomPath,string nodePath)
+        {
+            roomIds.Clear();
+            for (int i = 0; i < roomDatas.Count; i++)
+            {
+                RoomDataPersistent roomDataPersistent = roomDatas[i].roomDataPersistent;
+                string curId = roomDataPersistent.configId;
+                if (roomIds.Contains(curId))
+                {
+                    LogMonoUtility.AddErrorLog("重复的房间ID");
+                }
+                else
+                {
+                    roomDataPersistent.SaveConfigData(roomPath,nodePath);
+                    roomIds.Add(curId);
+                }
+            }
+            this.SaveConfigData(areaBlockPath);
+        }
     }
 }

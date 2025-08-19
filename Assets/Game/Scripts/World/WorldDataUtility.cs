@@ -61,6 +61,7 @@ namespace Game.World
             {
                 SaveWorldDataPersistent(worldDataModel);
                 SaveWorldDataTemporary(worldDataModel);
+                SaveWorldCanvasData(worldDataModel);
             }
             else
             {
@@ -73,7 +74,10 @@ namespace Game.World
         /// </summary>
         private void SaveWorldDataPersistent(WorldDataModel worldDataModel)
         {
-            worldDataModel.worldDataPersistent.SaveConfigData(worldDataModel.WorldDataDataPath);
+            worldDataModel.worldDataPersistent.SaveConfigData(worldDataModel.WorldDataDataPath,
+                worldDataModel.AreaBlockDataPath,
+                worldDataModel.RoomDataPath,
+                worldDataModel.NodeDataPath);
         }
 
         /// <summary>
@@ -82,40 +86,16 @@ namespace Game.World
         /// <param name="worldDataModel"></param>
         private void SaveWorldDataTemporary(WorldDataModel worldDataModel)
         {
-            string willSavePath = worldDataModel.WorldDataDataPath;
-            
-            string dirPath = Path.GetDirectoryName(willSavePath);
-            if (!Directory.Exists(dirPath))
-                Directory.CreateDirectory(dirPath);
-            
-            object curData = worldDataModel.worldDataTemporary;
-            willSavePath += curData.GetType()+".json";
-            
-            // 保存完整的WorldData对象
-            string json = JsonUtility.ToJson(curData, true);
-            File.WriteAllText(willSavePath, json);
-            Debug.Log("保存世界临时数据成功");
+            worldDataModel.worldDataTemporary.SaveTemporalityData(worldDataModel.WorldDataDataPath);
         }
         
         /// <summary>
-        /// 保存世界--临时数据
+        /// 保存世界--画布数据
         /// </summary>
         /// <param name="worldDataModel"></param>
         private void SaveWorldCanvasData(WorldDataModel worldDataModel)
         {
-            string willSavePath = worldDataModel.WorldDataDataPath;
-            
-            string dirPath = Path.GetDirectoryName(willSavePath);
-            if (!Directory.Exists(dirPath))
-                Directory.CreateDirectory(dirPath);
-            
-            object curData = worldDataModel.worldCanvasDataPersistent;
-            willSavePath += curData.GetType()+".json";
-            
-            // 保存完整的WorldData对象
-            string json = JsonUtility.ToJson(curData, true);
-            File.WriteAllText(willSavePath, json);
-            Debug.Log("保存世界画布数据成功");
+            worldDataModel.worldCanvasDataPersistent.SaveConfigData(worldDataModel.WorldDataDataPath);
         }
         
         /// <summary>

@@ -1,0 +1,10 @@
+{
+  "zoomScaleRatio": 0.25,
+  "zoomScaleArea": {
+    "x": 0.25,
+    "y": 2.0
+  },
+  "configName": "世界画布属性",
+  "configId": "GameCanvasConfig",
+  "configDes": ""
+}
