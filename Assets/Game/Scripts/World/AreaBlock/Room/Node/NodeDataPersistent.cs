@@ -21,5 +21,11 @@ namespace Game.World
         
         [LabelText("节点触发时会发生的效果")]
         public ActionTriggerData actionTriggerData;
+
+        public override void SaveConfigData(string path)
+        {
+            path += "/" + configId;
+            base.SaveConfigData(path);
+        }
     }
 }

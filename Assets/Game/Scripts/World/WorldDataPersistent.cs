@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Game.World
 {
     [Serializable,JsonObject]
-    public class WorldDataPersistent : ConfigData
+    public class WorldDataPersistent : PersistentData
     {
         [LabelText("初始区块ID(玩家第一次进入世界所处的区块ID)")]
         public string initialAreaBlockId;
@@ -21,25 +21,6 @@ namespace Game.World
         [LabelText("当前世界拥有的区块ID"),ReadOnly]
         public List<string> areaBlockIds = new List<string>();
         
-        
-        public void SaveConfigData(string worldataPath,string areaBlockPath,string roomPath,string nodePath)
-        {
-            areaBlockIds.Clear();
-            for (int i = 0; i < areaBlockDatas.Count; i++)
-            {
-                AreaBlockDataPersistent areaBlockDataPersistent = areaBlockDatas[i].areaBlockDataPersistent;
-                string curId = areaBlockDataPersistent.configId;
-                if (areaBlockIds.Contains(curId))
-                {
-                    LogMonoUtility.AddErrorLog("重复的房间ID");
-                }
-                else
-                {
-                    areaBlockDataPersistent.SaveConfigData(areaBlockPath,roomPath,nodePath);
-                    areaBlockIds.Add(curId);
-                }
-            }
-            this.SaveConfigData(worldataPath);
-        }
+
     }
 }

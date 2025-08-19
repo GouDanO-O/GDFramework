@@ -12,27 +12,12 @@ namespace GDFramework.FrameData
 
            public struct WorldDataAssetGroup
            {
-               public const string BundleName = "defaultpackage_game_res_configs_worlddata_worlddata.json";
-               public const string WorldData = "yoo:WorldData";
-           }
-
-           public struct AreaBlocksAssetGroup
-           {
-               public const string BundleName = "defaultpackage_game_res_configs_areablocks";
-               public const string china = "yoo:china";
-               public const string japan = "yoo:japan";
-           }
-
-           public struct RoomsAssetGroup
-           {
-               public const string BundleName = "defaultpackage_game_res_configs_rooms";
-               public const string room_01 = "yoo:room_01";
-           }
-
-           public struct NodesAssetGroup
-           {
-               public const string BundleName = "defaultpackage_game_res_configs_nodes";
-               public const string node_01 = "yoo:node_01";
+               public const string BundleName = "defaultpackage_game_res_configs_worlddata";
+               public const string areaBlock_01areaBlock_01 = "yoo:areaBlock_01areaBlock_01";
+               public const string areaBlock_02areaBlock_02 = "yoo:areaBlock_02areaBlock_02";
+               public const string earthearth = "yoo:earthearth";
+               public const string node_01node_01 = "yoo:node_01node_01";
+               public const string room_01room_01 = "yoo:room_01room_01";
            }
        }
 

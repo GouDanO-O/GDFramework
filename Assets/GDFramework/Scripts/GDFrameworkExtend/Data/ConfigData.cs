@@ -37,7 +37,7 @@ namespace GDFrameworkExtend.Data
             if (!Directory.Exists(dirPath))
                 Directory.CreateDirectory(dirPath);
             
-            willSavePath += this.configId+".json";
+            willSavePath += "/"+this.configId+".json";
             string json = JsonConvert.SerializeObject(this, Formatting.Indented);
             File.WriteAllText(willSavePath, json);
             LogMonoUtility.AddLog($"保存{willSavePath}数据成功");

@@ -1,10 +1,11 @@
 ﻿using System;
 using GDFrameworkExtend.Data;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 
 namespace Game.World
 {
-    [Serializable]
+    [Serializable,JsonObject]
     public class AreaBlockDataTemporary : TemporalityData
     {
         [LabelText("是否已经解锁")]

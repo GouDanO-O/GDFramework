@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Game.World
 {
     [Serializable,JsonObject]
-    public class AreaBlockDataPersistent : ConfigData
+    public class AreaBlockDataPersistent : PersistentData
     {
         [Title("玩家第一次进入区块所处的房间ID,如果为空,则默认取索引第一位"),LabelText("初始房间ID")]
         public string initialAreaBlockId;
@@ -23,24 +23,6 @@ namespace Game.World
         [LabelText("区块所拥有的房间ID"),ReadOnly]
         public List<string> roomIds = new List<string>();
         
-        public void SaveConfigData(string areaBlockPath,string roomPath,string nodePath)
-        {
-            roomIds.Clear();
-            for (int i = 0; i < roomDatas.Count; i++)
-            {
-                RoomDataPersistent roomDataPersistent = roomDatas[i].roomDataPersistent;
-                string curId = roomDataPersistent.configId;
-                if (roomIds.Contains(curId))
-                {
-                    LogMonoUtility.AddErrorLog("重复的房间ID");
-                }
-                else
-                {
-                    roomDataPersistent.SaveConfigData(roomPath,nodePath);
-                    roomIds.Add(curId);
-                }
-            }
-            this.SaveConfigData(areaBlockPath);
-        }
+        
     }
 }

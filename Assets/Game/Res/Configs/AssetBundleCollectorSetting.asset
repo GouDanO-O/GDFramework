@@ -29,37 +29,13 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Game/Res/Configs/World/WorldData.json
-        CollectorGUID: ad382d863ea2c3049b1e4fb52efbfc66
-        CollectorType: 0
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackSeparately
-        FilterRuleName: CollectAll
-        AssetTags: 
-        UserData: 
-      - CollectPath: Assets/Game/Res/Configs/AreaBlocks
-        CollectorGUID: a93e85814f7b317438903f28794e7756
+      - CollectPath: Assets/Game/Res/Configs/WorldData
+        CollectorGUID: 9870a245350c4244b9d58ad7273e55d1
         CollectorType: 0
         AddressRuleName: AddressByFolderAndFileName
         PackRuleName: PackCollector
         FilterRuleName: CollectAll
-        AssetTags: area_blocks
-        UserData: 
-      - CollectPath: Assets/Game/Res/Configs/Rooms
-        CollectorGUID: 15f986e9f50436a47b0225bccf372799
-        CollectorType: 0
-        AddressRuleName: AddressByFolderAndFileName
-        PackRuleName: PackCollector
-        FilterRuleName: CollectAll
-        AssetTags: rooms
-        UserData: 
-      - CollectPath: Assets/Game/Res/Configs/Nodes
-        CollectorGUID: 213659d01441d93478a2e13bf023e63c
-        CollectorType: 0
-        AddressRuleName: AddressByFolderAndFileName
-        PackRuleName: PackCollector
-        FilterRuleName: CollectAll
-        AssetTags: nodes
+        AssetTags: WorldData
         UserData: 
     - GroupName: GameModelData
       GroupDesc: "\u6E38\u620F\u9ED8\u8BA4\u914D\u7F6E"

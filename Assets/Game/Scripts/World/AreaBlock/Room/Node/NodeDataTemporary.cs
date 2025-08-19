@@ -1,5 +1,7 @@
 ﻿using System;
 using GDFrameworkExtend.Data;
+using GDFrameworkExtend.JsonKit;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -15,7 +17,7 @@ namespace Game.World
         [LabelText("当前节点的状态")]
         public ENodeState curNodeState;
         
-        [LabelText("节点所处的位置")]
+        [LabelText("节点所处的位置"),JsonConverter(typeof(Vector2JsonConverter))]
         public Vector2 curNodePosition;
         
         /// <summary>

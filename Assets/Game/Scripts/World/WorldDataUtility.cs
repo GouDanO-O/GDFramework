@@ -60,8 +60,6 @@ namespace Game.World
             if (worldDataModel != null)
             {
                 SaveWorldDataPersistent(worldDataModel);
-                SaveWorldDataTemporary(worldDataModel);
-                SaveWorldCanvasData(worldDataModel);
             }
             else
             {
@@ -74,28 +72,7 @@ namespace Game.World
         /// </summary>
         private void SaveWorldDataPersistent(WorldDataModel worldDataModel)
         {
-            worldDataModel.worldDataPersistent.SaveConfigData(worldDataModel.WorldDataDataPath,
-                worldDataModel.AreaBlockDataPath,
-                worldDataModel.RoomDataPath,
-                worldDataModel.NodeDataPath);
-        }
-
-        /// <summary>
-        /// 保存世界--临时数据
-        /// </summary>
-        /// <param name="worldDataModel"></param>
-        private void SaveWorldDataTemporary(WorldDataModel worldDataModel)
-        {
-            worldDataModel.worldDataTemporary.SaveTemporalityData(worldDataModel.WorldDataDataPath);
-        }
-        
-        /// <summary>
-        /// 保存世界--画布数据
-        /// </summary>
-        /// <param name="worldDataModel"></param>
-        private void SaveWorldCanvasData(WorldDataModel worldDataModel)
-        {
-            worldDataModel.worldCanvasDataPersistent.SaveConfigData(worldDataModel.WorldDataDataPath);
+            worldDataModel.SaveConfigData();
         }
         
         /// <summary>

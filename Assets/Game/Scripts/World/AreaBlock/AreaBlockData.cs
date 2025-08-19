@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using GDFramework.Utility;
 using GDFrameworkExtend.Data;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 
 namespace Game.World
 {
-    [Serializable]
-    public class AreaBlockData
+    [Serializable,JsonObject]
+    public class AreaBlockData : ConfigData
     {
         [LabelText("地图区块固定数据")]
         public AreaBlockDataPersistent areaBlockDataPersistent;
@@ -44,6 +45,32 @@ namespace Game.World
 
             LogMonoUtility.AddErrorLog("区块字典未包含该ID");
             return null;
+        }
+        
+        public void SaveConfigData(string path)
+        {
+            areaBlockDataPersistent.roomIds.Clear();
+            
+            if (configId == "")
+            {
+                configId = "default";
+            }
+            string areaBlockPath = path+ "/"+configId;
+            for (int i = 0; i < areaBlockDataPersistent.roomDatas.Count; i++)
+            {
+                RoomData roomDataPersistent = areaBlockDataPersistent.roomDatas[i];
+                string curId = roomDataPersistent.configId;
+                if (areaBlockDataPersistent.roomIds.Contains(curId))
+                {
+                    LogMonoUtility.AddErrorLog("重复的房间ID");
+                }
+                else
+                {
+                    roomDataPersistent.SaveConfigData(areaBlockPath);
+                    areaBlockDataPersistent.roomIds.Add(curId);
+                }
+            }
+            base.SaveConfigData(path);
         }
     }
 }

@@ -4,5 +4,6 @@
   "curWorldHourTime": 9,
   "curWorldMinutesTime": 0,
   "playerIsLocateThisWorld": false,
-  "curPlayerLocateAreaBlockId": ""
+  "curPlayerLocateAreaBlockId": "",
+  "temporalityDataId": ""
 }

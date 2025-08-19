@@ -10,18 +10,12 @@ using UnityEngine;
 
 namespace Game.World
 {
-    [Serializable]
+    [Serializable,JsonObject]
     public class WorldDataModel : AbstractModel
     {
-        private const string PersistentDataPath = "Assets/Game/Res/Configs/";
+        public string configId;
         
-        public string WorldDataDataPath = PersistentDataPath+"World/";
-        
-        public string AreaBlockDataPath = PersistentDataPath+"AreaBlocks/";
-        
-        public string RoomDataPath = PersistentDataPath+"Rooms/";
-        
-        public string NodeDataPath = PersistentDataPath+"Nodes/";
+        public string PersistentDataPath = "Assets/Game/Res/Configs/WorldData";
         
         [LabelText("世界固定数据")]
         public WorldDataPersistent worldDataPersistent;
@@ -106,6 +100,41 @@ namespace Game.World
         public void ChangeAreaBlock()
         {
             
+        }
+        
+        public void SaveConfigData()
+        {
+            if (configId == "")
+            {
+                configId = "default";
+            }
+            worldDataPersistent.areaBlockIds.Clear();
+            string worldataPath = PersistentDataPath + "/" + configId;
+            for (int i = 0; i < worldDataPersistent.areaBlockDatas.Count; i++)
+            {
+                AreaBlockData areaBlockData = worldDataPersistent.areaBlockDatas[i];
+                string curId = areaBlockData.configId;
+                if (worldDataPersistent.areaBlockIds.Contains(curId))
+                {
+                    LogMonoUtility.AddErrorLog("重复的房间ID");
+                }
+                else
+                {
+                    areaBlockData.SaveConfigData(worldataPath);
+                    worldDataPersistent.areaBlockIds.Add(curId);
+                }
+            }
+
+            string willSavePath = PersistentDataPath;
+            
+            string dirPath = Path.GetDirectoryName(willSavePath);
+            if (!Directory.Exists(dirPath))
+                Directory.CreateDirectory(dirPath);
+            
+            willSavePath += "/"+this.configId+".json";
+            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+            File.WriteAllText(willSavePath, json);
+            LogMonoUtility.AddLog($"保存{willSavePath}数据成功");
         }
     }
 }

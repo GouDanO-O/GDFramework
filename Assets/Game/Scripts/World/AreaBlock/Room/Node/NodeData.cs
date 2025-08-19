@@ -4,6 +4,7 @@ using GDFrameworkCore;
 using GDFrameworkExtend.Data;
 using GDFrameworkExtend.EventKit;
 using GDFrameworkExtend.StorageKit;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
@@ -20,8 +21,8 @@ namespace Game.World
     /// 每次进入区域,首先,序列化所有房间,房间里面又存储
     /// 只存储当前节点的触发状态和位置
     /// </summary>
-    [Serializable,LabelText("节点数据")]
-    public class NodeData
+    [Serializable,LabelText("节点数据"),JsonObject]
+    public class NodeData : ConfigData
     {
         [LabelText("节点固定数据")]
         public NodeDataPersistent nodeDataPersistent;
