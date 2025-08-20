@@ -75,8 +75,7 @@ namespace Game.World
 
         private void InitRoomData(AreaBlockData curAreaBlockData)
         {
-            string curRoomId = curAreaBlockData.areaBlockDataTemporary.curPlayerLocateRoomId;
-            this.roomData = curAreaBlockData.GetCurrentRoomData(curRoomId);
+
         }
 
         private void InitNodeData()

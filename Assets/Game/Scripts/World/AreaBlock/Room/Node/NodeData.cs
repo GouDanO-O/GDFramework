@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GDFrameworkCore;
 using GDFrameworkExtend.Data;
 using GDFrameworkExtend.EventKit;
+using GDFrameworkExtend.JsonKit;
 using GDFrameworkExtend.StorageKit;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -33,6 +34,14 @@ namespace Game.World
         public void InitNodeData(Node node)
         {
    
+        }
+        
+        public override void SaveConfigData(string roomDir, JsonSerializerSettings settings)
+        {
+            if (string.IsNullOrEmpty(configId))
+                configId = "node_default";
+
+            base.SaveConfigData(roomDir, settings ?? JsonSettings.Make());
         }
         
         /// <summary>

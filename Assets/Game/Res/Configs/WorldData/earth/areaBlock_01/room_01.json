@@ -1,0 +1,11 @@
+{
+  "roomDataPersistent": {
+    "nodeIds": [
+      "node_01"
+    ]
+  },
+  "roomDataTemporary": {},
+  "configName": "room_01",
+  "configId": "room_01",
+  "configDes": ""
+}

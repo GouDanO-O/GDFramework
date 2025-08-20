@@ -2,6 +2,7 @@
 using GDFrameworkExtend.Data;
 using GDFrameworkExtend.JsonKit;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace Game.World
     [Serializable,LabelText("节点临时属性,会受到对局的影响而产生变化")]
     public class NodeDataTemporary : TemporalityData
     {
-        [LabelText("当前节点的状态")]
+        [LabelText("当前节点的状态"),JsonConverter(typeof(StringEnumConverter))]
         public ENodeState curNodeState;
         
         [LabelText("节点所处的位置"),JsonConverter(typeof(Vector2JsonConverter))]

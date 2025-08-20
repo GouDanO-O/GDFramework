@@ -20,7 +20,5 @@ namespace Game.World
 
         [LabelText("当前世界拥有的区块ID"),ReadOnly]
         public List<string> areaBlockIds = new List<string>();
-        
-
     }
 }

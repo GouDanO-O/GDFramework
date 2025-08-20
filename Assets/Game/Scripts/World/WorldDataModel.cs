@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Game.Models.Resource;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.JsonKit;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,6 +17,10 @@ namespace Game.World
     {
         public string configId;
         
+        /// <summary>
+        /// 模板根目录（例如：Assets/Game/Res/Configs/WorldData）
+        /// </summary>
+        [JsonIgnore]
         public string PersistentDataPath = "Assets/Game/Res/Configs/WorldData";
         
         [LabelText("世界固定数据")]
@@ -25,21 +31,6 @@ namespace Game.World
 
         [LabelText("世界画布数据")]
         public WorldCanvasDataPersistent worldCanvasDataPersistent;
-        
-        /// <summary>
-        /// 所有区块数据
-        /// </summary>
-        private Dictionary<string,AreaBlockData> _areaBlockDataDict = new Dictionary<string, AreaBlockData>();
-        
-        /// <summary>
-        /// 当前区块房间数据
-        /// </summary>
-        private Dictionary<string,RoomData> _curRoomDataDict = new Dictionary<string, RoomData>();
-        
-        /// <summary>
-        /// 当前房间所有节点数据
-        /// </summary>
-        private Dictionary<string,NodeData>  _curNodeDataDict = new Dictionary<string, NodeData>();
         
         private WorldDataUtility _worldDataUtility;
 
@@ -64,77 +55,46 @@ namespace Game.World
 #endif
             _worldDataUtility.SaveCompleteWorldData(this);
         }
-
-        public AreaBlockData GetCurrentAreaBlockData(string areaBlockId)
-        {
-            if (worldDataPersistent == null)
-            {
-                LogMonoUtility.AddErrorLog("世界固定数据为空");
-                return null;
-            }
-
-            if (worldDataPersistent.areaBlockDatas.Count == 0)
-            {
-                LogMonoUtility.AddErrorLog("世界中的区块数据为空");
-                return null;
-            }
-
-            if (_areaBlockDataDict.Count == 0)
-            {
-                LogMonoUtility.AddErrorLog("区块字典为空");
-                return null;
-            }
-            
-            if (_areaBlockDataDict.ContainsKey(areaBlockId))
-            {
-                return _areaBlockDataDict[areaBlockId];
-            }
-
-            LogMonoUtility.AddErrorLog("区块字典未包含该ID");
-            return null;
-        }
-        
-        /// <summary>
-        /// 更换区块
-        /// </summary>
-        public void ChangeAreaBlock()
-        {
-            
-        }
         
         public void SaveConfigData()
         {
-            if (configId == "")
+            if (string.IsNullOrEmpty(PersistentDataPath))
             {
-                configId = "default";
-            }
-            worldDataPersistent.areaBlockIds.Clear();
-            string worldataPath = PersistentDataPath + "/" + configId;
-            for (int i = 0; i < worldDataPersistent.areaBlockDatas.Count; i++)
-            {
-                AreaBlockData areaBlockData = worldDataPersistent.areaBlockDatas[i];
-                string curId = areaBlockData.configId;
-                if (worldDataPersistent.areaBlockIds.Contains(curId))
-                {
-                    LogMonoUtility.AddErrorLog("重复的房间ID");
-                }
-                else
-                {
-                    areaBlockData.SaveConfigData(worldataPath);
-                    worldDataPersistent.areaBlockIds.Add(curId);
-                }
+                LogMonoUtility.AddErrorLog("PersistentDataPath 为空，无法保存模板！");
+                return;
             }
 
-            string willSavePath = PersistentDataPath;
-            
-            string dirPath = Path.GetDirectoryName(willSavePath);
-            if (!Directory.Exists(dirPath))
-                Directory.CreateDirectory(dirPath);
-            
-            willSavePath += "/"+this.configId+".json";
-            string json = JsonConvert.SerializeObject(this, Formatting.Indented);
-            File.WriteAllText(willSavePath, json);
-            LogMonoUtility.AddLog($"保存{willSavePath}数据成功");
+            if (string.IsNullOrEmpty(configId))
+                configId = "world_default";
+
+            // 1) 确保列表存在并去重
+            worldDataPersistent ??= new WorldDataPersistent();
+            worldDataPersistent.areaBlockIds ??= new List<string>();
+            worldDataPersistent.areaBlockDatas ??= new List<AreaBlockData>();
+            worldDataPersistent.areaBlockIds.Clear();
+
+            // 2) 世界目录：用于存放 area/room/node 子级
+            string worldRootDir = Path.Combine(PersistentDataPath, configId);
+            Directory.CreateDirectory(worldRootDir);
+
+            // 3) 逐区块保存（区块 JSON 写在 world 根目录；房间/节点分层进子目录）
+            foreach (var area in worldDataPersistent.areaBlockDatas.Where(a => a != null))
+            {
+                string aid = string.IsNullOrEmpty(area.configId) ? "area_auto" : area.configId;
+
+                if (worldDataPersistent.areaBlockIds.Contains(aid))
+                    LogMonoUtility.AddErrorLog($"重复的区块ID: {aid}");
+                else
+                    worldDataPersistent.areaBlockIds.Add(aid);
+
+                // 让 Area 自己处理房间/节点保存；同时把自己的 JSON 写到 world 根目录
+                area.SaveConfigData(worldRootDir, JsonSettings.Make());
+            }
+
+            // 4) 最后保存世界根 JSON（写在 PersistentDataPath 根下）
+            string worldJsonPath = Path.Combine(PersistentDataPath, $"{configId}.json");
+            File.WriteAllText(worldJsonPath, JsonConvert.SerializeObject(this, JsonSettings.Make()));
+            LogMonoUtility.AddLog($"保存 {worldJsonPath} 数据成功");
         }
     }
 }

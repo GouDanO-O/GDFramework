@@ -1,0 +1,18 @@
+{
+  "areaBlockDataPersistent": {
+    "initialAreaBlockId": "",
+    "willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock": false,
+    "roomIds": [
+      "room_01"
+    ]
+  },
+  "areaBlockDataTemporary": {
+    "isUnlocked": false,
+    "curExploreProgress": 0.0,
+    "playerIsLocateThisAreaBlock": false,
+    "curPlayerLocateRoomId": ""
+  },
+  "configName": "areaBlock_01",
+  "configId": "areaBlock_01",
+  "configDes": ""
+}

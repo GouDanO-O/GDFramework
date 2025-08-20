@@ -1376,8 +1376,10 @@ MonoBehaviour:
                 nodeDataTemporary:
                   curNodeState: 0
                   curNodePosition: {x: 0, y: 0}
-              nodeIds: []
-          roomIds: []
+              nodeIds:
+              - node_01
+          roomIds:
+          - room_01
         areaBlockDataTemporary:
           isUnlocked: 0
           curExploreProgress: 0
@@ -1403,7 +1405,9 @@ MonoBehaviour:
           curExploreProgress: 0
           playerIsLocateThisAreaBlock: 0
           curPlayerLocateRoomId: 
-      areaBlockIds: []
+      areaBlockIds:
+      - areaBlock_01
+      - areaBlock_02
     worldDataTemporary:
       curWorldYearTime: 1
       curWorldDayTime: 1
@@ -1720,7 +1724,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 870684772}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

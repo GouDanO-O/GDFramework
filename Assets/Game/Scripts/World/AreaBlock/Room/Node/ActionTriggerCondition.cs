@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -18,7 +20,7 @@ namespace Game.World
     [LabelText("行为触发条件")]
     public class ActionTriggerCondition
     {
-        [LabelText("条件类型")]
+        [LabelText("条件类型"),JsonConverter(typeof(StringEnumConverter))]
         public TriggerConditionType conditionType = TriggerConditionType.Always;
 
         [LabelText("需要的物品ID")]
