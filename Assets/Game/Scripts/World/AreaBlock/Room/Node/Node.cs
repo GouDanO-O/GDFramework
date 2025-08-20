@@ -24,7 +24,7 @@ namespace Game.World
 
         public IArchitecture GetArchitecture()
         {
-            return GameMain.Interface;
+            return Main.Interface;
         }
 
         private void Start()

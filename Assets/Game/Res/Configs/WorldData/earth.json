@@ -1,6 +1,5 @@
 {
   "configId": "earth",
-  "PersistentDataPath": "Assets/Game/Res/Configs/WorldData",
   "worldDataPersistent": {
     "initialAreaBlockId": "",
     "areaBlockIds": [

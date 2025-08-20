@@ -12,7 +12,7 @@ namespace Game.World.Player
         
         public IArchitecture GetArchitecture()
         {
-            return Main.Interface;
+            return GameMain.Interface;
         }
 
         private void Start()

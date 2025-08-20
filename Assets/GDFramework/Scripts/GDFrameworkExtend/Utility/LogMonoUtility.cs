@@ -49,7 +49,7 @@ namespace GDFramework.Utility
 
         protected override void InitUtility()
         {
-            //Application.logMessageReceived += HandleLog;
+            Application.logMessageReceived += HandleLog;
         }
 
         protected override void DeInitUtility()

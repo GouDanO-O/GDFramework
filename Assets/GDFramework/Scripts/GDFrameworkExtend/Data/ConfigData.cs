@@ -31,8 +31,7 @@ namespace GDFrameworkExtend.Data
         {
             if (string.IsNullOrEmpty(configId))
                 configId = "default";
-
-            // 正确：创建“传入的目录本身”
+            
             Directory.CreateDirectory(directory);
 
             string filePath = Path.Combine(directory, $"{configId}.json");

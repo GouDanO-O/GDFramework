@@ -29,7 +29,7 @@ namespace GDFrameworkExtend.StorageKit
 
         private void RegisterEvents()
         {
-            this.GetModel<CheatDataModel>().AddCheatModule("存储所有数据", new StorageSaveAllCheatCommand());
+            this.GetModel<CheatDataModel>().AddCheatModule("存储所有数据", new StorageSaveAllCheatCommand(){});
             this.GetModel<CheatDataModel>().AddCheatModule("清除所有数据", new StorageClearAllCheatCommand());
         }
 
