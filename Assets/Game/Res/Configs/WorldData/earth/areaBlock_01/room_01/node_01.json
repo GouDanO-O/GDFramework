@@ -1,4 +1,7 @@
 {
+  "configName": "node_01",
+  "configId": "node_01",
+  "configDes": "",
   "nodeDataPersistent": {
     "childNodeDataList": [],
     "actionTriggerData": {
@@ -17,19 +20,6 @@
         "y": 0.0
       },
       "triggerDelayTime": 0.0
-    },
-    "configName": "node_01",
-    "configId": "node_01",
-    "configDes": ""
-  },
-  "nodeDataTemporary": {
-    "curNodeState": "Hidden",
-    "curNodePosition": {
-      "x": 0.0,
-      "y": 0.0
     }
-  },
-  "configName": "node_01",
-  "configId": "node_01",
-  "configDes": ""
+  }
 }

@@ -29,15 +29,7 @@ namespace GDFrameworkExtend.Data
 
         public virtual void SaveConfigData(string directory, JsonSerializerSettings settings)
         {
-            if (string.IsNullOrEmpty(configId))
-                configId = "default";
-            
-            Directory.CreateDirectory(directory);
 
-            string filePath = Path.Combine(directory, $"{configId}.json");
-            string json = JsonConvert.SerializeObject(this, settings ?? JsonSettings.Make());
-            File.WriteAllText(filePath, json);
-            LogMonoUtility.AddLog($"保存 {filePath} 数据成功");
         }
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using GDFrameworkExtend.Data;
+using Newtonsoft.Json;
 
 namespace Game.World
 {
-    [Serializable]
-    public class RoomDataTemporary : TemporalityData
+    [Serializable,JsonObject]
+    public class RoomDataTemporary
     {
         
     }

@@ -2,57 +2,229 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using GDFramework.Utility;
 using GDFrameworkExtend.Data;
 using GDFrameworkExtend.JsonKit;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
+using UnityEditor;
+using UnityEngine;
 
 namespace Game.World
 {
-    [Serializable,JsonObject]
-    public struct AreaBlockDto
-    {
-        [LabelText("地图区块固定数据")] 
-        public AreaBlockDataPersistent areaBlockDataPersistent;
-
-        [LabelText("地图区块对局数据"), ReadOnly] 
-        public AreaBlockDataTemporary areaBlockDataTemporary;
-    }
-    
     [Serializable, JsonObject]
-    public class AreaBlockData : ConfigData
+    public class AreaBlockDto : IHierarchicalDto
     {
-        public AreaBlockDto areaBlockDto;
+        [LabelText("配置名称")] public string configName;
 
-        public override void SaveConfigData(string worldRootDir, JsonSerializerSettings settings)
+        [LabelText("配置ID(当前配置的ID,同一层必须唯一)"),
+         OnValueChanged("OnAreaBlockIdChange"),
+         ValidateInput("ValidateConfigId", "配置ID不能包含下划线!", InfoMessageType.Error)]
+        public string configId;
+
+        [LabelText("用于存储和读取时使用的id(会进行层级拼接,防止重复)"), DisableInEditorMode]
+        public string dtoId;
+
+        [LabelText("配置描述")] public string configDes;
+
+        [LabelText("地图区块固定数据")] public AreaBlockDataPersistent areaBlockDataPersistent;
+        [LabelText("地图区块对局数据"), ReadOnly] public AreaBlockDataTemporary areaBlockDataTemporary;
+
+        [JsonIgnore, HideInInspector] private IHierarchicalDto parent;
+
+        private List<RoomDto> _cachedRooms = new List<RoomDto>();
+
+        // 实现 IHierarchicalDto 接口
+        public string GetParentDtoId()
+        {
+            return parent?.GetType() == typeof(WorldDto) ? ((WorldDto)parent).dtoId : null;
+        }
+
+        public void SetParent(IHierarchicalDto parent)
+        {
+            this.parent = parent;
+        }
+
+        public void RefreshDtoId()
+        {
+            string parentId = GetParentDtoId();
+            if (!string.IsNullOrEmpty(parentId) && !string.IsNullOrEmpty(configId))
+            {
+                this.dtoId = $"{parentId}_{configId}";
+            }
+            else if (!string.IsNullOrEmpty(configId))
+            {
+                this.dtoId = configId;
+            }
+        }
+
+        public void RefreshChildrenDtoIds()
+        {
+            if (areaBlockDataPersistent?.roomDatas != null)
+            {
+                foreach (var room in areaBlockDataPersistent.roomDatas)
+                {
+                    room.SetParent(this);
+                    room.RefreshDtoId();
+                    room.RefreshChildrenDtoIds();
+                }
+            }
+        }
+
+        public void AutoRefreshHierarchy()
+        {
+            RefreshDtoId();
+            RefreshChildrenDtoIds();
+            CheckForRoomChanges();
+        }
+
+        private void CheckForRoomChanges()
+        {
+            if (areaBlockDataPersistent?.roomDatas == null) return;
+
+            var currentRooms = areaBlockDataPersistent.roomDatas;
+            var newRooms = currentRooms.Except(_cachedRooms).ToList();
+
+            // 为新增的房间设置父级关系
+            foreach (var newRoom in newRooms)
+            {
+                newRoom.SetParent(this);
+                newRoom.AutoRefreshHierarchy();
+            }
+
+            _cachedRooms = new List<RoomDto>(currentRooms);
+        }
+
+#if UNITY_EDITOR
+        [OnInspectorGUI]
+        private void OnInspectorGUI()
+        {
+            // 检查房间列表变化
+            if (areaBlockDataPersistent?.roomDatas != null)
+            {
+                bool needsRefresh = false;
+
+                if (_cachedRooms.Count != areaBlockDataPersistent.roomDatas.Count)
+                {
+                    needsRefresh = true;
+                }
+                else
+                {
+                    for (int i = 0; i < areaBlockDataPersistent.roomDatas.Count; i++)
+                    {
+                        if (i >= _cachedRooms.Count ||
+                            !ReferenceEquals(areaBlockDataPersistent.roomDatas[i], _cachedRooms[i]))
+                        {
+                            needsRefresh = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (needsRefresh)
+                {
+                    EditorApplication.delayCall += () => { AutoRefreshHierarchy(); };
+                }
+            }
+        }
+#endif
+        public void SaveData(string directory, JsonSerializerSettings settings)
+        {
+            SaveData_Persistent(directory, settings);
+        }
+
+        public void SaveData_Persistent(string directory, JsonSerializerSettings settings)
+        {
+#if UNITY_EDITOR
+            if (string.IsNullOrEmpty(configId))
+                configId = "area_default";
+
+            // 自动刷新ID级联
+            AutoRefreshHierarchy();
+
+            areaBlockDataPersistent.roomIds ??= new List<string>();
+            areaBlockDataPersistent.roomDatas ??= new List<RoomDto>();
+            areaBlockDataPersistent.roomIds.Clear();
+
+            string areaDir = Path.Combine(directory, configId);
+            Directory.CreateDirectory(areaDir);
+
+            foreach (var room in areaBlockDataPersistent.roomDatas)
+            {
+                string rid = string.IsNullOrEmpty(room.configId) ? "room_auto" : room.configId;
+                if (areaBlockDataPersistent.roomIds.Contains(rid))
+                    LogMonoUtility.AddErrorLog($"重复的房间ID: {rid}");
+                else
+                    areaBlockDataPersistent.roomIds.Add(rid);
+
+                room.SaveData_Persistent(areaDir, settings ?? JsonSettings.Make());
+            }
+
+            var persistentData = new
+            {
+                configName = this.configName,
+                configId = this.configId,
+                configDes = this.configDes,
+                areaBlockDataPersistent = this.areaBlockDataPersistent
+            };
+
+            string filePath = Path.Combine(directory, $"{configId}.json");
+            string json = JsonConvert.SerializeObject(persistentData, settings ?? JsonSettings.Make());
+            File.WriteAllText(filePath, json);
+            LogMonoUtility.AddLog($"保存区块固定数据 {filePath} 成功");
+#else
+        LogMonoUtility.AddWarning("SaveData_Persistent 只能在编辑器下使用，运行时固定数据为只读状态！");
+#endif
+        }
+
+        public void SaveData_Temporary()
         {
             if (string.IsNullOrEmpty(configId))
                 configId = "area_default";
 
-            areaBlockDto.areaBlockDataPersistent ??= new AreaBlockDataPersistent();
-            areaBlockDto.areaBlockDataPersistent.roomIds ??= new List<string>();
-            areaBlockDto.areaBlockDataPersistent.roomDatas ??= new List<RoomData>();
-            areaBlockDto.areaBlockDataPersistent.roomIds.Clear();
-
-            // 1) 房间父目录
-            string areaDir = Path.Combine(worldRootDir, configId);
-            Directory.CreateDirectory(areaDir);
-
-            // 2) 逐房间保存（房间 JSON 写在 areaDir；节点由 Room 处理）
-            foreach (var room in areaBlockDto.areaBlockDataPersistent.roomDatas.Where(r => r != null))
+            try
             {
-                string rid = string.IsNullOrEmpty(room.configId) ? "room_auto" : room.configId;
-                if (areaBlockDto.areaBlockDataPersistent.roomIds.Contains(rid))
-                    LogMonoUtility.AddErrorLog($"重复的房间ID: {rid}");
-                else
-                    areaBlockDto.areaBlockDataPersistent.roomIds.Add(rid);
+                var temporaryData = new
+                {
+                    configName = this.configName,
+                    configId = this.configId,
+                    configDes = this.configDes,
+                    areaBlockDataTemporary = this.areaBlockDataTemporary
+                };
 
-                room.SaveConfigData(areaDir, settings ?? JsonSettings.Make());
+                foreach (var room in areaBlockDataPersistent.roomDatas)
+                {
+                    room.SaveData_Temporary();
+                }
             }
-
-            // 3) 区块自身 JSON：写在 worldRootDir（与 world 同级目录下的 worldId 子目录里）
-            base.SaveConfigData(worldRootDir, settings ?? JsonSettings.Make());
+            catch (Exception ex)
+            {
+                LogMonoUtility.AddErrorLog($"保存区块临时数据失败: {ex.Message}");
+            }
         }
+
+        private void OnAreaBlockIdChange()
+        {
+            AutoRefreshHierarchy();
+        }
+
+        private bool ValidateConfigId(string id)
+        {
+            return !string.IsNullOrEmpty(id) && !id.Contains("_");
+        }
+
+        // 保留原有的 UpdateDtoId 方法以确保向后兼容
+        public void UpdateDtoId(string worldId)
+        {
+            this.dtoId = worldId + "_" + this.configId;
+            RefreshChildrenDtoIds();
+        }
+    }
+
+    [Serializable]
+    public class AreaBlockData
+    {
+        public AreaBlockDto areaBlockDto;
     }
 }

@@ -3,8 +3,6 @@
   "configId": "room_01",
   "configDes": "",
   "roomDataPersistent": {
-    "nodeIds": [
-      "node_01"
-    ]
+    "nodeIds": []
   }
 }

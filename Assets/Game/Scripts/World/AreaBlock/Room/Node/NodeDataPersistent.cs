@@ -14,18 +14,11 @@ namespace Game.World
     /// 不会受到玩家行为的变更而产生变化
     /// </summary>
     [Serializable]
-    public class NodeDataPersistent : ConfigData
+    public class NodeDataPersistent
     {
-        [LabelText("拥有的子节点ID")]
-        public List<string> childNodeDataList = new List<string>();
         
         [LabelText("节点触发时会发生的效果")]
         public ActionTriggerData actionTriggerData;
-
-        public override void SaveConfigData(string path)
-        {
-            path += "/" + configId;
-            base.SaveConfigData(path);
-        }
+        
     }
 }

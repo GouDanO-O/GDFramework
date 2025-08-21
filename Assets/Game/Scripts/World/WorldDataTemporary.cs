@@ -8,31 +8,31 @@ using Sirenix.OdinInspector;
 namespace Game.World
 {
     [Serializable,JsonObject]
-    public class WorldDataTemporary : TemporalityData
+    public class WorldDataTemporary 
     {
         /// <summary>
         /// 当前的年数
         /// </summary>
         [LabelText("当前的年数")]
-        public int curWorldYearTime = 1;
+        public int curWorldYearTime;
         
         /// <summary>
         /// 当前的天数
         /// </summary>
         [LabelText("当前的天数")]
-        public int curWorldDayTime = 1;
+        public int curWorldDayTime;
 
         /// <summary>
         /// 当前的小时数
         /// </summary>
         [LabelText("当前的小时数")]
-        public int curWorldHourTime = 9;
+        public int curWorldHourTime;
 
         /// <summary>
         /// 当前的分钟数
         /// </summary>
         [LabelText("当前的分钟数")]
-        public int curWorldMinutesTime = 0;
+        public int curWorldMinutesTime;
         
         [LabelText("当前玩家是否所处这个世界")]
         public bool playerIsLocateThisWorld;

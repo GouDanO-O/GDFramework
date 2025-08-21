@@ -13,7 +13,7 @@ namespace Game.World
     /// 除非重新开始对局或者清除数据,否则会一直存在
     /// </summary>
     [Serializable,LabelText("节点临时属性,会受到对局的影响而产生变化")]
-    public class NodeDataTemporary : TemporalityData
+    public class NodeDataTemporary
     {
         [LabelText("当前节点的状态"),JsonConverter(typeof(StringEnumConverter))]
         public ENodeState curNodeState;

@@ -10,18 +10,18 @@ using UnityEngine;
 namespace Game.World
 {
     [Serializable,JsonObject]
-    public class WorldCanvasDataPersistent : PersistentData
+    public struct WorldCanvasDataPersistent
     {
         /// <summary>
         /// 房间里面控制画布进行伸缩的比例
         /// </summary>
         [LabelText("房间里面控制画布进行伸缩的比例")]
-        public float zoomScaleRatio = 0.25f;
+        public float zoomScaleRatio;
         
         /// <summary>
         /// 能够进行缩放的范围
         /// </summary>
         [LabelText("房间里面控制画布能够进行缩放的范围"),JsonConverter(typeof(Vector2JsonConverter))]
-        public Vector2 zoomScaleArea = new Vector2(0.25f,2f);
+        public Vector2 zoomScaleArea;
     }
 }

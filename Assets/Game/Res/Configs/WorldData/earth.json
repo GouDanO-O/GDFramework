@@ -1,26 +1,12 @@
 {
+  "configName": "earth",
   "configId": "earth",
+  "configDes": "",
   "worldDataPersistent": {
     "initialAreaBlockId": "",
     "areaBlockIds": [
       "areaBlock_01",
       "areaBlock_02"
     ]
-  },
-  "worldDataTemporary": {
-    "curWorldYearTime": 1,
-    "curWorldDayTime": 1,
-    "curWorldHourTime": 9,
-    "curWorldMinutesTime": 0,
-    "playerIsLocateThisWorld": false,
-    "curPlayerLocateAreaBlockId": ""
-  },
-  "worldCanvasDataPersistent": {
-    "zoomScaleRatio": 0.25,
-    "zoomScaleArea": {
-      "x": 0.25,
-      "y": 2.0
-    }
-  },
-  "Initialized": false
+  }
 }

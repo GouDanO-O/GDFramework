@@ -74,14 +74,7 @@ namespace Game.World
 
         public void SetNodeData(NodeData nodeData)
         {
-            if (nodeData?.nodeDataTemporary != null)
-            {
-                // 同步位置
-                RectTransform.anchoredPosition = nodeData.nodeDataTemporary.curNodePosition;
-                
-                // 同步显示状态
-                UpdateVisualState(nodeData.nodeDataTemporary.curNodeState);
-            }
+
         }
 
         private void UpdateVisualState(ENodeState state)

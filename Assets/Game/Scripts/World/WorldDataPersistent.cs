@@ -10,15 +10,15 @@ using UnityEngine;
 namespace Game.World
 {
     [Serializable,JsonObject]
-    public class WorldDataPersistent : PersistentData
+    public class WorldDataPersistent
     {
         [LabelText("初始区块ID(玩家第一次进入世界所处的区块ID)")]
         public string initialAreaBlockId;
         
         [LabelText("区块数据列表"),JsonIgnore]
-        public List<AreaBlockData> areaBlockDatas = new List<AreaBlockData>();
+        public List<AreaBlockDto> areaBlockDatas;
 
         [LabelText("当前世界拥有的区块ID"),ReadOnly]
-        public List<string> areaBlockIds = new List<string>();
+        public List<string> areaBlockIds;
     }
 }
