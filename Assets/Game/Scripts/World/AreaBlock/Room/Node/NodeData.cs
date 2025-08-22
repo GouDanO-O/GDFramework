@@ -19,7 +19,8 @@ namespace Game.World
     [Serializable, JsonObject]
     public class NodeDto : IHierarchicalDto
     {
-        [LabelText("配置名称")] public string configName;
+        [LabelText("配置名称")]
+        public string configName;
 
         [LabelText("配置ID(当前配置的ID,同一层必须唯一)"),
          OnValueChanged("OnNodeIdChange"),
@@ -29,16 +30,19 @@ namespace Game.World
         [LabelText("用于存储和读取时使用的id(会进行层级拼接,防止重复)"), DisableInEditorMode]
         public string dtoId;
 
-        [LabelText("配置描述")] public string configDes;
+        [LabelText("配置描述")]
+        public string configDes;
 
-        [LabelText("节点固定数据")] 
+        [LabelText("节点固定数据")]
         public NodeDataPersistent nodeDataPersistent;
-        [LabelText("节点对局数据")] 
+
+        [LabelText("节点对局数据")]
         public NodeDataTemporary nodeDataTemporary;
 
         #region EditorExtend
 
-        [JsonIgnore, HideInInspector] private IHierarchicalDto parent;
+        [JsonIgnore, HideInInspector]
+        private IHierarchicalDto parent;
 
         // 实现 IHierarchicalDto 接口
         public string GetParentDtoId()
@@ -90,9 +94,12 @@ namespace Game.World
         {
             this.dtoId = roomId + "_" + this.configId;
         }
+
         #endregion
-        
-        
+
+
+        #region Load & Save
+
         public void SaveData(string directory, JsonSerializerSettings settings)
         {
             SaveData_Persistent(directory, settings);
@@ -140,7 +147,7 @@ namespace Game.World
                     configDes = this.configDes,
                     nodeDataTemporary = this.nodeDataTemporary
                 };
-                
+
                 string nodeJsonPath = Path.Combine(nodePath, $"{dtoId}.json");
                 File.WriteAllText(nodeJsonPath, JsonConvert.SerializeObject(temporaryData, JsonSettings.Make()));
                 LogMonoUtility.AddLog($"保存固定数据 {nodeJsonPath} 成功");
@@ -150,6 +157,8 @@ namespace Game.World
                 LogMonoUtility.AddErrorLog($"保存节点临时数据失败: {ex.Message}");
             }
         }
+
+        #endregion
     }
 
     /// <summary>

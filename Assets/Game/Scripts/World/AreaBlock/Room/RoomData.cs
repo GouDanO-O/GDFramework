@@ -15,7 +15,8 @@ namespace Game.World
     [Serializable, JsonObject]
     public class RoomDto : IHierarchicalDto
     {
-        [LabelText("配置名称")] public string configName;
+        [LabelText("配置名称")]
+        public string configName;
 
         [LabelText("配置ID(当前配置的ID,同一层必须唯一)"),
          OnValueChanged("OnRoomIdChange"),
@@ -26,16 +27,19 @@ namespace Game.World
          DisableInEditorMode]
         public string dtoId;
 
-        [LabelText("配置描述")] public string configDes;
+        [LabelText("配置描述")]
+        public string configDes;
 
-        [LabelText("房间固定数据")] 
+        [LabelText("房间固定数据")]
         public RoomDataPersistent roomDataPersistent;
-        [LabelText("房间对局数据")] 
+
+        [LabelText("房间对局数据")]
         public RoomDataTemporary roomDataTemporary;
 
         #region EditorExtend
 
-        [JsonIgnore, HideInInspector] private IHierarchicalDto parent;
+        [JsonIgnore, HideInInspector]
+        private IHierarchicalDto parent;
 
         private List<NodeDto> _cachedNodes = new List<NodeDto>();
 
@@ -132,7 +136,7 @@ namespace Game.World
             }
         }
 #endif
-        
+
         private void OnRoomIdChange()
         {
             AutoRefreshHierarchy();
@@ -149,8 +153,9 @@ namespace Game.World
             this.dtoId = areaBlockId + "_" + this.configId;
             RefreshChildrenDtoIds();
         }
+
         #endregion
-        
+
         public void SaveData(string directory, JsonSerializerSettings settings)
         {
             SaveData_Persistent(directory, settings);
@@ -214,15 +219,15 @@ namespace Game.World
                     configDes = this.configDes,
                     roomDataTemporary = this.roomDataTemporary
                 };
-                
+
                 string roomRootDir = Path.Combine(roomPath, this.configId);
                 Directory.CreateDirectory(roomRootDir);
-                
+
                 foreach (var room in roomDataPersistent.nodeDatas)
                 {
-                    room.SaveData_Temporary(roomRootDir,JsonSettings.Make());
+                    room.SaveData_Temporary(roomRootDir, JsonSettings.Make());
                 }
-                
+
                 string roomJsonPath = Path.Combine(roomPath, $"{dtoId}.json");
                 File.WriteAllText(roomJsonPath, JsonConvert.SerializeObject(temporaryData, JsonSettings.Make()));
                 LogMonoUtility.AddLog($"保存固定数据 {roomJsonPath} 成功");

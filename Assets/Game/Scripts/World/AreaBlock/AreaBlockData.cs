@@ -16,7 +16,8 @@ namespace Game.World
     [Serializable, JsonObject]
     public class AreaBlockDto : IHierarchicalDto
     {
-        [LabelText("配置名称")] public string configName;
+        [LabelText("配置名称")]
+        public string configName;
 
         [LabelText("配置ID(当前配置的ID,同一层必须唯一)"),
          OnValueChanged("OnAreaBlockIdChange"),
@@ -26,16 +27,19 @@ namespace Game.World
         [LabelText("用于存储和读取时使用的id(会进行层级拼接,防止重复)"), DisableInEditorMode]
         public string dtoId;
 
-        [LabelText("配置描述")] public string configDes;
+        [LabelText("配置描述")]
+        public string configDes;
 
-        [LabelText("地图区块固定数据")] 
+        [LabelText("地图区块固定数据")]
         public AreaBlockDataPersistent areaBlockDataPersistent;
-        [LabelText("地图区块对局数据")] 
+
+        [LabelText("地图区块对局数据")]
         public AreaBlockDataTemporary areaBlockDataTemporary;
 
         #region EditorExtend
 
-        [JsonIgnore, HideInInspector] private IHierarchicalDto parent;
+        [JsonIgnore, HideInInspector]
+        private IHierarchicalDto parent;
 
         private List<RoomDto> _cachedRooms = new List<RoomDto>();
 
@@ -150,9 +154,9 @@ namespace Game.World
             this.dtoId = worldId + "_" + this.configId;
             RefreshChildrenDtoIds();
         }
-        
+
         #endregion
-        
+
         public void SaveData(string directory, JsonSerializerSettings settings)
         {
             SaveData_Persistent(directory, settings);
@@ -218,12 +222,12 @@ namespace Game.World
                 };
                 string areaRootDir = Path.Combine(areaBlockPath, this.configId);
                 Directory.CreateDirectory(areaRootDir);
-                
+
                 foreach (var room in areaBlockDataPersistent.roomDatas)
                 {
-                    room.SaveData_Temporary(areaRootDir,JsonSettings.Make());
+                    room.SaveData_Temporary(areaRootDir, JsonSettings.Make());
                 }
-                
+
                 string areaJsonPath = Path.Combine(areaBlockPath, $"{dtoId}.json");
                 File.WriteAllText(areaJsonPath, JsonConvert.SerializeObject(temporaryData, JsonSettings.Make()));
                 LogMonoUtility.AddLog($"保存区块临时数据 {areaJsonPath} 成功");

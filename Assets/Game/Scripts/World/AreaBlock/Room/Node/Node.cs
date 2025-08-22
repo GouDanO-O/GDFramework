@@ -7,19 +7,19 @@ using UnityEngine.Events;
 
 namespace Game.World
 {
-    public class Node : MonoBehaviour,ICanGetSystem,IPoolable
+    public class Node : MonoBehaviour, ICanGetSystem, IPoolable
     {
         public bool IsRecycled { get; set; }
-        
+
         [ShowInInspector]
         protected NodeData CurNodeData;
-        
+
         protected NodePointChecker NodePointChecker;
-        
+
         public UnityAction<Vector2> OnDragNodeEvent;
-        
+
         public UnityAction OnClickNodeEvent;
-        
+
         protected RectTransform RectTransform;
 
         public IArchitecture GetArchitecture()
@@ -36,16 +36,16 @@ namespace Game.World
         {
             this.CurNodeData = new NodeData();
             this.CurNodeData.InitNodeData(this);
-            
+
             this.InitData();
             this.RegisterEvents();
 
             this.CurNodeData.ChangeTempPosition(RectTransform.anchoredPosition);
         }
-        
+
         public void InitNode(NodeData nodeData)
         {
-            CurNodeData=nodeData;
+            CurNodeData = nodeData;
             this.InitData();
             this.RegisterEvents();
             this.SetNodeData(nodeData);
@@ -58,15 +58,15 @@ namespace Game.World
                 NodePointChecker = this.gameObject.AddComponent<NodePointChecker>();
                 NodePointChecker.InitNodePointChecker(this);
             }
-            
-            RectTransform=this.GetComponent<RectTransform>();
+
+            RectTransform = this.GetComponent<RectTransform>();
         }
 
         private void RegisterEvents()
         {
             this.OnDragNodeEvent += OnDragEventHandle;
         }
-        
+
         private void UnregisterEvents()
         {
             this.OnDragNodeEvent -= OnDragEventHandle;
@@ -74,7 +74,6 @@ namespace Game.World
 
         public void SetNodeData(NodeData nodeData)
         {
-
         }
 
         private void UpdateVisualState(ENodeState state)
@@ -109,7 +108,6 @@ namespace Game.World
         /// </summary>
         public void ShowThisNode()
         {
-            
         }
 
         /// <summary>
@@ -117,7 +115,6 @@ namespace Game.World
         /// </summary>
         public void HideThisNode()
         {
-            
         }
 
         /// <summary>
@@ -136,7 +133,7 @@ namespace Game.World
         {
             return CurNodeData.CheckCondition();
         }
-        
+
         /// <summary>
         /// 能否进行移动
         /// </summary>
@@ -150,7 +147,7 @@ namespace Game.World
         {
             CurNodeData.ChangeTempPosition(point);
         }
-        
+
         /// <summary>
         /// 触发节点交互
         /// </summary>

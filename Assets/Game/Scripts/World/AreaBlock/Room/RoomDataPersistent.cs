@@ -15,7 +15,7 @@ namespace Game.World
          ValidateInput("CheckConfigId", "配置ID不能重复", InfoMessageType.Error)]
         public List<NodeDto> nodeDatas = new List<NodeDto>();
 
-        [LabelText("房间里面拥有的节点ID"), ReadOnly] 
+        [LabelText("房间里面拥有的节点ID"), ReadOnly]
         public List<string> nodeIds = new List<string>();
 
         private bool CheckConfigId()
