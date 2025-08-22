@@ -31,8 +31,7 @@ namespace Game.World
         {
         }
     }
-
-    // 首先定义一个接口，用于支持父级引用和自动刷新
+    
     public interface IHierarchicalDto : IDto
     {
         string GetParentDtoId();
@@ -45,7 +44,8 @@ namespace Game.World
     [Serializable, JsonObject]
     public class WorldDto : IHierarchicalDto
     {
-        [LabelText("配置名称")] public string configName;
+        [LabelText("配置名称")] 
+        public string configName;
 
         [LabelText("配置ID(当前配置的ID,同一层必须唯一)"),
          OnValueChanged("OnWorldIdChange"),
@@ -55,9 +55,11 @@ namespace Game.World
         [LabelText("用于存储和读取时使用的id(会进行层级拼接,防止重复)"), DisableInEditorMode]
         public string dtoId;
 
-        [LabelText("配置描述")] public string configDes;
+        [LabelText("配置描述")] 
+        public string configDes;
 
-        [JsonIgnore, HideInInspector] private IHierarchicalDto parent = null;
+        [JsonIgnore, HideInInspector] 
+        private IHierarchicalDto parent = null;
 
         /// <summary>
         /// 固定数据路径（只读）
@@ -79,12 +81,20 @@ namespace Game.World
         [JsonIgnore]
         public string TemporaryDataPath
         {
-            get { return Path.Combine(Application.persistentDataPath, "WorldData"); }
+            get
+            {
+                return Path.Combine(Application.persistentDataPath, "WorldData");
+            }
         }
 
-        [LabelText("世界固定数据")] public WorldDataPersistent worldDataPersistent;
-        [LabelText("世界对局数据")] public WorldDataTemporary worldDataTemporary;
-        [LabelText("世界画布数据")] public WorldCanvasDataPersistent worldCanvasDataPersistent;
+        [LabelText("世界固定数据")] 
+        public WorldDataPersistent worldDataPersistent;
+        [LabelText("世界对局数据")] 
+        public WorldDataTemporary worldDataTemporary;
+        [LabelText("世界画布数据")] 
+        public WorldCanvasDataPersistent worldCanvasDataPersistent;
+
+        #region EditorExtend
 
         // 添加一个属性包装器来监听列表变化
         private List<AreaBlockDto> _cachedAreaBlocks = new List<AreaBlockDto>();
@@ -122,8 +132,6 @@ namespace Game.World
         {
             RefreshDtoId();
             RefreshChildrenDtoIds();
-
-            // 监听列表变化
             CheckForListChanges();
         }
 
@@ -147,7 +155,7 @@ namespace Game.World
             // 更新缓存
             _cachedAreaBlocks = new List<AreaBlockDto>(currentBlocks);
         }
-
+        
         // Unity的OnValidate在Inspector值改变时自动调用
 #if UNITY_EDITOR
         [OnInspectorInit]
@@ -191,10 +199,22 @@ namespace Game.World
             }
         }
 #endif
+        
+        private void OnWorldIdChange()
+        {
+            AutoRefreshHierarchy();
+        }
 
+        // 验证配置ID是否包含下划线
+        private bool ValidateConfigId(string id)
+        {
+            return !string.IsNullOrEmpty(id) && !id.Contains("_");
+        }
+        #endregion
+        
         public void SaveData()
         {
-            // 保存前自动刷新所有ID
+            //保存前自动刷新所有ID
             AutoRefreshHierarchy();
 
             SaveData_Persistent();
@@ -211,7 +231,7 @@ namespace Game.World
             }
 
             if (string.IsNullOrEmpty(configId))
-                configId = "world_default";
+                configId = "worldDefault";
 
             // 自动刷新ID级联
             AutoRefreshHierarchy();
@@ -225,7 +245,7 @@ namespace Game.World
 
             foreach (var area in worldDataPersistent.areaBlockDatas)
             {
-                string aid = string.IsNullOrEmpty(area.configId) ? "area_auto" : area.configId;
+                string aid = string.IsNullOrEmpty(area.dtoId) ? "areaAuto" : area.dtoId;
                 if (worldDataPersistent.areaBlockIds.Contains(aid))
                     LogMonoUtility.AddErrorLog($"重复的区块ID: {aid}");
                 else
@@ -237,12 +257,12 @@ namespace Game.World
             var persistentData = new
             {
                 configName = this.configName,
-                configId = this.configId,
+                configId = this.dtoId,
                 configDes = this.configDes,
                 worldDataPersistent = this.worldDataPersistent
             };
 
-            string worldJsonPath = Path.Combine(PersistentDataPath, $"{configId}.json");
+            string worldJsonPath = Path.Combine(PersistentDataPath, $"{dtoId}.json");
             File.WriteAllText(worldJsonPath, JsonConvert.SerializeObject(persistentData, JsonSettings.Make()));
             LogMonoUtility.AddLog($"保存固定数据 {worldJsonPath} 成功");
 #else
@@ -258,48 +278,44 @@ namespace Game.World
                 return;
             }
 
-            if (string.IsNullOrEmpty(configId))
-                configId = "world_default";
+            if (string.IsNullOrEmpty(dtoId))
+            {
+                LogMonoUtility.AddErrorLog("DtoId为空");
+                return;
+            }
 
             try
             {
                 var temporaryData = new
                 {
                     configName = this.configName,
-                    configId = this.configId,
+                    configId = this.dtoId,
                     configDes = this.configDes,
                     worldDataTemporary = this.worldDataTemporary
                 };
 
+                string worldRootDir = Path.Combine(TemporaryDataPath, this.configId);
+                Directory.CreateDirectory(worldRootDir);
+                
                 foreach (var area in worldDataPersistent.areaBlockDatas)
                 {
-                    area.SaveData_Temporary();
+                    area.SaveData_Temporary(worldRootDir,JsonSettings.Make());
                 }
-
-                ES3.Save(configId, temporaryData);
+                
+                string worldJsonPath = Path.Combine(TemporaryDataPath, $"{dtoId}.json");
+                File.WriteAllText(worldJsonPath, JsonConvert.SerializeObject(temporaryData, JsonSettings.Make()));
+                LogMonoUtility.AddLog($"保存世界临时数据 {worldJsonPath} 成功");
             }
             catch (Exception ex)
             {
                 LogMonoUtility.AddErrorLog($"保存临时数据失败: {ex.Message}");
             }
         }
-
-        private void OnWorldIdChange()
-        {
-            AutoRefreshHierarchy();
-        }
-
-        // 验证配置ID是否包含下划线
-        private bool ValidateConfigId(string id)
-        {
-            return !string.IsNullOrEmpty(id) && !id.Contains("_");
-        }
     }
-
-    [Serializable]
+    
     public class WorldDataModel : AbstractModel
     {
-        public WorldDto worldDto;
+        public WorldDto WorldDto;
 
         private WorldDataUtility _worldDataUtility;
 
@@ -326,7 +342,7 @@ namespace Game.World
 
         public void SaveConfigData()
         {
-            worldDto.SaveData();
+            WorldDto.SaveData();
         }
     }
 }

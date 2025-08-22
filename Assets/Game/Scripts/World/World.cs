@@ -40,24 +40,5 @@ namespace Game.World
         {
             
         }
-        
-        [Button("解析世界数据json")]
-        public void SetWorldData()
-        {
-            _currentWorldDataModel.GetWorldData();
-        }
-
-        [Button("保存世界数据成Json")]
-        public void SaveWorldData()
-        {
-            if (_currentWorldDataModel != null)
-            {
-                _currentWorldDataModel.SaveWorldData();
-            }
-            else
-            {
-                LogMonoUtility.AddErrorLog("当前世界没有数据");
-            }
-        }
     }
 }

@@ -28,8 +28,12 @@ namespace Game.World
 
         [LabelText("配置描述")] public string configDes;
 
-        [LabelText("房间固定数据")] public RoomDataPersistent roomDataPersistent;
-        [LabelText("房间对局数据"), ReadOnly] public RoomDataTemporary roomDataTemporary;
+        [LabelText("房间固定数据")] 
+        public RoomDataPersistent roomDataPersistent;
+        [LabelText("房间对局数据")] 
+        public RoomDataTemporary roomDataTemporary;
+
+        #region EditorExtend
 
         [JsonIgnore, HideInInspector] private IHierarchicalDto parent;
 
@@ -128,6 +132,25 @@ namespace Game.World
             }
         }
 #endif
+        
+        private void OnRoomIdChange()
+        {
+            AutoRefreshHierarchy();
+        }
+
+        private bool ValidateConfigId(string id)
+        {
+            return !string.IsNullOrEmpty(id) && !id.Contains("_");
+        }
+
+        // 保留原有的 UpdateDtoId 方法以确保向后兼容
+        public void UpdateDtoId(string areaBlockId)
+        {
+            this.dtoId = areaBlockId + "_" + this.configId;
+            RefreshChildrenDtoIds();
+        }
+        #endregion
+        
         public void SaveData(string directory, JsonSerializerSettings settings)
         {
             SaveData_Persistent(directory, settings);
@@ -177,7 +200,7 @@ namespace Game.World
 #endif
         }
 
-        public void SaveData_Temporary()
+        public void SaveData_Temporary(string roomPath, JsonSerializerSettings settings)
         {
             if (string.IsNullOrEmpty(configId))
                 configId = "room_default";
@@ -187,32 +210,27 @@ namespace Game.World
                 var temporaryData = new
                 {
                     configName = this.configName,
-                    configId = this.configId,
+                    configId = this.dtoId,
                     configDes = this.configDes,
                     roomDataTemporary = this.roomDataTemporary
                 };
+                
+                string roomRootDir = Path.Combine(roomPath, this.configId);
+                Directory.CreateDirectory(roomRootDir);
+                
+                foreach (var room in roomDataPersistent.nodeDatas)
+                {
+                    room.SaveData_Temporary(roomRootDir,JsonSettings.Make());
+                }
+                
+                string roomJsonPath = Path.Combine(roomPath, $"{dtoId}.json");
+                File.WriteAllText(roomJsonPath, JsonConvert.SerializeObject(temporaryData, JsonSettings.Make()));
+                LogMonoUtility.AddLog($"保存固定数据 {roomJsonPath} 成功");
             }
             catch (Exception ex)
             {
                 LogMonoUtility.AddErrorLog($"保存房间临时数据失败: {ex.Message}");
             }
-        }
-
-        private void OnRoomIdChange()
-        {
-            AutoRefreshHierarchy();
-        }
-
-        private bool ValidateConfigId(string id)
-        {
-            return !string.IsNullOrEmpty(id) && !id.Contains("_");
-        }
-
-        // 保留原有的 UpdateDtoId 方法以确保向后兼容
-        public void UpdateDtoId(string areaBlockId)
-        {
-            this.dtoId = areaBlockId + "_" + this.configId;
-            RefreshChildrenDtoIds();
         }
     }
 

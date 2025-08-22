@@ -1,20 +1,19 @@
 {
-  "configName": "node_01",
-  "configId": "node_01",
-  "configDes": "",
+  "configName": "测试节点01",
+  "configId": "node01",
+  "configDes": null,
   "nodeDataPersistent": {
-    "childNodeDataList": [],
     "actionTriggerData": {
       "actionTriggerCondition": {
         "conditionType": "Always",
-        "requiredItemId": "",
+        "requiredItemId": null,
         "requiredAmount": 1,
         "requiredLevel": 1
       },
       "willShakeScreen": false,
       "shakeScreenStrength": 5,
-      "audioClipId": "",
-      "particleObjectId": "",
+      "audioClipId": null,
+      "particleObjectId": null,
       "particleObjectOffset": {
         "x": 0.0,
         "y": 0.0

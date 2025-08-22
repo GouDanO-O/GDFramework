@@ -1,12 +1,11 @@
 {
-  "configName": "earth",
+  "configName": "地球",
   "configId": "earth",
-  "configDes": "",
+  "configDes": "地球",
   "worldDataPersistent": {
-    "initialAreaBlockId": "",
+    "initialAreaBlockId": null,
     "areaBlockIds": [
-      "areaBlock_01",
-      "areaBlock_02"
+      "earth_areaBlock01"
     ]
   }
 }

@@ -28,8 +28,12 @@ namespace Game.World
 
         [LabelText("配置描述")] public string configDes;
 
-        [LabelText("地图区块固定数据")] public AreaBlockDataPersistent areaBlockDataPersistent;
-        [LabelText("地图区块对局数据"), ReadOnly] public AreaBlockDataTemporary areaBlockDataTemporary;
+        [LabelText("地图区块固定数据")] 
+        public AreaBlockDataPersistent areaBlockDataPersistent;
+        [LabelText("地图区块对局数据")] 
+        public AreaBlockDataTemporary areaBlockDataTemporary;
+
+        #region EditorExtend
 
         [JsonIgnore, HideInInspector] private IHierarchicalDto parent;
 
@@ -129,6 +133,26 @@ namespace Game.World
             }
         }
 #endif
+
+        private void OnAreaBlockIdChange()
+        {
+            AutoRefreshHierarchy();
+        }
+
+        private bool ValidateConfigId(string id)
+        {
+            return !string.IsNullOrEmpty(id) && !id.Contains("_");
+        }
+
+        // 保留原有的 UpdateDtoId 方法以确保向后兼容
+        public void UpdateDtoId(string worldId)
+        {
+            this.dtoId = worldId + "_" + this.configId;
+            RefreshChildrenDtoIds();
+        }
+        
+        #endregion
+        
         public void SaveData(string directory, JsonSerializerSettings settings)
         {
             SaveData_Persistent(directory, settings);
@@ -178,7 +202,7 @@ namespace Game.World
 #endif
         }
 
-        public void SaveData_Temporary()
+        public void SaveData_Temporary(string areaBlockPath, JsonSerializerSettings settings)
         {
             if (string.IsNullOrEmpty(configId))
                 configId = "area_default";
@@ -188,37 +212,26 @@ namespace Game.World
                 var temporaryData = new
                 {
                     configName = this.configName,
-                    configId = this.configId,
+                    configId = this.dtoId,
                     configDes = this.configDes,
                     areaBlockDataTemporary = this.areaBlockDataTemporary
                 };
-
+                string areaRootDir = Path.Combine(areaBlockPath, this.configId);
+                Directory.CreateDirectory(areaRootDir);
+                
                 foreach (var room in areaBlockDataPersistent.roomDatas)
                 {
-                    room.SaveData_Temporary();
+                    room.SaveData_Temporary(areaRootDir,JsonSettings.Make());
                 }
+                
+                string areaJsonPath = Path.Combine(areaBlockPath, $"{dtoId}.json");
+                File.WriteAllText(areaJsonPath, JsonConvert.SerializeObject(temporaryData, JsonSettings.Make()));
+                LogMonoUtility.AddLog($"保存区块临时数据 {areaJsonPath} 成功");
             }
             catch (Exception ex)
             {
                 LogMonoUtility.AddErrorLog($"保存区块临时数据失败: {ex.Message}");
             }
-        }
-
-        private void OnAreaBlockIdChange()
-        {
-            AutoRefreshHierarchy();
-        }
-
-        private bool ValidateConfigId(string id)
-        {
-            return !string.IsNullOrEmpty(id) && !id.Contains("_");
-        }
-
-        // 保留原有的 UpdateDtoId 方法以确保向后兼容
-        public void UpdateDtoId(string worldId)
-        {
-            this.dtoId = worldId + "_" + this.configId;
-            RefreshChildrenDtoIds();
         }
     }
 

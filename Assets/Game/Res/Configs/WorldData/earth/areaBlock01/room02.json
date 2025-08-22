@@ -1,0 +1,8 @@
+{
+  "configName": "测试房间02",
+  "configId": "room02",
+  "configDes": null,
+  "roomDataPersistent": {
+    "nodeIds": []
+  }
+}

@@ -1346,7 +1346,7 @@ MonoBehaviour:
       worldDataPersistent:
         initialAreaBlockId: 
         areaBlockDatas:
-        - configName: areaBlock01
+        - configName: "\u6D4B\u8BD5\u533A\u57571"
           configId: areaBlock01
           dtoId: earth_areaBlock01
           configDes: 
@@ -1354,13 +1354,27 @@ MonoBehaviour:
             initialAreaBlockId: 
             willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock: 0
             roomDatas:
-            - configName: room01
+            - configName: "\u6D4B\u8BD5\u623F\u95F41"
               configId: room01
               dtoId: earth_areaBlock01_room01
               configDes: 
               roomDataPersistent:
                 nodeDatas: []
                 nodeIds: []
+            roomIds: []
+          areaBlockDataTemporary:
+            isUnlocked: 0
+            curExploreProgress: 0
+            playerIsLocateThisAreaBlock: 0
+            curPlayerLocateRoomId: 
+        - configName: "\u6D4B\u8BD5\u533A\u57572"
+          configId: areaBlock02
+          dtoId: earth_areaBlock02
+          configDes: 
+          areaBlockDataPersistent:
+            initialAreaBlockId: 
+            willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock: 0
+            roomDatas: []
             roomIds: []
           areaBlockDataTemporary:
             isUnlocked: 0
@@ -1686,7 +1700,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 870684772}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

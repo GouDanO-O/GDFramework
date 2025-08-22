@@ -31,8 +31,12 @@ namespace Game.World
 
         [LabelText("配置描述")] public string configDes;
 
-        [LabelText("节点固定数据")] public NodeDataPersistent nodeDataPersistent;
-        [LabelText("节点对局数据"), ReadOnly] public NodeDataTemporary nodeDataTemporary;
+        [LabelText("节点固定数据")] 
+        public NodeDataPersistent nodeDataPersistent;
+        [LabelText("节点对局数据")] 
+        public NodeDataTemporary nodeDataTemporary;
+
+        #region EditorExtend
 
         [JsonIgnore, HideInInspector] private IHierarchicalDto parent;
 
@@ -70,6 +74,24 @@ namespace Game.World
             RefreshDtoId();
             // Node 没有子级，所以不需要刷新子级
         }
+
+        private void OnNodeIdChange()
+        {
+            AutoRefreshHierarchy();
+        }
+
+        private bool ValidateConfigId(string id)
+        {
+            return !string.IsNullOrEmpty(id) && !id.Contains("_");
+        }
+
+        // 保留原有的 UpdateDtoId 方法以确保向后兼容
+        public void UpdateDtoId(string roomId)
+        {
+            this.dtoId = roomId + "_" + this.configId;
+        }
+        #endregion
+        
         
         public void SaveData(string directory, JsonSerializerSettings settings)
         {
@@ -104,43 +126,29 @@ namespace Game.World
 #endif
         }
 
-        public void SaveData_Temporary(string directory, JsonSerializerSettings settings = null)
+        public void SaveData_Temporary(string nodePath, JsonSerializerSettings settings = null)
         {
             if (string.IsNullOrEmpty(configId))
                 configId = "node_default";
 
             try
             {
-                Directory.CreateDirectory(directory);
-
                 var temporaryData = new
                 {
                     configName = this.configName,
-                    configId = this.configId,
+                    configId = this.dtoId,
                     configDes = this.configDes,
                     nodeDataTemporary = this.nodeDataTemporary
                 };
+                
+                string nodeJsonPath = Path.Combine(nodePath, $"{dtoId}.json");
+                File.WriteAllText(nodeJsonPath, JsonConvert.SerializeObject(temporaryData, JsonSettings.Make()));
+                LogMonoUtility.AddLog($"保存固定数据 {nodeJsonPath} 成功");
             }
             catch (Exception ex)
             {
                 LogMonoUtility.AddErrorLog($"保存节点临时数据失败: {ex.Message}");
             }
-        }
-
-        private void OnNodeIdChange()
-        {
-            AutoRefreshHierarchy();
-        }
-
-        private bool ValidateConfigId(string id)
-        {
-            return !string.IsNullOrEmpty(id) && !id.Contains("_");
-        }
-
-        // 保留原有的 UpdateDtoId 方法以确保向后兼容
-        public void UpdateDtoId(string roomId)
-        {
-            this.dtoId = roomId + "_" + this.configId;
         }
     }
 
