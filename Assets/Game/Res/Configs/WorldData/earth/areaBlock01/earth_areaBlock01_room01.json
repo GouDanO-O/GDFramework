@@ -1,10 +1,11 @@
 {
   "configName": "测试房间01",
   "configId": "room01",
+  "dtoId": "earth_areaBlock01_room01",
   "configDes": null,
   "roomDataPersistent": {
     "nodeIds": [
-      "node01"
+      "earth_areaBlock01_room01_node01"
     ]
   }
 }

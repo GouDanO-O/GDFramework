@@ -1,13 +1,13 @@
 {
   "configName": "测试区块01",
   "configId": "areaBlock01",
+  "dtoId": "earth_areaBlock01",
   "configDes": null,
   "areaBlockDataPersistent": {
     "initialAreaBlockId": null,
     "willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock": false,
     "roomIds": [
-      "room01",
-      "room02"
+      "earth_areaBlock01_room01"
     ]
   }
 }

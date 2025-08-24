@@ -180,7 +180,7 @@ namespace Game.World
 
             foreach (var room in areaBlockDataPersistent.roomDatas)
             {
-                string rid = string.IsNullOrEmpty(room.configId) ? "room_auto" : room.configId;
+                string rid = string.IsNullOrEmpty(room.configId) ? "room_auto" : room.dtoId;
                 if (areaBlockDataPersistent.roomIds.Contains(rid))
                     LogMonoUtility.AddErrorLog($"重复的房间ID: {rid}");
                 else
@@ -193,11 +193,12 @@ namespace Game.World
             {
                 configName = this.configName,
                 configId = this.configId,
+                dtoId = this.dtoId,
                 configDes = this.configDes,
                 areaBlockDataPersistent = this.areaBlockDataPersistent
             };
 
-            string filePath = Path.Combine(directory, $"{configId}.json");
+            string filePath = Path.Combine(directory, $"{dtoId}.json");
             string json = JsonConvert.SerializeObject(persistentData, settings ?? JsonSettings.Make());
             File.WriteAllText(filePath, json);
             LogMonoUtility.AddLog($"保存区块固定数据 {filePath} 成功");

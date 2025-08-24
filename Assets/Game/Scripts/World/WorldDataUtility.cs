@@ -14,14 +14,14 @@ namespace Game.World
         public void LoadCompleteWorldData(WorldDataModel worldDataModel)
         {
             this._worldDataModel = worldDataModel;
-            
+            LoadWorldDataFromAb();
         }
 
         #region 从路径中进行加载
 
         private void LoadWorldDataFromFilePath()
         {
-
+            
         }
 
         #endregion

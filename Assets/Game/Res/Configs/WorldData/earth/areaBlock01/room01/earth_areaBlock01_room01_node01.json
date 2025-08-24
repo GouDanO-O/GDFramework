@@ -1,15 +1,11 @@
 {
   "configName": "测试节点01",
   "configId": "node01",
+  "dtoId": "earth_areaBlock01_room01_node01",
   "configDes": null,
   "nodeDataPersistent": {
     "actionTriggerData": {
-      "actionTriggerCondition": {
-        "conditionType": "Always",
-        "requiredItemId": null,
-        "requiredAmount": 1,
-        "requiredLevel": 1
-      },
+      "actionTriggerCondition": null,
       "willShakeScreen": false,
       "shakeScreenStrength": 5,
       "audioClipId": null,

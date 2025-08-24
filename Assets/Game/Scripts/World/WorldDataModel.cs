@@ -68,10 +68,18 @@ namespace Game.World
         {
             get
             {
-#if UNITY_EDITOR
                 return "Assets/Game/Res/Configs/WorldData";
-#endif
-                return Path.Combine(Application.persistentDataPath, configName);
+            }
+        }
+
+        /// <summary>
+        /// 打包后运行编辑存储的地址
+        /// </summary>
+        public string GameCreativeDesignDataPath
+        {
+            get
+            {
+                return Path.Combine(Application.persistentDataPath, configId);
             }
         }
 
@@ -81,7 +89,10 @@ namespace Game.World
         [JsonIgnore]
         public string TemporaryDataPath
         {
-            get { return Path.Combine(Application.persistentDataPath, "WorldData"); }
+            get
+            {
+                return Path.Combine(Application.persistentDataPath, "WorldData");
+            }
         }
 
         [LabelText("世界固定数据")]
@@ -89,9 +100,6 @@ namespace Game.World
 
         [LabelText("世界对局数据")]
         public WorldDataTemporary worldDataTemporary;
-
-        [LabelText("世界画布数据")]
-        public WorldCanvasDataPersistent worldCanvasDataPersistent;
 
         #region EditorExtend
 
@@ -257,7 +265,8 @@ namespace Game.World
             var persistentData = new
             {
                 configName = this.configName,
-                configId = this.dtoId,
+                configId = this.configId,
+                dtoId = this.dtoId,
                 configDes = this.configDes,
                 worldDataPersistent = this.worldDataPersistent
             };
@@ -315,6 +324,7 @@ namespace Game.World
 
     public class WorldDataModel : AbstractModel
     {
+        [LabelText("当前持有的世界数据")]
         public WorldDto WorldDto;
 
         private WorldDataUtility _worldDataUtility;

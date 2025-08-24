@@ -1,6 +1,7 @@
 {
   "configName": "地球",
   "configId": "earth",
+  "dtoId": "earth",
   "configDes": "地球",
   "worldDataPersistent": {
     "initialAreaBlockId": null,

@@ -369,7 +369,6 @@ namespace Game.World.Editor
                         areaBlockDatas = new List<AreaBlockDto>()
                     },
                     worldDataTemporary = createTemporaryData ? new WorldDataTemporary() : null,
-                    worldCanvasDataPersistent = new WorldCanvasDataPersistent()
                 };
 
                 newWorld.AutoRefreshHierarchy();

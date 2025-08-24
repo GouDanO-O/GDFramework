@@ -120,11 +120,12 @@ namespace Game.World
             {
                 configName = this.configName,
                 configId = this.configId,
+                dtoId = this.dtoId,
                 configDes = this.configDes,
                 nodeDataPersistent = this.nodeDataPersistent
             };
 
-            string filePath = Path.Combine(directory, $"{configId}.json");
+            string filePath = Path.Combine(directory, $"{dtoId}.json");
             string json = JsonConvert.SerializeObject(persistentData, settings ?? JsonSettings.Make());
             File.WriteAllText(filePath, json);
             LogMonoUtility.AddLog($"保存节点固定数据 {filePath} 成功");

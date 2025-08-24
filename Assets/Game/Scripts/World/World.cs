@@ -27,8 +27,8 @@ namespace Game.World
 
         private void InitWorldData()
         {
-            // _currentWorldDataModel = this.GetModel<WorldDataModel>();
-            // _currentWorldDataModel.GetWorldData();
+            _currentWorldDataModel = this.GetModel<WorldDataModel>();
+            _currentWorldDataModel.GetWorldData();
         }
 
         private void InitAreaBlockData()

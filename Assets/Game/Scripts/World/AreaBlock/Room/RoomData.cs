@@ -179,7 +179,7 @@ namespace Game.World
 
             foreach (var node in roomDataPersistent.nodeDatas)
             {
-                string nid = string.IsNullOrEmpty(node.configId) ? "node_auto" : node.configId;
+                string nid = string.IsNullOrEmpty(node.configId) ? "node_auto" : node.dtoId;
                 if (roomDataPersistent.nodeIds.Contains(nid))
                     LogMonoUtility.AddErrorLog($"重复的节点ID: {nid}");
                 else
@@ -192,11 +192,12 @@ namespace Game.World
             {
                 configName = this.configName,
                 configId = this.configId,
+                dtoId = this.dtoId,
                 configDes = this.configDes,
                 roomDataPersistent = this.roomDataPersistent
             };
 
-            string filePath = Path.Combine(directory, $"{configId}.json");
+            string filePath = Path.Combine(directory, $"{dtoId}.json");
             string json = JsonConvert.SerializeObject(persistentData, settings ?? JsonSettings.Make());
             File.WriteAllText(filePath, json);
             LogMonoUtility.AddLog($"保存房间固定数据 {filePath} 成功");
