@@ -1,19 +1,27 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Game.Models.Resource;
 using GDFramework.FrameData;
 using GDFramework.Resource;
+using GDFramework.Utility;
+using GDFramework.YooAssetKit;
 using GDFrameworkCore;
+using Newtonsoft.Json;
 using UnityEngine;
 using YooAsset;
 
-public class GameSceneResourcesLoader : BaseResourcesLoader
+namespace Game.Resource
 {
-    private GameSceneResourcesDataModel _model;
-
-    protected override void AddLoadingResource()
+    public class GameSceneResourcesLoader : BaseResourcesLoader,ICanGetSystem
     {
-        _model = this.GetModel<GameSceneResourcesDataModel>();
+        private GameSceneResourcesDataModel _model;
+
+        protected override void AddLoadingResource()
+        {
+            _model = this.GetModel<GameSceneResourcesDataModel>();
+            
+        }
+        
     }
-    
 }

@@ -1,27 +1,21 @@
 ﻿using System.Collections.Generic;
+using GDFramework.YooAssetKit;
 using GDFrameworkCore;
 using UnityEngine;
+using YooAsset;
 
 
 namespace Game.Models.Resource
 {
-    public class GameSceneResourcesDataModel : AbstractModel
+    public class GameSceneResourcesDataModel : AbstractModel,ICanGetSystem
     {
-        public TextAsset WorldDataAsset;
+        public Dictionary<string,TextAsset> WorldDataTextAssets = new Dictionary<string,TextAsset>();
 
-        public readonly Dictionary<string, TextAsset> AreaBlocks = new();
-        public readonly Dictionary<string, TextAsset> Rooms = new();
-        public readonly Dictionary<string, TextAsset> Nodes = new();
-
-        public void AddAreaBlock(string address, TextAsset ta) => 
-            AreaBlocks[address] = ta;
-        public void AddRoom(string address, TextAsset ta) => 
-            Rooms[address] = ta;
-        public void AddNode(string address, TextAsset ta) => 
-            Nodes[address] = ta;
-
+        public string WorldDataTag = "WorldData";
+        
         protected override void OnInit()
         {
+            
         }
     }
 }

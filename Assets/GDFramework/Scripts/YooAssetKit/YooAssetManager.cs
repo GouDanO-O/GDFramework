@@ -24,8 +24,6 @@ namespace GDFramework.YooAssetKit
         public string PackageVersion ="1.0.0";
         
         public ResourceDownloaderOperation ResourceDownloaderOperation{get;private set;}
-        
-        private ResourcePackage package;
 
         private IRemoteServices remoteServices;
         
@@ -63,6 +61,11 @@ namespace GDFramework.YooAssetKit
             var gamePackage = YooAssets.GetPackage(PackageName);
             YooAssets.SetDefaultPackage(gamePackage);
             callBack.Invoke();
+        }
+
+        public ResourcePackage GetPackage()
+        {
+            return YooAssets.GetPackage(PackageName);
         }
         
 
