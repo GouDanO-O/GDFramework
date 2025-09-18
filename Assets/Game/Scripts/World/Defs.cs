@@ -32,6 +32,7 @@ namespace Game.World
         public string id;         // dtoId
         public string stableUid;
         public string configId;
+        public string parentId;   // world dtoId
 
         public string initialRoomId;   // dtoId
         public bool willCacheLocateRoomIdWhenPlayerEntersAndLeavesAreaBlock;
@@ -46,6 +47,7 @@ namespace Game.World
         public string id;         // dtoId
         public string stableUid;
         public string configId;
+        public string parentId;   // areaBlock dtoId
 
         public List<string> nodeIds = new();
     }
@@ -57,6 +59,7 @@ namespace Game.World
         public string id;         // dtoId
         public string stableUid;
         public string configId;
+        public string parentId;   // room dtoId
     }
 
     // 基础/Mod 的 manifest

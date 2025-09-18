@@ -83,6 +83,15 @@ namespace Game.World
             // 如果设置了编辑期引用，则归一化初始区块 id
             if (initialAreaBlockRef != null)
                 initialPlayerLocateAreaBlockId = initialAreaBlockRef.dtoId;
+
+            // 校验：初始区块必须存在
+            if (!string.IsNullOrEmpty(initialPlayerLocateAreaBlockId))
+            {
+                if (!areaBlockIds.Contains(initialPlayerLocateAreaBlockId))
+                {
+                    Debug.LogError($"[WorldDto] 初始区块ID不在列表中: {initialPlayerLocateAreaBlockId}  资源: {name}");
+                }
+            }
         }
 #endif
     }

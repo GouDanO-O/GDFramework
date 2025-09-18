@@ -31,6 +31,16 @@ namespace Game.World
                     nodeIds.Add(n.dtoId);
                 }
             }
+
+            // 校验：节点列表无空、无重复
+            for (int i = 0; i < nodeIds.Count; i++)
+            {
+                if (string.IsNullOrEmpty(nodeIds[i]))
+                    Debug.LogError($"[RoomDto] 存在空节点ID: 房间 {name}");
+            }
+            var set = new HashSet<string>(nodeIds);
+            if (set.Count != nodeIds.Count)
+                Debug.LogError($"[RoomDto] 节点ID存在重复: 房间 {name}");
         }
 #endif
     }

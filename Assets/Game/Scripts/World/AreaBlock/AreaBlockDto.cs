@@ -41,6 +41,16 @@ namespace Game.World
                     room.SyncIdsAndIndexes(this);
                 }
             }
+
+            // 归一化初始房间 id（若设置了引用）
+            if (initialRoomDtoRef != null)
+                initialRoomId = initialRoomDtoRef.dtoId;
+
+            // 校验：初始房间必须存在
+            if (!string.IsNullOrEmpty(initialRoomId) && !roomIds.Contains(initialRoomId))
+            {
+                Debug.LogError($"[AreaBlockDto] 初始房间ID不在列表中: {initialRoomId}  区块: {name}");
+            }
         }
 #endif
         

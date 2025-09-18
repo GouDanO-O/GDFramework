@@ -22,9 +22,9 @@ MonoBehaviour:
   initialWorldDayTime: 1
   initialWorldHourTime: 7
   initialWorldMinutesTime: 30
-  initialPlayerLocateAreaBlockId: earth/testAreaBlock01
+  initialPlayerLocateAreaBlockId: earth/testareablock01
   initialAreaBlockRef: {fileID: 11400000, guid: 39ff3b139600b1e43b5ff614ca70f530, type: 2}
   areaBlockDatas:
   - {fileID: 11400000, guid: 39ff3b139600b1e43b5ff614ca70f530, type: 2}
   areaBlockIds:
-  - earth/testAreaBlock01
+  - earth/testareablock01

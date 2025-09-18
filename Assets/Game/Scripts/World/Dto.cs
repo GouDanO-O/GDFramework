@@ -28,6 +28,13 @@ namespace Game.World
             if (string.IsNullOrEmpty(configId))
                 configId = "default";
 
+            // Dto.OnValidate 里增加
+            configId = Slugify(configId);
+            if (string.IsNullOrEmpty(configId))
+                configId = "default";
+            if (configId.Contains("/"))
+                Debug.LogError($"configId 不能包含 '/': {name}");
+
             // 首次赋 stableUid = 资源 GUID
             if (string.IsNullOrEmpty(stableUid))
             {
@@ -35,6 +42,33 @@ namespace Game.World
                 if (!string.IsNullOrEmpty(path))
                     stableUid = AssetDatabase.AssetPathToGUID(path);
             }
+        }
+        
+        static string Slugify(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            value = value.Trim().ToLowerInvariant();
+            value = value.Replace(' ', '-');
+            // 去除连续的非法字符，只保留字母数字和 - _ .
+            System.Text.StringBuilder sb = new System.Text.StringBuilder(value.Length);
+            foreach (var ch in value)
+            {
+                if ((ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9') || ch == '-' || ch == '_' || ch == '.')
+                {
+                    sb.Append(ch);
+                }
+                else if (ch == '/')
+                {
+                    sb.Append('-');
+                }
+                else if (char.IsWhiteSpace(ch))
+                {
+                    sb.Append('-');
+                }
+            }
+            var result = sb.ToString();
+            while (result.Contains("--")) result = result.Replace("--", "-");
+            return result.Trim('-');
         }
 #endif
     }
