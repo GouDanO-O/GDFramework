@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 namespace Game.World
 {
     [Serializable,JsonObject]
-    public class AreaBlockDataTemporary
+    public class AreaBlockDtoTemporary
     {
         [LabelText("是否已经解锁")]
         public bool isUnlocked;

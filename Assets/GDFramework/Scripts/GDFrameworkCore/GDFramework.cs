@@ -916,7 +916,7 @@ namespace GDFrameworkCore
             BindableProperty<RangeInt>.Comparer = (a, b) => a.start == b.start && a.length == b.length;
             BindableProperty<RectInt>.Comparer = (a, b) => a.Equals(b);
             
-            BindableProperty<NodeDataTemporary>.Comparer = (a, b) => a.Equals(b);
+            BindableProperty<NodeDtoTemporary>.Comparer = (a, b) => a.Equals(b);
         }
 #endif
     }

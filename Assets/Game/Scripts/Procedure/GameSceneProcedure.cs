@@ -22,7 +22,6 @@ namespace Game.Procedure
         
         public override void OnEnter()
         {
-          
             _resourcesManager.StartLoadingResources(typeof(GameSceneResourcesLoader), _gameSceneResourcesLoader,
                 () =>
                 {

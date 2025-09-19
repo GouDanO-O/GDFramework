@@ -8,7 +8,7 @@ using Sirenix.OdinInspector;
 namespace Game.World
 {
     [Serializable]
-    public class WorldDataTemporary 
+    public class WorldDtoTemporary 
     {
         /// <summary>
         /// 当前的年数

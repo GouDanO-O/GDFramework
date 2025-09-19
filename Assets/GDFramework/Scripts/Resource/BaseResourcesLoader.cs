@@ -111,9 +111,18 @@ namespace GDFramework.Resource
             LoadedCount++;
             if (LoadedCount == MaxLoadCount)
             {
-                OnLoadComplete?.Invoke();
-                LogMonoUtility.AddLog("全部加载完成");
+                LoadingComplete();
             }
+        }
+
+        /// <summary>
+        /// 如果没通过loader的加载流程加载
+        /// 可以自定义加载完成后强制结束加载
+        /// </summary>
+        protected void LoadingComplete()
+        {
+            OnLoadComplete?.Invoke();
+            LogMonoUtility.AddLog("全部加载完成");
         }
 
         /// <summary>
