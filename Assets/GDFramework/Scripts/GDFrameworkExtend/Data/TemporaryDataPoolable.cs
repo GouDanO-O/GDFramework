@@ -7,7 +7,7 @@ namespace GDFrameworkExtend.Data
     /// 仅当前存档中持续存在,会被玩家的行为影响而产生影响
     /// 需要实现Allocate
     /// </summary>
-    public abstract class TemporalityDataPoolable : TemporalityData, IPoolable, IPoolType
+    public abstract class TemporaryDataPoolable : TemporaryData, IPoolable, IPoolType
     {
         public bool IsRecycled { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Game.World.Interface;
 using GDFramework.Utility;
 using GDFrameworkCore;
 using GDFrameworkExtend.Data;
@@ -24,10 +25,16 @@ namespace Game.World
     /// 每次进入区域,首先,序列化所有房间,房间里面又存储
     /// 只存储当前节点的触发状态和位置
     /// </summary>
-    [Serializable, LabelText("节点数据")]
-    public class NodeData
+    [LabelText("节点数据")]
+    public class NodeData : IData
     {
-        public NodeDto nodeDto;
+        public string UniqueId { get; set; }     
+
+        [LabelText("当前节点的固定数据")]
+        private NodeDto nodeDto;
+
+        [LabelText("当前节点的临时数据")]
+        private NodeDtoTemporary nodeDtoTemporary;
 
         public void InitNodeData(Node node)
         {

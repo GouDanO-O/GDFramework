@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Game.Models.Resource;
+using Game.World.Interface;
 using GDFramework.Utility;
 using GDFrameworkCore;
 using GDFrameworkExtend.JsonKit;
@@ -16,7 +17,13 @@ namespace Game.World
     public class WorldDataModel : AbstractModel
     {
         [LabelText("当前持有的世界数据")]
-        public WorldDto WorldDto;
+        private WorldData curHoldingWorldData;
+        
+        [LabelText("所有的世界数据")]
+        private Dictionary<string,WorldData> worldDataDict = new Dictionary<string,WorldData>();
+        
+        [LabelText("所有的数据")]
+        private Dictionary<string,IData> allDataDict = new Dictionary<string,IData>();
 
         private WorldDataUtility _worldDataUtility;
 
@@ -27,18 +34,12 @@ namespace Game.World
 
         public void GetWorldData()
         {
-#if UNITY_EDITOR
-            _worldDataUtility = new WorldDataUtility();
-#endif
-            _worldDataUtility.LoadCompleteWorldData(this);
+
         }
 
         public void SaveWorldData()
         {
-#if UNITY_EDITOR
-            _worldDataUtility = new WorldDataUtility();
-#endif
-            _worldDataUtility.SaveCompleteWorldData(this);
+
         }
 
         public void SaveConfigData()

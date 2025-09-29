@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace Game.World
 {
     [Serializable,JsonObject]
-    public class RoomDtoTemporary
+    public class RoomDtoTemporary  : TemporaryData
     {
         
     }

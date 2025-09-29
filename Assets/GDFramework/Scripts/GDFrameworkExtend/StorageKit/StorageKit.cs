@@ -313,7 +313,7 @@ namespace GDFrameworkExtend.StorageKit
                 var instanceId = instance.GetHashCode();
                 return $"Persistent_{_currentSaveSlot}_{objectType.Name}_{instanceId}_{baseKey}";
             }
-            else if (typeof(TemporalityData).IsAssignableFrom(objectType))
+            else if (typeof(TemporaryData).IsAssignableFrom(objectType))
             {
                 var instanceId = instance.GetHashCode();
                 return $"Temporal_{_currentSaveSlot}_{objectType.Name}_{instanceId}_{baseKey}";

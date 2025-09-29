@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Game.Models.Resource;
+using Game.World;
 using GDFramework.FrameData;
 using GDFramework.Resource;
 using GDFramework.Utility;
@@ -15,11 +16,13 @@ namespace Game.Resource
 {
     public class GameSceneResourcesLoader : BaseResourcesLoader,ICanGetSystem
     {
-        private GameSceneResourcesDataModel _model;
+        private GameSceneResourcesDataModel _gameSceneResourcesDataModel;
+
+        private WorldDataModel _worldDataModel;
 
         protected override void AddLoadingResource()
         {
-            _model = this.GetModel<GameSceneResourcesDataModel>();
+            _gameSceneResourcesDataModel = this.GetModel<GameSceneResourcesDataModel>();
             LoadAllDtosAsync().Forget();
         }
 
@@ -35,24 +38,14 @@ namespace Game.Resource
                 await asset;
                 if (asset.AssetObject is Game.World.Dto loadedDto && !string.IsNullOrEmpty(loadedDto.dtoId))
                 {
-                    if (!_model.DtoRegistry.ContainsKey(loadedDto.dtoId))
-                    {
-                        _model.DtoRegistry.Add(loadedDto.dtoId, loadedDto);
-                        if (loadedDto is Game.World.WorldDto worldDto)
-                        {
-                            _model.AllWorlds.Add(worldDto);
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"[DataManager] 发现重复的 dtoId: {loadedDto.dtoId}");
-                    }
+                    
+                    
                 }
-
-
             }
             
             LoadingComplete();
         }
     }
+    
+    
 }

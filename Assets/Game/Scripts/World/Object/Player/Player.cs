@@ -1,15 +1,17 @@
 ﻿using System;
+using Game.World.Object;
 using GDFrameworkCore;
 using GDFrameworkExtend.SingletonKit;
 
 namespace Game.World.Player
 {
-    public class Player : MonoSingleton<Player>,IController
+    /// <summary>
+    /// 玩家并非是一个,而是一个团队
+    /// 一个团队里面可以有多个角色
+    /// 每个角色都是独立的一条生命
+    /// </summary>
+    public class Player
     {
-        private PlayerHealthy _playerHealthy;
-        
-        private PlayerInventory _playerInventory;
-        
         public IArchitecture GetArchitecture()
         {
             return GameMain.Interface;
@@ -30,9 +32,8 @@ namespace Game.World.Player
 
         private void InitData()
         {
-            _playerHealthy = this.GetSystem<PlayerHealthy>();
-            _playerHealthy.InitPlayerHealthy();
-            _playerInventory = this.GetSystem<PlayerInventory>();
+
+
         }
     }
 }
