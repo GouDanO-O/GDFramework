@@ -1,5 +1,4 @@
-using System;
-using Game;
+using Core.Game;
 using GDFramework.Models;
 using GDFramework.Procedure;
 using GDFrameworkExtend.SingletonKit;

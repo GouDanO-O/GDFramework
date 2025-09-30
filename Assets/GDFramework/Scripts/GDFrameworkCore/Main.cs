@@ -1,5 +1,4 @@
-using Game;
-using Game.Models.Resource;
+using Core.Game;
 using GDFramework.Input;
 using GDFramework.LubanKit;
 using GDFramework.Models;

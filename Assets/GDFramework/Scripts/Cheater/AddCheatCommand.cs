@@ -1,6 +1,4 @@
-﻿using System;
-using Game;
-using GDFramework.Models;
+﻿using Core.Game;
 using GDFrameworkCore;
 
 namespace GDFramework.Cheater

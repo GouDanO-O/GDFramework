@@ -1,5 +1,4 @@
 ﻿using System;
-using Game.World;
 
 namespace GDFramework.Asset
 {

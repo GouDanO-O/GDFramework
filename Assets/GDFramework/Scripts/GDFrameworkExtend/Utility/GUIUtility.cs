@@ -1,4 +1,4 @@
-﻿using Game;
+﻿using Core.Game;
 using GDFrameworkCore;
 using UnityEngine;
 

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Game;
-using Game.World;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -915,8 +913,6 @@ namespace GDFrameworkCore
             BindableProperty<BoundsInt>.Comparer = (a, b) => a == b;
             BindableProperty<RangeInt>.Comparer = (a, b) => a.start == b.start && a.length == b.length;
             BindableProperty<RectInt>.Comparer = (a, b) => a.Equals(b);
-            
-            BindableProperty<NodeDtoTemporary>.Comparer = (a, b) => a.Equals(b);
         }
 #endif
     }
