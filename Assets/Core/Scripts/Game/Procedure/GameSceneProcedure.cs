@@ -1,11 +1,11 @@
-﻿using Game.Resource;
+﻿using Core.Game.Procedure.Resource;
 using GDFramework.Procedure;
 using GDFramework.Resource;
 using GDFramework.Scene;
 using GDFrameworkCore;
 using GDFrameworkExtend.FSM;
 
-namespace Game.Procedure
+namespace Core.Game.Procedure
 {
     public class GameSceneProcedure : ProcedureBase
     {

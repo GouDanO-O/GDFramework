@@ -110,3 +110,8 @@ MonoBehaviour:
         FilterRuleName: CollectPrefab
         AssetTags: 
         UserData: 
+    - GroupName: Sprite
+      GroupDesc: "\u8D34\u56FE"
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors: []

@@ -1,18 +1,18 @@
-﻿using Game.Resource;
+﻿using Core.Game.Procedure.Resource;
 using GDFrameworkCore;
 using GDFramework.Procedure;
 using GDFramework.Resource;
 using GDFrameworkExtend.FSM;
 
 
-namespace Game.Procedure
+namespace Core.Game.Procedure
 {
     /// <summary>
     /// 登录流程
     /// 开始初始化,加载数据
     /// 主要加载游戏相关的配置
     /// </summary>
-    public class LaunchProcedure : ProcedureBase, ICanGetSystem, ICanSendEvent
+    public class LaunchProcedure : ProcedureBase, ICanGetSystem
     {
         private ResourcesManager _resourcesManager;
         

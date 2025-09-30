@@ -20,7 +20,7 @@ namespace Core.Game.Chunk.Room
     public class RoomManager : MonoSingleton<RoomManager>, IController
     {
         [ReadOnly]
-        public RoomData roomData;
+        private RoomData _roomData;
 
         private RoomZoom _roomZoom;
 

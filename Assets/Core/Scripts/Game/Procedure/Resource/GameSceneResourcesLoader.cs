@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Interface;
 using Core.Game.Chunk.World;
+using Core.Game.Procedure.Models.Resource;
 using Cysharp.Threading.Tasks;
-using Game.Models.Resource;
 using GDFramework.FrameData;
 using GDFramework.Resource;
 using GDFramework.YooAssetKit;
 using GDFrameworkCore;
 using YooAsset;
 
-namespace Game.Resource
+namespace Core.Game.Procedure.Resource
 {
     public class GameSceneResourcesLoader : BaseResourcesLoader,ICanGetSystem
     {

@@ -1,6 +1,6 @@
 ﻿using GDFrameworkCore;
 
-namespace Game.Models.Resource
+namespace Core.Game.Procedure.Models.Resource
 {
     public class GameSceneResourcesDataModel : AbstractModel,ICanGetSystem
     {

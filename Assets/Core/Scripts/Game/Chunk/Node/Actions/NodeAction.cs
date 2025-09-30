@@ -1,17 +1,16 @@
 ﻿using System;
+using Core.Game.Chunk.Node.Action.Interface;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Core.Game.Chunk.Node.Action
 {
     [Serializable]
-    public abstract class NodeAction
+    public abstract class NodeAction : INodeAction
     {
-        // 在编辑器里显示的描述
-        [TextArea(1, 2), LabelText("动作描述(仅编辑器)")] 
+        [TextArea(1, 2), LabelText("动作描述")] 
         public string description;
         
-        // 运行时执行的逻辑
         public abstract void Execute();
     }
 }

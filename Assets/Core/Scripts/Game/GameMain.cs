@@ -1,5 +1,5 @@
 ﻿using Core.Game.Chunk.World;
-using Game.Models.Resource;
+using Core.Game.Procedure.Models.Resource;
 using GDFrameworkCore;
 
 namespace Core.Game

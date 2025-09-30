@@ -1,4 +1,4 @@
-﻿using Game.Procedure;
+﻿using Core.Game.Procedure;
 using GDFramework.Input;
 using GDFramework.Resource;
 using GDFrameworkCore;

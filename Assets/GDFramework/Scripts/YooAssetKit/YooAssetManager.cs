@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Game;
-using Game.Procedure;
 using GDFramework.Procedure;
 using GDFrameworkExtend.FSM;
 using GDFramework.Utility;

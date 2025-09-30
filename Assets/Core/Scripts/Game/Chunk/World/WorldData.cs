@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
+using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Region;
 using Sirenix.OdinInspector;
 using UnityEngine.Analytics;
 
 namespace Core.Game.Chunk.World
 {
-    public class WorldData : IAnalytic.IData
+    public class WorldData : ChunkData
     {
-        public string UniqueId { get; set; }        
-        
+
         [LabelText("当前世界的固定数据")]
         private WorldDto worldDto;
         
@@ -18,6 +18,6 @@ namespace Core.Game.Chunk.World
         [LabelText("当前世界的区块数据")]
         private Dictionary<string, RegionData> curHoldingRegionDtoDict = new Dictionary<string, RegionData>();
 
-
+        
     }
 }

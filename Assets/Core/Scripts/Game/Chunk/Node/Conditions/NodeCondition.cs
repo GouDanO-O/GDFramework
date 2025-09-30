@@ -1,7 +1,7 @@
 ﻿namespace Core.Game.Chunk.Node.Conditions
 {
-    public class NodeCondition : INodeCondition
+    public abstract class NodeCondition : INodeCondition
     {
-        
+        public abstract bool CheckCondition();
     }
 }

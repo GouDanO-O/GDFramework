@@ -10,11 +10,8 @@ namespace Core.Game.Chunk.Room
     [CreateAssetMenu(fileName = "RoomDto", menuName = "Core/RoomDto")]
     public class RoomDto : ChunkDto
     {
-        [LabelText("房间里面拥有的互动节点")]
-        public List<NodeDto> nodeDatas = new List<NodeDto>();
-
-        [LabelText("房间里面拥有的节点ID"), ReadOnly]
-        public List<string> nodeIds = new List<string>();
+        [LabelText("房间数据")]
+        public RoomDtoDef roomDtoDef;
         
     }
 }

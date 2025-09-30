@@ -22,11 +22,6 @@ namespace Core.Game.Chunk.Region
             return GameMain.Interface;
         }
 
-        public void InitAreaBlock()
-        {
-
-        }
-
         private void InitRoomData(RegionData  curRegionData)
         {
             Room.RoomManager.Instance.InitRoom(curRegionData);

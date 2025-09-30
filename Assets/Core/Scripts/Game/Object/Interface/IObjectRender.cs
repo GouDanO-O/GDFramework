@@ -1,4 +1,7 @@
-﻿namespace Core.World.Object.Interface
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
+
+namespace Core.World.Object.Interface
 {
     public interface IObjectRender : IComponent
     {

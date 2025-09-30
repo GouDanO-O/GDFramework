@@ -7,7 +7,7 @@ using GDFramework.View;
 using GDFrameworkExtend.FSM;
 
 
-namespace Game.Procedure
+namespace Core.Game.Procedure
 {
     /// <summary>
     /// 主界面流程

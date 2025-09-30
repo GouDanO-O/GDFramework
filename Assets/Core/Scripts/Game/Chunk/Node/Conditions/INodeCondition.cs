@@ -1,7 +1,10 @@
-﻿namespace Core.Game.Chunk.Node.Conditions
+﻿using Core.Game.Condition.Interface;
+
+namespace Core.Game.Chunk.Node.Conditions
 {
-    public interface INodeCondition
+    public interface INodeCondition : ICondition
     {
+        
         
     }
 }

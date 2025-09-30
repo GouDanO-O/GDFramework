@@ -1,19 +1,33 @@
-﻿using Core.Game.Chunk.Interface;
+﻿using System;
+using Core.Game.Chunk.Interface;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
 namespace Core.Game.Chunk.Data
 {
-    [ES3Serializable]
+    [Serializable]
     public abstract class ChunkDto : ScriptableObject,IChunkDto
     {
-        public string DtoName { get; set; }
+        [LabelText("昵称")]
+        public string dtoName;
+
+        [LabelText("ID")]
+        public string dtoId;
+
+        [LabelText("描述")]
+        public string dtoDescription;
         
-        public int UniqueDtoId { get; set; }
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            ChangingDtoData();
+        }
+#endif
         
-        public string DtoId { get; set; }
-        
-        public string DtoDescription { get; set; }
+        protected virtual void ChangingDtoData()
+        {
+            
+        }
     }
 }

@@ -14,9 +14,9 @@ namespace YooAsset.Editor
         // ID分配规则：基于Group名称分配ID范围
         private static readonly Dictionary<string, int> GroupIDRanges = new Dictionary<string, int>
         {
-            { "Music", 1000 },
-            { "Prefabs", 2000 },
-            { "Particle", 3000 }
+            {"Sprite",0},
+            { "Music", 10000000 },
+            { "Prefabs", 20000000 }
         };
 
         [MenuItem("YooAsset/Generate Asset Code")]

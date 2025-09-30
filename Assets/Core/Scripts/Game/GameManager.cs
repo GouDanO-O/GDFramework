@@ -1,4 +1,4 @@
-﻿using Game.Procedure;
+﻿using Core.Game.Procedure;
 using GDFrameworkCore;
 using UnityEngine;
 using YooAsset;

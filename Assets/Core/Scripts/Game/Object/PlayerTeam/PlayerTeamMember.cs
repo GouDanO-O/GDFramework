@@ -1,6 +1,6 @@
 ﻿namespace Core.World.Object.PlayerTeam
 {
-    public class TeamMember
+    public class PlayerTeamMember
     {
         
     }

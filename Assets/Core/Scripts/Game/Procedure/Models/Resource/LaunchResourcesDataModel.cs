@@ -2,7 +2,7 @@ using GDFrameworkCore;
 
 using UnityEngine.InputSystem;
 
-namespace Game.Models.Resource
+namespace Core.Game.Procedure.Models.Resource
 {
     public class LaunchResourcesDataModel : AbstractModel
     {

@@ -2,6 +2,7 @@
 using System.IO;
 using GDFrameworkCore;
 using System.Collections.Generic;
+using Core.Game.Chunk.Region;
 using GDFramework.Utility;
 using GDFrameworkExtend.SingletonKit;
 using Sirenix.OdinInspector;
@@ -10,7 +11,7 @@ namespace Core.Game.Chunk.World
 {
     public class WorldManager : MonoSingleton<WorldManager>, IController
     {
-        public WorldDataModel _currentWorldDataModel;
+        private WorldDataModel _currentWorldDataModel;
         
         public IArchitecture GetArchitecture()
         {
@@ -21,18 +22,12 @@ namespace Core.Game.Chunk.World
         {
             InitWorldData();
             InitWorldComponent();
-            InitAreaBlockData();
         }
 
         private void InitWorldData()
         {
             _currentWorldDataModel = this.GetModel<WorldDataModel>();
             _currentWorldDataModel.GetWorldData();
-        }
-
-        private void InitAreaBlockData()
-        {
-            Region.RegionManager.Instance.InitAreaBlock();
         }
 
         private void InitWorldComponent()
