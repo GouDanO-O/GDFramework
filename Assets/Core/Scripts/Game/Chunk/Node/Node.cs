@@ -1,3 +1,4 @@
+using Core.Game.Chunk.Node.Data;
 using UnityEngine;
 using GDFrameworkCore;
 using GDFrameworkExtend.PoolKit;

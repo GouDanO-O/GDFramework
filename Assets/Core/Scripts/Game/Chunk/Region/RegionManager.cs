@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Core.Game.Chunk.Region.Data;
+using Core.Game.Chunk.Room;
 using GDFrameworkCore;
 using GDFrameworkExtend.Data;
 using GDFrameworkExtend.SingletonKit;
@@ -12,21 +14,19 @@ namespace Core.Game.Chunk.Region
     /// 区块都必定会有入口,但是不一定会有出口
     /// 同时,也可能一个区块具有多个入口或者多个出口
     /// </summary>
-    public class RegionManager : MonoSingleton<RegionManager>,IController
+    public class RegionManager : AbstractSystem
     {
-        [ReadOnly,LabelText("当前区块的数据")]
-        public RegionData CurRegionData;
-        
-        public IArchitecture GetArchitecture()
-        {
-            return GameMain.Interface;
-        }
+        private RoomManager _roomManager;
 
+        protected override void OnInit()
+        {
+            
+        }
+        
         private void InitRoomData(RegionData  curRegionData)
         {
-            Room.RoomManager.Instance.InitRoom(curRegionData);
+            this._roomManager = this.GetSystem<RoomManager>();
         }
-        
         
     }
 }

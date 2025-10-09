@@ -25,6 +25,9 @@ namespace Core.Game.Chunk.Data
         }
 #endif
         
+        /// <summary>
+        /// 当数据改变时
+        /// </summary>
         protected virtual void ChangingDtoData()
         {
             

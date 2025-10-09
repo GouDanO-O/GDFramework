@@ -38,6 +38,7 @@ namespace GDFrameworkExtend.SingletonKit
         /// </summary>
         public virtual void OnSingletonInit()
         {
+            
         }
 
         /// <summary>

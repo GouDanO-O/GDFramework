@@ -1,24 +1,19 @@
 ﻿using UnityEngine;
 using System.IO;
 using GDFrameworkCore;
-using System.Collections.Generic;
-using Core.Game.Chunk.Region;
-using GDFramework.Utility;
-using GDFrameworkExtend.SingletonKit;
-using Sirenix.OdinInspector;
-
+using Core.Game.Chunk.World.Data;
 namespace Core.Game.Chunk.World
 {
-    public class WorldManager : MonoSingleton<WorldManager>, IController
+    public class WorldManager : AbstractSystem
     {
-        private WorldDataModel _currentWorldDataModel;
+        private WorldData _curWorldData;
         
         public IArchitecture GetArchitecture()
         {
             return GameMain.Interface;
         }
 
-        private void Start()
+        protected override void OnInit()
         {
             InitWorldData();
             InitWorldComponent();
@@ -26,8 +21,7 @@ namespace Core.Game.Chunk.World
 
         private void InitWorldData()
         {
-            _currentWorldDataModel = this.GetModel<WorldDataModel>();
-            _currentWorldDataModel.GetWorldData();
+
         }
 
         private void InitWorldComponent()
