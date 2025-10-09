@@ -8,6 +8,6 @@ namespace Core.Game.Chunk.Universe.Data
     public class UniverseDto : ChunkDto
     {
         [LabelText("宇宙数据Def")]
-        public UniverseDtoDef UniverseDtoDef;
+        public UniverseDtoDef universeDtoDef;
     }
 }

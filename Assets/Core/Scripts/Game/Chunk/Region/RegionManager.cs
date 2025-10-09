@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Game.Chunk.Region.Data;
 using Core.Game.Chunk.Room;
+using Core.Game.Chunk.Room.Components;
 using GDFrameworkCore;
 using GDFrameworkExtend.Data;
 using GDFrameworkExtend.SingletonKit;
@@ -22,11 +23,20 @@ namespace Core.Game.Chunk.Region
         {
             
         }
-        
-        private void InitRoomData(RegionData  curRegionData)
+
+        #region 区块管理
+
+        /// <summary>
+        /// 设置登录进来的焦点区块里面的房间
+        /// </summary>
+        public void SetFocusRoom()
         {
             this._roomManager = this.GetSystem<RoomManager>();
+            this._roomManager.SetFocusNodes();
         }
+
+        #endregion
         
+
     }
 }

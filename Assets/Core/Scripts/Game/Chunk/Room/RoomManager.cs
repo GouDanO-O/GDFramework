@@ -9,8 +9,6 @@ namespace Core.Game.Chunk.Room
     /// </summary>
     public class RoomManager : AbstractSystem
     {
-        private RoomData _roomData;
-
         private RoomComponentController _roomComponentController;
 
         public IArchitecture GetArchitecture()
@@ -54,8 +52,16 @@ namespace Core.Game.Chunk.Room
             
         }
         
-        #region RoomManage
+        #region 房间管理
 
+        /// <summary>
+        /// 设置登录进来的焦点房间里面的节点
+        /// </summary>
+        public void SetFocusNodes()
+        {
+            
+        }
+        
         /// <summary>
         /// 更换房间
         /// </summary>

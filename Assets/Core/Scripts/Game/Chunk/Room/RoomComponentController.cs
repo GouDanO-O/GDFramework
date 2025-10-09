@@ -1,4 +1,5 @@
 ﻿using Core.Game.Chunk.Room.Components;
+using Core.Game.Chunk.Room.Data;
 using GDFrameworkCore;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -7,6 +8,8 @@ namespace Core.Game.Chunk.Room
 {
     public class RoomComponentController : MonoBehaviour,IController
     {
+        private RoomData _roomData;
+        
         private RoomZoom _roomZoom;
 
         private RoomScroll _roomScroll;
