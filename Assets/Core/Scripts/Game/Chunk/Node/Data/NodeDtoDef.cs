@@ -16,9 +16,14 @@ namespace Core.Game.Chunk.Node.Data
         [LabelText("节点的宽高比例(默认宽高为120*40)")]
         public Vector2 nodeScale = Vector2.one;
 
-        public NodeDtoDef(string parentChunkId, string thisChunkId) : base(parentChunkId, thisChunkId)
+        public NodeDtoDef()
         {
             
+        }
+        
+        protected override string GetTypePrefix()
+        {
+            return "Node";
         }
     }
 }

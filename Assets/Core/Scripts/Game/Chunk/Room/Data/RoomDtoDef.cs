@@ -10,15 +10,20 @@ namespace Core.Game.Chunk.Room.Data
     [Serializable]
     public class RoomDtoDef : ChunkDtoDef
     {
-        [LabelText("房间里面拥有的互动节点")]
-        public List<NodeDto> nodeDatas = new List<NodeDto>();
-
+        [LabelText("第一次进入房间展示的节点"), ReadOnly]
+        public List<string> initialShowingNodeList = new List<string>();
+        
         [LabelText("房间里面拥有的节点ID"), ReadOnly]
-        public List<string> nodeIds = new List<string>();
+        public List<string> nodeIdList = new List<string>();
 
-        public RoomDtoDef(string parentChunkId, string thisChunkId) : base(parentChunkId, thisChunkId)
+        public RoomDtoDef()
         {
             
+        }
+
+        protected override string GetTypePrefix()
+        {
+            return "Room";
         }
     }
 }

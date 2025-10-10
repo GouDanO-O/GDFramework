@@ -1,4 +1,4 @@
-﻿using Core.Game.Chunk.Interface;
+﻿using Core.Game.Chunk.Data.Interface;
 using GDFrameworkCore;
 using GDFrameworkExtend.Data;
 

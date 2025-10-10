@@ -1,4 +1,4 @@
-﻿namespace Core.Game.Chunk.Interface
+﻿namespace Core.Game.Chunk.Data.Interface
 {
     public interface IChunkDtoDef
     {

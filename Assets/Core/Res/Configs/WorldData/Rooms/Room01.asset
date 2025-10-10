@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1790d55350c74b4c90810d09f5587802, type: 3}
-  m_Name: "\u6D4B\u8BD5\u623F\u95F401"
+  m_Name: Room01
   m_EditorClassIdentifier: 
-  configName: "\u6D4B\u8BD5\u623F\u95F401"
-  configId: testRoom01
-  configDes: 
-  dtoId: earth/testAreaBlock01/testRoom01
-  stableUid: 45292f088c2264f49a94f2fba125b16c
-  nodeDatas:
-  - {fileID: 11400000, guid: 2eb19e7f68cb1e945accfe2435b29e19, type: 2}
-  nodeIds:
-  - earth/testAreaBlock01/testRoom01/testNode01
+  roomDtoDef:
+    chunkDtoDefName: 
+    chunkDtoDefDescription: 
+    chunkDtoDefId: Room_81A669B6
+    initialShowingNodeList: []
+    nodeIdList: []
+  initialShowingNodeDtoReferenceList: []
+  nodeDtoReferenceList: []

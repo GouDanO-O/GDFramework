@@ -1,14 +1,9 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using Core.Game.Chunk.Data;
-using Core.Game.Chunk.Interface;
-using Core.Game.Chunk.World;
-using Core.Game.Procedure.Models.Resource;
+﻿using Core.Game.Procedure.Models.Resource;
 using Cysharp.Threading.Tasks;
-using GDFramework.FrameData;
 using GDFramework.Resource;
 using GDFramework.YooAssetKit;
 using GDFrameworkCore;
+using UnityEngine;
 using YooAsset;
 
 namespace Core.Game.Procedure.Resource
@@ -31,7 +26,7 @@ namespace Core.Game.Procedure.Resource
 
             for (int i = 0; i < assetInfos.Length; i++)
             {
-                var asset = package.LoadAssetAsync<ChunkDto>(assetInfos[i].AssetPath);
+                var asset = package.LoadAssetAsync<TextAsset>(assetInfos[i].AssetPath);
                 await asset;
             }
             

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using Core.Game.Chunk.Data;
-using Core.Game.Chunk.Interface;
 using GDFramework.Utility;
 using GDFrameworkCore;
 using GDFrameworkExtend.Data;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Game.Chunk.Data;
-using Core.Game.Chunk.Interface;
+using Core.Game.Chunk.Data.Interface;
 using Core.Game.Chunk.Region;
 using Core.Game.Chunk.Region.Data;
 using GDFrameworkExtend.Data;

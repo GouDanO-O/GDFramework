@@ -10,5 +10,16 @@ namespace Core.Game.Chunk.Node.Data
     {
         [LabelText("节点数据")]
         public NodeDtoDef nodeDtoDef;
+
+        protected override void ChangingDtoData()
+        {
+            base.ChangingDtoData();
+            
+        }
+
+        public override ChunkDtoDef CreateRuntimeDef()
+        {
+            return nodeDtoDef.Clone();
+        }
     }
 }

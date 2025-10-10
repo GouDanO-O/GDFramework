@@ -11,18 +11,24 @@ namespace Core.Game.Chunk.Universe.Data
     [Serializable]
     public class UniverseDtoDef : ChunkDtoDef
     {
-        [LabelText("初始玩家所处的世界ID(即无特殊事件的情况下,玩家会处于的第一个世界的ID)")]
+        [LabelText("初始玩家所处的世界ID"),ReadOnly]
+        [InfoBox("无特殊事件的情况下,玩家会处于的第一个世界的ID")]
         public string initialPlayerLocateWorldId;
         
-        [LabelText("宇宙所拥有的世界数据列表")]
-        public List<WorldDto> worldDtosList;
+        [LabelText("第一次进入宇宙展示的世界"),ReadOnly]
+        public List<string> initialShowingWorldIdList;
         
         [LabelText("宇宙拥有的所有世界的ID"), ReadOnly]
-        public List<string> worldIds = new List<string>();
-        
-        public UniverseDtoDef(string parentChunkId, string thisChunkId) : base(parentChunkId, thisChunkId)
+        public List<string> worldIdList = new List<string>();
+
+        public UniverseDtoDef()
         {
             
+        }
+
+        protected override string GetTypePrefix()
+        {
+            return "Universe";
         }
     }
 }

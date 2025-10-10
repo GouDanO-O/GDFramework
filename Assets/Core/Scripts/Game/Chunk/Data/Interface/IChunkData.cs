@@ -1,6 +1,6 @@
 ﻿using GDFrameworkExtend.Data;
 
-namespace Core.Game.Chunk.Interface
+namespace Core.Game.Chunk.Data.Interface
 {
     /// <summary>
     /// 世界中的数据

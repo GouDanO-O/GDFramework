@@ -10,17 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2264e89cb2514c3ebfc67a91c6e99322, type: 3}
-  m_Name: Earth
+  m_Name: Moon
   m_EditorClassIdentifier: 
   worldDtoDef:
-    chunkDtoDefName: "\u5730\u7403"
+    chunkDtoDefName: 
     chunkDtoDefDescription: 
-    chunkDtoDefId: World_D67B704E
+    chunkDtoDefId: World_EDA7EC79
     initialWorldYearTime: 0
     initialWorldMonthTime: 0
     initialWorldDayTime: 0
     initialWorldHourTime: 0
     initialWorldMinutesTime: 0
     initialPlayerLocateRegionId: 
+    initialShowingRegionIdList: []
     regionIdList: []
+  initialPlayerLocateRegion: {fileID: 0}
+  initialShowingRegionDtoReferenceList: []
   regionDtoReferenceList: []
