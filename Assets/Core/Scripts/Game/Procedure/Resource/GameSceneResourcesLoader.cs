@@ -22,7 +22,7 @@ namespace Core.Game.Procedure.Resource
         {
             
             var package = this.GetSystem<YooAssetManager>().GetPackage();
-            AssetInfo[] assetInfos = package.GetAssetInfos("WorldData");
+            AssetInfo[] assetInfos = package.GetAssetInfos("ChunkData");
 
             for (int i = 0; i < assetInfos.Length; i++)
             {

@@ -15,6 +15,7 @@ namespace Core.Game.Chunk.Data
         public string chunkDtoDefDescription;
 
         [LabelText("ID"),ReadOnly]
+        [InfoBox("每个Chunk的数据可能雷同,但是ID一定不能也不会雷同")]
         public string chunkDtoDefId;
 
         public ChunkDtoDef()

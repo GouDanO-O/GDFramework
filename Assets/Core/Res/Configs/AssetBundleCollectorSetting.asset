@@ -26,16 +26,16 @@ MonoBehaviour:
     Groups:
     - GroupName: GameConfig
       GroupDesc: "\u914D\u7F6E"
-      AssetTags: WorldData
+      AssetTags: ChunkData
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Game/Res/Configs/WorldData
+      - CollectPath: Assets/Core/Res/Configs/ChunkData
         CollectorGUID: 9870a245350c4244b9d58ad7273e55d1
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
-        AssetTags: WorldData
+        AssetTags: ChunkData
         UserData: 
     - GroupName: GameModelData
       GroupDesc: "\u6E38\u620F\u9ED8\u8BA4\u914D\u7F6E"
@@ -63,7 +63,7 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Game/Res/Prefabs/UI_Node.prefab
+      - CollectPath: Assets/Core/Res/Prefabs/UI_Node.prefab
         CollectorGUID: d2e12be19e6e17047a93870dde6bc4aa
         CollectorType: 0
         AddressRuleName: AddressByFileName
@@ -76,7 +76,7 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Game/Res/Musics/BGM/Dungeon_01.mp3
+      - CollectPath: Assets/Core/Res/Musics/BGM/Dungeon_01.mp3
         CollectorGUID: f7fa892b06b630945a960b45e655b3cc
         CollectorType: 0
         AddressRuleName: AddressByFileName
@@ -84,7 +84,7 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Game/Res/Musics/BGM/Dungeon_02.mp3
+      - CollectPath: Assets/Core/Res/Musics/BGM/Dungeon_02.mp3
         CollectorGUID: 922270c392d67fb4cb8414dd4728bbae
         CollectorType: 0
         AddressRuleName: AddressByFileName
@@ -102,7 +102,7 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Game/Res/Prefabs/Player.prefab
+      - CollectPath: Assets/Core/Res/Prefabs/Player.prefab
         CollectorGUID: f9cc9204647b4a941ad12c3c6e556f33
         CollectorType: 0
         AddressRuleName: AddressByFileName
