@@ -1,4 +1,5 @@
 
+using Core.Game.View;
 using GDFrameworkCore;
 using GDFrameworkExtend.ActionKit;
 using GDFrameworkExtend.UIKit;
@@ -17,7 +18,7 @@ namespace GDFramework.View
         /// </summary>
         public void EnterMenu()
         {
-           
+            UIKit.OpenPanel<UI_GameMenuPanel>();
         }
 
         /// <summary>
@@ -25,6 +26,7 @@ namespace GDFramework.View
         /// </summary>
         public void EnterGame()
         {
+            
         }
     }
 }

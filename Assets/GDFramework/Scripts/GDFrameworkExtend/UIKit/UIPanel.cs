@@ -33,6 +33,14 @@ namespace GDFrameworkExtend.UIKit
 		public PanelInfo Info { get; set; }
 
 		public PanelState State { get; set; }
+		
+		protected Transform Root;
+		
+		protected Transform Ground;
+		
+		protected Transform Common;
+
+		protected Transform Top;
 
 		protected IUIData mUIData;
 
@@ -68,7 +76,20 @@ namespace GDFrameworkExtend.UIKit
 
 		protected virtual void OnInit(IUIData uiData = null)
 		{
+			
+		}
 
+		protected virtual void GetRelyComponent()
+		{
+			Root = transform.GetChild(0);
+			Ground = Root.Find("Ground");
+			Common = Root.Find("Common");
+			Top = Root.Find("Top");
+		}
+
+		protected virtual void RegisterEvent()
+		{
+			
 		}
 
 		protected virtual void OnOpen(IUIData uiData = null)

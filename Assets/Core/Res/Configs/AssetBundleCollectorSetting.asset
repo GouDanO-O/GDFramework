@@ -63,8 +63,56 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Core/Res/Prefabs/UI_Node.prefab
+      - CollectPath: Assets/Core/Res/Prefabs/View/UI_Node.prefab
         CollectorGUID: d2e12be19e6e17047a93870dde6bc4aa
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/UI_ChunkEditorPanel.prefab
+        CollectorGUID: 8ad302c511f1b724e87fbd3f82af1df4
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/UI_GameMenuPanel.prefab
+        CollectorGUID: add4717bf560b2b4bb4efbc4faaa5c60
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/UI_RegionPanel.prefab
+        CollectorGUID: 438bff20a9b9e114bbf63c79753a17f4
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/UI_RoomPanel.prefab
+        CollectorGUID: 72e19d6435ad00249bac958740bd78c4
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/UI_UniversePanel.prefab
+        CollectorGUID: 0f30ae14e047e714895f639950ed1c4c
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/UI_WorldPanel.prefab
+        CollectorGUID: 8dada1e4813fbb34cbbe4328ae7c3f14
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

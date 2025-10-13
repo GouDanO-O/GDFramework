@@ -99,10 +99,5 @@ namespace GDFramework.Scene
             
             OnSceneLoadComplete?.Invoke(sceneName);
         }
-
-        private void UnRegisterLoadCallBack()
-        {
-            onLoadScene.
-        }
     }
 }

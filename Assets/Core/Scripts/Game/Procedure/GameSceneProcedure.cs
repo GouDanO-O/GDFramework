@@ -1,5 +1,6 @@
 ﻿using Core.Game.Procedure.Resource;
 using Core.Game.View;
+using GDFramework.Input;
 using GDFramework.Procedure;
 using GDFramework.Resource;
 using GDFramework.Scene;
@@ -48,6 +49,7 @@ namespace Core.Game.Procedure
         /// </summary>
         private void DataLoadComplete()
         {
+            this.GetSystem<NewInputManager>().InitActionAsset();
             ChangeToTestScene();
         }
         

@@ -16,8 +16,8 @@ namespace Core.Game.Procedure
     {
         public override void OnEnter()
         {
-            //StartLoadMenu();
-            StartTestScene();
+            StartLoadMenu();
+            //StartTestScene();
         }
 
         private void StartLoadMenu()
@@ -31,7 +31,6 @@ namespace Core.Game.Procedure
 
         private void StartTestScene()
         {
-            this.GetSystem<NewInputManager>().InitActionAsset();
             this.SendEvent(new SChangeProcedureEvent(typeof(GameSceneProcedure)));
         }
 
