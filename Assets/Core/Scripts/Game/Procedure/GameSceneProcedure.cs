@@ -1,9 +1,11 @@
 ﻿using Core.Game.Procedure.Resource;
+using Core.Game.View;
 using GDFramework.Procedure;
 using GDFramework.Resource;
 using GDFramework.Scene;
 using GDFrameworkCore;
 using GDFrameworkExtend.FSM;
+using GDFrameworkExtend.UIKit;
 
 namespace Core.Game.Procedure
 {

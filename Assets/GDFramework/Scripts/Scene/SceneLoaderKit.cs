@@ -45,7 +45,6 @@ namespace GDFramework.Scene
         private void LoadSceneAsync(ESceneName sceneName)
         {
             LoadingScene(sceneName);
-            //Main.Interface.GetUtility<CoroutineMonoUtility>().StartCoroutine(LoadSceneCoroutine(sceneName));
         }
 
         private async UniTask LoadingScene(ESceneName sceneName)
@@ -99,6 +98,11 @@ namespace GDFramework.Scene
             await UniTask.SwitchToMainThread();
             
             OnSceneLoadComplete?.Invoke(sceneName);
+        }
+
+        private void UnRegisterLoadCallBack()
+        {
+            onLoadScene.
         }
     }
 }
