@@ -2,6 +2,7 @@
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Room;
 using Core.Game.Chunk.Room.Data;
+using Core.Game.Chunk.Stronghold.Data;
 using Sirenix.OdinInspector;
 
 namespace Core.Game.Chunk.Region.Data
@@ -14,7 +15,7 @@ namespace Core.Game.Chunk.Region.Data
         [LabelText("当前区块的临时数据")]
         private RegionDtoTemporary _regionDtoTemporary;
         
-        [LabelText("当前区块持有的房间数据")]
-        private Dictionary<string,RoomData> _curHoldingRoomDtoDict = new Dictionary<string, RoomData>();
+        [LabelText("当前区块持有的副本数据")]
+        private Dictionary<string,StrongholdData> _curHoldingStrongholdDtoDict = new Dictionary<string, StrongholdData>();
     }
 }

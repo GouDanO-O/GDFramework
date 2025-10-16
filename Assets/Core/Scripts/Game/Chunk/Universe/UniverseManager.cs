@@ -10,25 +10,26 @@ namespace Core.Game.Chunk.Universe
     /// 宇宙管理器
     /// 一个宇宙里面会有多个世界
     /// </summary>
-    public class UniverseManager : AbstractSystem
+    public class UniverseManager : ChunkManager
     {
         private UniverseDataModel _universeData;
         
         private WorldManager _worldManager;
-        
-        public IArchitecture GetArchitecture()
+
+        protected override void InitManager()
         {
-            return GameMain.Interface;
+            base.InitManager();
         }
 
-        protected override void OnInit()
+        protected override void InitChunkData()
         {
-            this.InitUniverseManager();
-        }
-
-        private void InitUniverseManager()
-        {
+            base.InitChunkData();
             _universeData = this.GetModel<UniverseDataModel>();
+        }
+
+        protected override void InitComponent()
+        {
+            base.InitComponent();
         }
         
         #region 宇宙管理

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Core.Game.Chunk.Room
 {
-    public class RoomComponentController : MonoBehaviour,IController
+    public class RoomComponentController : ComponentController
     {
         private RoomData _roomData;
         
@@ -18,12 +18,7 @@ namespace Core.Game.Chunk.Room
         
         private RoomNodes _roomNodes;
         
-        public IArchitecture GetArchitecture()
-        {
-            return GameMain.Interface;
-        }
-        
-        public void InitRoomComponent()
+        public override void InitOwnedComponents()
         {
             if (_roomPointerChecker == null)
             {

@@ -13,42 +13,29 @@ namespace Core.Game.Chunk.Universe
     /// 用于集中管理宇宙中所有的世界
     /// 宇宙只负责管理世界
     /// </summary>
-    public class UniverseComponentController : MonoSingleton<UniverseComponentController>,IController
+    public class UniverseComponentController : ComponentController
     {
         private UniverseManager _universeManager;
         
         private UniverseDataModel _universeDataModel;
-        
-        public IArchitecture GetArchitecture()
+
+        public override void InitOwnedComponents()
         {
-            return GameMain.Interface;
+            _universeManager = this.GetSystem<UniverseManager>();
+            _universeDataModel = this.GetModel<UniverseDataModel>();
+
+            base.InitOwnedComponents();
+            _universeManager.SetInitialWorld();
         }
 
-        private void Start()
+        protected override void RegisterEvents()
         {
-            InitUniverseComponent();
-        }
-
-        public void InitUniverseComponent()
-        {
-            this._universeManager = this.GetSystem<UniverseManager>();
-            this._universeDataModel = this.GetModel<UniverseDataModel>();
-            this.RegisterEvents();
-            
-            this._universeManager.SetInitialWorld();
-        }
-        
-        private void RegisterEvents()
-        {
+            base.RegisterEvents();
             this.RegisterEvent<SOnChangeWorldEvent>((data) =>
             {
                 
             });
         }
         
-        private void TryChangeWorld(SOnChangeWorldEvent eventData)
-        {
-            
-        }
     }
 }

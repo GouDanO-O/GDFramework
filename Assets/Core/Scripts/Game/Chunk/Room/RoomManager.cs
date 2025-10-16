@@ -7,49 +7,23 @@ namespace Core.Game.Chunk.Room
     /// <summary>
     /// 有且仅能同时显示一个房间
     /// </summary>
-    public class RoomManager : AbstractSystem
+    public class RoomManager : ChunkManager
     {
         private RoomComponentController _roomComponentController;
-
-        public IArchitecture GetArchitecture()
-        {
-            return GameMain.Interface;
-        }
-
-        protected override void OnInit()
-        {
-            
-        }
-
-        public void InitRoom(RegionData curRegionData)
-        {
-            RegistEvent();
-            InitRoomComponent();
-            InitRoomData(curRegionData);
-            LoadCurRoomNodeData();
-        }
         
-        private void RegistEvent()
+        protected override void InitManager()
         {
-
+            base.InitManager();
         }
 
-        private void InitRoomComponent()
+        protected override void InitChunkData()
         {
-            if (_roomComponentController == null)
-            {
-                
-            }
+            base.InitChunkData();
         }
 
-        private void InitRoomData(RegionData curRegionData)
+        protected override void InitComponent()
         {
-
-        }
-
-        private void InitNodeData()
-        {
-            
+            base.InitComponent();
         }
         
         #region 房间管理

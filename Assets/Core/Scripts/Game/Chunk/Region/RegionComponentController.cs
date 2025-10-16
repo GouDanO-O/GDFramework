@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Core.Game.Chunk.Region
 {
-    public class RegionComponentController : MonoBehaviour,IController
+    public class RegionComponentController : ComponentController
     {
         private RegionData _curRegionData;
         
-        public IArchitecture GetArchitecture()
+        public override void InitOwnedComponents()
         {
-            return GameMain.Interface;
+            
         }
     }
 }

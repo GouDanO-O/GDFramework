@@ -5,29 +5,28 @@ using GDFrameworkCore;
 using Core.Game.Chunk.World.Data;
 namespace Core.Game.Chunk.World
 {
-    public class WorldManager : AbstractSystem
+    public class WorldManager : ChunkManager
     {
         private RegionManager _regionManager;
-        
-        public IArchitecture GetArchitecture()
-        {
-            return GameMain.Interface;
-        }
 
         protected override void OnInit()
         {
-            InitWorldData();
-            InitWorldComponent();
-        }
-
-        private void InitWorldData()
-        {
 
         }
 
-        private void InitWorldComponent()
+        protected override void InitManager()
         {
-            
+            base.InitManager();
+        }
+
+        protected override void InitChunkData()
+        {
+            base.InitChunkData();
+        }
+
+        protected override void InitComponent()
+        {
+            base.InitComponent();
         }
 
         #region 世界管理

@@ -4,13 +4,13 @@ using UnityEngine;
 
 namespace Core.Game.Chunk.World
 {
-    public class WorldComponentController : MonoBehaviour,IController
+    public class WorldComponentController : ComponentController
     {
         private WorldData _curWorldData;
-        
-        public IArchitecture GetArchitecture()
+
+        public override void InitOwnedComponents()
         {
-            return GameMain.Interface;
+            throw new System.NotImplementedException();
         }
     }
 }
