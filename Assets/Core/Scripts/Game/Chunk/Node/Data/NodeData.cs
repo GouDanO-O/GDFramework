@@ -28,8 +28,6 @@ namespace Core.Game.Chunk.Node.Data
     [LabelText("节点数据")]
     public class NodeData : ChunkData
     {
-        public string UniqueId { get; set; }     
-
         [LabelText("当前节点的固定数据")]
         private NodeDto nodeDto;
 

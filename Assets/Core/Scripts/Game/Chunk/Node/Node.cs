@@ -79,22 +79,7 @@ namespace Core.Game.Chunk.Node
 
         private void UpdateVisualState(ENodeState state)
         {
-            switch (state)
-            {
-                case ENodeState.Hidden:
-                    HideThisNode();
-                    break;
-                case ENodeState.Locked:
-                    ShowThisNode();
-                    // 可以添加锁定状态的视觉效果
-                    break;
-                case ENodeState.Triggerable:
-                    ShowThisNode();
-                    break;
-                case ENodeState.Triggered:
 
-                    break;
-            }
         }
 
         public void OnRecycled()

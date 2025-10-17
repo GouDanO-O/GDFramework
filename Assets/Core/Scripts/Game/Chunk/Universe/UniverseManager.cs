@@ -53,11 +53,6 @@ namespace Core.Game.Chunk.Universe
             _universeData.ChangeWorld(willChangeWorld, lastWorld);
         }
 
-        private void SaveWorld()
-        {
-            
-        }
-
         #endregion
     }
 }
