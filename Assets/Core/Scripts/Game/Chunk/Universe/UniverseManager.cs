@@ -7,7 +7,7 @@ using GDFrameworkExtend.SingletonKit;
 namespace Core.Game.Chunk.Universe
 {
     /// <summary>
-    /// 宇宙管理器
+    /// 宇宙管理器---专注于游戏
     /// 一个宇宙里面会有多个世界
     /// </summary>
     public class UniverseManager : ChunkManager

@@ -65,13 +65,16 @@ namespace GDFrameworkExtend.UIKit
 		{
 			State = PanelState.Opening;
 			OnOpen(uiData);
+			OpenAni();
 		}
 
 		public override void Hide()
 		{
 			State = PanelState.Hide;
+			HideAni();
 			base.Hide();
 		}
+		
 
 
 		protected virtual void OnInit(IUIData uiData = null)
@@ -94,7 +97,23 @@ namespace GDFrameworkExtend.UIKit
 
 		protected virtual void OnOpen(IUIData uiData = null)
 		{
+			
+		}
 
+		/// <summary>
+		/// 打开时的动画
+		/// </summary>
+		protected virtual void OpenAni()
+		{
+			
+		}
+		
+		/// <summary>
+		/// 关闭动画
+		/// </summary>
+		protected virtual void HideAni()
+		{
+			
 		}
 
 		/// <summary>

@@ -7,6 +7,7 @@ namespace Core.Game.View
 	public class UI_ChunkEditorPanelData : UIPanelData
 	{
 	}
+	
 	public partial class UI_ChunkEditorPanel : UIPanel
 	{
 		protected Transform HeaderRoot;
@@ -56,5 +57,7 @@ namespace Core.Game.View
 		{
 			this.CloseSelf();
 		}
+
+
 	}
 }
