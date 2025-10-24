@@ -1,35 +1,11 @@
-﻿using UnityEngine.EventSystems;
+﻿using Core.Game.Chunk.Components;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Core.Game.Chunk.Room.Components
 {
-    public class RoomScroll : ScrollRect
+    public class RoomScroll : ChunkScroll
     {
-        public override void OnBeginDrag(PointerEventData eventData)
-        {
-            if (eventData.button == PointerEventData.InputButton.Middle)
-            {
-                eventData.button = PointerEventData.InputButton.Left;
-                base.OnBeginDrag(eventData);
-            }
-        }
 
-        public override void OnDrag(PointerEventData eventData)
-        {
-            if (eventData.button == PointerEventData.InputButton.Middle)
-            {
-                eventData.button = PointerEventData.InputButton.Left;
-                base.OnDrag(eventData);
-            }
-        }
-
-        public override void OnEndDrag(PointerEventData eventData)
-        {
-            if (eventData.button == PointerEventData.InputButton.Middle)
-            {
-                eventData.button = PointerEventData.InputButton.Left;
-                base.OnEndDrag(eventData);
-            }
-        }
     }
 }

@@ -107,6 +107,27 @@ namespace GDFramework.Utility
             });
             resLoader.LoadAsync();
         }
+        
+        /// <summary>
+        /// 加载预制体
+        /// </summary>
+        /// <param name="name"></param>
+        public async UniTask<GameObject> LoadPrefabAsync(string name)
+        {
+            var completionSource = new UniTaskCompletionSource<GameObject>();
+    
+            resLoader.Add2Load(name, (succeed, res) =>
+            {
+                if (succeed)
+                    completionSource.TrySetResult(res.Asset.As<GameObject>());
+                else
+                    completionSource.TrySetException(new System.Exception($"加载预制体失败: {name}"));
+            });
+    
+            resLoader.LoadAsync();
+    
+            return await completionSource.Task;
+        }
 
         /// <summary>
         /// 加载ScriptableObject

@@ -1,9 +1,13 @@
 ﻿using System;
 using Core.Game.Chunk.Event;
+using Core.Game.Chunk.Universe.Components;
 using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World;
+using Core.Game.View;
 using GDFrameworkCore;
 using GDFrameworkExtend.SingletonKit;
+using GDFrameworkExtend.UIKit;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Core.Game.Chunk.Universe
@@ -18,7 +22,13 @@ namespace Core.Game.Chunk.Universe
         private UniverseManager _universeManager;
         
         private UniverseDataModel _universeDataModel;
-
+        
+        private UniverseZoom _universeZoom;
+        
+        private UniversePointerChecker _universePointerChecker;
+        
+        private UI_UniversePanel _universePanel;
+        
         public override void InitOwnedComponents()
         {
             _universeManager = this.GetSystem<UniverseManager>();
@@ -26,6 +36,25 @@ namespace Core.Game.Chunk.Universe
 
             base.InitOwnedComponents();
             _universeManager.SetInitialWorld();
+        }
+
+        protected override void OpenChunkPanel()
+        {
+            base.OpenChunkPanel();
+            if (_universePanel == null)
+            {
+                _universePanel = UIKit.OpenPanel<UI_UniversePanel>();
+            }
+            
+            if (_universePointerChecker == null)
+            {
+                _universePointerChecker = _universePanel.AddComponent<UniversePointerChecker>();
+            }
+            
+            if (_universeZoom == null)
+            {
+                _universeZoom = _universePanel.AddComponent<UniverseZoom>();
+            }
         }
 
         protected override void RegisterEvents()
@@ -36,6 +65,5 @@ namespace Core.Game.Chunk.Universe
                 
             });
         }
-        
     }
 }

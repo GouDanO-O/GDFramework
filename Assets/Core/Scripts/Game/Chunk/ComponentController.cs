@@ -13,9 +13,26 @@ namespace Core.Game.Chunk
         public virtual void InitOwnedComponents()
         {
             RegisterEvents();
+            CheckOwnedComponents();
+            OpenChunkPanel();
+        }
+
+        protected virtual void CheckOwnedComponents()
+        {
+            
         }
 
         protected virtual void RegisterEvents()
+        {
+            
+        }
+
+        protected virtual void OpenChunkPanel()
+        {
+            
+        }
+
+        protected virtual void CloseChunkPanel()
         {
             
         }

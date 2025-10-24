@@ -150,8 +150,8 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Core/Res/Prefabs/Player.prefab
-        CollectorGUID: f9cc9204647b4a941ad12c3c6e556f33
+      - CollectPath: Assets/Core/Res/Prefabs/UniverseController.prefab
+        CollectorGUID: 8346cc0e1df4a8b4587ec54f045d72a2
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

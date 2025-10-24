@@ -23,7 +23,7 @@ namespace Core.Game.Chunk.Room
             if (_roomPointerChecker == null)
             {
                 _roomPointerChecker = this.AddComponent<RoomPointerChecker>();
-                _roomPointerChecker.InitRoomPointChecker(this);
+                _roomPointerChecker.InitPointChecker(this);
             }
 
             if (_roomNodes == null)
@@ -54,7 +54,7 @@ namespace Core.Game.Chunk.Room
         /// <returns></returns>
         public bool IsInRoomArea()
         {
-            return _roomPointerChecker.IsInRoomArea();
+            return _roomPointerChecker.IsInChunkArea;
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Core.Game.Chunk.Room
         /// <returns></returns>
         public bool IsPressMouseMiddle()
         {
-            return _roomPointerChecker.IsPressMouseMiddle();
+            return _roomPointerChecker.IsPressMouseMiddle;
         }
 
         #endregion

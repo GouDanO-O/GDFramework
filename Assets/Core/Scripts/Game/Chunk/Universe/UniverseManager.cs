@@ -1,8 +1,10 @@
 ﻿using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World;
 using Core.Game.Chunk.World.Data;
+using Cysharp.Threading.Tasks;
+using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFrameworkExtend.SingletonKit;
+using UnityEngine;
 
 namespace Core.Game.Chunk.Universe
 {
@@ -15,6 +17,16 @@ namespace Core.Game.Chunk.Universe
         private UniverseDataModel _universeData;
         
         private WorldManager _worldManager;
+        
+        private UniverseComponentController _universeComponentController;
+
+        protected override string ComponentControllerPath
+        {
+            get
+            {
+                return GDFramework.FrameData.DefaultPackage.Prefabs.UniverseControllerAssetGroup.UniverseController;
+            }
+        }
 
         protected override void InitManager()
         {
@@ -31,7 +43,34 @@ namespace Core.Game.Chunk.Universe
         {
             base.InitComponent();
         }
+
+        protected override async void SpawnComponentController()
+        {
+            try
+            {
+                GameObject prefab = await this.GetUtility<ResourcesUtility>().LoadPrefabAsync(
+                    ComponentControllerPath);
+
+                if (_universeComponentController == null)
+                {
+                    this._universeComponentController = 
+                        Object.Instantiate(prefab).GetComponent<UniverseComponentController>();
+                    this._universeComponentController.InitOwnedComponents();
+                    await OnUniverseControllerCreated();
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"生成UniverseComponentController失败: {e.Message}");
+            }
+        }
         
+        protected override async UniTask OnUniverseControllerCreated()
+        { 
+            await base.OnUniverseControllerCreated();
+            
+        }
+
         #region 宇宙管理
         
         /// <summary>

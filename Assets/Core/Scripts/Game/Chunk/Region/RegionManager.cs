@@ -18,6 +18,14 @@ namespace Core.Game.Chunk.Region
     public class RegionManager : ChunkManager
     {
         private RoomManager _roomManager;
+        
+        protected override string ComponentControllerPath
+        {
+            get
+            {
+                return GDFramework.FrameData.DefaultPackage.Prefabs.UniverseControllerAssetGroup.UniverseController;
+            }
+        }
 
         protected override void OnInit()
         {
@@ -37,6 +45,11 @@ namespace Core.Game.Chunk.Region
         protected override void InitComponent()
         {
             base.InitComponent();
+        }
+        
+        protected override void SpawnComponentController()
+        {
+            
         }
 
         #region 区块管理

@@ -10,29 +10,29 @@ namespace GDFramework.FrameData
 
         public struct MusicIDs
         {
-            public const int DUNGEON_01 = 1000;
-            public const int DUNGEON_02 = 1001;
+            public const int DUNGEON_01 = 10000000;
+            public const int DUNGEON_02 = 10000001;
         }
 
         public struct PrefabsIDs
         {
-            public const int PLAYER = 2000;
+            public const int UNIVERSECONTROLLER = 20000000;
         }
 
         // ID到资源地址的映射
         public static readonly Dictionary<int, string> IDToAssetPath = new Dictionary<int, string>
         {
-            {1000, "yoo:Dungeon_01"},
-            {1001, "yoo:Dungeon_02"},
-            {2000, "yoo:Player"},
+            {10000000, "yoo:Dungeon_01"},
+            {10000001, "yoo:Dungeon_02"},
+            {20000000, "yoo:UniverseController"},
         };
 
         // 资源地址到ID的映射
         public static readonly Dictionary<string, int> AssetPathToID = new Dictionary<string, int>
         {
-            {"yoo:Dungeon_01", 1000},
-            {"yoo:Dungeon_02", 1001},
-            {"yoo:Player", 2000},
+            {"yoo:Dungeon_01", 10000000},
+            {"yoo:Dungeon_02", 10000001},
+            {"yoo:UniverseController", 20000000},
         };
 
         /// <summary>

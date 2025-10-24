@@ -11,6 +11,14 @@ namespace Core.Game.Chunk.Room
     {
         private RoomComponentController _roomComponentController;
         
+        protected override string ComponentControllerPath
+        {
+            get
+            {
+                return GDFramework.FrameData.DefaultPackage.Prefabs.UniverseControllerAssetGroup.UniverseController;
+            }
+        }
+        
         protected override void InitManager()
         {
             base.InitManager();
@@ -24,6 +32,11 @@ namespace Core.Game.Chunk.Room
         protected override void InitComponent()
         {
             base.InitComponent();
+        }
+        
+        protected override void SpawnComponentController()
+        {
+            
         }
         
         #region 房间管理

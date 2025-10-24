@@ -8,6 +8,14 @@ namespace Core.Game.Chunk.World
     public class WorldManager : ChunkManager
     {
         private RegionManager _regionManager;
+        
+        protected override string ComponentControllerPath
+        {
+            get
+            {
+                return GDFramework.FrameData.DefaultPackage.Prefabs.UniverseControllerAssetGroup.UniverseController;
+            }
+        }
 
         protected override void OnInit()
         {
@@ -27,6 +35,11 @@ namespace Core.Game.Chunk.World
         protected override void InitComponent()
         {
             base.InitComponent();
+        }
+        
+        protected override void SpawnComponentController()
+        {
+            
         }
 
         #region 世界管理
