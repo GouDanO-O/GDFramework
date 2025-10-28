@@ -6,10 +6,7 @@ namespace Core.Game.Chunk.Tile.Substance
     [Serializable]
     public class TileSubstance
     {
-        [LabelText("堆叠数量")]
-        public int stackCount;
-
-        [LabelText("物体ID")]
-        public string tileSubstanceId;
+        [LabelText("物品实例ID")]
+        public string tileSubstanceInstanceId;
     }
 }

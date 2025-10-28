@@ -10,7 +10,7 @@ namespace Core.Game.Chunk.Stronghold.Data
         [LabelText("副本数据")]
         private StrongholdDto strongholdDto;
 
-        private StrongholdDtoTemporary strongholdDtoTemporary;
+        private StrongholdTemporaryData strongholdTemporaryData;
         
         [LabelText("当前副本持有的房间数据")]
         private Dictionary<string,RoomData> _curHoldingRoomDtoDict = new Dictionary<string, RoomData>();

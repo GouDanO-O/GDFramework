@@ -12,30 +12,67 @@ namespace Core.Game.Chunk.World.Data
     public class WorldData : ChunkData
     {
         [LabelText("当前世界的固定数据")]
-        private WorldDto _worldDto;
+        public WorldDtoDef WorldDef => DtoDef as WorldDtoDef;
         
         [LabelText("当前世界的临时数据")]
-        private WorldDtoTemporary _worldDtoTemporary;
+        public WorldTemporaryData WorldTempData => TemporaryData as WorldTemporaryData;
         
         [LabelText("当前世界的区块数据")]
         private Dictionary<string, RegionData> _curHoldingRegionDtoDict = new Dictionary<string, RegionData>();
-
-        public override void InitDto(IChunkDto chunkDto)
+        
+        protected override IChunkTemporaryData CreateTemporaryData(string defId)
         {
-            if (chunkDto is WorldDto)
+            return new WorldTemporaryData 
+            { 
+                DefId = defId,
+                RegionInstanceIds = new List<string>(),
+                IsActive = false
+            };
+        }
+        
+        protected override void LoadTemporaryData(string instanceId)
+        {
+            if (ES3.KeyExists(instanceId))
             {
-                this._worldDto = (WorldDto)chunkDto;
+                TemporaryData = ES3.Load<WorldTemporaryData>(instanceId);
+                OnTemporaryDataLoaded(TemporaryData);
             }
         }
 
-        public override void InitTemporaryData(ITemporaryData temporaryData)
+        public void AddRegion(string regionInstanceId)
         {
-            
+            if (!WorldTempData.RegionInstanceIds.Contains(regionInstanceId))
+            {
+                WorldTempData.RegionInstanceIds.Add(regionInstanceId);
+                SaveTemporaryData();
+            }
         }
 
-        public override void SaveTemporaryData()
+        public void RemoveRegion(string regionInstanceId)
         {
-            
+            if (WorldTempData.RegionInstanceIds.Contains(regionInstanceId))
+            {
+                WorldTempData.RegionInstanceIds.Remove(regionInstanceId);
+                SaveTemporaryData();
+            }
+        }
+
+        public void SetCurrentRegion(string regionInstanceId)
+        {
+            WorldTempData.CurrentRegionInstanceId = regionInstanceId;
+            SaveTemporaryData();
+        }
+
+        public void Activate()
+        {
+            WorldTempData.IsActive = true;
+            SaveTemporaryData();
+        }
+
+        public void Deactivate()
+        {
+            WorldTempData.IsActive = false;
+            SaveTemporaryData();
         }
     }
 }

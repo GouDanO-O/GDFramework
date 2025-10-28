@@ -13,6 +13,6 @@ namespace Core.Game.Chunk.Substance.Data
         public SubstanceDto SubstanceDto;
 
         [LabelText("物体临时数据")]
-        public SubstanceDtoTemporary SubstanceDtoTemporary;
+        public SubstanceTemporaryData SubstanceTemporaryData;
     }
 }

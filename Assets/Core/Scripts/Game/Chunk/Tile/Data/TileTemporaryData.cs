@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 namespace Core.Game.Chunk.Tile
 {
     [Serializable]
-    public class TileDtoTemporary : ChunkDtoTemporary
+    public class TileTemporaryData : ChunkTemporaryData
     {
         [LabelText("当前瓦片上放置的物体->存档")]
         public List<string> curTilePlacedNodeIdList = new List<string>();

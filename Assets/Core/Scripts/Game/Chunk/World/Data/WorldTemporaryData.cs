@@ -1,43 +1,47 @@
 ﻿using System;
+using System.Collections.Generic;
 using Core.Game.Chunk.Data;
 using Sirenix.OdinInspector;
 
 namespace Core.Game.Chunk.World.Data
 {
     [Serializable]
-    public class WorldDtoTemporary : ChunkDtoTemporary
+    public class WorldTemporaryData : ChunkTemporaryData
     {
         /// <summary>
         /// 当前的年数
         /// </summary>
         [LabelText("当前的年数")]
-        public int curWorldYearTime;
+        public int CurWorldYearTime;
         
         /// <summary>
         /// 当前的天数
         /// </summary>
         [LabelText("当前的天数")]
-        public int curWorldDayTime;
+        public int CurWorldDayTime;
 
         /// <summary>
         /// 当前的小时数
         /// </summary>
         [LabelText("当前的小时数")]
-        public int curWorldHourTime;
+        public int CurWorldHourTime;
 
         /// <summary>
         /// 当前的分钟数
         /// </summary>
         [LabelText("当前的分钟数")]
-        public int curWorldMinutesTime;
+        public int CurWorldMinutesTime;
         
-        [LabelText("当前玩家是否所处这个世界")]
-        public bool playerIsLocateThisWorld;
+        [LabelText("是否被激活")]
+        public bool IsActive;
 
         /// <summary>
         /// 当前玩家所处的区块ID
         /// </summary>
         [LabelText("当前玩家所处的区块ID")]
-        public string curPlayerLocateAreaBlockId;
+        public string CurrentRegionInstanceId;
+        
+        
+        public List<string> RegionInstanceIds = new List<string>();
     }
 }

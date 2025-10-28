@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.Game.Chunk.Data;
+using Core.Game.Chunk.Data.Interface;
 
 namespace Core.Game.Chunk.Substance.Data
 {
@@ -8,7 +9,7 @@ namespace Core.Game.Chunk.Substance.Data
     {
         public SubstanceDtoDef substanceDtoDef;
         
-        public override ChunkDtoDef CreateRuntimeDef()
+        public override IChunkDtoDef CreateRuntimeDef()
         {
             return substanceDtoDef.Clone();
         }

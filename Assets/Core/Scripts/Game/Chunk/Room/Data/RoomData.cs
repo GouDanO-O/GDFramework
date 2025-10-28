@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Tile;
+using GDFrameworkExtend.Data;
 using Sirenix.OdinInspector;
 
 namespace Core.Game.Chunk.Room.Data
@@ -16,11 +17,7 @@ namespace Core.Game.Chunk.Room.Data
         private RoomDto _roomDto;
 
         [LabelText("当前房间的临时数据")]
-        private RoomDtoTemporary _roomDtoTemporary;
-        
-        [LabelText("当前房间所持有的格子数据")]
-        private Dictionary<string,TileData> _curHoldingNodeDtoDict = new Dictionary<string, TileData>();
-
+        private RoomTemporaryData roomTemporaryData;
         
     }
 }

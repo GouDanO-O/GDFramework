@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Core.Game.Chunk.Data;
+using Core.Game.Chunk.Data.Interface;
 using Core.Game.Chunk.World;
 using Core.Game.Chunk.World.Data;
 using GDFrameworkCore;
@@ -9,77 +10,54 @@ namespace Core.Game.Chunk.Universe.Data
 {
     public class UniverseDataModel : ChunkDataModel
     {
-        [LabelText("当前宇宙固定数据")]
-        private UniverseDto _universeDto;
-        
-        [LabelText("当前宇宙临时数据")]
-        private UniverseDtoTemporary _universeDtoTemporary;
+        private UniverseDataManager _universeDataManager;
 
-        public UniverseDto UniverseDto
+        protected override IChunkDataManager CreateDataManager()
         {
-            get { return _universeDto; }
+            _universeDataManager = new UniverseDataManager();
+            return _universeDataManager;
         }
 
-        public UniverseDtoTemporary UniverseDtoTemporary
+        protected override void InitializeDataManager()
         {
-            get { return _universeDtoTemporary; }
-        }
-        
-        private UniverseDataUtility _universeDataUtility;
-        
-        /// <summary>
-        /// 上一次离开的世界数据
-        /// </summary>
-        private WorldData _lastWorldData;
-        
-        /// <summary>
-        /// 当前焦点世界数据
-        /// </summary>
-        private WorldData _curFocusWorldData;
-        
-        /// <summary>
-        /// 当前宇宙所拥有的所有世界数据
-        /// </summary>
-        private List<WorldData> _universeWorldDataList = new List<WorldData>();
-        
-        private Dictionary<string,WorldData>  _universeWorldDataDict = new Dictionary<string,WorldData>();
-
-        public Dictionary<string, WorldData> UniverseWorldDataDict
-        {
-            get { return _universeWorldDataDict; }
-        }
-
-        protected override void OnInit()
-        {
-            base.OnInit();
-            this._universeDataUtility = this.GetUtility<UniverseDataUtility>();
-        }
-
-        /// <summary>
-        /// 改变世界
-        /// </summary>
-        /// <param name="willChangeWorld"></param>
-        /// <param name="lastWorld"></param>
-        public void ChangeWorld(WorldData willChangeWorld, WorldData lastWorld)
-        {
-            if (_universeDataUtility.VerifyCanChangeWorld(willChangeWorld))
-            {
-                
-            }
+            // 注册类型工厂
+            _universeDataManager.RegisterTypeFactory<UniverseData>(() => new UniverseData());
             
+            // 加载配置
+            LoadAllDefs();
+        }
+
+        protected override void LoadAllDefs()
+        {
+            // TODO: 从JSON加载所有宇宙配置
+            // 示例:
+            // var universeDefs = LoadUniverseDefsFromJson();
+            // DataManager.RegisterDefs(universeDefs);
         }
 
         /// <summary>
-        /// 获取当前的焦点世界
+        /// 创建新宇宙实例
         /// </summary>
-        /// <returns></returns>
-        public WorldData GetCurFocusWorld()
+        public UniverseData CreateUniverse(string defId)
         {
-            if (this._curFocusWorldData == null)
-            {
-                this._curFocusWorldData = _universeDataUtility.GetLastFocusWorld();
-            }
-            return this._curFocusWorldData;
+            return _universeDataManager.CreateInstance<UniverseData>(defId);
+        }
+
+        /// <summary>
+        /// 加载宇宙实例
+        /// </summary>
+        public UniverseData LoadUniverse(string instanceId)
+        {
+            return _universeDataManager.LoadInstance<UniverseData>(instanceId);
+        }
+
+        /// <summary>
+        /// 获取当前激活的宇宙
+        /// </summary>
+        public UniverseData GetActiveUniverse()
+        {
+
+            return null;
         }
     }
 }

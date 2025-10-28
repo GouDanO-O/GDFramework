@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 namespace Core.Game.Chunk.Region.Data
 {
     [Serializable,JsonObject]
-    public class RegionDtoTemporary  : ChunkDtoTemporary
+    public class RegionTemporaryData  : ChunkTemporaryData
     {
         [LabelText("是否已经解锁")]
         public bool isUnlocked;

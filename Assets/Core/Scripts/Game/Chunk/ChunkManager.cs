@@ -8,11 +8,8 @@ namespace Core.Game.Chunk
         /// <summary>
         /// 控制器预制体的AB路径
         /// </summary>
-        protected abstract string ComponentControllerPath
-        {
-            get;
-        }
-        
+        protected abstract string ComponentControllerPath { get; }
+
         protected override void OnInit()
         {
             
@@ -21,10 +18,10 @@ namespace Core.Game.Chunk
         /// <summary>
         /// 初始化管理器
         /// </summary>
-        protected virtual void InitManager()
+        public void InitManager()
         {
             RegisterEvents();
-            InitChunkData();
+            InitChunkDataModel();
             InitComponent();
         }
 
@@ -37,12 +34,9 @@ namespace Core.Game.Chunk
         }
 
         /// <summary>
-        /// 初始化区块数据
+        /// 初始化数据模型(从Model层获取数据)
         /// </summary>
-        protected virtual void InitChunkData()
-        {
-            
-        }
+        protected abstract void InitChunkDataModel();
 
         /// <summary>
         /// 初始化组件
@@ -58,11 +52,24 @@ namespace Core.Game.Chunk
         protected abstract void SpawnComponentController();
 
         /// <summary>
-        /// 组件控制器创建成功后
+        /// 组件控制器创建成功后的回调
         /// </summary>
-        protected virtual async UniTask OnUniverseControllerCreated()
+        protected virtual async UniTask OnComponentControllerCreated()
         {
             await UniTask.NextFrame();
+        }
+
+        /// <summary>
+        /// 保存所有数据
+        /// </summary>
+        public abstract void SaveAllData();
+
+        /// <summary>
+        /// 清理资源
+        /// </summary>
+        protected virtual void Cleanup()
+        {
+            
         }
     }
 }

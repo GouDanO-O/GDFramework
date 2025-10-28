@@ -5,17 +5,10 @@ using Sirenix.OdinInspector;
 namespace Core.Game.Chunk.Tile.Decoration
 {
     [Serializable]
-    public class TileDecoration : ChunkDtoDef
+    public class TileDecoration 
     {
-        [LabelText("装饰图贴图ID")]
+        [LabelText("装饰物ID")]
         public string decorationId;
         
-        [LabelText("渲染优先级")]
-        public int renderPriority;
-
-        protected override string GetTypePrefix()
-        {
-            return "TileDecoration";
-        }
     }
 }

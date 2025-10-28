@@ -17,54 +17,21 @@ namespace Core.Game.Chunk.Region
     /// </summary>
     public class RegionManager : ChunkManager
     {
-        private RoomManager _roomManager;
-        
-        protected override string ComponentControllerPath
-        {
-            get
-            {
-                return GDFramework.FrameData.DefaultPackage.Prefabs.UniverseControllerAssetGroup.UniverseController;
-            }
-        }
-
-        protected override void OnInit()
+        protected override string ComponentControllerPath { get; }
+        protected override void InitChunkDataModel()
         {
             
         }
-        
-        protected override void InitManager()
-        {
-            base.InitManager();
-        }
 
-        protected override void InitChunkData()
-        {
-            base.InitChunkData();
-        }
-
-        protected override void InitComponent()
-        {
-            base.InitComponent();
-        }
-        
         protected override void SpawnComponentController()
         {
             
         }
 
-        #region 区块管理
-
-        /// <summary>
-        /// 设置登录进来的焦点区块里面的房间
-        /// </summary>
-        public void SetFocusRoom()
+        public override void SaveAllData()
         {
-            this._roomManager = this.GetSystem<RoomManager>();
-            this._roomManager.SetFocusNodes();
+            
         }
-
-        #endregion
-        
 
     }
 }

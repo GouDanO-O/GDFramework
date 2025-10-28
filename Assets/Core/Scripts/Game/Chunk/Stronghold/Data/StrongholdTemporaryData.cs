@@ -2,7 +2,7 @@
 
 namespace Core.Game.Chunk.Stronghold.Data
 {
-    public class StrongholdDtoTemporary : ChunkDtoTemporary
+    public class StrongholdTemporaryData : ChunkTemporaryData
     {
         
     }

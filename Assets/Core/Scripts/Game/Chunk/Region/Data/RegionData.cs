@@ -13,7 +13,7 @@ namespace Core.Game.Chunk.Region.Data
         private RegionDto _regionDto;
 
         [LabelText("当前区块的临时数据")]
-        private RegionDtoTemporary _regionDtoTemporary;
+        private RegionTemporaryData regionTemporaryData;
         
         [LabelText("当前区块持有的副本数据")]
         private Dictionary<string,StrongholdData> _curHoldingStrongholdDtoDict = new Dictionary<string, StrongholdData>();

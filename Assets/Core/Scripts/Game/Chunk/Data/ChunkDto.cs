@@ -10,55 +10,49 @@ namespace Core.Game.Chunk.Data
     public abstract class ChunkDto : IChunkDto
     {
         /// <summary>
-        /// 玩家初始DTO
+        /// 玩家初始定位Chunk
         /// </summary>
-        protected ChunkDto InitialPlayerLocateChunk;
+        [LabelText("玩家初始位置")]
+        protected IChunkDto InitialPlayerLocateChunk;
         
         /// <summary>
         /// 初始展示Dto列表
         /// </summary>
-        protected List<ChunkDto> InitialShowingDtoReferenceList = new List<ChunkDto>();
+        [LabelText("初始展示列表")]
+        protected List<IChunkDto> InitialShowingDtoReferenceList = new List<IChunkDto>();
         
         /// <summary>
-        /// Dto列表
+        /// Dto引用列表
         /// </summary>
-        protected List<ChunkDto> DtoReferenceList = new List<ChunkDto>();
+        [LabelText("Dto引用列表")]
+        protected List<IChunkDto> DtoReferenceList = new List<IChunkDto>();
         
         /// <summary>
         /// 当数据改变时
         /// </summary>
-        protected virtual void ChangingDtoData()
+        protected virtual void OnDtoDataChanged()
         {
             
         }
 
         #region DTO管理
 
-        public virtual void SetInitialPlayerLocateChunk(ChunkDto dto)
+        public virtual void SetInitialPlayerLocateChunk(IChunkDto dto)
         {
             InitialPlayerLocateChunk = dto;
             UpdateDtoDef();
         }
         
-        /// <summary>
-        /// 添加初始展示DTO
-        /// </summary>
-        /// <param name="dtoReference"></param>
-        public virtual void AddInitialShowingDtoReference(ChunkDto dtoReference)
+        public virtual void AddInitialShowingDtoReference(IChunkDto dtoReference)
         {
-            if (InitialShowingDtoReferenceList.Contains(dtoReference) == false)
+            if (!InitialShowingDtoReferenceList.Contains(dtoReference))
             {
                 InitialShowingDtoReferenceList.Add(dtoReference);
                 UpdateDtoDef();
             }
-
         }
 
-        /// <summary>
-        /// 移除初始展示DTO
-        /// </summary>
-        /// <param name="dtoReference"></param>
-        public virtual void RemoveInitialShowingDtoReference(ChunkDto dtoReference)
+        public virtual void RemoveInitialShowingDtoReference(IChunkDto dtoReference)
         {
             if (InitialShowingDtoReferenceList.Contains(dtoReference))
             {
@@ -67,34 +61,22 @@ namespace Core.Game.Chunk.Data
             }
         }
 
-        /// <summary>
-        /// 清空初始展示DTO
-        /// </summary>
         public virtual void ClearInitialShowingDtoReference()
         {
             InitialShowingDtoReferenceList.Clear();
             UpdateDtoDef();
         }
         
-        /// <summary>
-        /// 添加所拥有的DTO
-        /// </summary>
-        /// <param name="dtoReference"></param>
-        public virtual void AddDtoReference(ChunkDto dtoReference)
+        public virtual void AddDtoReference(IChunkDto dtoReference)
         {
-            if (DtoReferenceList.Contains(dtoReference) == false)
+            if (!DtoReferenceList.Contains(dtoReference))
             {
                 DtoReferenceList.Add(dtoReference);
                 UpdateDtoDef();
             }
-            UpdateDtoDef();
         }
 
-        /// <summary>
-        /// 移除所拥有的DTO
-        /// </summary>
-        /// <param name="dtoReference"></param>
-        public virtual void RemoveDtoReference(ChunkDto dtoReference)
+        public virtual void RemoveDtoReference(IChunkDto dtoReference)
         {
             if (DtoReferenceList.Contains(dtoReference))
             {
@@ -103,28 +85,22 @@ namespace Core.Game.Chunk.Data
             }
         }
 
-        /// <summary>
-        /// 清空所拥有的DTO
-        /// </summary>
         public virtual void ClearDtoReference()
         {
             DtoReferenceList.Clear();
             UpdateDtoDef();
         }
         
-        /// <summary>
-        /// 更新DtoDef中的数据项
-        /// </summary>
-        public virtual void UpdateDtoDef()
+        protected virtual void UpdateDtoDef()
         {
-            
+            OnDtoDataChanged();
         }
 
         #endregion
         
         /// <summary>
-        /// 创建运行时数据实例(核心方法)
+        /// 创建运行时数据定义
         /// </summary>
-        public abstract ChunkDtoDef CreateRuntimeDef();
+        public abstract IChunkDtoDef CreateRuntimeDef();
     }
 }

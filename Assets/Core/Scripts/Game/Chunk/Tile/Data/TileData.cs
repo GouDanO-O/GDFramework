@@ -17,7 +17,7 @@ namespace Core.Game.Chunk.Tile
         private TileDto _tileDto;
         
         [LabelText("瓦片临时数据")]
-        private TileDtoTemporary _tileDtoTemporary;
+        private TileTemporaryData tileTemporaryData;
         
         [LabelText("瓦片上放置的物体(首先读取存档,如果没有,那么就取固定配置中的物体)")]
         private List<string> _tilePlacedNodeIdList = new List<string>();
@@ -27,7 +27,7 @@ namespace Core.Game.Chunk.Tile
 
         private void SetTileData()
         {
-            if (_tileDtoTemporary.curTilePlacedDecorationIdList.Count == 0)
+            if (tileTemporaryData.curTilePlacedDecorationIdList.Count == 0)
             {
                 for (int i = 0; i < _tileDto.tileDtoDef.decorationIdList.Count; i++)
                 {
@@ -36,13 +36,13 @@ namespace Core.Game.Chunk.Tile
             }
             else
             {
-                for (int i = 0; i < _tileDtoTemporary.curTilePlacedDecorationIdList.Count; i++)
+                for (int i = 0; i < tileTemporaryData.curTilePlacedDecorationIdList.Count; i++)
                 {
-                    _tilePlacedDecorationIdList.Add(_tileDtoTemporary.curTilePlacedDecorationIdList[i]);
+                    _tilePlacedDecorationIdList.Add(tileTemporaryData.curTilePlacedDecorationIdList[i]);
                 }
             }
             
-            if (_tileDtoTemporary.curTilePlacedDecorationIdList.Count == 0)
+            if (tileTemporaryData.curTilePlacedDecorationIdList.Count == 0)
             {
                 for (int i = 0; i < _tileDto.tileDtoDef.decorationIdList.Count; i++)
                 {
@@ -51,9 +51,9 @@ namespace Core.Game.Chunk.Tile
             }
             else
             {
-                for (int i = 0; i < _tileDtoTemporary.curTilePlacedDecorationIdList.Count; i++)
+                for (int i = 0; i < tileTemporaryData.curTilePlacedDecorationIdList.Count; i++)
                 {
-                    _tilePlacedNodeIdList.Add(_tileDtoTemporary.curTilePlacedDecorationIdList[i]);
+                    _tilePlacedNodeIdList.Add(tileTemporaryData.curTilePlacedDecorationIdList[i]);
                 }
             }
         }

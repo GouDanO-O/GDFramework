@@ -31,8 +31,6 @@ namespace Core.Game
         protected override void Register_Utility()
         {
             base.Register_Utility();
-            
-            this.RegisterUtility(new UniverseDataUtility());
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Game.Chunk.Data;
+using Core.Game.Chunk.Data.Interface;
 using Core.Game.Chunk.Region;
 using Core.Game.Chunk.Region.Data;
 using Sirenix.OdinInspector;
@@ -14,8 +15,8 @@ namespace Core.Game.Chunk.World.Data
     {
         [LabelText("世界数据")]
         public WorldDtoDef worldDtoDef;
-        
-        public override ChunkDtoDef CreateRuntimeDef()
+
+        public override IChunkDtoDef CreateRuntimeDef()
         {
             return worldDtoDef.Clone();
         }

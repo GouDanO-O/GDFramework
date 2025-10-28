@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.Game.Chunk.Data;
+using Core.Game.Chunk.Data.Interface;
 using Sirenix.OdinInspector;
 
 namespace Core.Game.Chunk.Stronghold.Data
@@ -10,7 +11,7 @@ namespace Core.Game.Chunk.Stronghold.Data
         [LabelText("副本数据")]
         public StrongholdDtoDef strongholdDtoDef;
         
-        public override ChunkDtoDef CreateRuntimeDef()
+        public override IChunkDtoDef CreateRuntimeDef()
         {
             return strongholdDtoDef.Clone();
         }
