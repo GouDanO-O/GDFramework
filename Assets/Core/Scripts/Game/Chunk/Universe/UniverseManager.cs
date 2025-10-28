@@ -168,5 +168,6 @@ namespace Core.Game.Chunk.Universe
                 _universeComponentController = null;
             }
         }
+        
     }
 }

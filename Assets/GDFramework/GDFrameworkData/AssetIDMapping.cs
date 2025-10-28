@@ -10,8 +10,11 @@ namespace GDFramework.FrameData
 
         public struct MusicIDs
         {
-            public const int DUNGEON_01 = 10000000;
-            public const int DUNGEON_02 = 10000001;
+            public const int DANAGER_01 = 10000000;
+            public const int DUNGEON_01 = 10000001;
+            public const int DUNGEON_02 = 10000002;
+            public const int IN_PURSUIT_383246 = 10000003;
+            public const int UI_CLICK_43196 = 10000004;
         }
 
         public struct PrefabsIDs
@@ -22,16 +25,22 @@ namespace GDFramework.FrameData
         // ID到资源地址的映射
         public static readonly Dictionary<int, string> IDToAssetPath = new Dictionary<int, string>
         {
-            {10000000, "yoo:Dungeon_01"},
-            {10000001, "yoo:Dungeon_02"},
+            {10000000, "yoo:Danager_01"},
+            {10000001, "yoo:Dungeon_01"},
+            {10000002, "yoo:Dungeon_02"},
+            {10000003, "yoo:in-pursuit-383246"},
+            {10000004, "yoo:ui-click-43196"},
             {20000000, "yoo:UniverseController"},
         };
 
         // 资源地址到ID的映射
         public static readonly Dictionary<string, int> AssetPathToID = new Dictionary<string, int>
         {
-            {"yoo:Dungeon_01", 10000000},
-            {"yoo:Dungeon_02", 10000001},
+            {"yoo:Danager_01", 10000000},
+            {"yoo:Dungeon_01", 10000001},
+            {"yoo:Dungeon_02", 10000002},
+            {"yoo:in-pursuit-383246", 10000003},
+            {"yoo:ui-click-43196", 10000004},
             {"yoo:UniverseController", 20000000},
         };
 

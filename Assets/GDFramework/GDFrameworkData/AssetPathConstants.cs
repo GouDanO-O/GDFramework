@@ -7,7 +7,7 @@ namespace GDFramework.FrameData
    public struct DefaultPackage
     {
 
-       public struct GameConfig
+       public struct ChunkConfig
        {
 
            public struct ChunkDataAssetGroup
@@ -16,7 +16,7 @@ namespace GDFramework.FrameData
            }
        }
 
-       public struct GameModelData
+       public struct GameDefaultConfig
        {
 
            public struct GameInputAssetGroup
@@ -34,12 +34,6 @@ namespace GDFramework.FrameData
 
        public struct UI
        {
-
-           public struct UI_NodeAssetGroup
-           {
-               public const string BundleName = "defaultpackage_core_res_prefabs_view_ui_node.prefab";
-               public const string UI_Node = "yoo:UI_Node";
-           }
 
            public struct UI_ChunkEditorPanelAssetGroup
            {
@@ -78,19 +72,32 @@ namespace GDFramework.FrameData
            }
        }
 
+       public struct UIDetails
+       {
+
+           public struct DetailsAssetGroup
+           {
+               public const string BundleName = "defaultpackage_core_res_prefabs_view_details";
+               public const string UniverseSingleWorld = "yoo:UniverseSingleWorld";
+           }
+       }
+
        public struct Music
        {
 
-           public struct Dungeon_01AssetGroup
+           public struct BGMAssetGroup
            {
-               public const string BundleName = "defaultpackage_core_res_musics_bgm_dungeon_01.mp3";
+               public const string BundleName = "defaultpackage_core_res_musics_bgm";
+               public const string Danager_01 = "yoo:Danager_01";
                public const string Dungeon_01 = "yoo:Dungeon_01";
+               public const string Dungeon_02 = "yoo:Dungeon_02";
+               public const string in_pursuit_383246 = "yoo:in-pursuit-383246";
            }
 
-           public struct Dungeon_02AssetGroup
+           public struct InteractAssetGroup
            {
-               public const string BundleName = "defaultpackage_core_res_musics_bgm_dungeon_02.mp3";
-               public const string Dungeon_02 = "yoo:Dungeon_02";
+               public const string BundleName = "defaultpackage_core_res_musics_interact";
+               public const string ui_click_43196 = "yoo:ui-click-43196";
            }
        }
 

@@ -24,7 +24,7 @@ MonoBehaviour:
     AutoCollectShaders: 1
     IgnoreRuleName: RawFileIgnoreRule
     Groups:
-    - GroupName: GameConfig
+    - GroupName: ChunkConfig
       GroupDesc: "\u914D\u7F6E"
       AssetTags: ChunkData
       ActiveRuleName: EnableGroup
@@ -37,7 +37,7 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: ChunkData
         UserData: 
-    - GroupName: GameModelData
+    - GroupName: GameDefaultConfig
       GroupDesc: "\u6E38\u620F\u9ED8\u8BA4\u914D\u7F6E"
       AssetTags: 
       ActiveRuleName: EnableGroup
@@ -59,18 +59,10 @@ MonoBehaviour:
         AssetTags: 
         UserData: 
     - GroupName: UI
-      GroupDesc: "UI\u9762\u677F"
+      GroupDesc: "UI\u9762\u677F\u9884\u5236\u4F53"
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Core/Res/Prefabs/View/UI_Node.prefab
-        CollectorGUID: d2e12be19e6e17047a93870dde6bc4aa
-        CollectorType: 0
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackDirectory
-        FilterRuleName: CollectAll
-        AssetTags: 
-        UserData: 
       - CollectPath: Assets/Core/Res/Prefabs/View/UI_ChunkEditorPanel.prefab
         CollectorGUID: 8ad302c511f1b724e87fbd3f82af1df4
         CollectorType: 0
@@ -119,21 +111,34 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-    - GroupName: Music
-      GroupDesc: "\u97F3\u4E50"
+    - GroupName: UIDetails
+      GroupDesc: "UI\u7EC6\u8282\u9884\u5236\u4F53"
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Core/Res/Musics/BGM/Dungeon_01.mp3
-        CollectorGUID: f7fa892b06b630945a960b45e655b3cc
+      - CollectPath: Assets/Core/Res/Prefabs/View/Details
+        CollectorGUID: 0e51524593e85f84a9af9ff18c258605
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Core/Res/Musics/BGM/Dungeon_02.mp3
-        CollectorGUID: 922270c392d67fb4cb8414dd4728bbae
+    - GroupName: Music
+      GroupDesc: "\u97F3\u4E50"
+      AssetTags: 
+      ActiveRuleName: EnableGroup
+      Collectors:
+      - CollectPath: Assets/Core/Res/Musics/BGM
+        CollectorGUID: 7438bddea14c9734baa41db52db707e5
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Core/Res/Musics/Interact
+        CollectorGUID: 0e073f0b13e4b24449a1ae487da50dc3
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

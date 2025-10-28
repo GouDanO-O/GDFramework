@@ -21,7 +21,7 @@ namespace GDFramework.Resource
             _gameDataModel = this.GetModel<GameDataModel>();
             WillLoadResourcesList.Add(new SResourcesLoaderNode()
             {
-                dataName = DefaultPackage.GameModelData.GameInputAssetGroup.GameInput,
+                dataName = DefaultPackage.GameDefaultConfig.GameInputAssetGroup.GameInput,
                 loaderCallback = data =>
                 {
                     _gameDataModel.InputActionAsset = data as InputActionAsset;
@@ -30,7 +30,7 @@ namespace GDFramework.Resource
             });
             WillLoadResourcesList.Add(new SResourcesLoaderNode()
             {
-                dataName = DefaultPackage.GameModelData.TbmultilingualAssetGroup.Tbmultilingual,
+                dataName = DefaultPackage.GameDefaultConfig.TbmultilingualAssetGroup.Tbmultilingual,
                 loaderCallback = data =>
                 {
                     this.GetModel<MultilingualDataModel>().SetTextAsset(data as TextAsset);

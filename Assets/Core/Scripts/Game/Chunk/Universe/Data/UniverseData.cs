@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Data.Interface;
+using Core.Game.Chunk.World.Data;
 
 namespace Core.Game.Chunk.Universe.Data
 {
@@ -8,6 +9,10 @@ namespace Core.Game.Chunk.Universe.Data
     {
         public UniverseDtoDef UniverseDef => DtoDef as UniverseDtoDef;
         public UniverseTemporaryData UniverseTempData => TemporaryData as UniverseTemporaryData;
+
+        public List<WorldData> UniverseWorldList = new List<WorldData>();
+
+        public Dictionary<string, WorldData> UniverseWorldDict = new Dictionary<string, WorldData>();
         
         protected override IChunkTemporaryData CreateTemporaryData(string defId)
         {
@@ -25,6 +30,11 @@ namespace Core.Game.Chunk.Universe.Data
                 TemporaryData = ES3.Load<UniverseTemporaryData>(instanceId);
                 OnTemporaryDataLoaded(TemporaryData);
             }
+        }
+
+        public List<WorldData> GetAllWorlds()
+        {
+            return UniverseWorldList;
         }
 
         public void AddWorld(string worldInstanceId)

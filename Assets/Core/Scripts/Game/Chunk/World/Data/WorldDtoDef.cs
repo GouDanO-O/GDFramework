@@ -4,6 +4,7 @@ using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Region;
 using Core.Game.Chunk.Region.Data;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Core.Game.Chunk.World.Data
 {
@@ -28,6 +29,9 @@ namespace Core.Game.Chunk.World.Data
         [LabelText("初始玩家所处的区块ID"),ReadOnly]
         [InfoBox("无特殊事件的情况下,玩家会处于的第一个区块的ID")]
         public string initialPlayerLocateRegionId;
+
+        [LabelText("当在世界中生成的坐标")]
+        public Vector2 InitialSpawnedPosition;
         
         [LabelText("第一次进入世界展示的区块"),ReadOnly]
         public List<string> initialShowingRegionIdList;
