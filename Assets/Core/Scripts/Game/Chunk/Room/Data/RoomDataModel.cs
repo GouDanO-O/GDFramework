@@ -5,40 +5,27 @@ namespace Core.Game.Chunk.Room.Data
 {
     public class RoomDataModel : ChunkDataModel
     {
-        private RoomDataManager _roomDataManager;
-        
+        private ChunkDataManager _roomDataManager;
+
         protected override IChunkDataManager CreateDataManager()
         {
-            _roomDataManager = new RoomDataManager();
+            _roomDataManager = new ChunkDataManager();
             return _roomDataManager;
         }
 
         protected override void InitializeDataManager()
         {
-            // 注册类型工厂
             _roomDataManager.RegisterTypeFactory<RoomData>(() => new RoomData());
             LoadAllDefs();
         }
 
         protected override void LoadAllDefs()
         {
-            
+            // TODO: 从JSON加载Room配置
         }
-        
-        /// <summary>
-        /// 创建新房间实例
-        /// </summary>
-        public RoomData CreateUniverse(string defId)
-        {
-            return _roomDataManager.CreateInstance<RoomData>(defId);
-        }
-        
-        /// <summary>
-        /// 加载房间实例
-        /// </summary>
-        public RoomData LoadUniverse(string instanceId)
-        {
-            return _roomDataManager.LoadInstance<RoomData>(instanceId);
-        }
+
+        public RoomData CreateRoom(string defId) => _roomDataManager.CreateInstance<RoomData>(defId);
+        public RoomData LoadRoom(string instanceId) => _roomDataManager.LoadInstance<RoomData>(instanceId);
+        public RoomData GetRoom(string instanceId) => _roomDataManager.GetInstance(instanceId) as RoomData;
     }
 }

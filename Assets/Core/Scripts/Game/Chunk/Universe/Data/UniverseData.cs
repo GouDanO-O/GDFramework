@@ -5,60 +5,26 @@ using Core.Game.Chunk.World.Data;
 
 namespace Core.Game.Chunk.Universe.Data
 {
-    public class UniverseData : ChunkData
+    public class UniverseData : ChunkContainerData
     {
         public UniverseDtoDef UniverseDef => DtoDef as UniverseDtoDef;
         public UniverseTemporaryData UniverseTempData => TemporaryData as UniverseTemporaryData;
-
-        public List<WorldData> UniverseWorldList = new List<WorldData>();
-
-        public Dictionary<string, WorldData> UniverseWorldDict = new Dictionary<string, WorldData>();
         
         protected override IChunkTemporaryData CreateTemporaryData(string defId)
         {
-            return new UniverseTemporaryData 
-            { 
-                DefId = defId,
-                WorldInstanceIds = new List<string>()
-            };
+            return new UniverseTemporaryData(defId);
         }
         
-        protected override void LoadTemporaryData(string instanceId)
+        protected override IChunkTemporaryData LoadTemporaryDataFromES3(string instanceId)
         {
-            if (ES3.KeyExists(instanceId))
-            {
-                TemporaryData = ES3.Load<UniverseTemporaryData>(instanceId);
-                OnTemporaryDataLoaded(TemporaryData);
-            }
+            return ES3.Load<UniverseTemporaryData>(instanceId);
         }
 
-        public List<WorldData> GetAllWorlds()
-        {
-            return UniverseWorldList;
-        }
-
-        public void AddWorld(string worldInstanceId)
-        {
-            if (!UniverseTempData.WorldInstanceIds.Contains(worldInstanceId))
-            {
-                UniverseTempData.WorldInstanceIds.Add(worldInstanceId);
-                SaveTemporaryData();
-            }
-        }
-
-        public void RemoveWorld(string worldInstanceId)
-        {
-            if (UniverseTempData.WorldInstanceIds.Contains(worldInstanceId))
-            {
-                UniverseTempData.WorldInstanceIds.Remove(worldInstanceId);
-                SaveTemporaryData();
-            }
-        }
-
-        public void SetCurrentWorld(string worldInstanceId)
-        {
-            UniverseTempData.CurrentWorldInstanceId = worldInstanceId;
-            SaveTemporaryData();
-        }
+        // 便捷方法
+        public void AddWorld(string worldInstanceId) => AddChild(worldInstanceId);
+        public void RemoveWorld(string worldInstanceId) => RemoveChild(worldInstanceId);
+        public List<string> GetAllWorldIds() => GetAllChildIds();
+        public void SetActiveWorld(string worldInstanceId) => SetActiveChild(worldInstanceId);
+        public string GetActiveWorldId() => GetActiveChildId();
     }
 }

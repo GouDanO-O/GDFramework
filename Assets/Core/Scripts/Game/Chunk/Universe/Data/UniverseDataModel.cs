@@ -10,54 +10,27 @@ namespace Core.Game.Chunk.Universe.Data
 {
     public class UniverseDataModel : ChunkDataModel
     {
-        private UniverseDataManager _universeDataManager;
+        private ChunkDataManager _universeDataManager;
 
         protected override IChunkDataManager CreateDataManager()
         {
-            _universeDataManager = new UniverseDataManager();
+            _universeDataManager = new ChunkDataManager();
             return _universeDataManager;
         }
 
         protected override void InitializeDataManager()
         {
-            // 注册类型工厂
             _universeDataManager.RegisterTypeFactory<UniverseData>(() => new UniverseData());
-            
-            // 加载配置
             LoadAllDefs();
         }
 
         protected override void LoadAllDefs()
         {
-            // TODO: 从JSON加载所有宇宙配置
-            // 示例:
-            // var universeDefs = LoadUniverseDefsFromJson();
-            // DataManager.RegisterDefs(universeDefs);
+            // TODO: 从JSON加载Universe配置
         }
 
-        /// <summary>
-        /// 创建新宇宙实例
-        /// </summary>
-        public UniverseData CreateUniverse(string defId)
-        {
-            return _universeDataManager.CreateInstance<UniverseData>(defId);
-        }
-
-        /// <summary>
-        /// 加载宇宙实例
-        /// </summary>
-        public UniverseData LoadUniverse(string instanceId)
-        {
-            return _universeDataManager.LoadInstance<UniverseData>(instanceId);
-        }
-
-        /// <summary>
-        /// 获取当前激活的宇宙
-        /// </summary>
-        public UniverseData GetActiveUniverse()
-        {
-
-            return null;
-        }
+        public UniverseData CreateUniverse(string defId) => _universeDataManager.CreateInstance<UniverseData>(defId);
+        public UniverseData LoadUniverse(string instanceId) => _universeDataManager.LoadInstance<UniverseData>(instanceId);
+        public UniverseData GetUniverse(string instanceId) => _universeDataManager.GetInstance(instanceId) as UniverseData;
     }
 }

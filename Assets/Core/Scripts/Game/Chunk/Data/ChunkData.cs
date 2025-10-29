@@ -90,6 +90,8 @@ namespace Core.Game.Chunk.Data
                 OnTemporaryDataLoaded(TemporaryData);
             }
         }
+        
+        protected abstract IChunkTemporaryData LoadTemporaryDataFromES3(string instanceId);
 
         /// <summary>
         /// 保存临时数据
@@ -99,11 +101,7 @@ namespace Core.Game.Chunk.Data
             if (TemporaryData == null)
                 return;
             
-            if (TemporaryData is ChunkTemporaryData tempData)
-            {
-                tempData.LastModifyTime = DateTime.Now;
-            }
-            
+            TemporaryData.LastModifyTime = DateTime.Now;
             ES3.Save(TemporaryData.InstanceId, TemporaryData);
             OnTemporaryDataSaved(TemporaryData);
         }
@@ -129,7 +127,7 @@ namespace Core.Game.Chunk.Data
         }
 
         // ============================================
-        // 子类覆盖的回调方法
+        // 回调方法
         // ============================================
         
         protected virtual void OnInitFromDef(IChunkDtoDef dtoDef) { }

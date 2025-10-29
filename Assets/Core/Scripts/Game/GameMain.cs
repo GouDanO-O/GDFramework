@@ -13,10 +13,10 @@ namespace Core.Game
         protected override void Register_System()
         {
             base.Register_System();
-            this.RegisterSystem(new UniverseManager());
-            this.RegisterSystem(new WorldManager());
-            this.RegisterSystem(new RegionManager());
-            this.RegisterSystem(new RoomManager());
+            this.RegisterSystem(new UniverseSystem());
+            this.RegisterSystem(new WorldSystem());
+            this.RegisterSystem(new RegionSystem());
+            this.RegisterSystem(new RoomSystem());
         }
         
         protected override void Register_Model()

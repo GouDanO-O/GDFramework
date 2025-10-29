@@ -13,13 +13,13 @@ namespace Core.Game.Chunk.Room.Components
     /// </summary>
     public class RoomZoom : ChunkZoom
     {
-        private RoomManager _roomManager;
+        private RoomSystem roomSystem;
         
         private RoomComponentController _roomComponentController;
 
         public override void InitZoom(ComponentController componentController, float zoomScaleRatio, Vector2 zoomScaleArea)
         {
-            this._roomManager = this.GetSystem<RoomManager>();
+            this.roomSystem = this.GetSystem<RoomSystem>();
             this._roomComponentController = componentController as RoomComponentController;
             base.InitZoom(componentController, zoomScaleRatio, zoomScaleArea);
         }

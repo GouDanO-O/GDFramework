@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 namespace Core.Game.Chunk.Region.Data
 {
     [Serializable,JsonObject]
-    public class RegionTemporaryData  : ChunkTemporaryData
+    public class RegionTemporaryData  : ChunkContainerTemporaryData
     {
         [LabelText("是否已经解锁")]
         public bool isUnlocked;
@@ -33,5 +33,8 @@ namespace Core.Game.Chunk.Region.Data
                 this.curPlayerLocateStrongholdId = curStrongholdId;
             }
         }
+        
+        public RegionTemporaryData() : base() { }
+        public RegionTemporaryData(string defId) : base(defId) { }
     }
 }

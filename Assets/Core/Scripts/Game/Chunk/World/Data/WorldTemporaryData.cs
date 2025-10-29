@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 namespace Core.Game.Chunk.World.Data
 {
     [Serializable]
-    public class WorldTemporaryData : ChunkTemporaryData
+    public class WorldTemporaryData : ChunkContainerTemporaryData
     {
         /// <summary>
         /// 当前的年数
@@ -43,5 +43,8 @@ namespace Core.Game.Chunk.World.Data
         
         
         public List<string> RegionInstanceIds = new List<string>();
+        
+        public WorldTemporaryData() : base() { }
+        public WorldTemporaryData(string defId) : base(defId) { }
     }
 }

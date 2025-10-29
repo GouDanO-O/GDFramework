@@ -5,14 +5,12 @@ using Sirenix.OdinInspector;
 
 namespace Core.Game.Chunk.Data
 {
-    public class ChunkTemporaryData : TemporaryData,IChunkTemporaryData
+    public class ChunkTemporaryData : IChunkTemporaryData
     {
         [LabelText("实例ID"), ReadOnly]
-        [InfoBox("每个实例的唯一标识,用于ES3存储")]
         public string InstanceId { get; set; }
         
         [LabelText("关联的配置ID"), ReadOnly]
-        [InfoBox("指向ChunkDtoDef的DefId")]
         public string DefId { get; set; }
         
         [LabelText("创建时间")]
@@ -33,7 +31,7 @@ namespace Core.Game.Chunk.Data
             DefId = defId;
         }
 
-        private string GenerateInstanceId()
+        protected virtual string GenerateInstanceId()
         {
             return $"INST_{Guid.NewGuid().ToString("N").ToUpper()}";
         }

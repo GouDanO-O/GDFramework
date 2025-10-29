@@ -12,6 +12,7 @@ namespace Core.Game.Chunk.Data.Interface
         IChunkDtoDef GetDef(string defId);
         IChunkData GetInstance(string instanceId);
         List<IChunkData> GetInstancesByDefId(string defId);
+        List<string> GetAllInstanceIds();
         
         T CreateInstance<T>(string defId) where T : IChunkData;
         T LoadInstance<T>(string instanceId) where T : IChunkData;

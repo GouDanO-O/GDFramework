@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Region;
 using Core.Game.Chunk.Region.Data;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Core.Game.Chunk.World.Data
 {
-    [Serializable]
+    [Serializable,JsonObject]
     public class WorldDtoDef : ChunkDtoDef
     {
         [LabelText("初始年数")]
@@ -38,13 +39,8 @@ namespace Core.Game.Chunk.World.Data
         
         [LabelText("世界拥有的所有区块ID"), ReadOnly]
         public List<string> regionIdList = new List<string>();
-
-        public WorldDtoDef() : base()
-        {
-            
-        }
         
-        protected override string GetTypePrefix()
+        public override string GetTypePrefix()
         {
             return "World";
         }

@@ -3,12 +3,14 @@ using Core.Game.Chunk.Universe;
 using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World.Data;
 using Core.Game.View.Details;
+using Cysharp.Threading.Tasks;
 using GDFramework.FrameData;
 using GDFramework.Utility;
 using GDFrameworkCore;
 using UnityEngine;
 using UnityEngine.UI;
 using GDFrameworkExtend.UIKit;
+using TMPro;
 
 namespace Core.Game.View
 {
@@ -19,11 +21,19 @@ namespace Core.Game.View
 	{
 		protected Transform UniverseMap;
 
+		protected Transform UniverseMapCenter;
+
+		protected Transform UniverseMapHeader;
+
 		protected GameObject UniverseSingleWorld;
 
 		protected List<UI_UniverseSingleWorld> CurUniverseOwnedWorldList = new List<UI_UniverseSingleWorld>();
 
 		protected UniverseData UniverseData;
+		
+		protected TMP_InputField UniverseMapNameInputField;
+
+		protected TextMeshProUGUI FocusWorldName;
 		
 		public IArchitecture GetArchitecture()
 		{
@@ -34,11 +44,21 @@ namespace Core.Game.View
 		{
 			mData = uiData as UI_UniversePanelData ?? new UI_UniversePanelData();
 			// please add init code here
-			UniverseData = this.GetSystem<UniverseManager>().GetCurrentUniverseData();
+			UniverseData = this.GetSystem<UniverseSystem>().GetCurrentUniverseData();
+			UniverseMap = Common.Find("UniverseMap");
+			UniverseMapCenter = UniverseMap.Find("UniverseMapCenter");
+			UniverseMapHeader = UniverseMap.Find("UniverseMapHeader");
+
+			UniverseMapNameInputField =
+				UniverseMapHeader.Find("UniverseMapName/NameInput").GetComponent<TMP_InputField>();
+			FocusWorldName = UniverseMapHeader.Find("FocusWorld/WorldName").GetComponent<TextMeshProUGUI>();
+			
 		}
 		
 		protected override void OnOpen(IUIData uiData = null)
 		{
+			UniverseMapNameInputField.onValueChanged.AddListener(ListenUniverseMapNameChange);
+			
 			SpawnUniverseWorld();
 		}
 		
@@ -55,6 +75,14 @@ namespace Core.Game.View
 			
 		}
 
+		protected void ListenUniverseMapNameChange(string changeName)
+		{
+			if (UniverseData != null)
+			{
+				UniverseData.UniverseDef.ChangeWorldName(changeName);
+			}
+		}
+
 		/// <summary>
 		/// 根据配置来生成宇宙中的世界
 		/// </summary>
@@ -68,16 +96,15 @@ namespace Core.Game.View
 						.LoadPrefabAsync(DefaultPackage.UIDetails.DetailsAssetGroup.UniverseSingleWorld);
 				}
 
-				List<WorldData> universeWorldDatas = UniverseData.GetAllWorlds();
-				for (int i = 0; i < universeWorldDatas.Count; i++)
-				{
-					WorldData curWorldData = universeWorldDatas[i];
-					GameObject spawnedWorld = Object.Instantiate(UniverseSingleWorld);
-					UI_UniverseSingleWorld singleWorld = spawnedWorld.GetComponent<UI_UniverseSingleWorld>();
-					singleWorld.SetWorldData(curWorldData);
-					CurUniverseOwnedWorldList.Add(singleWorld);
-				}
-				
+				// List<WorldData> universeWorldDatas = UniverseData.GetAllWorlds();
+				// for (int i = 0; i < universeWorldDatas.Count; i++)
+				// {
+				// 	WorldData curWorldData = universeWorldDatas[i];
+				// 	GameObject spawnedWorld = Object.Instantiate(UniverseSingleWorld);
+				// 	UI_UniverseSingleWorld singleWorld = spawnedWorld.GetComponent<UI_UniverseSingleWorld>();
+				// 	singleWorld.SetWorldData(curWorldData);
+				// 	CurUniverseOwnedWorldList.Add(singleWorld);
+				// }
 			}
 		}
 

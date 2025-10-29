@@ -19,7 +19,7 @@ namespace Core.Game.Chunk.Universe
     /// </summary>
     public class UniverseComponentController : ComponentController
     {
-        private UniverseManager _universeManager;
+        private UniverseSystem universeSystem;
         
         private UniverseDataModel _universeDataModel;
         
@@ -31,11 +31,11 @@ namespace Core.Game.Chunk.Universe
         
         public override void InitOwnedComponents()
         {
-            _universeManager = this.GetSystem<UniverseManager>();
+            universeSystem = this.GetSystem<UniverseSystem>();
             _universeDataModel = this.GetModel<UniverseDataModel>();
 
             base.InitOwnedComponents();
-            _universeManager.SetInitialWorld();
+            universeSystem.SetInitialWorld();
         }
 
         protected override void OpenChunkPanel()

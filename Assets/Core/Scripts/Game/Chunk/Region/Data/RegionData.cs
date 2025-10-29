@@ -1,21 +1,37 @@
 ﻿using System.Collections.Generic;
 using Core.Game.Chunk.Data;
-using Core.Game.Chunk.Room;
-using Core.Game.Chunk.Room.Data;
-using Core.Game.Chunk.Stronghold.Data;
-using Sirenix.OdinInspector;
-
+using Core.Game.Chunk.Data.Interface;
 namespace Core.Game.Chunk.Region.Data
 {
-    public class RegionData : ChunkData
+    public class RegionData : ChunkContainerData
     {
-        [LabelText("当前区块的固定数据")]
-        private RegionDto _regionDto;
-
-        [LabelText("当前区块的临时数据")]
-        private RegionTemporaryData regionTemporaryData;
+        public RegionDtoDef RegionDef => DtoDef as RegionDtoDef;
+        public RegionTemporaryData RegionTempData => TemporaryData as RegionTemporaryData;
         
-        [LabelText("当前区块持有的副本数据")]
-        private Dictionary<string,StrongholdData> _curHoldingStrongholdDtoDict = new Dictionary<string, StrongholdData>();
+        protected override IChunkTemporaryData CreateTemporaryData(string defId)
+        {
+            return new RegionTemporaryData(defId);
+        }
+        
+        protected override IChunkTemporaryData LoadTemporaryDataFromES3(string instanceId)
+        {
+            return ES3.Load<RegionTemporaryData>(instanceId);
+        }
+
+        public void AddDungeon(string dungeonInstanceId) => AddChild(dungeonInstanceId);
+        public void RemoveDungeon(string dungeonInstanceId) => RemoveChild(dungeonInstanceId);
+        public List<string> GetAllDungeonIds() => GetAllChildIds();
+        public void SetActiveDungeon(string dungeonInstanceId) => SetActiveChild(dungeonInstanceId);
+        public string GetActiveDungeonId() => GetActiveChildId();
+
+        public void Load()
+        {
+            SaveTemporaryData();
+        }
+
+        public void Unload()
+        {
+            SaveTemporaryData();
+        }
     }
 }

@@ -23,9 +23,15 @@ namespace Core.Game.Chunk.Universe.Data
         [LabelText("宇宙拥有的所有世界的ID"), ReadOnly]
         public List<string> WorldIdList = new List<string>();
         
-        protected override string GetTypePrefix()
+        public override string GetTypePrefix()
         {
             return "Universe";
+        }
+
+        public void ChangeWorldName(string newName)
+        {
+            this.DefName = newName;
+            SaveThisDef();
         }
     }
 }
