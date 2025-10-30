@@ -20,11 +20,21 @@ namespace Core.Game.Chunk.Universe.Data
             return ES3.Load<UniverseTemporaryData>(instanceId);
         }
 
-        // 便捷方法
+        #region World
+
+        public List<WorldData> GetAllWorlds()
+        {
+            return new List<WorldData>();
+        }
+        
         public void AddWorld(string worldInstanceId) => AddChild(worldInstanceId);
         public void RemoveWorld(string worldInstanceId) => RemoveChild(worldInstanceId);
         public List<string> GetAllWorldIds() => GetAllChildIds();
         public void SetActiveWorld(string worldInstanceId) => SetActiveChild(worldInstanceId);
         public string GetActiveWorldId() => GetActiveChildId();
+
+        #endregion
+        
+
     }
 }

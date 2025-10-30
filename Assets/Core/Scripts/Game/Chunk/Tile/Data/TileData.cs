@@ -1,4 +1,5 @@
 ﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Core.Game.Chunk.Tile
@@ -10,14 +11,15 @@ namespace Core.Game.Chunk.Tile
     /// 物体层-->瓦片上面的物体,根据渲染优先级,依次去渲染(如果同级则按照先后顺序去渲染)
     /// </summary>
     [Serializable]
-    public class TileDefinition
+    public class TileData
     {
+        [LabelText("位置")]
         public Vector2Int Position;
-        
+            
+        [LabelText("瓦片类型")]
         public ETileType TileType;
-        
+            
+        [LabelText("是否可行走")]
         public bool IsWalkable;
-        
-        
     }
 }

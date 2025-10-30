@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Game.Chunk.Data;
+using Core.Game.Chunk.Substance.Data;
 using Core.Game.Chunk.Tile;
-using Core.Game.Chunk.Tile.Entity;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -17,10 +17,10 @@ namespace Core.Game.Chunk.Room.Data
         
         [LabelText("初始瓦片布局")]
         [InfoBox("定义房间的初始瓦片布局")]
-        public List<TileDefinition> InitialTiles = new List<TileDefinition>();
+        public List<TileData> InitialTiles = new List<TileData>();
         
         [LabelText("初始实体")]
-        public List<TileEntity> InitialEntities = new List<TileEntity>();
+        public List<EntityDtoDef> InitialEntities = new List<EntityDtoDef>();
 
         public override string GetTypePrefix()
         {

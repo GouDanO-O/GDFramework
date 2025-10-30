@@ -1,6 +1,7 @@
 ﻿using System;
 using Core.Game.Chunk.Data;
 using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Core.Game.Chunk.Substance.Data
 {
@@ -10,6 +11,10 @@ namespace Core.Game.Chunk.Substance.Data
         public int Health;
         public int MaxHealth;
         public bool IsDestroyed;
+        
+        public Vector2Int Position;
+        
+        public EEntityRotationType RotationType;
         
         public EntityTemporaryData() : base() { }
         public EntityTemporaryData(string defId) : base(defId) { }

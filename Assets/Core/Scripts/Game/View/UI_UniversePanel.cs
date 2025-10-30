@@ -24,8 +24,16 @@ namespace Core.Game.View
 		protected Transform UniverseMapCenter;
 
 		protected Transform UniverseMapHeader;
+		
+		protected UI_UniverseWorldDetailShow UniverseWorldDetailShow;
 
 		protected GameObject UniverseSingleWorld;
+
+		protected Button ManageUniverseWorldDetailShowButton;
+
+		protected Button ContinueButton;
+
+		protected Transform UniverseMapCenterContentRoot;
 
 		protected List<UI_UniverseSingleWorld> CurUniverseOwnedWorldList = new List<UI_UniverseSingleWorld>();
 
@@ -34,6 +42,9 @@ namespace Core.Game.View
 		protected TMP_InputField UniverseMapNameInputField;
 
 		protected TextMeshProUGUI FocusWorldName;
+
+
+		private WorldData _curSelectingWorldData;
 		
 		public IArchitecture GetArchitecture()
 		{
@@ -49,16 +60,26 @@ namespace Core.Game.View
 			UniverseMapCenter = UniverseMap.Find("UniverseMapCenter");
 			UniverseMapHeader = UniverseMap.Find("UniverseMapHeader");
 
+			UniverseWorldDetailShow = UniverseMap.Find("UniverseWorldDetailShow").GetComponent<UI_UniverseWorldDetailShow>();
+
+			UniverseMapCenterContentRoot = UniverseMapCenter.Find("Contents");
+
+			ContinueButton = UniverseMapHeader.Find("ContinueButton").GetComponent<Button>();
+			
+			ManageUniverseWorldDetailShowButton =
+				UniverseMapHeader.Find("ManageUniverseWorldDetailShowButton").GetComponent<Button>();
+			
 			UniverseMapNameInputField =
 				UniverseMapHeader.Find("UniverseMapName/NameInput").GetComponent<TMP_InputField>();
 			FocusWorldName = UniverseMapHeader.Find("FocusWorld/WorldName").GetComponent<TextMeshProUGUI>();
 			
+			ContinueButton.onClick.AddListener(ContinueToNext);
+			ManageUniverseWorldDetailShowButton.onClick.AddListener(OpenOrCloseDetailWorldShow);
+			UniverseMapNameInputField.onValueChanged.AddListener(ListenUniverseMapNameChange);
 		}
 		
 		protected override void OnOpen(IUIData uiData = null)
 		{
-			UniverseMapNameInputField.onValueChanged.AddListener(ListenUniverseMapNameChange);
-			
 			SpawnUniverseWorld();
 		}
 		
@@ -96,21 +117,43 @@ namespace Core.Game.View
 						.LoadPrefabAsync(DefaultPackage.UIDetails.DetailsAssetGroup.UniverseSingleWorld);
 				}
 
-				// List<WorldData> universeWorldDatas = UniverseData.GetAllWorlds();
-				// for (int i = 0; i < universeWorldDatas.Count; i++)
-				// {
-				// 	WorldData curWorldData = universeWorldDatas[i];
-				// 	GameObject spawnedWorld = Object.Instantiate(UniverseSingleWorld);
-				// 	UI_UniverseSingleWorld singleWorld = spawnedWorld.GetComponent<UI_UniverseSingleWorld>();
-				// 	singleWorld.SetWorldData(curWorldData);
-				// 	CurUniverseOwnedWorldList.Add(singleWorld);
-				// }
+				List<WorldData> universeWorldDatas = UniverseData.GetAllWorlds();
+				for (int i = 0; i < universeWorldDatas.Count; i++)
+				{
+					WorldData curWorldData = universeWorldDatas[i];
+					GameObject spawnedWorld = Object.Instantiate(UniverseSingleWorld);
+					UI_UniverseSingleWorld singleWorld = spawnedWorld.GetComponent<UI_UniverseSingleWorld>();
+					singleWorld.SetWorldData(curWorldData);
+					CurUniverseOwnedWorldList.Add(singleWorld);
+				}
 			}
 		}
 
+		/// <summary>
+		/// 更新当前选中的世界数据
+		/// </summary>
+		/// <param name="curSelectingData"></param>
 		public void UpdateCurSelectingWorld(WorldData curSelectingData)
 		{
+			_curSelectingWorldData = curSelectingData;
+			UniverseWorldDetailShow.UpdateShow(curSelectingData);
+		}
+
+		/// <summary>
+		/// 进入下一级
+		/// </summary>
+		private void ContinueToNext()
+		{
 			
+		}
+
+		/// <summary>
+		/// 是否打开世界详情
+		/// </summary>
+		private void OpenOrCloseDetailWorldShow()
+		{
+			UniverseWorldDetailShow.gameObject.SetActive(!UniverseWorldDetailShow.gameObject.activeSelf);
+			UniverseWorldDetailShow.UpdateShow(_curSelectingWorldData);
 		}
 	}
 }

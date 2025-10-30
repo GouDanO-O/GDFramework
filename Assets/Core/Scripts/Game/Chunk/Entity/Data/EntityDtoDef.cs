@@ -14,6 +14,16 @@ namespace Core.Game.Chunk.Substance.Data
 
         [LabelText("尺寸")]
         public Vector2Int EntitySize = Vector2Int.one;
+
+        public bool IsBlockingMovement = true;
+        
+        public int InitialHealth;
+        
+        public int InitialMaxHealth;
+
+        public Vector2Int Position;
+        
+        public EEntityRotationType RotationType;
         
         public override string GetTypePrefix()
         {
