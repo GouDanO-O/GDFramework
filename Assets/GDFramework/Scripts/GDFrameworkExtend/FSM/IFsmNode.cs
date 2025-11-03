@@ -14,6 +14,6 @@
 
         void OnExit();
 
-        void OnDeinit();
+        void OnDeInit();
     }
 }

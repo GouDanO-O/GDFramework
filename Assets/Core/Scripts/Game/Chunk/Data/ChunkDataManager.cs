@@ -22,6 +22,7 @@ namespace Core.Game.Chunk.Data
         /// 数据字典
         /// </summary>
         protected Dictionary<string, IChunkData> InstanceRegistry = new Dictionary<string, IChunkData>();
+        
         protected Dictionary<Type, Func<IChunkData>> TypeFactories = new Dictionary<Type, Func<IChunkData>>();
 
         public Dictionary<string, IChunkData> GetInstanceRegistry()

@@ -17,41 +17,24 @@ namespace Core.Game.Procedure
         public override void OnEnter()
         {
             StartLoadMenu();
-            //StartTestScene();
         }
 
         private void StartLoadMenu()
         {
             SceneLoaderKit sceneLoaderKit = this.GetSystem<SceneLoaderKit>();
             sceneLoaderKit.onLoadScene.Invoke(ESceneName.Menu);
-
-            sceneLoaderKit.OnSceneLoadStart += LoadMenuSceneStart;
+            
             sceneLoaderKit.OnSceneLoadComplete += LoadMenuSceneComplete;
         }
-
-        private void StartTestScene()
-        {
-            this.SendEvent(new SChangeProcedureEvent(typeof(GameSceneProcedure)));
-        }
-
-       
-
-        /// <summary>
-        /// 开始加载菜单场景
-        /// </summary>
-        private void LoadMenuSceneStart()
-        {
-            LogMonoUtility.AddLog("LoadMenuSceneStart");
-        }
-
+        
         /// <summary>
         /// 加载菜单场景完成
         /// </summary>
         /// <param name="sceneName"></param>
-        private void LoadMenuSceneComplete(ESceneName sceneName)
+        private void LoadMenuSceneComplete()
         {
-            LogMonoUtility.AddLog("LoadMenuSceneComplete:" + sceneName);
             this.GetSystem<ViewManager>().EnterMenu();
+            this.GetSystem<SceneLoaderKit>().OnSceneLoadComplete -= LoadMenuSceneComplete;
         }
 
         public override void OnUpdate()
@@ -62,13 +45,8 @@ namespace Core.Game.Procedure
         {
         }
 
-        public override void OnDeinit()
+        public override void OnDeInit()
         {
-        }
-
-        public IArchitecture GetArchitecture()
-        {
-            return Main.Interface;
         }
     }
 }

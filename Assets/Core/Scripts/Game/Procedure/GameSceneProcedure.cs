@@ -12,51 +12,42 @@ namespace Core.Game.Procedure
 {
     public class GameSceneProcedure : ProcedureBase
     {
-        private ResourcesManager _resourcesManager;
-        
-        private GameSceneResourcesLoader _gameSceneResourcesLoader; 
-        
-        public override void OnInit(FsmManager  fsmManager)
+        public override void OnInit(FsmManager fsmManager)
         {
             base.OnInit(fsmManager);
-            _resourcesManager = this.GetSystem<ResourcesManager>();
-            _gameSceneResourcesLoader=new GameSceneResourcesLoader();
         }
-        
+
         public override void OnEnter()
         {
-            _resourcesManager.StartLoadingResources(typeof(GameSceneResourcesLoader), _gameSceneResourcesLoader,
-                () =>
-                {
-                    DataLoadComplete();
-                });
+            
         }
 
         public override void OnUpdate()
         {
+            
         }
 
         public override void OnExit()
         {
+            
         }
 
-        public override void OnDeinit()
+        public override void OnDeInit()
         {
+            
         }
         
-        /// <summary>
-        /// 数据加载完成
-        /// </summary>
-        private void DataLoadComplete()
-        {
-            this.GetSystem<NewInputManager>().InitActionAsset();
-            ChangeToTestScene();
-        }
-        
-        private void ChangeToTestScene()
+        private void ChangeToGameScene()
         {
             SceneLoaderKit sceneLoaderKit = this.GetSystem<SceneLoaderKit>();
-            sceneLoaderKit.onLoadScene.Invoke(ESceneName.TestScene);
+            sceneLoaderKit.onLoadScene.Invoke(ESceneName.GameScene);
+            sceneLoaderKit.OnSceneLoadComplete += LoadGameSceneComplete;
+        }
+
+        private void LoadGameSceneComplete()
+        {
+            GameManager.Instance.LoadGameSceneComplete();
+            this.GetSystem<SceneLoaderKit>().OnSceneLoadComplete -= LoadGameSceneComplete;
         }
     }
 }

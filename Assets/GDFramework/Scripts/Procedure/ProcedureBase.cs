@@ -1,4 +1,5 @@
-﻿using GDFrameworkCore;
+﻿using Core.Game;
+using GDFrameworkCore;
 using GDFrameworkExtend.FSM;
 
 namespace GDFramework.Procedure
@@ -7,7 +8,7 @@ namespace GDFramework.Procedure
     {
         public IArchitecture GetArchitecture()
         {
-            return Main.Interface;
+            return GameMain.Interface;
         }
     }
 }

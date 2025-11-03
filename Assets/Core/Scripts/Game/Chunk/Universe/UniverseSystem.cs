@@ -16,8 +16,12 @@ namespace Core.Game.Chunk.Universe
     public class UniverseSystem : ChunkSystem
     {
         private UniverseDataModel _universeDataModel;
-        private WorldSystem worldSystem;
+        
+        private WorldSystem _worldSystem;
+        
         private UniverseComponentController _universeComponentController;
+
+        private StorageSystem _storageSystem;
 
         // 当前激活的宇宙数据
         private UniverseData _currentUniverseData;
@@ -34,8 +38,6 @@ namespace Core.Game.Chunk.Universe
         protected override void InitChunkDataModel()
         {
             _universeDataModel = this.GetModel<UniverseDataModel>();
-            
-            // 加载或创建初始宇宙
             LoadOrCreateInitialUniverse();
         }
 
@@ -44,20 +46,7 @@ namespace Core.Game.Chunk.Universe
         /// </summary>
         private void LoadOrCreateInitialUniverse()
         {
-            bool hasSaveData = CheckHasSaveData();
             
-            if (hasSaveData)
-            {
-                // 从存档加载
-                string lastUniverseInstanceId = GetLastUniverseInstanceId();
-                _currentUniverseData = _universeDataModel.LoadUniverse(lastUniverseInstanceId);
-            }
-            else
-            {
-                // 创建新宇宙
-                string defaultUniverseDefId = GetDefaultUniverseDefId();
-                _currentUniverseData = _universeDataModel.CreateUniverse(defaultUniverseDefId);
-            }
         }
 
         protected override async void SpawnComponentController()
@@ -84,8 +73,6 @@ namespace Core.Game.Chunk.Universe
         protected override async UniTask OnComponentControllerCreated()
         { 
             await base.OnComponentControllerCreated();
-            
-            // 初始化世界
             SetInitialWorld();
         }
 
@@ -96,12 +83,11 @@ namespace Core.Game.Chunk.Universe
         /// </summary>
         public void SetInitialWorld()
         {
-            worldSystem = this.GetSystem<WorldSystem>();
+            _worldSystem = this.GetSystem<WorldSystem>();
             
             if (_currentUniverseData != null)
             {
-                // TODO: 根据宇宙数据设置初始世界
-                worldSystem.SetFocusRegion();
+                _worldSystem.SetFocusRegion();
             }
         }
         
@@ -113,7 +99,7 @@ namespace Core.Game.Chunk.Universe
             if (_currentUniverseData != null)
             {
                 // TODO: 实现世界切换逻辑
-                // _currentUniverseData.ChangeWorld(willChangeWorld, lastWorld);
+
             }
         }
 
@@ -131,32 +117,7 @@ namespace Core.Game.Chunk.Universe
 
         public override void SaveAllData()
         {
-            // 保存当前宇宙数据
-            _currentUniverseData?.SaveTemporaryData();
             
-            // 保存所有实例数据
-            _universeDataModel?.SaveAll();
-            
-            Debug.Log("宇宙数据已保存");
-        }
-
-        private bool CheckHasSaveData()
-        {
-            string curUniverseInstanceId = this.GetSystem<StorageSystem>().GetCurSaveUniverseId();
-            if (curUniverseInstanceId == "")
-                return false;
-            return ES3.KeyExists(curUniverseInstanceId);
-        }
-
-        private string GetLastUniverseInstanceId()
-        {
-            return ES3.Load<string>("LastUniverseInstanceId", "");
-        }
-
-        private string GetDefaultUniverseDefId()
-        {
-            // TODO: 返回默认宇宙配置ID
-            return "UNIVERSE_DEF_DEFAULT";
         }
 
         #endregion

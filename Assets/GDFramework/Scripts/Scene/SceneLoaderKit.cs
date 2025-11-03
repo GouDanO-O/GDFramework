@@ -13,8 +13,7 @@ namespace GDFramework.Scene
     public enum ESceneName : byte
     {
         Menu = 1,
-        GameScene = 2,
-        TestScene = 3
+        GameScene = 2
     }
 
     public class SceneLoaderKit : AbstractSystem
@@ -25,8 +24,8 @@ namespace GDFramework.Scene
 
         public UnityAction<float> OnSceneLoading;
 
-        public UnityAction<ESceneName> OnSceneLoadComplete;
-
+        public UnityAction OnSceneLoadComplete;
+        
         protected override void OnInit()
         {
             onLoadScene += LoadSceneAsync;
@@ -71,7 +70,7 @@ namespace GDFramework.Scene
             while (!asyncOperation.isDone) 
                 yield return null;
 
-            OnSceneLoadComplete?.Invoke(sceneName);
+            OnSceneLoadComplete?.Invoke();
         }
         
         /// <summary>
@@ -97,7 +96,7 @@ namespace GDFramework.Scene
  
             await UniTask.SwitchToMainThread();
             
-            OnSceneLoadComplete?.Invoke(sceneName);
+            OnSceneLoadComplete?.Invoke();
         }
     }
 }

@@ -47,6 +47,6 @@
         /// <summary>
         /// 流程销毁
         /// </summary>
-        public abstract void OnDeinit();
+        public abstract void OnDeInit();
     }
 }

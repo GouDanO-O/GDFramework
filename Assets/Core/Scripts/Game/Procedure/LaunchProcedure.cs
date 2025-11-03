@@ -50,7 +50,7 @@ namespace Core.Game.Procedure
         {
         }
 
-        public override void OnDeinit()
+        public override void OnDeInit()
         {
         }
 

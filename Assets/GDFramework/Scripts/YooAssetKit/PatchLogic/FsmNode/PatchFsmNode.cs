@@ -33,7 +33,7 @@ namespace GDFramework.YooAssetKit
             
         }
 
-        public override void OnDeinit()
+        public override void OnDeInit()
         {
             
         }
