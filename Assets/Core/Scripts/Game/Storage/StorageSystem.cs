@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Game.Chunk.Data.Interface;
 using Core.Game.Chunk.Universe.Data;
 using Core.Game.Storage.Data;
 using GDFrameworkCore;
@@ -137,7 +138,7 @@ namespace Core.Game.Storage
         /// 获取当前槽位的宇宙数据
         /// </summary>
         /// <returns></returns>
-        public UniverseTemporaryData GetUniverseData()
+        public UniverseTemporaryData GetCurSlotUniverseTemporaryData()
         {
             UniverseTemporaryData curUniverseTemporaryDataData = new UniverseTemporaryData();
             if (_curSlotData == null)
@@ -145,15 +146,16 @@ namespace Core.Game.Storage
                 GetSlotData();
             }
 
-            if (_curSlotData.UniverseId == string.Empty)
+            if (_curSlotData.UniverseId != string.Empty)
             {
-                
+                if (ES3.KeyExists(_curSlotData.UniverseId))
+                {
+                    curUniverseTemporaryDataData = ES3.Load<UniverseTemporaryData>(_curSlotData.UniverseId);
+                }
             }
 
             return curUniverseTemporaryDataData;
         }
-        
-        
         
         #endregion
 
@@ -187,6 +189,24 @@ namespace Core.Game.Storage
             }
 
             GetSlotData(slotIndex).SlotName = name;
+        }
+
+        /// <summary>
+        /// 根据ID Key来保存临时数据
+        /// </summary>
+        /// <param name="temporaryData"></param>
+        public void SaveTemporaryData(IChunkTemporaryData temporaryData)
+        {
+            
+        }
+        
+        /// <summary>
+        /// 根据ID Key来删除临时数据
+        /// </summary>
+        /// <param name="instanceId"></param>
+        public void DeleteTemporaryData(string instanceId)
+        {
+            
         }
 
         #endregion

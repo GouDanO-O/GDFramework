@@ -2,7 +2,7 @@
 
 namespace Core.Game.Chunk.Dungeon.Data
 {
-    public class DungeonTemporaryData : ChunkContainerTemporaryData
+    public class DungeonTemporaryData : ChunkTemporaryData
     {
         public DungeonTemporaryData() : base() { }
         public DungeonTemporaryData(string defId) : base(defId) { }

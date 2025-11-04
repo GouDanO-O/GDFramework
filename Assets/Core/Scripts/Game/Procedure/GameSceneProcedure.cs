@@ -12,14 +12,24 @@ namespace Core.Game.Procedure
 {
     public class GameSceneProcedure : ProcedureBase
     {
+        private ResourcesManager _resourcesManager;
+        
+        private GameSceneResourcesLoader _gameSceneResourcesLoader; 
+        
         public override void OnInit(FsmManager fsmManager)
         {
             base.OnInit(fsmManager);
+            _resourcesManager = this.GetSystem<ResourcesManager>();
+            _gameSceneResourcesLoader=new GameSceneResourcesLoader();
         }
 
         public override void OnEnter()
         {
-            
+            _resourcesManager.StartLoadingResources(typeof(GameSceneResourcesLoader), _gameSceneResourcesLoader,
+                () =>
+                {
+                    DataLoadComplete();
+                });
         }
 
         public override void OnUpdate()
@@ -35,6 +45,15 @@ namespace Core.Game.Procedure
         public override void OnDeInit()
         {
             
+        }
+        
+        /// <summary>
+        /// 数据加载完成
+        /// 准备进入场景
+        /// </summary>
+        private void DataLoadComplete()
+        {
+            ChangeToGameScene();
         }
         
         private void ChangeToGameScene()

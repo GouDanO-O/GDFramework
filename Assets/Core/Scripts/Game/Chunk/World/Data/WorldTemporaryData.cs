@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 namespace Core.Game.Chunk.World.Data
 {
     [Serializable]
-    public class WorldTemporaryData : ChunkContainerTemporaryData
+    public class WorldTemporaryData : ChunkTemporaryData
     {
         /// <summary>
         /// 当前的年数

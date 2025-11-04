@@ -70,96 +70,6 @@ namespace Core.Game.Chunk.World
             }
         }
 
-        /// <summary>
-        /// 创建并加载世界
-        /// </summary>
-        public WorldData CreateWorld(string defId)
-        {
-            var world = _worldDataModel.CreateWorld(defId);
-            _loadedWorlds.Add(world);
-            return world;
-        }
-
-        /// <summary>
-        /// 加载已有世界
-        /// </summary>
-        public WorldData LoadWorld(string instanceId)
-        {
-            var world = _worldDataModel.LoadWorld(instanceId);
-            if (world != null && !_loadedWorlds.Contains(world))
-            {
-                _loadedWorlds.Add(world);
-            }
-
-            return world;
-        }
-
-        /// <summary>
-        /// 切换到指定世界
-        /// </summary>
-        public async UniTask SwitchToWorld(string worldInstanceId)
-        {
-            // 停用当前世界
-            if (_currentWorldData != null)
-            {
-                _currentWorldData.Deactivate();
-            }
-
-            // 加载新世界
-            var newWorld = LoadWorld(worldInstanceId);
-            if (newWorld != null)
-            {
-                _currentWorldData = newWorld;
-                _currentWorldData.Activate();
-
-                // 触发世界切换事件
-                await OnWorldSwitched(_currentWorldData);
-            }
-        }
-
-        /// <summary>
-        /// 世界切换后的回调
-        /// </summary>
-        protected virtual async UniTask OnWorldSwitched(WorldData newWorld)
-        {
-            Debug.Log($"已切换到世界: {newWorld.InstanceId}");
-
-            // 重新设置焦点区域
-            SetFocusRegion();
-
-            await UniTask.NextFrame();
-        }
-
-        /// <summary>
-        /// 卸载世界
-        /// </summary>
-        public void UnloadWorld(string worldInstanceId, bool saveData = true)
-        {
-            var world = _loadedWorlds.Find(w => w.InstanceId == worldInstanceId);
-            if (world != null)
-            {
-                if (saveData)
-                {
-                    world.SaveTemporaryData();
-                }
-
-                _loadedWorlds.Remove(world);
-
-                if (_currentWorldData == world)
-                {
-                    _currentWorldData = null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 获取当前世界
-        /// </summary>
-        public WorldData GetCurrentWorld()
-        {
-            return _currentWorldData;
-        }
-
         #endregion
 
         #region 存档管理
@@ -171,10 +81,7 @@ namespace Core.Game.Chunk.World
             {
                 world.SaveTemporaryData();
             }
-
-            // 保存所有实例数据
-            _worldDataModel?.SaveAll();
-
+            
             Debug.Log($"已保存 {_loadedWorlds.Count} 个世界的数据");
         }
 

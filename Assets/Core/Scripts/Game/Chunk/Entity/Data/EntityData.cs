@@ -14,39 +14,5 @@ namespace Core.Game.Chunk.Substance.Data
         public EntityDtoDef EntityDef => DtoDef as EntityDtoDef;
         public EntityTemporaryData EntityTempData => TemporaryData as EntityTemporaryData;
         
-        protected override IChunkTemporaryData CreateTemporaryData(string defId)
-        {
-            return new EntityTemporaryData(defId) 
-            { 
-                Health = 100,
-                MaxHealth = 100,
-                IsDestroyed = false
-            };
-        }
-        
-        protected override IChunkTemporaryData LoadTemporaryDataFromES3(string instanceId)
-        {
-            return ES3.Load<EntityTemporaryData>(instanceId);
-        }
-
-        public void TakeDamage(int damage)
-        {
-            EntityTempData.Health -= damage;
-            if (EntityTempData.Health <= 0)
-            {
-                EntityTempData.Health = 0;
-                EntityTempData.IsDestroyed = true;
-            }
-            SaveTemporaryData();
-        }
-
-        public void Repair(int amount)
-        {
-            if (!EntityTempData.IsDestroyed)
-            {
-                EntityTempData.Health = Mathf.Min(EntityTempData.Health + amount, EntityTempData.MaxHealth);
-                SaveTemporaryData();
-            }
-        }
     }
 }

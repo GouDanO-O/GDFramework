@@ -10,29 +10,34 @@ namespace Core.Game.Chunk.Universe.Data
         public UniverseDtoDef UniverseDef => DtoDef as UniverseDtoDef;
         public UniverseTemporaryData UniverseTempData => TemporaryData as UniverseTemporaryData;
         
-        protected override IChunkTemporaryData CreateTemporaryData(string defId)
+        /// <summary>
+        /// 当前宇宙中所拥有的所有世界
+        /// </summary>
+        private List<WorldData> _universeWorldDataList = new List<WorldData>();
+
+        #region Init
+
+        public override void SetTempData(string defId)
         {
-            return new UniverseTemporaryData(defId);
+           
         }
-        
-        protected override IChunkTemporaryData LoadTemporaryDataFromES3(string instanceId)
-        {
-            return ES3.Load<UniverseTemporaryData>(instanceId);
-        }
+
+        #endregion
 
         #region World
 
+        /// <summary>
+        /// 获取宇宙中的所有世界ID
+        /// </summary>
+        /// <returns></returns>
         public List<WorldData> GetAllWorlds()
         {
-            return new List<WorldData>();
+            return _universeWorldDataList;
         }
         
         public void AddWorld(string worldInstanceId) => AddChild(worldInstanceId);
         public void RemoveWorld(string worldInstanceId) => RemoveChild(worldInstanceId);
-        public List<string> GetAllWorldIds() => GetAllChildIds();
         public void SetActiveWorld(string worldInstanceId) => SetActiveChild(worldInstanceId);
-        public string GetActiveWorldId() => GetActiveChildId();
-
         #endregion
         
 

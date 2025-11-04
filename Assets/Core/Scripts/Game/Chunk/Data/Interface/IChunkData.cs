@@ -8,14 +8,16 @@ namespace Core.Game.Chunk.Data.Interface
     /// </summary>
     public interface IChunkData
     {
-        string InstanceId { get; }
         string DefId { get; }
 
-        void InitFromDef(IChunkDtoDef dtoDef);
-        void InitFromInstanceId(string instanceId, IChunkDtoDef dtoDef);
+        void InitChunkData(IChunkDtoDef def);
 
-        bool HasTemporaryData(string instanceId);
+        void SetDefData(IChunkDtoDef def);
+
+        void SetTempData(string defId);
+
         void SaveTemporaryData();
+
         void DeleteTemporaryData();
     }
 }

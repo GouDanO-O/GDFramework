@@ -10,6 +10,5 @@
         string DefDescription { get; }
         
         bool Validate(out string error);
-        IChunkDtoDef Clone();
     }
 }

@@ -2,33 +2,24 @@
 using System.Linq;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Data.Interface;
+using Core.Game.Procedure.Resource;
 
 namespace Core.Game.Chunk.World.Data
 {
     public class WorldDataModel : ChunkDataModel
     {
-        private ChunkDataManager _worldDataManager;
-
-        protected override IChunkDataManager CreateDataManager()
+        public override void InitializeDataModel()
         {
-            _worldDataManager = new ChunkDataManager();
-            return _worldDataManager;
+            
         }
-
-        protected override void InitializeDataManager()
+        
+        /// <summary>
+        /// 添加数据中的固定配置
+        /// </summary>
+        /// <param name="dtoDef"></param>
+        public void AddDtoDef(LaunchResourcesLoader.HierarchyContext context,WorldDtoDef dtoDef)
         {
-            _worldDataManager.RegisterTypeFactory<WorldData>(() => new WorldData());
-            LoadAllDefs();
-        }
 
-        protected override void LoadAllDefs()
-        {
-            // TODO: 从JSON加载World配置
         }
-
-        public WorldData CreateWorld(string defId) => _worldDataManager.CreateInstance<WorldData>(defId);
-        public WorldData LoadWorld(string instanceId) => _worldDataManager.LoadInstance<WorldData>(instanceId);
-        public WorldData GetWorld(string instanceId) => _worldDataManager.GetInstance(instanceId) as WorldData;
-        public List<WorldData> GetAllWorlds() => _worldDataManager.GetAllInstanceIds().Select(id => GetWorld(id)).ToList();
     }
 }

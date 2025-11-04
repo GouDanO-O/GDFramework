@@ -6,67 +6,33 @@ namespace Core.Game.Chunk.Data
     /// <summary>
     /// 容器运行时数据基类(可包含子级)
     /// </summary>
-    public abstract class ChunkContainerData : ChunkData, IChunkContainerData
+    public abstract class ChunkContainerData : ChunkData
     {
-        protected IChunkContainerTemporaryData ContainerTempData => TemporaryData as IChunkContainerTemporaryData;
-
+        /// <summary>
+        /// 添加子节点
+        /// </summary>
+        /// <param name="childInstanceId"></param>
         public virtual void AddChild(string childInstanceId)
         {
-            if (ContainerTempData != null && !ContainerTempData.ChildInstanceIds.Contains(childInstanceId))
-            {
-                ContainerTempData.ChildInstanceIds.Add(childInstanceId);
-                SaveTemporaryData();
-                OnChildAdded(childInstanceId);
-            }
+            
         }
 
+        /// <summary>
+        /// 移除子节点
+        /// </summary>
+        /// <param name="childInstanceId"></param>
         public virtual void RemoveChild(string childInstanceId)
         {
-            if (ContainerTempData != null && ContainerTempData.ChildInstanceIds.Contains(childInstanceId))
-            {
-                ContainerTempData.ChildInstanceIds.Remove(childInstanceId);
 
-                // 如果移除的是激活的子级,清空激活状态
-                if (ContainerTempData.ActiveChildInstanceId == childInstanceId)
-                {
-                    ContainerTempData.ActiveChildInstanceId = null;
-                }
-
-                SaveTemporaryData();
-                OnChildRemoved(childInstanceId);
-            }
         }
-
-        public virtual List<string> GetAllChildIds()
-        {
-            return ContainerTempData?.ChildInstanceIds ?? new List<string>();
-        }
-
+        
+        /// <summary>
+        /// 激活子节点
+        /// </summary>
+        /// <param name="childInstanceId"></param>
         public virtual void SetActiveChild(string childInstanceId)
         {
-            if (ContainerTempData != null && ContainerTempData.ChildInstanceIds.Contains(childInstanceId))
-            {
-                ContainerTempData.ActiveChildInstanceId = childInstanceId;
-                SaveTemporaryData();
-                OnActiveChildChanged(childInstanceId);
-            }
-        }
 
-        public virtual string GetActiveChildId()
-        {
-            return ContainerTempData?.ActiveChildInstanceId;
-        }
-
-        protected virtual void OnChildAdded(string childInstanceId)
-        {
-        }
-
-        protected virtual void OnChildRemoved(string childInstanceId)
-        {
-        }
-
-        protected virtual void OnActiveChildChanged(string childInstanceId)
-        {
         }
     }
 }

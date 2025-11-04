@@ -23,9 +23,6 @@ namespace Core.Game.Chunk.Universe
 
         private StorageSystem _storageSystem;
 
-        // 当前激活的宇宙数据
-        private UniverseData _currentUniverseData;
-
         protected override string ComponentControllerPath
         {
             get
@@ -84,11 +81,6 @@ namespace Core.Game.Chunk.Universe
         public void SetInitialWorld()
         {
             _worldSystem = this.GetSystem<WorldSystem>();
-            
-            if (_currentUniverseData != null)
-            {
-                _worldSystem.SetFocusRegion();
-            }
         }
         
         /// <summary>
@@ -96,11 +88,7 @@ namespace Core.Game.Chunk.Universe
         /// </summary>
         public void ChangeWorld(WorldData willChangeWorld, WorldData lastWorld)
         {
-            if (_currentUniverseData != null)
-            {
-                // TODO: 实现世界切换逻辑
 
-            }
         }
 
         /// <summary>
@@ -108,7 +96,7 @@ namespace Core.Game.Chunk.Universe
         /// </summary>
         public UniverseData GetCurrentUniverseData()
         {
-            return _currentUniverseData;
+            return null;
         }
 
         #endregion

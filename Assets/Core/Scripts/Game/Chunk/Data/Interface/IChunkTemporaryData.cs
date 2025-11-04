@@ -8,8 +8,6 @@ namespace Core.Game.Chunk.Data.Interface
     /// </summary>
     public interface IChunkTemporaryData : ITemporaryData
     {
-        string InstanceId { get; set; }
-        
         string DefId { get; set; }
         
         DateTime CreateTime { get; set; }
