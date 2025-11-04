@@ -20,6 +20,8 @@ namespace Core.Game.View
 
 		protected Button EditorButton;
 
+		protected Button SettingButton;
+
 		protected Button ExitGameButton;
 		
 		protected override void OnInit(IUIData uiData = null)
@@ -39,6 +41,7 @@ namespace Core.Game.View
 			StartGameButton = GameMenuButtonRoot.Find("StartGameButton").GetComponent<Button>();
 			ContinueButton = GameMenuButtonRoot.Find("ContinueButton").GetComponent<Button>();
 			EditorButton = GameMenuButtonRoot.Find("EditorButton").GetComponent<Button>();
+			SettingButton = GameMenuButtonRoot.Find("SettingButton").GetComponent<Button>();
 			ExitGameButton = GameMenuButtonRoot.Find("ExitGameButton").GetComponent<Button>();
 		}
 
@@ -48,6 +51,7 @@ namespace Core.Game.View
 			StartGameButton.onClick.AddListener(StartGame);
 			ContinueButton.onClick.AddListener(ContinueGame);
 			EditorButton.onClick.AddListener(EditorMod);
+			SettingButton.onClick.AddListener(OpenSetting);
 			ExitGameButton.onClick.AddListener(ExitGame);
 		}
 
@@ -95,6 +99,11 @@ namespace Core.Game.View
 		protected void EditorMod()
 		{
 			UIKit.OpenPanel<UI_ChunkEditorPanel>();
+		}
+
+		protected void OpenSetting()
+		{
+			
 		}
 
 		protected void ExitGame()

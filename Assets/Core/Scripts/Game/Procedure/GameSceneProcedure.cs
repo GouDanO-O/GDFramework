@@ -19,12 +19,14 @@ namespace Core.Game.Procedure
         public override void OnInit(FsmManager fsmManager)
         {
             base.OnInit(fsmManager);
+
             _resourcesManager = this.GetSystem<ResourcesManager>();
             _gameSceneResourcesLoader=new GameSceneResourcesLoader();
         }
 
         public override void OnEnter()
         {
+            UIKit.ClosePanel<UI_GameMenuPanel>();
             _resourcesManager.StartLoadingResources(typeof(GameSceneResourcesLoader), _gameSceneResourcesLoader,
                 () =>
                 {

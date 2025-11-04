@@ -32,6 +32,16 @@ namespace Core.Game.Chunk.Data
             DefId = $"{typePrefix}_DEF_{uniqueId}";
         }
 
+        public virtual void SaveThisDef()
+        {
+            
+        }
+
+        public virtual void DeleteThisDef()
+        {
+            
+        }
+
         public abstract string GetTypePrefix();
 
         /// <summary>

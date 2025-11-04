@@ -1,6 +1,8 @@
 ﻿using Core.Game.Chunk;
 using Core.Game.Procedure;
+using Core.Game.View;
 using GDFrameworkCore;
+using GDFrameworkExtend.UIKit;
 using UnityEngine;
 using YooAsset;
 
@@ -27,6 +29,7 @@ namespace Core.Game
         public void LoadGameSceneComplete()
         {
             Debug.Log("世界初始化完成");
+            UIKit.OpenPanel<UI_UniversePanel>();
         }
 
         public string GetCurGamingTime()

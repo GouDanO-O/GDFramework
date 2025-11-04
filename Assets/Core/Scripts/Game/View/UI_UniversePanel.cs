@@ -24,25 +24,26 @@ namespace Core.Game.View
 		protected Transform UniverseMapCenter;
 
 		protected Transform UniverseMapHeader;
+
+		protected Transform UniverseMapDowner;
 		
 		protected UI_UniverseWorldDetailShow UniverseWorldDetailShow;
 
 		protected GameObject UniverseSingleWorld;
 
-		protected Button ManageUniverseWorldDetailShowButton;
-
-		protected Button ContinueButton;
-
 		protected Transform UniverseMapCenterContentRoot;
-
-		protected List<UI_UniverseSingleWorld> CurUniverseOwnedWorldList = new List<UI_UniverseSingleWorld>();
-
-		protected UniverseData UniverseData;
 		
 		protected TMP_InputField UniverseMapNameInputField;
 
 		protected TextMeshProUGUI FocusWorldName;
 
+		protected Button OpenWorldButton;
+
+		protected Button WorldDetailButton;
+		
+		protected List<UI_UniverseSingleWorld> CurUniverseOwnedWorldList = new List<UI_UniverseSingleWorld>();
+		
+		protected UniverseData UniverseData;
 
 		private WorldData _curSelectingWorldData;
 		
@@ -55,29 +56,38 @@ namespace Core.Game.View
 		{
 			mData = uiData as UI_UniversePanelData ?? new UI_UniversePanelData();
 			// please add init code here
+			GetRelyComponent();
+			RegisterEvent();
+		}
+
+		protected override void GetRelyComponent()
+		{
+			base.GetRelyComponent();
 			UniverseData = this.GetSystem<UniverseSystem>().GetCurrentUniverseData();
 			UniverseMap = Common.Find("UniverseMap");
-			UniverseMapCenter = UniverseMap.Find("UniverseMapCenter");
-			UniverseMapHeader = UniverseMap.Find("UniverseMapHeader");
-
 			UniverseWorldDetailShow = UniverseMap.Find("UniverseWorldDetailShow").GetComponent<UI_UniverseWorldDetailShow>();
-
+			
+			UniverseMapCenter = UniverseMap.Find("UniverseMapCenter");
 			UniverseMapCenterContentRoot = UniverseMapCenter.Find("Contents");
-
-			ContinueButton = UniverseMapHeader.Find("ContinueButton").GetComponent<Button>();
 			
-			ManageUniverseWorldDetailShowButton =
-				UniverseMapHeader.Find("ManageUniverseWorldDetailShowButton").GetComponent<Button>();
-			
+			UniverseMapHeader = UniverseMap.Find("UniverseMapHeader");
 			UniverseMapNameInputField =
 				UniverseMapHeader.Find("UniverseMapName/NameInput").GetComponent<TMP_InputField>();
 			FocusWorldName = UniverseMapHeader.Find("FocusWorld/WorldName").GetComponent<TextMeshProUGUI>();
 			
-			ContinueButton.onClick.AddListener(ContinueToNext);
-			ManageUniverseWorldDetailShowButton.onClick.AddListener(OpenOrCloseDetailWorldShow);
-			UniverseMapNameInputField.onValueChanged.AddListener(ListenUniverseMapNameChange);
+			UniverseMapDowner = UniverseMap.Find("UniverseMapDowner");
+			OpenWorldButton = UniverseMapDowner.Find("OpenWorldButton").GetComponent<Button>();
+			WorldDetailButton = UniverseMapDowner.Find("WorldDetailButton").GetComponent<Button>();
 		}
-		
+
+		protected override void RegisterEvent()
+		{
+			base.RegisterEvent();
+			UniverseMapNameInputField.onValueChanged.AddListener(ListenUniverseMapNameChange);
+			OpenWorldButton.onClick.AddListener(ContinueToNext);
+			WorldDetailButton.onClick.AddListener(OpenOrCloseDetailWorldShow);
+		}
+
 		protected override void OnOpen(IUIData uiData = null)
 		{
 			SpawnUniverseWorld();
@@ -136,15 +146,27 @@ namespace Core.Game.View
 		public void UpdateCurSelectingWorld(WorldData curSelectingData)
 		{
 			_curSelectingWorldData = curSelectingData;
+			FocusWorldName.text = curSelectingData.WorldDef.DefName;
 			UniverseWorldDetailShow.UpdateShow(curSelectingData);
 		}
 
 		/// <summary>
 		/// 进入下一级
+		/// 打开世界面板
 		/// </summary>
 		private void ContinueToNext()
 		{
-			
+			if (_curSelectingWorldData == null)
+			{
+				LogMonoUtility.AddErrorLog("请选择世界");
+			}
+			else
+			{
+				UIKit.OpenPanel<UI_WorldPanel>(new UI_WorldPanelData()
+				{
+					CurSelectingWorld = _curSelectingWorldData
+				});
+			}
 		}
 
 		/// <summary>

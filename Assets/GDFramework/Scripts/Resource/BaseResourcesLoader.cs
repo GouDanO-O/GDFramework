@@ -121,8 +121,8 @@ namespace GDFramework.Resource
         /// </summary>
         protected void LoadingComplete()
         {
-            OnLoadComplete?.Invoke();
             LogMonoUtility.AddLog("全部加载完成");
+            OnLoadComplete?.Invoke();
         }
 
         /// <summary>

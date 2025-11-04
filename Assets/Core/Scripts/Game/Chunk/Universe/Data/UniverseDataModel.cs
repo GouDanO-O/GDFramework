@@ -40,6 +40,11 @@ namespace Core.Game.Chunk.Universe.Data
             return _currentUniverseData;
         }
 
+        public List<UniverseDtoDef> GetAllUniverseDefs()
+        {
+            return _universeDtoDefList;
+        }
+
         /// <summary>
         /// 获取所有的宇宙配置
         /// 玩家可以根据不同的宇宙来选择
