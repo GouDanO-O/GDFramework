@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Data.Interface;
 namespace Core.Game.Chunk.Region.Data
@@ -20,6 +21,17 @@ namespace Core.Game.Chunk.Region.Data
         public void Unload()
         {
             SaveTemporaryData();
+        }
+
+
+        protected override IChunkTemporaryData CreateNewTemporaryData()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Type GetTemporaryDataType()
+        {
+            throw new NotImplementedException();
         }
     }
 }

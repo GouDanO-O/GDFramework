@@ -63,7 +63,7 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Core/Res/Prefabs/View/UI_ChunkEditorPanel.prefab
+      - CollectPath: Assets/Core/Res/Prefabs/View/Editor/UI_ChunkEditorPanel.prefab
         CollectorGUID: 8ad302c511f1b724e87fbd3f82af1df4
         CollectorType: 0
         AddressRuleName: AddressByFileName

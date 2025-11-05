@@ -9,14 +9,15 @@ namespace Core.Game.Chunk.Universe.Data
     [Serializable]
     public class UniverseTemporaryData : ChunkTemporaryData
     {
-        [LabelText("上一次离开时的焦点世界ID")]
+        [LabelText("上一次离开时的焦点世界DefId")]
         public string LastFocusWorldDefId;
         
-        [LabelText("当前世界的实例ID")]
+        [LabelText("当前世界的DefId")]
         public string CurrentWorldDefId;
         
-        [LabelText("所有世界的实例ID")]
-        public List<string> WorldDefIds = new List<string>();
+        [LabelText("激活的世界DefId列表")]
+        [InfoBox("这个宇宙中当前存在的所有世界")]
+        public List<string> ActiveWorldDefIds = new List<string>();
 
         public UniverseTemporaryData() : base()
         {
@@ -24,6 +25,10 @@ namespace Core.Game.Chunk.Universe.Data
             CurrentWorldDefId = string.Empty;
         }
         
-        public UniverseTemporaryData(string defId) : base(defId) { }
+        public UniverseTemporaryData(string defId) : base(defId) 
+        {
+            LastFocusWorldDefId = string.Empty;
+            CurrentWorldDefId = string.Empty;
+        }
     }
 }

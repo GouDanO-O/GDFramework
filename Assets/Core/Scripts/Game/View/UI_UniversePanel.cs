@@ -127,15 +127,15 @@ namespace Core.Game.View
 						.LoadPrefabAsync(DefaultPackage.UIDetails.DetailsAssetGroup.UniverseSingleWorld);
 				}
 
-				List<WorldData> universeWorldDatas = UniverseData.GetAllWorlds();
-				for (int i = 0; i < universeWorldDatas.Count; i++)
-				{
-					WorldData curWorldData = universeWorldDatas[i];
-					GameObject spawnedWorld = Object.Instantiate(UniverseSingleWorld);
-					UI_UniverseSingleWorld singleWorld = spawnedWorld.GetComponent<UI_UniverseSingleWorld>();
-					singleWorld.SetWorldData(curWorldData);
-					CurUniverseOwnedWorldList.Add(singleWorld);
-				}
+				// List<WorldData> universeWorldDatas = UniverseData.get();
+				// for (int i = 0; i < universeWorldDatas.Count; i++)
+				// {
+				// 	WorldData curWorldData = universeWorldDatas[i];
+				// 	GameObject spawnedWorld = Object.Instantiate(UniverseSingleWorld);
+				// 	UI_UniverseSingleWorld singleWorld = spawnedWorld.GetComponent<UI_UniverseSingleWorld>();
+				// 	singleWorld.SetWorldData(curWorldData);
+				// 	CurUniverseOwnedWorldList.Add(singleWorld);
+				// }
 			}
 		}
 

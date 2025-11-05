@@ -18,6 +18,14 @@ namespace Core.Game.Chunk.Room.Data
     {
         public RoomDtoDef RoomDef => DtoDef as RoomDtoDef;
         public RoomTemporaryData RoomTempData => TemporaryData as RoomTemporaryData;
-        
+        protected override IChunkTemporaryData CreateNewTemporaryData()
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override Type GetTemporaryDataType()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
