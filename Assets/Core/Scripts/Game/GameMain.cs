@@ -1,8 +1,12 @@
-﻿using Core.Game.Chunk.Region;
+﻿using Core.Game.Chunk.Dungeon.Data;
+using Core.Game.Chunk.Region;
+using Core.Game.Chunk.Region.Data;
 using Core.Game.Chunk.Room;
+using Core.Game.Chunk.Room.Data;
 using Core.Game.Chunk.Universe;
 using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World;
+using Core.Game.Chunk.World.Data;
 using Core.Game.Procedure.Models.Resource;
 using GDFrameworkCore;
 
@@ -26,6 +30,10 @@ namespace Core.Game
             this.RegisterModel(new GameSceneResourcesDataModel());
             
             this.RegisterModel(new UniverseDataModel());
+            this.RegisterModel(new WorldDataModel());
+            this.RegisterModel(new RegionDataModel());
+            this.RegisterModel(new DungeonDataModel());
+            this.RegisterModel(new RoomDataModel());
         }
 
         protected override void Register_Utility()

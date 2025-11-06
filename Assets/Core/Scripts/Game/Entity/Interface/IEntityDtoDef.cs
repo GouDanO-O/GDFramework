@@ -5,6 +5,8 @@
         string DefId { get; }
         string DefName { get; }
         string DefDescription { get; }
+        
+        string SpriteId { get; set; }
 
         void SaveThisDef();
 

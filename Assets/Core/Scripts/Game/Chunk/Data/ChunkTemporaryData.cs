@@ -7,7 +7,7 @@ namespace Core.Game.Chunk.Data
 {
     public class ChunkTemporaryData : IChunkTemporaryData
     {
-        [LabelText("关联的配置ID"), ReadOnly]
+        [LabelText("关联的配置ID")]
         public string DefId { get; set; }
         
         [LabelText("创建时间")]

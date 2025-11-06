@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using Core.Game.Chunk.Data.Interface;
+using Core.Game.Storage;
+using GDFrameworkCore;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -8,7 +10,7 @@ using UnityEngine;
 namespace Core.Game.Chunk.Data
 {
     [Serializable, JsonObject]
-    public abstract class ChunkDtoDef : IChunkDtoDef
+    public abstract class ChunkDtoDef : IChunkDtoDef,ICanGetSystem
     {
         [LabelText("配置ID"), ReadOnly]
         [InfoBox("这是配置的唯一标识(在编辑器保存时,只会生成一次,")]
@@ -24,6 +26,11 @@ namespace Core.Game.Chunk.Data
         {
             GenerateDefId();
         }
+        
+        public IArchitecture GetArchitecture()
+        {
+            return GameMain.Interface;
+        }
 
         private void GenerateDefId()
         {
@@ -34,12 +41,12 @@ namespace Core.Game.Chunk.Data
 
         public virtual void SaveThisDef()
         {
-            
+            this.GetSystem<StorageSystem>().SaveDef(this);
         }
 
         public virtual void DeleteThisDef()
         {
-            
+            this.GetSystem<StorageSystem>().DeleteDef(this);
         }
 
         public abstract string GetTypePrefix();

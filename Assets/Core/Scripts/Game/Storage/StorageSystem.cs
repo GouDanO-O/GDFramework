@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Core.Game.Chunk.Data.Interface;
+using Core.Game.Chunk.Substance.Interface;
 using Core.Game.Chunk.Universe.Data;
 using Core.Game.Storage.Data;
 using GDFrameworkCore;
@@ -205,12 +206,26 @@ namespace Core.Game.Storage
 
         #endregion
 
-        #region 临时数据管理 (使用 DefId)
+        #region Def存储
+
+        public void SaveDef(IChunkDtoDef dtoDef)
+        {
+            
+        }
+
+        public void DeleteDef(IChunkDtoDef dtoDef)
+        {
+            
+        }
+
+        #endregion
+
+        #region 临时区块数据管理
 
         /// <summary>
         /// 保存临时数据
         /// </summary>
-        public void SaveTemporaryData(string defId, IChunkTemporaryData tempData)
+        public void SaveChunkTemporaryData(string defId, IChunkTemporaryData tempData)
         {
             if (string.IsNullOrEmpty(defId))
             {
@@ -234,6 +249,104 @@ namespace Core.Game.Storage
             
             Debug.Log($"<color=cyan>保存临时数据: {defId}</color>");
         }
+
+        /// <summary>
+        /// 加载临时数据 (通用版本)
+        /// </summary>
+        public IChunkTemporaryData LoadChunkTemporaryData(string defId, Type type)
+        {
+            if (string.IsNullOrEmpty(defId))
+            {
+                Debug.LogWarning("DefId 为空,无法加载临时数据");
+                return null;
+            }
+
+            string key = GetTempDataKey(defId);
+            
+            if (ES3.KeyExists(key))
+            {
+                try
+                {
+                    var tempData = ES3.Load(key, type) as IChunkTemporaryData;
+                    Debug.Log($"<color=cyan>加载临时数据: {defId}</color>");
+                    return tempData;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"加载临时数据失败 {defId}: {e.Message}");
+                    return null;
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
+        
+        #region 临时实体数据管理
+
+        /// <summary>
+        /// 保存实体临时数据
+        /// </summary>
+        public void SaveEntityTemporaryData(string instanceId, IEntityTemporaryData tempData)
+        {
+            if (string.IsNullOrEmpty(instanceId))
+            {
+                Debug.LogError("instanceId 为空,无法保存临时数据");
+                return;
+            }
+
+            if (tempData == null)
+            {
+                Debug.LogError($"临时数据为空,无法保存: {instanceId}");
+                return;
+            }
+
+            // 更新修改时间
+            tempData.LastModifyTime = DateTime.Now;
+            tempData.EntityInstanceId = instanceId;
+
+            // 使用当前槽位的宇宙ID作为前缀,隔离不同存档的数据
+            string key = GetTempDataKey(instanceId);
+            ES3.Save(key, tempData);
+            
+            Debug.Log($"<color=cyan>保存临时数据: {instanceId}</color>");
+        }
+        
+        /// <summary>
+        /// 加载实体临时数据
+        /// </summary>
+        public IEntityTemporaryData LoadEntityTemporaryData(string instanceId, Type type)
+        {
+            if (string.IsNullOrEmpty(instanceId))
+            {
+                Debug.LogWarning("instanceId 为空,无法加载临时数据");
+                return null;
+            }
+
+            string key = GetTempDataKey(instanceId);
+            
+            if (ES3.KeyExists(key))
+            {
+                try
+                {
+                    var tempData = ES3.Load(key, type) as IEntityTemporaryData;
+                    Debug.Log($"<color=cyan>加载临时数据: {instanceId}</color>");
+                    return tempData;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError($"加载临时数据失败 {instanceId}: {e.Message}");
+                    return null;
+                }
+            }
+
+            return null;
+        }
+
+        #endregion
+
+        #region 临时数据管理
 
         /// <summary>
         /// 加载临时数据
@@ -265,38 +378,7 @@ namespace Core.Game.Storage
 
             return null;
         }
-
-        /// <summary>
-        /// 加载临时数据 (通用版本)
-        /// </summary>
-        public IChunkTemporaryData LoadTemporaryData(string defId, Type type)
-        {
-            if (string.IsNullOrEmpty(defId))
-            {
-                Debug.LogWarning("DefId 为空,无法加载临时数据");
-                return null;
-            }
-
-            string key = GetTempDataKey(defId);
-            
-            if (ES3.KeyExists(key))
-            {
-                try
-                {
-                    var tempData = ES3.Load(key, type) as IChunkTemporaryData;
-                    Debug.Log($"<color=cyan>加载临时数据: {defId}</color>");
-                    return tempData;
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError($"加载临时数据失败 {defId}: {e.Message}");
-                    return null;
-                }
-            }
-
-            return null;
-        }
-
+        
         /// <summary>
         /// 删除临时数据
         /// </summary>

@@ -63,7 +63,7 @@ namespace Core.Game.Chunk.Data
             var storageSystem = this.GetSystem<StorageSystem>();
             
             // 尝试加载已存在的临时数据
-            var tempData = storageSystem?.LoadTemporaryData(DefId, GetTemporaryDataType());
+            var tempData = storageSystem?.LoadChunkTemporaryData(DefId, GetTemporaryDataType());
             
             if (tempData != null)
             {
@@ -106,7 +106,7 @@ namespace Core.Game.Chunk.Data
                 return;
             }
 
-            this.GetSystem<StorageSystem>().SaveTemporaryData(DefId, TemporaryData);
+            this.GetSystem<StorageSystem>().SaveChunkTemporaryData(DefId, TemporaryData);
         }
 
         /// <summary>

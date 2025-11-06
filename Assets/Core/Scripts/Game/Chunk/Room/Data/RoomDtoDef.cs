@@ -14,10 +14,10 @@ namespace Core.Game.Chunk.Room.Data
     {
         [LabelText("房间尺寸,默认为300x300大小")]
         public Vector2Int GridSize = Vector2Int.one * 300;
-        
+
         [LabelText("初始瓦片布局")]
         [InfoBox("定义房间的初始瓦片布局")]
-        public List<TileData> InitialTiles = new List<TileData>();
+        public TileData[,] InitialTiles;
         
         [LabelText("初始实体")]
         public List<EntityDtoDef> InitialEntities = new List<EntityDtoDef>();
