@@ -13,6 +13,8 @@ namespace GDFramework.FrameData
            public struct ChunkDataAssetGroup
            {
                public const string BundleName = "defaultpackage_core_res_configs_chunkdata";
+               public const string Universe_DEF_4827DD95 = "yoo:Universe_DEF_4827DD95";
+               public const string Universe_DEF_8F48F56E = "yoo:Universe_DEF_8F48F56E";
            }
        }
 
@@ -34,12 +36,6 @@ namespace GDFramework.FrameData
 
        public struct UI
        {
-
-           public struct UI_ChunkEditorPanelAssetGroup
-           {
-               public const string BundleName = "defaultpackage_core_res_prefabs_view_ui_chunkeditorpanel.prefab";
-               public const string UI_ChunkEditorPanel = "yoo:UI_ChunkEditorPanel";
-           }
 
            public struct UI_GameMenuPanelAssetGroup
            {
@@ -70,6 +66,12 @@ namespace GDFramework.FrameData
                public const string BundleName = "defaultpackage_core_res_prefabs_view_ui_worldpanel.prefab";
                public const string UI_WorldPanel = "yoo:UI_WorldPanel";
            }
+
+           public struct UI_UniverseEditorListPanelAssetGroup
+           {
+               public const string BundleName = "defaultpackage_core_res_prefabs_view_editor_ui_universeeditorlistpanel.prefab";
+               public const string UI_UniverseEditorListPanel = "yoo:UI_UniverseEditorListPanel";
+           }
        }
 
        public struct UIDetails
@@ -79,6 +81,13 @@ namespace GDFramework.FrameData
            {
                public const string BundleName = "defaultpackage_core_res_prefabs_view_details";
                public const string UniverseSingleWorld = "yoo:UniverseSingleWorld";
+           }
+
+           public struct EditorDetailsAssetGroup
+           {
+               public const string BundleName = "defaultpackage_core_res_prefabs_view_editor_details";
+               public const string EditorDetail_UniverseListItem = "yoo:EditorDetail_UniverseListItem";
+               public const string EditorDetail_UniverseStringListItem = "yoo:EditorDetail_UniverseStringListItem";
            }
        }
 

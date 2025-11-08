@@ -63,14 +63,6 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/Core/Res/Prefabs/View/Editor/UI_ChunkEditorPanel.prefab
-        CollectorGUID: 8ad302c511f1b724e87fbd3f82af1df4
-        CollectorType: 0
-        AddressRuleName: AddressByFileName
-        PackRuleName: PackDirectory
-        FilterRuleName: CollectAll
-        AssetTags: 
-        UserData: 
       - CollectPath: Assets/Core/Res/Prefabs/View/UI_GameMenuPanel.prefab
         CollectorGUID: add4717bf560b2b4bb4efbc4faaa5c60
         CollectorType: 0
@@ -111,6 +103,14 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/Editor/UI_UniverseEditorListPanel.prefab
+        CollectorGUID: ec24098a701054042aedc8e9e2628a1d
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: UIDetails
       GroupDesc: "UI\u7EC6\u8282\u9884\u5236\u4F53"
       AssetTags: 
@@ -118,6 +118,14 @@ MonoBehaviour:
       Collectors:
       - CollectPath: Assets/Core/Res/Prefabs/View/Details
         CollectorGUID: 0e51524593e85f84a9af9ff18c258605
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/Editor/Details
+        CollectorGUID: 992e23101c239604db756e0887467870
         CollectorType: 0
         AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory

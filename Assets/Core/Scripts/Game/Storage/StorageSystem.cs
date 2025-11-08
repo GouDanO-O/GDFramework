@@ -1,21 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Core.Game.Chunk.Data.Interface;
 using Core.Game.Chunk.Substance.Interface;
-using Core.Game.Chunk.Universe.Data;
 using Core.Game.Storage.Data;
 using GDFrameworkCore;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Core.Game.Storage
 {
     /// <summary>
-    /// 存储系统 (简化版)
-    /// 使用 DefId 作为唯一标识
+    /// 存储系统 - 两层架构
+    /// 游戏配置层 (Editor路径，打包后只读) + Mod配置层 (可读写)
     /// </summary>
     public class StorageSystem : AbstractSystem
     {
+        #region 常量定义
+        
         /// <summary>
         /// 存档槽位Key前缀
         /// </summary>
@@ -32,6 +35,21 @@ namespace Core.Game.Storage
         private const int MaxSlotCount = 6;
 
         /// <summary>
+        /// 游戏配置路径 (编辑器开发路径)
+        /// 打包后通过 YooAsset 加载，运行时不可写
+        /// </summary>
+        private static string GameConfigPath => Path.Combine(Application.dataPath, "Core/Res/Configs/ChunkData");
+
+        /// <summary>
+        /// Mod 配置路径 (运行时可读写)
+        /// </summary>
+        private static string ModConfigPath => Path.Combine(Application.persistentDataPath, "Mods", "ChunkData");
+
+        #endregion
+
+        #region 私有字段
+
+        /// <summary>
         /// 所有的存档槽位数据 (缓存)
         /// </summary>
         private Dictionary<int, SaveSlotData> _slotDataDict = new Dictionary<int, SaveSlotData>();
@@ -45,17 +63,29 @@ namespace Core.Game.Storage
         /// 当前存档槽位数据
         /// </summary>
         private SaveSlotData _currentSlotData;
+
+        /// <summary>
+        /// Def配置缓存
+        /// Key: DefId, Value: Def对象
+        /// </summary>
+        private Dictionary<string, IChunkDtoDef> _defCache = new Dictionary<string, IChunkDtoDef>();
+
+        /// <summary>
+        /// Def 被修改标记
+        /// 用于跟踪哪些 Def 需要保存
+        /// </summary>
+        private HashSet<string> _modifiedDefs = new HashSet<string>();
+
+        #endregion
         
         protected override void OnInit()
         {
-            // 初始化时可以加载默认存档
+            // 确保 Mod 配置目录存在
+            EnsureModDirectoryExists();
         }
 
         #region 存档槽位管理
 
-        /// <summary>
-        /// 获取所有存档槽位信息
-        /// </summary>
         public List<SaveSlotData> GetAllSlots()
         {
             List<SaveSlotData> slots = new List<SaveSlotData>();
@@ -66,38 +96,22 @@ namespace Core.Game.Storage
             return slots;
         }
 
-        /// <summary>
-        /// 判断是否有任何存档
-        /// </summary>
         public bool HasAnySlot()
         {
             for (int i = 0; i < MaxSlotCount; i++)
             {
-                if (HasSlot(i))
-                {
-                    return true;
-                }
+                if (HasSlot(i)) return true;
             }
             return false;
         }
 
-        /// <summary>
-        /// 判断指定槽位是否有存档
-        /// </summary>
         public bool HasSlot(int slotIndex)
         {
-            if (!IsValidSlotIndex(slotIndex))
-            {
-                return false;
-            }
-            
+            if (!IsValidSlotIndex(slotIndex)) return false;
             string key = GetSlotDataKey(slotIndex);
             return ES3.KeyExists(key);
         }
 
-        /// <summary>
-        /// 获取指定槽位数据
-        /// </summary>
         public SaveSlotData GetSlotData(int slotIndex)
         {
             if (!IsValidSlotIndex(slotIndex))
@@ -106,32 +120,21 @@ namespace Core.Game.Storage
                 return new SaveSlotData(slotIndex);
             }
 
-            // 从缓存获取
             if (_slotDataDict.ContainsKey(slotIndex))
-            {
                 return _slotDataDict[slotIndex];
-            }
 
-            // 从存储加载
             SaveSlotData slotData;
             string key = GetSlotDataKey(slotIndex);
             
             if (ES3.KeyExists(key))
-            {
                 slotData = ES3.Load<SaveSlotData>(key);
-            }
             else
-            {
                 slotData = new SaveSlotData(slotIndex);
-            }
             
             _slotDataDict[slotIndex] = slotData;
             return slotData;
         }
 
-        /// <summary>
-        /// 保存槽位数据
-        /// </summary>
         public void SaveSlotData(int slotIndex, SaveSlotData slotData)
         {
             if (!IsValidSlotIndex(slotIndex))
@@ -142,15 +145,11 @@ namespace Core.Game.Storage
 
             string key = GetSlotDataKey(slotIndex);
             ES3.Save(key, slotData);
-            
             _slotDataDict[slotIndex] = slotData;
             
             Debug.Log($"保存存档槽位 {slotIndex}: {slotData.SlotName}");
         }
 
-        /// <summary>
-        /// 删除指定槽位的存档
-        /// </summary>
         public void DeleteSlot(int slotIndex)
         {
             if (!IsValidSlotIndex(slotIndex))
@@ -163,21 +162,13 @@ namespace Core.Game.Storage
             if (ES3.KeyExists(key))
             {
                 var slotData = GetSlotData(slotIndex);
-                
-                // 删除槽位关联的所有临时数据
                 DeleteSlotTemporaryData(slotData.UniverseId);
-                
-                // 删除槽位数据
                 ES3.DeleteKey(key);
                 _slotDataDict.Remove(slotIndex);
-                
                 Debug.Log($"删除存档槽位 {slotIndex}");
             }
         }
 
-        /// <summary>
-        /// 更新当前选择的存档槽位
-        /// </summary>
         public void SetCurrentSlot(int slotIndex)
         {
             if (!IsValidSlotIndex(slotIndex))
@@ -188,43 +179,435 @@ namespace Core.Game.Storage
             
             _currentSlotIndex = slotIndex;
             _currentSlotData = GetSlotData(slotIndex);
-            
             Debug.Log($"切换到存档槽位 {slotIndex}: {_currentSlotData.SlotName}");
         }
 
-        /// <summary>
-        /// 获取当前槽位
-        /// </summary>
         public SaveSlotData GetCurrentSlotData()
         {
             if (_currentSlotData == null && _currentSlotIndex >= 0)
-            {
                 _currentSlotData = GetSlotData(_currentSlotIndex);
-            }
             return _currentSlotData;
         }
 
         #endregion
 
-        #region Def存储
+        #region Def存储 - 核心实现
 
+        /// <summary>
+        /// 保存 Def 配置
+        /// 编辑器模式：保存到 GameConfig 路径
+        /// 运行时模式：保存到 Mod 路径
+        /// </summary>
         public void SaveDef(IChunkDtoDef dtoDef)
         {
-            
+            if (dtoDef == null)
+            {
+                Debug.LogError("Def 为空，无法保存");
+                return;
+            }
+
+            // 验证数据
+            if (!dtoDef.Validate(out string error))
+            {
+                Debug.LogError($"Def 验证失败: {error}");
+                return;
+            }
+
+            try
+            {
+#if UNITY_EDITOR
+                // 编辑器模式：保存到游戏配置路径
+                SaveDefToGameConfig(dtoDef);
+                Debug.Log($"<color=green>✓ 保存 Def 到游戏配置: {dtoDef.DefId} ({dtoDef.DefName})</color>");
+#else
+                // 运行时模式：保存到 Mod 路径
+                SaveDefToMod(dtoDef);
+                Debug.Log($"<color=green>✓ 保存 Def 到 Mod: {dtoDef.DefId} ({dtoDef.DefName})</color>");
+#endif
+
+                // 更新缓存
+                _defCache[dtoDef.DefId] = dtoDef;
+                _modifiedDefs.Remove(dtoDef.DefId); // 保存后清除修改标记
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"保存 Def 失败: {dtoDef.DefId}, 错误: {e.Message}\n{e.StackTrace}");
+            }
         }
 
+        /// <summary>
+        /// 删除 Def 配置
+        /// </summary>
         public void DeleteDef(IChunkDtoDef dtoDef)
         {
-            
+            if (dtoDef == null)
+            {
+                Debug.LogError("Def 为空，无法删除");
+                return;
+            }
+
+            try
+            {
+#if UNITY_EDITOR
+                // 编辑器模式：从游戏配置路径删除
+                DeleteDefFromGameConfig(dtoDef);
+                Debug.Log($"<color=yellow>✗ 删除游戏配置 Def: {dtoDef.DefId}</color>");
+#else
+                // 运行时模式：只能从 Mod 路径删除
+                // 游戏配置是只读的，无法删除
+                if (ExistsDefInMod(dtoDef.DefId))
+                {
+                    DeleteDefFromMod(dtoDef);
+                    Debug.Log($"<color=yellow>✗ 删除 Mod Def: {dtoDef.DefId}</color>");
+                }
+                else
+                {
+                    Debug.LogWarning($"无法删除游戏配置 Def: {dtoDef.DefId}，运行时游戏配置是只读的");
+                    return;
+                }
+#endif
+
+                // 从缓存移除
+                _defCache.Remove(dtoDef.DefId);
+                _modifiedDefs.Remove(dtoDef.DefId);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"删除 Def 失败: {dtoDef.DefId}, 错误: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// 加载 Def 配置
+        /// 优先级: Mod 路径 > 游戏配置路径
+        /// </summary>
+        public T LoadDef<T>(string defId) where T : class, IChunkDtoDef
+        {
+            if (string.IsNullOrEmpty(defId))
+            {
+                Debug.LogWarning("DefId 为空，无法加载");
+                return null;
+            }
+
+            // 优先从缓存获取
+            if (_defCache.TryGetValue(defId, out var cachedDef))
+            {
+                return cachedDef as T;
+            }
+
+            try
+            {
+                T def = null;
+
+                // 优先级1: Mod 路径（可覆盖游戏配置）
+                def = LoadDefFromMod<T>(defId);
+                if (def != null)
+                {
+                    Debug.Log($"<color=cyan>从 Mod 加载 Def: {defId}</color>");
+                }
+                else
+                {
+                    // 优先级2: 游戏配置路径
+#if UNITY_EDITOR
+                    def = LoadDefFromGameConfig<T>(defId);
+                    if (def != null)
+                    {
+                        Debug.Log($"<color=cyan>从游戏配置加载 Def: {defId}</color>");
+                    }
+#else
+                    // 运行时游戏配置应该由 LaunchResourcesLoader 通过 YooAsset 加载
+                    // 这里不应该直接访问，而是从 DataModel 的缓存中获取
+                    Debug.LogWarning($"Def {defId} 不在 Mod 中，且未从游戏配置加载（应由 LaunchResourcesLoader 加载）");
+#endif
+                }
+
+                if (def != null)
+                {
+                    // 更新缓存
+                    _defCache[defId] = def;
+                }
+
+                return def;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"加载 Def 失败: {defId}, 错误: {e.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 检查 Def 是否存在
+        /// </summary>
+        public bool ExistsDef(string defId)
+        {
+            if (string.IsNullOrEmpty(defId))
+                return false;
+
+            // 检查缓存
+            if (_defCache.ContainsKey(defId))
+                return true;
+
+            // 检查 Mod 路径
+            if (ExistsDefInMod(defId))
+                return true;
+
+#if UNITY_EDITOR
+            // 编辑器：检查游戏配置路径
+            if (ExistsDefInGameConfig(defId))
+                return true;
+#endif
+
+            return false;
+        }
+
+        /// <summary>
+        /// 标记 Def 为已修改
+        /// </summary>
+        public void MarkDefAsModified(string defId)
+        {
+            if (_defCache.ContainsKey(defId))
+            {
+                _modifiedDefs.Add(defId);
+            }
+        }
+
+        /// <summary>
+        /// 获取所有被修改的 Def
+        /// </summary>
+        public List<IChunkDtoDef> GetModifiedDefs()
+        {
+            return _modifiedDefs
+                .Where(defId => _defCache.ContainsKey(defId))
+                .Select(defId => _defCache[defId])
+                .ToList();
+        }
+
+        /// <summary>
+        /// 保存所有被修改的 Def
+        /// </summary>
+        public void SaveAllModifiedDefs()
+        {
+            var modifiedDefs = GetModifiedDefs();
+            foreach (var def in modifiedDefs)
+            {
+                SaveDef(def);
+            }
+            Debug.Log($"<color=green>批量保存: {modifiedDefs.Count} 个 Def</color>");
+        }
+
+        /// <summary>
+        /// 清空 Def 缓存
+        /// </summary>
+        public void ClearDefCache()
+        {
+            _defCache.Clear();
+            _modifiedDefs.Clear();
+            Debug.Log("已清空 Def 缓存");
+        }
+
+        /// <summary>
+        /// 检查 Def 是否在 Mod 中（可能覆盖了游戏配置）
+        /// </summary>
+        public bool IsModOverride(string defId)
+        {
+            return ExistsDefInMod(defId);
         }
 
         #endregion
 
-        #region 临时区块数据管理
+        #region Def文件操作 - 游戏配置路径
+
+#if UNITY_EDITOR
+        /// <summary>
+        /// 保存 Def 到游戏配置路径
+        /// </summary>
+        private void SaveDefToGameConfig(IChunkDtoDef dtoDef)
+        {
+            string filePath = GetGameConfigDefFilePath(dtoDef.DefId);
+            SaveDefToFilePath(dtoDef, filePath);
+        }
 
         /// <summary>
-        /// 保存临时数据
+        /// 从游戏配置路径加载 Def
         /// </summary>
+        private T LoadDefFromGameConfig<T>(string defId) where T : class, IChunkDtoDef
+        {
+            string filePath = GetGameConfigDefFilePath(defId);
+            return LoadDefFromFilePath<T>(filePath);
+        }
+
+        /// <summary>
+        /// 从游戏配置路径删除 Def
+        /// </summary>
+        private void DeleteDefFromGameConfig(IChunkDtoDef dtoDef)
+        {
+            string filePath = GetGameConfigDefFilePath(dtoDef.DefId);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+                Debug.Log($"删除游戏配置文件: {filePath}");
+            }
+        }
+
+        /// <summary>
+        /// 检查 Def 是否存在于游戏配置路径
+        /// </summary>
+        private bool ExistsDefInGameConfig(string defId)
+        {
+            string filePath = GetGameConfigDefFilePath(defId);
+            return File.Exists(filePath);
+        }
+
+        /// <summary>
+        /// 获取游戏配置路径中的 Def 文件路径
+        /// </summary>
+        private string GetGameConfigDefFilePath(string defId)
+        {
+            string typePrefix = ExtractTypePrefix(defId);
+            string typePath = Path.Combine(GameConfigPath, typePrefix);
+            return Path.Combine(typePath, $"{defId}.json");
+        }
+#endif
+
+        #endregion
+
+        #region Def文件操作 - Mod 路径
+
+        /// <summary>
+        /// 保存 Def 到 Mod 路径
+        /// </summary>
+        private void SaveDefToMod(IChunkDtoDef dtoDef)
+        {
+            string filePath = GetModDefFilePath(dtoDef.DefId);
+            SaveDefToFilePath(dtoDef, filePath);
+        }
+
+        /// <summary>
+        /// 从 Mod 路径加载 Def
+        /// </summary>
+        private T LoadDefFromMod<T>(string defId) where T : class, IChunkDtoDef
+        {
+            string filePath = GetModDefFilePath(defId);
+            return LoadDefFromFilePath<T>(filePath);
+        }
+
+        /// <summary>
+        /// 从 Mod 路径删除 Def
+        /// </summary>
+        private void DeleteDefFromMod(IChunkDtoDef dtoDef)
+        {
+            string filePath = GetModDefFilePath(dtoDef.DefId);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+                Debug.Log($"删除 Mod 文件: {filePath}");
+            }
+        }
+
+        /// <summary>
+        /// 检查 Def 是否存在于 Mod 路径
+        /// </summary>
+        private bool ExistsDefInMod(string defId)
+        {
+            string filePath = GetModDefFilePath(defId);
+            return File.Exists(filePath);
+        }
+
+        /// <summary>
+        /// 获取 Mod 路径中的 Def 文件路径
+        /// </summary>
+        private string GetModDefFilePath(string defId)
+        {
+            string typePrefix = ExtractTypePrefix(defId);
+            string typePath = Path.Combine(ModConfigPath, typePrefix);
+            return Path.Combine(typePath, $"{defId}.json");
+        }
+
+        #endregion
+
+        #region Def文件操作 - 通用方法
+
+        /// <summary>
+        /// 保存 Def 到指定文件路径
+        /// </summary>
+        private void SaveDefToFilePath(IChunkDtoDef dtoDef, string filePath)
+        {
+            // 确保目录存在
+            string directory = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            // 序列化为 JSON
+            string json = JsonConvert.SerializeObject(dtoDef, Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto,
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
+
+            // 写入文件
+            File.WriteAllText(filePath, json);
+            Debug.Log($"保存到文件: {filePath}");
+        }
+
+        /// <summary>
+        /// 从文件路径加载 Def
+        /// </summary>
+        private T LoadDefFromFilePath<T>(string filePath) where T : class, IChunkDtoDef
+        {
+            if (!File.Exists(filePath))
+                return null;
+
+            try
+            {
+                string json = File.ReadAllText(filePath);
+                T def = JsonConvert.DeserializeObject<T>(json, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Auto
+                });
+                return def;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"加载文件失败: {filePath}, 错误: {e.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 从 DefId 提取类型前缀
+        /// 格式: Universe_DEF_12345678 -> Universe
+        /// </summary>
+        private string ExtractTypePrefix(string defId)
+        {
+            if (string.IsNullOrEmpty(defId))
+                return "Unknown";
+
+            int index = defId.IndexOf("_DEF_");
+            if (index > 0)
+                return defId.Substring(0, index);
+
+            return "Unknown";
+        }
+
+        /// <summary>
+        /// 确保 Mod 配置目录存在
+        /// </summary>
+        private void EnsureModDirectoryExists()
+        {
+            if (!Directory.Exists(ModConfigPath))
+            {
+                Directory.CreateDirectory(ModConfigPath);
+                Debug.Log($"创建 Mod 配置目录: {ModConfigPath}");
+            }
+        }
+
+        #endregion
+
+        #region 临时数据管理
+
         public void SaveChunkTemporaryData(string defId, IChunkTemporaryData tempData)
         {
             if (string.IsNullOrEmpty(defId))
@@ -239,20 +622,15 @@ namespace Core.Game.Storage
                 return;
             }
 
-            // 更新修改时间
             tempData.LastModifyTime = DateTime.Now;
             tempData.DefId = defId;
 
-            // 使用当前槽位的宇宙ID作为前缀,隔离不同存档的数据
             string key = GetTempDataKey(defId);
             ES3.Save(key, tempData);
             
             Debug.Log($"<color=cyan>保存临时数据: {defId}</color>");
         }
 
-        /// <summary>
-        /// 加载临时数据 (通用版本)
-        /// </summary>
         public IChunkTemporaryData LoadChunkTemporaryData(string defId, Type type)
         {
             if (string.IsNullOrEmpty(defId))
@@ -281,13 +659,6 @@ namespace Core.Game.Storage
             return null;
         }
 
-        #endregion
-        
-        #region 临时实体数据管理
-
-        /// <summary>
-        /// 保存实体临时数据
-        /// </summary>
         public void SaveEntityTemporaryData(string instanceId, IEntityTemporaryData tempData)
         {
             if (string.IsNullOrEmpty(instanceId))
@@ -302,20 +673,15 @@ namespace Core.Game.Storage
                 return;
             }
 
-            // 更新修改时间
             tempData.LastModifyTime = DateTime.Now;
             tempData.EntityInstanceId = instanceId;
 
-            // 使用当前槽位的宇宙ID作为前缀,隔离不同存档的数据
             string key = GetTempDataKey(instanceId);
             ES3.Save(key, tempData);
             
             Debug.Log($"<color=cyan>保存临时数据: {instanceId}</color>");
         }
         
-        /// <summary>
-        /// 加载实体临时数据
-        /// </summary>
         public IEntityTemporaryData LoadEntityTemporaryData(string instanceId, Type type)
         {
             if (string.IsNullOrEmpty(instanceId))
@@ -344,13 +710,6 @@ namespace Core.Game.Storage
             return null;
         }
 
-        #endregion
-
-        #region 临时数据管理
-
-        /// <summary>
-        /// 加载临时数据
-        /// </summary>
         public T LoadTemporaryData<T>(string defId) where T : class, IChunkTemporaryData
         {
             if (string.IsNullOrEmpty(defId))
@@ -379,9 +738,6 @@ namespace Core.Game.Storage
             return null;
         }
         
-        /// <summary>
-        /// 删除临时数据
-        /// </summary>
         public void DeleteTemporaryData(string defId)
         {
             if (string.IsNullOrEmpty(defId))
@@ -399,29 +755,19 @@ namespace Core.Game.Storage
             }
         }
 
-        /// <summary>
-        /// 检查临时数据是否存在
-        /// </summary>
         public bool ExistsTemporaryData(string defId)
         {
             if (string.IsNullOrEmpty(defId))
-            {
                 return false;
-            }
 
             string key = GetTempDataKey(defId);
             return ES3.KeyExists(key);
         }
 
-        /// <summary>
-        /// 获取所有临时数据的DefId列表
-        /// </summary>
         public List<string> GetAllTemporaryDataKeys()
         {
             if (_currentSlotData == null)
-            {
                 return new List<string>();
-            }
 
             string prefix = GetTempDataKeyPrefix();
             string[] allKeys = ES3.GetKeys();
@@ -432,15 +778,10 @@ namespace Core.Game.Storage
                 .ToList();
         }
 
-        /// <summary>
-        /// 删除槽位相关的所有临时数据
-        /// </summary>
         private void DeleteSlotTemporaryData(string universeId)
         {
             if (string.IsNullOrEmpty(universeId))
-            {
                 return;
-            }
 
             string prefix = $"{TempDataKeyPrefix}{universeId}_";
             string[] allKeys = ES3.GetKeys();
@@ -462,39 +803,24 @@ namespace Core.Game.Storage
 
         #region 工具方法
 
-        /// <summary>
-        /// 验证槽位索引是否有效
-        /// </summary>
         private bool IsValidSlotIndex(int slotIndex)
         {
             return slotIndex >= 0 && slotIndex < MaxSlotCount;
         }
 
-        /// <summary>
-        /// 获取存档槽位的Key
-        /// </summary>
         private string GetSlotDataKey(int slotIndex)
         {
             return $"{SlotDataKeyPrefix}{slotIndex}";
         }
 
-        /// <summary>
-        /// 获取临时数据的Key前缀
-        /// </summary>
         private string GetTempDataKeyPrefix()
         {
             if (_currentSlotData == null)
-            {
                 return TempDataKeyPrefix;
-            }
             
-            // 使用宇宙ID作为前缀,隔离不同存档
             return $"{TempDataKeyPrefix}{_currentSlotData.UniverseId}_";
         }
 
-        /// <summary>
-        /// 获取临时数据的完整Key
-        /// </summary>
         private string GetTempDataKey(string defId)
         {
             return $"{GetTempDataKeyPrefix()}{defId}";

@@ -83,7 +83,7 @@ namespace Core.Game.Chunk.Universe.Data
         /// </summary>
         public List<UniverseDtoDef> GetAllUniverseDefs()
         {
-            return new List<UniverseDtoDef>(_universeDtoDefList);
+            return _universeDtoDefList;
         }
 
         /// <summary>

@@ -1,10 +1,18 @@
 using System.Collections.Generic;
 using Core.Game.Chunk.Universe.Data;
+using GDFramework.FrameData;
+using GDFramework.Resource;
+using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.ActionKit;
+using GDFrameworkExtend.ResKit;
 using UnityEngine;
 using UnityEngine.UI;
 using GDFrameworkExtend.UIKit;
 using TMPro;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
+using Image = UnityEngine.UI.Image;
 
 namespace Core.Game.View
 {
@@ -12,32 +20,33 @@ namespace Core.Game.View
     {
     }
 
-    public partial class UI_UniverseEditorListPanel : UIPanel, ICanGetModel
+    public partial class UI_UniverseEditorListPanel : UIPanel, ICanGetModel,ICanGetUtility
     {
         #region UI Components
 
+        protected Transform UniverseListContainer;
+        
         // 左侧列表区域
         protected Transform LeftListRoot;
         protected ScrollRect UniverseListScrollView;
         protected Transform UniverseListContent;
         protected Button CreateNewUniverseButton;
 
-        // 右侧详情区域
+        // 宇宙数据编辑区域
         protected Transform RightDetailRoot;
-        protected TMP_InputField UniverseIdText;
+        protected Transform BasicInfoViewContent;
+        protected TextMeshProUGUI UniverseIdText;
         protected TMP_InputField UniverseNameInput;
         protected TMP_InputField UniverseDescInput;
-        protected TMP_InputField InitialWorldIdInput;
-        protected Transform InitialShowingWorldListContent;
-        protected Transform AllWorldIdListContent;
-        protected Button AddInitialWorldButton;
-        protected Button AddWorldIdButton;
+        
+        //宇宙星图编辑区域
+        protected Transform UniverseWorldMap;
+        
 
         // 操作按钮
         protected Transform OperationButtonRoot;
         protected Button SaveUniverseButton;
-        protected Button DeleteUniverseButton;
-        protected Button EnterEditModeButton; // 进入二级编辑面板
+        protected Button EditCurrentWorldButton;
         protected Button ExitButton;
 
         #endregion
@@ -63,7 +72,7 @@ namespace Core.Game.View
             // please add init code here
             _universeDataModel = this.GetModel<UniverseDataModel>();
 
-            GetRelyComponent();
+            GetRelyComponent(); 
             InitPrefabs();
             RegisterEvent();
         }
@@ -72,48 +81,37 @@ namespace Core.Game.View
         {
             base.GetRelyComponent();
 
+            UniverseListContainer = Common.Find("UniverseListContainer");
             // 左侧列表
-            LeftListRoot = Common.Find("LeftListRoot");
+            LeftListRoot = UniverseListContainer.Find("LeftListRoot");
             UniverseListScrollView = LeftListRoot.Find("UniverseListScrollView").GetComponent<ScrollRect>();
             UniverseListContent = UniverseListScrollView.content;
             CreateNewUniverseButton = LeftListRoot.Find("CreateNewButton").GetComponent<Button>();
 
-            // 右侧详情
-            RightDetailRoot = Common.Find("RightDetailRoot");
+            //右侧 宇宙详细数据编辑面板
+            RightDetailRoot = UniverseListContainer.Find("RightDetailRoot");
+            BasicInfoViewContent = RightDetailRoot.Find("BasicInfoView").GetComponent<ScrollRect>().content;
+            UniverseIdText = BasicInfoViewContent.Find("UniverseIdText/Text").GetComponent<TextMeshProUGUI>();
+            UniverseNameInput = BasicInfoViewContent.Find("UniverseNameInput").GetComponent<TMP_InputField>();
+            UniverseDescInput = BasicInfoViewContent.Find("UniverseDescInput").GetComponent<TMP_InputField>();
 
-            var basicInfo = RightDetailRoot.Find("BasicInfo");
-            UniverseIdText = basicInfo.Find("UniverseIdText").GetComponent<TMP_InputField>();
-            UniverseNameInput = basicInfo.Find("UniverseNameInput").GetComponent<TMP_InputField>();
-            UniverseDescInput = basicInfo.Find("UniverseDescInput").GetComponent<TMP_InputField>();
-
-            var worldConfig = RightDetailRoot.Find("WorldConfig");
-            InitialWorldIdInput = worldConfig.Find("InitialWorldIdInput").GetComponent<TMP_InputField>();
-
-            var initialShowingList = worldConfig.Find("InitialShowingWorldList");
-            InitialShowingWorldListContent = initialShowingList.Find("ScrollView/Viewport/Content");
-            AddInitialWorldButton = initialShowingList.Find("AddButton").GetComponent<Button>();
-
-            var allWorldList = worldConfig.Find("AllWorldIdList");
-            AllWorldIdListContent = allWorldList.Find("ScrollView/Viewport/Content");
-            AddWorldIdButton = allWorldList.Find("AddButton").GetComponent<Button>();
+            UniverseWorldMap = RightDetailRoot.Find("UniverseWorldMap");
+            
 
             // 操作按钮
             OperationButtonRoot = RightDetailRoot.Find("OperationButtons");
             SaveUniverseButton = OperationButtonRoot.Find("SaveButton").GetComponent<Button>();
-            DeleteUniverseButton = OperationButtonRoot.Find("DeleteButton").GetComponent<Button>();
-            EnterEditModeButton = OperationButtonRoot.Find("EnterEditButton").GetComponent<Button>();
+            EditCurrentWorldButton = OperationButtonRoot.Find("EditCurrentWorldButton").GetComponent<Button>();
             ExitButton = OperationButtonRoot.Find("ExitButton").GetComponent<Button>();
         }
 
-        protected void InitPrefabs()
+        protected async void InitPrefabs()
         {
-            _universeListItemPrefab = Resources.Load<GameObject>("UI/Prefabs/UniverseListItem");
-            _stringListItemPrefab = Resources.Load<GameObject>("UI/Prefabs/StringListItem");
-
-            if (_universeListItemPrefab == null)
-                _universeListItemPrefab = CreateDefaultUniverseListItemPrefab();
-            if (_stringListItemPrefab == null)
-                _stringListItemPrefab = CreateDefaultStringListItemPrefab();
+            _universeListItemPrefab = await this.GetUtility<ResourcesUtility>()
+                .LoadPrefabAsync(DefaultPackage.UIDetails.EditorDetailsAssetGroup.EditorDetail_UniverseListItem);
+            
+            _stringListItemPrefab = await this.GetUtility<ResourcesUtility>()
+                .LoadPrefabAsync(DefaultPackage.UIDetails.EditorDetailsAssetGroup.EditorDetail_UniverseStringListItem);
         }
 
         protected override void RegisterEvent()
@@ -122,22 +120,23 @@ namespace Core.Game.View
 
             CreateNewUniverseButton.onClick.AddListener(CreateNewUniverse);
             SaveUniverseButton.onClick.AddListener(SaveCurrentUniverse);
-            DeleteUniverseButton.onClick.AddListener(DeleteCurrentUniverse);
-            EnterEditModeButton.onClick.AddListener(EnterUniverseEditMode);
+            EditCurrentWorldButton.onClick.AddListener(EditCurrentWorld);
             ExitButton.onClick.AddListener(ExitPanel);
-
-            AddInitialWorldButton.onClick.AddListener(() => AddStringToList(InitialShowingWorldListContent, ""));
-            AddWorldIdButton.onClick.AddListener(() => AddStringToList(AllWorldIdListContent, ""));
         }
 
         protected override void OnOpen(IUIData uiData = null)
         {
-            RefreshUniverseList();
-            RightDetailRoot.gameObject.SetActive(false); // 默认隐藏详情面板
+            ActionKit.DelayFrame(1, () =>
+            {
+                RefreshUniverseList();
+                RightDetailRoot.gameObject.SetActive(false); // 默认隐藏详情面板
+            }).Start(this);
+
         }
 
         protected override void OnShow()
         {
+
         }
 
         protected override void OnHide()
@@ -220,33 +219,20 @@ namespace Core.Game.View
         /// </summary>
         private void LoadUniverseToDetail(UniverseDtoDef universeDef)
         {
-            if (universeDef == null) return;
+            if (universeDef == null) 
+                return;
 
             UniverseIdText.text = universeDef.DefId;
-            UniverseIdText.interactable = false;
             UniverseNameInput.text = universeDef.DefName;
             UniverseDescInput.text = universeDef.DefDescription;
-            InitialWorldIdInput.text = universeDef.InitialPlayerLocateWorldId ?? "";
+        }
 
-            // 初始显示世界列表
-            ClearChildren(InitialShowingWorldListContent);
-            if (universeDef.InitialShowingWorldIdList != null)
-            {
-                foreach (var worldId in universeDef.InitialShowingWorldIdList)
-                {
-                    AddStringToList(InitialShowingWorldListContent, worldId);
-                }
-            }
-
-            // 所有世界ID列表
-            ClearChildren(AllWorldIdListContent);
-            if (universeDef.WorldIdList != null)
-            {
-                foreach (var worldId in universeDef.WorldIdList)
-                {
-                    AddStringToList(AllWorldIdListContent, worldId);
-                }
-            }
+        /// <summary>
+        /// 显示宇宙星图
+        /// </summary>
+        private void ShowUniverseWorldMap()
+        {
+            
         }
 
         /// <summary>
@@ -303,10 +289,6 @@ namespace Core.Game.View
 
             _currentSelectedUniverse.DefName = UniverseNameInput.text;
             _currentSelectedUniverse.DefDescription = UniverseDescInput.text;
-            _currentSelectedUniverse.InitialPlayerLocateWorldId = InitialWorldIdInput.text;
-            _currentSelectedUniverse.InitialShowingWorldIdList =
-                GetStringListFromContent(InitialShowingWorldListContent);
-            _currentSelectedUniverse.WorldIdList = GetStringListFromContent(AllWorldIdListContent);
 
             _currentSelectedUniverse.SaveThisDef();
 
@@ -315,43 +297,9 @@ namespace Core.Game.View
             RefreshUniverseList();
         }
 
-        /// <summary>
-        /// 删除当前宇宙
-        /// </summary>
-        private void DeleteCurrentUniverse()
+        private void EditCurrentWorld()
         {
-            if (_currentSelectedUniverse == null)
-            {
-                Debug.LogWarning("没有选中要删除的宇宙");
-                return;
-            }
-
-            var defName = _currentSelectedUniverse.DefName;
-            _currentSelectedUniverse.DeleteThisDef();
-
-            Debug.Log($"<color=yellow>✗ 删除宇宙配置: {defName}</color>");
-
-            _currentSelectedUniverse = null;
-            RightDetailRoot.gameObject.SetActive(false);
-            RefreshUniverseList();
-        }
-
-        /// <summary>
-        /// 进入宇宙编辑模式（打开二级面板）
-        /// </summary>
-        private void EnterUniverseEditMode()
-        {
-            if (_currentSelectedUniverse == null)
-            {
-                Debug.LogWarning("请先选择一个宇宙");
-                return;
-            }
-
-            // 打开宇宙编辑面板（二级面板）
-            UIKit.OpenPanel<UI_UniverseEditorPanel>(new UI_UniverseEditorPanelData()
-            {
-                EditingUniverse = _currentSelectedUniverse
-            });
+            
         }
 
         /// <summary>
@@ -409,83 +357,6 @@ namespace Core.Game.View
             {
                 Destroy(parent.GetChild(i).gameObject);
             }
-        }
-
-        #endregion
-
-        #region Prefab Creation
-
-        private GameObject CreateDefaultUniverseListItemPrefab()
-        {
-            var obj = new GameObject("UniverseListItem");
-
-            var layout = obj.AddComponent<LayoutElement>();
-            layout.minHeight = 80;
-            layout.preferredHeight = 80;
-
-            var button = obj.AddComponent<Button>();
-            var image = obj.AddComponent<Image>();
-            image.color = new Color(0.2f, 0.2f, 0.2f, 0.5f);
-
-            var textObj = new GameObject("NameText");
-            textObj.transform.SetParent(obj.transform);
-            var text = textObj.AddComponent<TextMeshProUGUI>();
-            text.alignment = TextAlignmentOptions.Left;
-            text.fontSize = 16;
-            text.margin = new Vector4(10, 5, 10, 5);
-
-            var rectTransform = textObj.GetComponent<RectTransform>();
-            rectTransform.anchorMin = Vector2.zero;
-            rectTransform.anchorMax = Vector2.one;
-            rectTransform.offsetMin = new Vector2(10, 5);
-            rectTransform.offsetMax = new Vector2(-10, -5);
-
-            return obj;
-        }
-
-        private GameObject CreateDefaultStringListItemPrefab()
-        {
-            var obj = new GameObject("StringListItem");
-
-            var layout = obj.AddComponent<LayoutElement>();
-            layout.minHeight = 35;
-            layout.preferredHeight = 35;
-
-            var horizontalLayout = obj.AddComponent<HorizontalLayoutGroup>();
-            horizontalLayout.childControlWidth = true;
-            horizontalLayout.childControlHeight = true;
-            horizontalLayout.childForceExpandWidth = true;
-            horizontalLayout.childForceExpandHeight = false;
-            horizontalLayout.spacing = 5;
-            horizontalLayout.padding = new RectOffset(5, 5, 5, 5);
-
-            // InputField
-            var inputObj = new GameObject("InputField");
-            inputObj.transform.SetParent(obj.transform);
-            var inputField = inputObj.AddComponent<TMP_InputField>();
-            var inputText = new GameObject("Text").AddComponent<TextMeshProUGUI>();
-            inputText.transform.SetParent(inputObj.transform);
-            inputField.textComponent = inputText;
-
-            var inputBg = inputObj.AddComponent<Image>();
-            inputBg.color = new Color(0.1f, 0.1f, 0.1f, 0.5f);
-
-            // Delete Button
-            var deleteObj = new GameObject("DeleteButton");
-            deleteObj.transform.SetParent(obj.transform);
-            var deleteButton = deleteObj.AddComponent<Button>();
-            var deleteBg = deleteObj.AddComponent<Image>();
-            deleteBg.color = new Color(0.8f, 0.2f, 0.2f, 0.8f);
-
-            var deleteText = new GameObject("Text").AddComponent<TextMeshProUGUI>();
-            deleteText.transform.SetParent(deleteObj.transform);
-            deleteText.text = "X";
-            deleteText.alignment = TextAlignmentOptions.Center;
-
-            var deleteLayout = deleteObj.AddComponent<LayoutElement>();
-            deleteLayout.preferredWidth = 40;
-
-            return obj;
         }
 
         #endregion
