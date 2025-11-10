@@ -1,5 +1,5 @@
 ﻿/****************************************************************************
- * Copyright (c) 2016 ~ 2022 liangxiegame UNDER MIT LICENSE
+ * Copyright (c) 2016 ~ 2025 liangxiegame UNDER MIT LICENSE
  *
  * https://qframework.cn
  * https://github.com/liangxiegame/QFramework
@@ -13,20 +13,19 @@ using Object = UnityEngine.Object;
 
 namespace GDFrameworkExtend.ResKit
 {
+
     public class ResLoader : DisposableObject, IResLoader, IPoolType, IPoolable
     {
-        /// <summary>
-        /// 获取 ResLoader
-        /// </summary>
-        /// <returns></returns>
+        [Obsolete("请使用 ResLoader.Allocate() 获取 ResLoader 对象", true)]
+        public ResLoader()
+        {
+        }
+
         public static ResLoader Allocate()
         {
             return SafeObjectPool<ResLoader>.Instance.Allocate();
         }
-        
-        /// <summary>
-        /// 归还 ResLoader
-        /// </summary>
+
         public void Recycle2Cache()
         {
             if (mObject2Unload != null)
@@ -46,7 +45,7 @@ namespace GDFrameworkExtend.ResKit
             SafeObjectPool<ResLoader>.Instance.Recycle(this);
         }
 
-        
+
         public IRes LoadResSync(ResSearchKeys resSearchKeys)
         {
             Add2Load(resSearchKeys);
@@ -55,13 +54,13 @@ namespace GDFrameworkExtend.ResKit
             var res = ResMgr.Instance.GetRes(resSearchKeys, false);
             if (res == null)
             {
-                Debug.LogError("Failed to Load Res:" + resSearchKeys);
+                LogKit.LogKit.Error("Failed to Load Res:" + resSearchKeys);
                 return null;
             }
-            
+
             return res;
         }
-        
+
         private void LoadSync()
         {
             while (mWaitLoadList.Count > 0)
@@ -80,7 +79,7 @@ namespace GDFrameworkExtend.ResKit
                 }
             }
         }
-        
+
         private List<Object> mObject2Unload;
 
         public void AddObjectForDestroyWhenRecycle2Cache(Object obj)
@@ -147,7 +146,7 @@ namespace GDFrameworkExtend.ResKit
                 return currentValue;
             }
         }
-        
+
 
         public void Add2Load(ResSearchKeys resSearchKeys, Action<bool, IRes> listener = null,
             bool lastOrder = true)
@@ -193,7 +192,7 @@ namespace GDFrameworkExtend.ResKit
 
             AddRes2Array(res, lastOrder);
         }
-        
+
         private readonly Dictionary<string, Sprite> mCachedSpriteDict = new Dictionary<string, Sprite>();
 
         public void LoadAsync(System.Action listener = null)
@@ -201,10 +200,10 @@ namespace GDFrameworkExtend.ResKit
             mListener = listener;
             DoLoadAsync();
         }
-        
+
         public UnityEngine.Object LoadAssetSync(ResSearchKeys resSearchKeys)
         {
-            UnityEngine.Object  retAsset = null;
+            UnityEngine.Object retAsset = null;
 
             if (resSearchKeys.AssetType == typeof(Sprite))
             {
@@ -216,13 +215,20 @@ namespace GDFrameworkExtend.ResKit
                     }
 
                     resSearchKeys.AssetType = typeof(Texture2D);
-                    var texture = LoadResSync(resSearchKeys).Asset as  Texture2D;
+                    var texture = LoadResSync(resSearchKeys).Asset as Texture2D;
                     resSearchKeys.AssetType = typeof(Sprite);
-                        
+#if UNITY_EDITOR
+                    var assetPath = UnityEditor.AssetDatabase.GetAssetPath(texture);
+                    var importer = UnityEditor.AssetImporter.GetAtPath(assetPath) as UnityEditor.TextureImporter;
                     var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),
-                        Vector2.one * 0.5f);
+                        importer.spritePivot, importer.spritePixelsPerUnit);
                     mCachedSpriteDict.Add(resSearchKeys.AssetName, sprite);
                     return mCachedSpriteDict[resSearchKeys.AssetName];
+#else // for pass compile
+                    var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height),Vector2.one * 0.5f);
+                    mCachedSpriteDict.Add(resSearchKeys.AssetName, sprite);
+                    return mCachedSpriteDict[resSearchKeys.AssetName];
+#endif
                 }
                 else
                 {
@@ -233,14 +239,12 @@ namespace GDFrameworkExtend.ResKit
             {
                 retAsset = LoadResSync(resSearchKeys).Asset;
             }
-            
+
             resSearchKeys.Recycle2Cache();
 
             return retAsset;
         }
 
-   
-        
 
         public void ReleaseRes(string resName)
         {
@@ -372,7 +376,7 @@ namespace GDFrameworkExtend.ResKit
         {
             foreach (var res in mResList)
             {
-                Debug.Log(res.AssetName);
+                LogKit.LogKit.Log(res.AssetName);
             }
         }
 

@@ -9,7 +9,6 @@
 using System;
 using GDFrameworkExtend.PoolKit;
 
-
 namespace GDFrameworkExtend.ResKit
 {
     public class ResSearchKeys : IPoolable,IPoolType

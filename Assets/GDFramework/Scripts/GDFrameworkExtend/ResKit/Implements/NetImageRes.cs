@@ -24,7 +24,6 @@
  * THE SOFTWARE.
  ****************************************************************************/
 
-
 using GDFrameworkExtend.PoolKit;
 
 namespace GDFrameworkExtend.ResKit

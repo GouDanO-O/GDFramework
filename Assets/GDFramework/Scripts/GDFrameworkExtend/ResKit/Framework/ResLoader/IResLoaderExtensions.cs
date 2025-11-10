@@ -7,25 +7,18 @@
  ****************************************************************************/
 
 using System;
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace GDFrameworkExtend.ResKit
 {
+
     public static class IResLoaderExtensions
     {
         private static Type ComponentType = typeof(Component);
         private static Type GameObjectType = typeof(GameObject);
-        
-        /// <summary>
-        /// 同步加载资源
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="assetName"></param>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+
         public static T LoadSync<T>(this IResLoader self, string assetName) where T : Object
         {
             var type = typeof(T);
@@ -64,17 +57,11 @@ namespace GDFrameworkExtend.ResKit
                 return retAsset;
             }
         }
-        
-        /// <summary>
-        /// 异步加载资源
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="assetName"></param>
-        /// <param name="listener"></param>
-        /// <param name="lastOrder"></param>
+
         public static void Add2Load(this IResLoader self, string assetName, Action<bool, IRes> listener = null,
             bool lastOrder = true)
         {
+            
             var searchRule = ResSearchKeys.Allocate(assetName);
             self.Add2Load(searchRule, listener, lastOrder);
             searchRule.Recycle2Cache();
@@ -97,7 +84,8 @@ namespace GDFrameworkExtend.ResKit
                 searchRule.Recycle2Cache();
             }
         }
-        
+
+
         public static void Add2Load(this IResLoader self, string ownerBundle, string assetName,
             Action<bool, IRes> listener = null,
             bool lastOrder = true)
@@ -125,14 +113,7 @@ namespace GDFrameworkExtend.ResKit
                 searchRule.Recycle2Cache();
             }
         }
-        
-        /// <summary>
-        /// 同步加载场景
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="assetName"></param>
-        /// <param name="mode"></param>
-        /// <param name="physicsMode"></param>
+
         public static void LoadSceneSync(this IResLoader self, string assetName,
             LoadSceneMode mode = LoadSceneMode.Single,
             LocalPhysicsMode physicsMode = LocalPhysicsMode.None)
@@ -184,14 +165,6 @@ namespace GDFrameworkExtend.ResKit
             }
         }
 
-        /// <summary>
-        /// 异步加载场景
-        /// </summary>
-        /// <param name="self"></param>
-        /// <param name="sceneName"></param>
-        /// <param name="loadSceneMode"></param>
-        /// <param name="physicsMode"></param>
-        /// <param name="onStartLoading"></param>
         public static void LoadSceneAsync(this IResLoader self, string sceneName,
             LoadSceneMode loadSceneMode =
                 LoadSceneMode.Single, LocalPhysicsMode physicsMode = LocalPhysicsMode.None,

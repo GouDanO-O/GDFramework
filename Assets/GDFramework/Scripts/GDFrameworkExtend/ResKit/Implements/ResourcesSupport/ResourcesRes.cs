@@ -26,7 +26,6 @@
 
 // ReSharper disable once CheckNamespace
 
-
 using GDFrameworkExtend.PoolKit;
 
 namespace GDFrameworkExtend.ResKit

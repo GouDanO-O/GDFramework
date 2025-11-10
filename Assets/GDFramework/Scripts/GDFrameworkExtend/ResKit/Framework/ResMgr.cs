@@ -12,13 +12,11 @@ using System.Linq;
 using GDFrameworkExtend.PoolKit;
 using GDFrameworkExtend.SingletonKit;
 
-
 namespace GDFrameworkExtend.ResKit
 {
     using System.Collections.Generic;
     using UnityEngine;
-
-    [MonoSingletonPath("GDFramework/Scripts/GDFrameworkExtend/ResKit/ResManager")]
+    
     public class ResMgr : MonoBehaviour,ISingleton
     {
         public static ResMgr Instance => MonoSingletonProperty<ResMgr>.Instance;

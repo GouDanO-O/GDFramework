@@ -28,7 +28,6 @@
 using System;
 using GDFrameworkExtend.PoolKit;
 
-
 namespace GDFrameworkExtend.ResKit
 {
 	using UnityEngine;

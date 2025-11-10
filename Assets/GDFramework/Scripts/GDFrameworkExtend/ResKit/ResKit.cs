@@ -1,5 +1,5 @@
 /****************************************************************************
- * Copyright (c) 2016 - 2023 liangxiegame UNDER MIT License
+ * Copyright (c) 2016 - 2025 liangxiegame UNDER MIT License
  * 
  * https://qframework.cn
  * https://github.com/liangxiegame/QFramework
@@ -13,6 +13,7 @@ using UnityEngine;
 
 namespace GDFrameworkExtend.ResKit
 {
+
     public class ResKit
     {
 #if UNITY_EDITOR
@@ -25,19 +26,12 @@ namespace GDFrameworkExtend.ResKit
             }
         }
 #endif
-        
-        /// <summary>
-        /// 初始化 ResKit
-        /// </summary>
+
         public static void Init()
         {
             ResMgr.Init();
         }
-        
-        /// <summary>
-        /// 异步初始化 ResKit,如果是 WebGL 平台，只支持异步初始化
-        /// </summary>
-        /// <returns></returns>
+
         public static IEnumerator InitAsync()
         {
             yield return ResMgr.InitAsync();
@@ -50,7 +44,6 @@ namespace GDFrameworkExtend.ResKit
 
         ResKit InternalInit()
         {
-            Container.Register<IZipFileHelper>(new ZipFileHelper());
             Container.Register<IBinarySerializer>(new BinarySerializer());
             return this;
         }
