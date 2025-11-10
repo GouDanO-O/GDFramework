@@ -1,4 +1,5 @@
 ﻿using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using GDFrameworkExtend.PoolKit;
 using GDFrameworkExtend.ResKit;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace GDFramework.YooAssetKit
             if (handle.Status != EOperationStatus.Succeed)
             {
                 State = ResState.Waiting;
-                Debug.LogError(handle.LastError);
+                LogKit.Error(handle.LastError);
                 _yooAssetManager.AddAssetHandle(handle, package); // 仍登记，便于统一释放
                 return false;
             }
@@ -43,7 +44,7 @@ namespace GDFramework.YooAssetKit
             else
             {
                 State = ResState.Waiting;
-                Debug.LogError(handle.LastError);
+                LogKit.Error(handle.LastError);
             }
 
             _yooAssetManager.AddAssetHandle(handle, package);

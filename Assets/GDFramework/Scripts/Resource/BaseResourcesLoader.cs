@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GDFramework.Utility;
 using GDFrameworkCore;
 using GDFramework.YooAssetKit;
+using GDFrameworkExtend.LogKit;
 using UnityEngine.Events;
 
 namespace GDFramework.Resource
@@ -77,7 +78,7 @@ namespace GDFramework.Resource
             if (MaxLoadCount == 0)
             {
                 OnLoadComplete?.Invoke();
-                LogMonoUtility.AddLog("全部加载完成");
+                LogKit.Log("全部加载完成");
             }
             else
             {
@@ -107,7 +108,7 @@ namespace GDFramework.Resource
         /// </summary>
         protected void LoadingCheck()
         {
-            LogMonoUtility.AddLog("加载数据成功");
+            LogKit.Log("加载数据成功");
             LoadedCount++;
             if (LoadedCount == MaxLoadCount)
             {
@@ -121,7 +122,7 @@ namespace GDFramework.Resource
         /// </summary>
         protected void LoadingComplete()
         {
-            LogMonoUtility.AddLog("全部加载完成");
+            LogKit.Log("全部加载完成");
             OnLoadComplete?.Invoke();
         }
 

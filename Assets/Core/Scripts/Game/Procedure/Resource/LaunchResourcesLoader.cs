@@ -11,6 +11,7 @@ using Cysharp.Threading.Tasks;
 using GDFramework.Resource;
 using GDFramework.YooAssetKit;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 using UnityEngine.Events;
 using YooAsset;
@@ -189,7 +190,7 @@ namespace Core.Game.Procedure.Resource
                 var newContext = CloneContext(context);
                 UpdateContext(newContext, currentLevel, node.Name);
         
-                Debug.Log($"{indent}[{currentLevel}] 开始加载: {node.Name} (路径: {newContext})");
+                LogKit.Log($"{indent}[{currentLevel}] 开始加载: {node.Name} (路径: {newContext})");
         
                 // 加载当前节点的所有资源
                 foreach (var assetInfo in node.Assets)
@@ -206,7 +207,7 @@ namespace Core.Game.Procedure.Resource
                         await ProcessChunkDataWithContext(currentLevel, newContext, 
                             assetInfo.AssetPath, jsonContent);
                 
-                        Debug.Log($"{indent}  已加载: {assetInfo.AssetPath}");
+                        LogKit.Log($"{indent}  已加载: {assetInfo.AssetPath}");
                     }
                 }
         
@@ -299,35 +300,35 @@ namespace Core.Game.Procedure.Resource
 
         private void ProcessUniverseDataWithContext(HierarchyContext context, string jsonContent)
         {
-            Debug.Log($"处理Universe数据: {context.UniverseName}");
+            LogKit.Log($"处理Universe数据: {context.UniverseName}");
             UniverseDtoDef dtoDef = Newtonsoft.Json.JsonConvert.DeserializeObject<UniverseDtoDef>(jsonContent);
             _universeDataModel.AddDtoDef(dtoDef);
         }
         
         private void ProcessWorldDataWithContext(HierarchyContext context, string jsonContent)
         {
-            Debug.Log($"处理World数据: {context.WorldName}, 所属Universe: {context.UniverseName}");
+            LogKit.Log($"处理World数据: {context.WorldName}, 所属Universe: {context.UniverseName}");
             WorldDtoDef dtoDef = Newtonsoft.Json.JsonConvert.DeserializeObject<WorldDtoDef>(jsonContent);
             _worldDataModel.AddDtoDef(context,dtoDef);
         }
         
         private void ProcessRegionDataWithContext(HierarchyContext context, string jsonContent)
         {
-            Debug.Log($"处理Region数据: {context.RegionName}, 所属World: {context.WorldName}");
+            LogKit.Log($"处理Region数据: {context.RegionName}, 所属World: {context.WorldName}");
             RegionDtoDef dtoDef = Newtonsoft.Json.JsonConvert.DeserializeObject<RegionDtoDef>(jsonContent);
             _regionDataModel.AddDtoDef(context,dtoDef);
         }
         
         private void ProcessDungeonDataWithContext(HierarchyContext context, string jsonContent)
         {
-            Debug.Log($"处理Dungeon数据: {context.DungeonName}, Region: {context.RegionName}");
+            LogKit.Log($"处理Dungeon数据: {context.DungeonName}, Region: {context.RegionName}");
             DungeonDtoDef dtoDef = Newtonsoft.Json.JsonConvert.DeserializeObject<DungeonDtoDef>(jsonContent);
             _dungeonDataModel.AddDtoDef(context,dtoDef);
         }
 
         private void ProcessRoomDataWithContext(HierarchyContext context, string jsonContent)
         {
-            Debug.Log($"处理Room数据: {context.RoomName}, 完整路径: {context}");
+            LogKit.Log($"处理Room数据: {context.RoomName}, 完整路径: {context}");
             RoomDtoDef dtoDef = Newtonsoft.Json.JsonConvert.DeserializeObject<RoomDtoDef>(jsonContent);
             _roomDataModel.AddDtoDef(context,dtoDef);
         }

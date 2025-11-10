@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
+using GDFrameworkExtend.LogKit;
 using UnityEditor;
 using UnityEngine;
 
@@ -65,7 +66,7 @@ namespace YooAsset.Editor
             SaveToFile(codeBuilder.ToString(), "AssetPathConstants.cs");
             SaveToFile(idMappingBuilder.ToString(), "AssetIDMapping.cs");
 
-            Debug.Log("YooAsset code generation completed!");
+            LogKit.Log("YooAsset code generation completed!");
             AssetDatabase.Refresh();
         }
 
@@ -191,7 +192,7 @@ namespace YooAsset.Editor
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Error processing collector {collector.CollectPath}: {ex.Message}");
+                LogKit.Error($"Error processing collector {collector.CollectPath}: {ex.Message}");
             }
 
             return collectorAssets;
@@ -435,7 +436,7 @@ namespace YooAsset.Editor
 
             string filePath = Path.Combine(directoryPath, fileName);
             File.WriteAllText(filePath, content, Encoding.UTF8);
-            Debug.Log($"File saved to {filePath}");
+            LogKit.Log($"File saved to {filePath}");
         }
     }
 }

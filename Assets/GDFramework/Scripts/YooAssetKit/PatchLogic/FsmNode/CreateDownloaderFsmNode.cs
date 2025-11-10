@@ -1,4 +1,5 @@
 ﻿using GDFramework.Utility;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 using YooAsset;
 
@@ -9,7 +10,7 @@ namespace GDFramework.YooAssetKit
         public override void OnEnter()
         {
             base.OnEnter();
-            LogMonoUtility.AddLog("创建资源下载器");
+            LogKit.Log("创建资源下载器");
             CreateDownloader();
         }
 

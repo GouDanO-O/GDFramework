@@ -87,7 +87,6 @@ namespace GDFramework.FrameData
            {
                public const string BundleName = "defaultpackage_core_res_prefabs_view_editor_details";
                public const string EditorDetail_UniverseListItem = "yoo:EditorDetail_UniverseListItem";
-               public const string EditorDetail_UniverseStringListItem = "yoo:EditorDetail_UniverseStringListItem";
            }
        }
 

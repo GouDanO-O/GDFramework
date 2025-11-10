@@ -5,6 +5,7 @@ using Core.Game.Storage;
 using Cysharp.Threading.Tasks;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 
 namespace Core.Game.Chunk.Universe
@@ -63,7 +64,7 @@ namespace Core.Game.Chunk.Universe
             }
             catch (System.Exception e)
             {
-                Debug.LogError($"生成UniverseComponentController失败: {e.Message}");
+                LogKit.Error($"生成UniverseComponentController失败: {e.Message}");
             }
         }
         

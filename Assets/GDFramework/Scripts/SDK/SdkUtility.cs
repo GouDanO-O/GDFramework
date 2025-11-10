@@ -1,6 +1,7 @@
 ﻿using System;
 using GDFramework.SDK;
 using GDFramework.Utility;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 
 namespace GDFramework.SDK
@@ -33,12 +34,12 @@ namespace GDFramework.SDK
 #if KuaiShou
             KS.Login((ret) =>
             {
-                Debug.Log("登录成功:" + ret.code);
+                LogKit.Log("登录成功:" + ret.code);
                 isLogin = true;
                 InitRewardVideoAd();
             }, (code, msg) =>
             {
-                Debug.Log("登录失败:"+code+"---"+msg);
+                LogKit.Log("登录失败:"+code+"---"+msg);
             });
 #elif Vivo
 #elif UNITY_ANDROID
@@ -51,7 +52,7 @@ namespace GDFramework.SDK
         public bool ChangeFreeVideoMod()
         {
             isFreeVideoMod = !isFreeVideoMod;
-            Debug.Log("切换免费广告:" + isFreeVideoMod);
+            LogKit.Log("切换免费广告:" + isFreeVideoMod);
             return isFreeVideoMod;
         }
 
@@ -97,11 +98,11 @@ namespace GDFramework.SDK
 
         private void InitRewardVideoAd()
         {
-            Debug.Log("开始初始化激励视频");
+            LogKit.Log("开始初始化激励视频");
             rewardVideoAd = KS.CreateRewardedVideoAd(AD_REWARD_VIDEO_AD_KEY);
             if (rewardVideoAd != null)
             {
-                Debug.Log("初始化激励视频--成功");
+                LogKit.Log("初始化激励视频--成功");
                 rewardVideoAd.OnClose(new ADCloseResultCallBack((data) =>
                 {
                     if (data.isEnded)
@@ -115,7 +116,7 @@ namespace GDFramework.SDK
             
                     succCallBack = null;
                     failCallBack = null;
-                    Debug.Log("[激励广告] onClose : " + JsonUtility.ToJson(data));
+                    LogKit.Log("[激励广告] onClose : " + JsonUtility.ToJson(data));
                 }));
                 rewardVideoAd.OnError(new ADShowResultCallBack((data) =>
                 {
@@ -124,7 +125,7 @@ namespace GDFramework.SDK
                         failCallBack?.Invoke();
                     }
 
-                    Debug.Log("[激励广告] OnError : " + JsonUtility.ToJson(data));
+                    LogKit.Log("[激励广告] OnError : " + JsonUtility.ToJson(data));
                 }));
             }
         }
@@ -268,12 +269,12 @@ namespace GDFramework.SDK
             {
                 succCallBack = succ;
                 failCallBack = fail;
-                Debug.Log("[激励广告] 调用广告show方法");
+                LogKit.Log("[激励广告] 调用广告show方法");
                 rewardVideoAd.Show();
             }
             else
             {
-                Debug.Log("[激励广告] : 没有创建广告实例！" );
+                LogKit.Log("[激励广告] : 没有创建广告实例！" );
             }
 #elif Vivo
 #elif UNITY_ANDROID
@@ -338,12 +339,12 @@ namespace GDFramework.SDK
         {
             if (message == "1")
             {
-                Debug.Log("领取奖励成功");
+                LogKit.Log("领取奖励成功");
                 succCallBack?.Invoke();
             }
             else
             {
-                Debug.LogWarning("领取奖励错误:" + message);
+                LogKit.Error("领取奖励错误:" + message);
                 failCallBack?.Invoke();
             }
         }

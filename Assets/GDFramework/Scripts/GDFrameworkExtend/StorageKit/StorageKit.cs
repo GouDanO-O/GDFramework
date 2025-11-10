@@ -46,7 +46,7 @@ namespace GDFrameworkExtend.StorageKit
             
             isNewGame = saveSlotKeys.Count == 0;
             
-            LogMonoUtility.AddLog("是否是新游戏:"+isNewGame);
+            LogKit.LogKit.Log("是否是新游戏:"+isNewGame);
             return isNewGame;
         }
 
@@ -398,7 +398,7 @@ namespace GDFrameworkExtend.StorageKit
                 {
                     ES3.Save(key, value);
                 }
-                LogMonoUtility.AddLog("保存字段:"+key+"=>"+value.ToString()+"=>"+valueType.ToString());
+                LogKit.LogKit.Log("保存字段:"+key+"=>"+value.ToString()+"=>"+valueType.ToString());
             }
             catch (Exception e)
             {
@@ -449,7 +449,7 @@ namespace GDFrameworkExtend.StorageKit
                 {
                     return ES3.Load(key, valueType);
                 }
-                LogMonoUtility.AddLog("加载值:"+key+"=>"+valueType.ToString());
+                LogKit.LogKit.Log("加载值:"+key+"=>"+valueType.ToString());
             }
             catch (Exception e)
             {
@@ -500,7 +500,7 @@ namespace GDFrameworkExtend.StorageKit
             if (bindableProperty == null) return;
             var valueProperty = bindableProperty.GetType().GetProperty("Value");
             valueProperty?.SetValue(bindableProperty, value);
-            LogMonoUtility.AddLog("设置存储值:"+bindableProperty.GetType().ToString()+"=>"+value.ToString());
+            LogKit.LogKit.Log("设置存储值:"+bindableProperty.GetType().ToString()+"=>"+value.ToString());
         }
 
         /// <summary>
@@ -522,7 +522,7 @@ namespace GDFrameworkExtend.StorageKit
         /// </summary>
         public void ClearAllData()
         {
-            LogMonoUtility.AddLog("清除所有数据");
+            LogKit.LogKit.Log("清除所有数据");
             ES3.DeleteFile();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using GDFramework.Utility;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 using YooAsset;
 
@@ -10,7 +11,7 @@ namespace GDFramework.YooAssetKit
         public override void OnEnter()
         {
             base.OnEnter();
-            LogMonoUtility.AddLog("初始化资源包");
+            LogKit.Log("初始化资源包");
             StartCoroutine(InitPackage());
         }
 
@@ -81,7 +82,7 @@ namespace GDFramework.YooAssetKit
             // 如果初始化失败弹出提示界面
             if (initializationOperation.Status != EOperationStatus.Succeed)
             {
-                LogMonoUtility.AddErrorLog($"初始化失败{initializationOperation.Error}");
+                LogKit.Error($"初始化失败{initializationOperation.Error}");
             }
             else
             {

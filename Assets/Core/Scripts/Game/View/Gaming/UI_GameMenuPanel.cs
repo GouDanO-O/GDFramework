@@ -98,7 +98,7 @@ namespace Core.Game.View
 
 		protected void EditorMod()
 		{
-			UIKit.OpenPanel<UI_UniverseEditorListPanel>();
+			UIKit.OpenPanel<UI_Editor_UniverseListPanel>();
 			CloseSelf();
 		}
 

@@ -19,8 +19,6 @@ namespace GDFrameworkCore
         
         [SerializeField] private bool willShowCheatWindow = false;
 
-        [SerializeField] private bool willShowLogWindow = false;
-
         public EPlayMode YooAssetPlayMode
         {
             get
@@ -34,14 +32,6 @@ namespace GDFrameworkCore
             get
             {
                 return willShowCheatWindow;
-            }
-        }
-
-        public bool WillShowLogWindow
-        {
-            get
-            {
-                return willShowLogWindow;
             }
         }
         

@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace Core.Game.View.Details
 {
+    /// <summary>
+    /// 星图中的世界
+    /// </summary>
     public class UI_UniverseSingleWorld : UI_Details
     {
         private UI_UniversePanel _uiUniversePanel;
@@ -49,7 +52,7 @@ namespace Core.Game.View.Details
         /// <summary>
         /// 更新世界坐标
         /// </summary>
-        protected void UpdateWorldPosition()
+        protected virtual void UpdateWorldPosition()
         {
             if (_rectTransform)
             {
@@ -64,7 +67,7 @@ namespace Core.Game.View.Details
         /// <summary>
         /// 当点击了星图中的这个世界
         /// </summary>
-        protected void ClickButtonCheck()
+        protected virtual void ClickButtonCheck()
         {
             if (BindingWorldData != null && _uiUniversePanel)
             {

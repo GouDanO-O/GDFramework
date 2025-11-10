@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GDFramework.Models.Enums;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 
 namespace GDFramework.Multilingual
@@ -63,7 +64,8 @@ namespace GDFramework.Multilingual
             var folderName = WillChangeLanguageType.ToString();
             var path = $"Multilingual/{folderName}/{key}";
             var sprite = Resources.Load<Sprite>(path);
-            if (sprite == null) Debug.LogWarning($"未在路径中找到Sprite: {path}");
+            if (sprite == null) 
+                LogKit.Error($"未在路径中找到Sprite: {path}");
             return sprite;
         }
 

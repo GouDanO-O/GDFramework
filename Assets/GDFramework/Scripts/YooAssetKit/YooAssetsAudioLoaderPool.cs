@@ -1,5 +1,6 @@
 ﻿using System;
 using GDFrameworkExtend.AudioKit;
+using GDFrameworkExtend.LogKit;
 using GDFrameworkExtend.ResKit;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace GDFramework.YooAssetKit
         
             public AudioClip LoadClip(AudioSearchKeys audioSearchKeys)
             {
-                Debug.Log("当前加载LoadClip");
+                LogKit.Log("当前加载LoadClip");
                 if (_resLoader == null)
                 {
                     _resLoader = ResLoader.Allocate();
@@ -33,7 +34,7 @@ namespace GDFramework.YooAssetKit
 
             public void LoadClipAsync(AudioSearchKeys audioSearchKeys, Action<bool, AudioClip> onLoad)
             {
-                Debug.Log("当前加载LoadClipAsync");
+                LogKit.Log("当前加载LoadClipAsync");
                 if (_resLoader == null)
                 {
                     _resLoader = ResLoader.Allocate();

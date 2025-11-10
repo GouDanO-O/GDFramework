@@ -1,6 +1,7 @@
 ﻿using GDFramework.Input;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -110,7 +111,7 @@ namespace Core.Game.Chunk.Components
         {
             if (IsPressMouseMiddle && IsInChunkArea)
             {
-                LogMonoUtility.AddLog("当鼠标在房间区域内进行移动:"+moveData.mousePos);
+                LogKit.Log("当鼠标在房间区域内进行移动:"+moveData.mousePos);
             }
         }
 
@@ -124,7 +125,7 @@ namespace Core.Game.Chunk.Components
                 return;
 
             float curValue = scrollData.scrollValue.y;
-            LogMonoUtility.AddLog("滚动:"+curValue);
+            LogKit.Log("滚动:"+curValue);
         }
     }
 }

@@ -6,6 +6,7 @@ using Core.Game.Chunk.Data.Interface;
 using Core.Game.Chunk.Substance.Interface;
 using Core.Game.Storage.Data;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -116,7 +117,7 @@ namespace Core.Game.Storage
         {
             if (!IsValidSlotIndex(slotIndex))
             {
-                Debug.LogError($"无效的存档槽位: {slotIndex}");
+                LogKit.Error($"无效的存档槽位: {slotIndex}");
                 return new SaveSlotData(slotIndex);
             }
 
@@ -139,7 +140,7 @@ namespace Core.Game.Storage
         {
             if (!IsValidSlotIndex(slotIndex))
             {
-                Debug.LogError($"无效的存档槽位: {slotIndex}");
+                LogKit.Error($"无效的存档槽位: {slotIndex}");
                 return;
             }
 
@@ -147,14 +148,14 @@ namespace Core.Game.Storage
             ES3.Save(key, slotData);
             _slotDataDict[slotIndex] = slotData;
             
-            Debug.Log($"保存存档槽位 {slotIndex}: {slotData.SlotName}");
+            LogKit.Log($"保存存档槽位 {slotIndex}: {slotData.SlotName}");
         }
 
         public void DeleteSlot(int slotIndex)
         {
             if (!IsValidSlotIndex(slotIndex))
             {
-                Debug.LogError($"无效的存档槽位: {slotIndex}");
+                LogKit.Error($"无效的存档槽位: {slotIndex}");
                 return;
             }
 
@@ -165,7 +166,7 @@ namespace Core.Game.Storage
                 DeleteSlotTemporaryData(slotData.UniverseId);
                 ES3.DeleteKey(key);
                 _slotDataDict.Remove(slotIndex);
-                Debug.Log($"删除存档槽位 {slotIndex}");
+                LogKit.Log($"删除存档槽位 {slotIndex}");
             }
         }
 
@@ -173,13 +174,13 @@ namespace Core.Game.Storage
         {
             if (!IsValidSlotIndex(slotIndex))
             {
-                Debug.LogError($"无效的存档槽位: {slotIndex}");
+                LogKit.Error($"无效的存档槽位: {slotIndex}");
                 return;
             }
             
             _currentSlotIndex = slotIndex;
             _currentSlotData = GetSlotData(slotIndex);
-            Debug.Log($"切换到存档槽位 {slotIndex}: {_currentSlotData.SlotName}");
+            LogKit.Log($"切换到存档槽位 {slotIndex}: {_currentSlotData.SlotName}");
         }
 
         public SaveSlotData GetCurrentSlotData()
@@ -202,14 +203,14 @@ namespace Core.Game.Storage
         {
             if (dtoDef == null)
             {
-                Debug.LogError("Def 为空，无法保存");
+                LogKit.Error("Def 为空，无法保存");
                 return;
             }
 
             // 验证数据
             if (!dtoDef.Validate(out string error))
             {
-                Debug.LogError($"Def 验证失败: {error}");
+                LogKit.Error($"Def 验证失败: {error}");
                 return;
             }
 
@@ -218,11 +219,11 @@ namespace Core.Game.Storage
 #if UNITY_EDITOR
                 // 编辑器模式：保存到游戏配置路径
                 SaveDefToGameConfig(dtoDef);
-                Debug.Log($"<color=green>✓ 保存 Def 到游戏配置: {dtoDef.DefId} ({dtoDef.DefName})</color>");
+                LogKit.Log($"<color=green>✓ 保存 Def 到游戏配置: {dtoDef.DefId} ({dtoDef.DefName})</color>");
 #else
                 // 运行时模式：保存到 Mod 路径
                 SaveDefToMod(dtoDef);
-                Debug.Log($"<color=green>✓ 保存 Def 到 Mod: {dtoDef.DefId} ({dtoDef.DefName})</color>");
+                LogKit.Log($"<color=green>✓ 保存 Def 到 Mod: {dtoDef.DefId} ({dtoDef.DefName})</color>");
 #endif
 
                 // 更新缓存
@@ -231,7 +232,7 @@ namespace Core.Game.Storage
             }
             catch (Exception e)
             {
-                Debug.LogError($"保存 Def 失败: {dtoDef.DefId}, 错误: {e.Message}\n{e.StackTrace}");
+                LogKit.Error($"保存 Def 失败: {dtoDef.DefId}, 错误: {e.Message}\n{e.StackTrace}");
             }
         }
 
@@ -242,7 +243,7 @@ namespace Core.Game.Storage
         {
             if (dtoDef == null)
             {
-                Debug.LogError("Def 为空，无法删除");
+                LogKit.Error("Def 为空，无法删除");
                 return;
             }
 
@@ -251,18 +252,18 @@ namespace Core.Game.Storage
 #if UNITY_EDITOR
                 // 编辑器模式：从游戏配置路径删除
                 DeleteDefFromGameConfig(dtoDef);
-                Debug.Log($"<color=yellow>✗ 删除游戏配置 Def: {dtoDef.DefId}</color>");
+                LogKit.Log($"<color=yellow>✗ 删除游戏配置 Def: {dtoDef.DefId}</color>");
 #else
                 // 运行时模式：只能从 Mod 路径删除
                 // 游戏配置是只读的，无法删除
                 if (ExistsDefInMod(dtoDef.DefId))
                 {
                     DeleteDefFromMod(dtoDef);
-                    Debug.Log($"<color=yellow>✗ 删除 Mod Def: {dtoDef.DefId}</color>");
+                    LogKit.Log($"<color=yellow>✗ 删除 Mod Def: {dtoDef.DefId}</color>");
                 }
                 else
                 {
-                    Debug.LogWarning($"无法删除游戏配置 Def: {dtoDef.DefId}，运行时游戏配置是只读的");
+                    LogKit.Warning($"无法删除游戏配置 Def: {dtoDef.DefId}，运行时游戏配置是只读的");
                     return;
                 }
 #endif
@@ -273,7 +274,7 @@ namespace Core.Game.Storage
             }
             catch (Exception e)
             {
-                Debug.LogError($"删除 Def 失败: {dtoDef.DefId}, 错误: {e.Message}");
+                LogKit.Error($"删除 Def 失败: {dtoDef.DefId}, 错误: {e.Message}");
             }
         }
 
@@ -285,7 +286,7 @@ namespace Core.Game.Storage
         {
             if (string.IsNullOrEmpty(defId))
             {
-                Debug.LogWarning("DefId 为空，无法加载");
+                LogKit.Warning("DefId 为空，无法加载");
                 return null;
             }
 
@@ -303,7 +304,7 @@ namespace Core.Game.Storage
                 def = LoadDefFromMod<T>(defId);
                 if (def != null)
                 {
-                    Debug.Log($"<color=cyan>从 Mod 加载 Def: {defId}</color>");
+                    LogKit.Log($"<color=cyan>从 Mod 加载 Def: {defId}</color>");
                 }
                 else
                 {
@@ -312,12 +313,12 @@ namespace Core.Game.Storage
                     def = LoadDefFromGameConfig<T>(defId);
                     if (def != null)
                     {
-                        Debug.Log($"<color=cyan>从游戏配置加载 Def: {defId}</color>");
+                        LogKit.Log($"<color=cyan>从游戏配置加载 Def: {defId}</color>");
                     }
 #else
                     // 运行时游戏配置应该由 LaunchResourcesLoader 通过 YooAsset 加载
                     // 这里不应该直接访问，而是从 DataModel 的缓存中获取
-                    Debug.LogWarning($"Def {defId} 不在 Mod 中，且未从游戏配置加载（应由 LaunchResourcesLoader 加载）");
+                    LogKit.Warning($"Def {defId} 不在 Mod 中，且未从游戏配置加载（应由 LaunchResourcesLoader 加载）");
 #endif
                 }
 
@@ -331,7 +332,7 @@ namespace Core.Game.Storage
             }
             catch (Exception e)
             {
-                Debug.LogError($"加载 Def 失败: {defId}, 错误: {e.Message}");
+                LogKit.Error($"加载 Def 失败: {defId}, 错误: {e.Message}");
                 return null;
             }
         }
@@ -393,7 +394,7 @@ namespace Core.Game.Storage
             {
                 SaveDef(def);
             }
-            Debug.Log($"<color=green>批量保存: {modifiedDefs.Count} 个 Def</color>");
+            LogKit.Log($"<color=green>批量保存: {modifiedDefs.Count} 个 Def</color>");
         }
 
         /// <summary>
@@ -403,7 +404,7 @@ namespace Core.Game.Storage
         {
             _defCache.Clear();
             _modifiedDefs.Clear();
-            Debug.Log("已清空 Def 缓存");
+            LogKit.Log("已清空 Def 缓存");
         }
 
         /// <summary>
@@ -446,7 +447,7 @@ namespace Core.Game.Storage
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
-                Debug.Log($"删除游戏配置文件: {filePath}");
+                LogKit.Log($"删除游戏配置文件: {filePath}");
             }
         }
 
@@ -501,7 +502,7 @@ namespace Core.Game.Storage
             if (File.Exists(filePath))
             {
                 File.Delete(filePath);
-                Debug.Log($"删除 Mod 文件: {filePath}");
+                LogKit.Log($"删除 Mod 文件: {filePath}");
             }
         }
 
@@ -549,7 +550,7 @@ namespace Core.Game.Storage
 
             // 写入文件
             File.WriteAllText(filePath, json);
-            Debug.Log($"保存到文件: {filePath}");
+            LogKit.Log($"保存到文件: {filePath}");
         }
 
         /// <summary>
@@ -571,7 +572,7 @@ namespace Core.Game.Storage
             }
             catch (Exception e)
             {
-                Debug.LogError($"加载文件失败: {filePath}, 错误: {e.Message}");
+                LogKit.Error($"加载文件失败: {filePath}, 错误: {e.Message}");
                 return null;
             }
         }
@@ -600,7 +601,7 @@ namespace Core.Game.Storage
             if (!Directory.Exists(ModConfigPath))
             {
                 Directory.CreateDirectory(ModConfigPath);
-                Debug.Log($"创建 Mod 配置目录: {ModConfigPath}");
+                LogKit.Log($"创建 Mod 配置目录: {ModConfigPath}");
             }
         }
 
@@ -612,13 +613,13 @@ namespace Core.Game.Storage
         {
             if (string.IsNullOrEmpty(defId))
             {
-                Debug.LogError("DefId 为空,无法保存临时数据");
+                LogKit.Error("DefId 为空,无法保存临时数据");
                 return;
             }
 
             if (tempData == null)
             {
-                Debug.LogError($"临时数据为空,无法保存: {defId}");
+                LogKit.Error($"临时数据为空,无法保存: {defId}");
                 return;
             }
 
@@ -628,14 +629,14 @@ namespace Core.Game.Storage
             string key = GetTempDataKey(defId);
             ES3.Save(key, tempData);
             
-            Debug.Log($"<color=cyan>保存临时数据: {defId}</color>");
+            LogKit.Log($"<color=cyan>保存临时数据: {defId}</color>");
         }
 
         public IChunkTemporaryData LoadChunkTemporaryData(string defId, Type type)
         {
             if (string.IsNullOrEmpty(defId))
             {
-                Debug.LogWarning("DefId 为空,无法加载临时数据");
+                LogKit.Warning("DefId 为空,无法加载临时数据");
                 return null;
             }
 
@@ -646,12 +647,12 @@ namespace Core.Game.Storage
                 try
                 {
                     var tempData = ES3.Load(key, type) as IChunkTemporaryData;
-                    Debug.Log($"<color=cyan>加载临时数据: {defId}</color>");
+                    LogKit.Log($"<color=cyan>加载临时数据: {defId}</color>");
                     return tempData;
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"加载临时数据失败 {defId}: {e.Message}");
+                    LogKit.Error($"加载临时数据失败 {defId}: {e.Message}");
                     return null;
                 }
             }
@@ -663,13 +664,13 @@ namespace Core.Game.Storage
         {
             if (string.IsNullOrEmpty(instanceId))
             {
-                Debug.LogError("instanceId 为空,无法保存临时数据");
+                LogKit.Error("instanceId 为空,无法保存临时数据");
                 return;
             }
 
             if (tempData == null)
             {
-                Debug.LogError($"临时数据为空,无法保存: {instanceId}");
+                LogKit.Error($"临时数据为空,无法保存: {instanceId}");
                 return;
             }
 
@@ -679,14 +680,14 @@ namespace Core.Game.Storage
             string key = GetTempDataKey(instanceId);
             ES3.Save(key, tempData);
             
-            Debug.Log($"<color=cyan>保存临时数据: {instanceId}</color>");
+            LogKit.Log($"<color=cyan>保存临时数据: {instanceId}</color>");
         }
         
         public IEntityTemporaryData LoadEntityTemporaryData(string instanceId, Type type)
         {
             if (string.IsNullOrEmpty(instanceId))
             {
-                Debug.LogWarning("instanceId 为空,无法加载临时数据");
+                LogKit.Warning("instanceId 为空,无法加载临时数据");
                 return null;
             }
 
@@ -697,12 +698,12 @@ namespace Core.Game.Storage
                 try
                 {
                     var tempData = ES3.Load(key, type) as IEntityTemporaryData;
-                    Debug.Log($"<color=cyan>加载临时数据: {instanceId}</color>");
+                    LogKit.Log($"<color=cyan>加载临时数据: {instanceId}</color>");
                     return tempData;
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"加载临时数据失败 {instanceId}: {e.Message}");
+                    LogKit.Error($"加载临时数据失败 {instanceId}: {e.Message}");
                     return null;
                 }
             }
@@ -714,7 +715,7 @@ namespace Core.Game.Storage
         {
             if (string.IsNullOrEmpty(defId))
             {
-                Debug.LogWarning("DefId 为空,无法加载临时数据");
+                LogKit.Warning("DefId 为空,无法加载临时数据");
                 return null;
             }
 
@@ -725,12 +726,12 @@ namespace Core.Game.Storage
                 try
                 {
                     T tempData = ES3.Load<T>(key);
-                    Debug.Log($"<color=cyan>加载临时数据: {defId}</color>");
+                    LogKit.Log($"<color=cyan>加载临时数据: {defId}</color>");
                     return tempData;
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError($"加载临时数据失败 {defId}: {e.Message}");
+                    LogKit.Error($"加载临时数据失败 {defId}: {e.Message}");
                     return null;
                 }
             }
@@ -742,7 +743,7 @@ namespace Core.Game.Storage
         {
             if (string.IsNullOrEmpty(defId))
             {
-                Debug.LogWarning("DefId 为空,无法删除临时数据");
+                LogKit.Warning("DefId 为空,无法删除临时数据");
                 return;
             }
 
@@ -751,7 +752,7 @@ namespace Core.Game.Storage
             if (ES3.KeyExists(key))
             {
                 ES3.DeleteKey(key);
-                Debug.Log($"<color=yellow>删除临时数据: {defId}</color>");
+                LogKit.Log($"<color=yellow>删除临时数据: {defId}</color>");
             }
         }
 
@@ -796,7 +797,7 @@ namespace Core.Game.Storage
                 }
             }
             
-            Debug.Log($"删除槽位 {universeId} 的 {deleteCount} 条临时数据");
+            LogKit.Log($"删除槽位 {universeId} 的 {deleteCount} 条临时数据");
         }
 
         #endregion

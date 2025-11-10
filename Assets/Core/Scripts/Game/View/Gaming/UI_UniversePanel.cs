@@ -7,6 +7,7 @@ using Cysharp.Threading.Tasks;
 using GDFramework.FrameData;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 using UnityEngine.UI;
 using GDFrameworkExtend.UIKit;
@@ -158,7 +159,7 @@ namespace Core.Game.View
 		{
 			if (_curSelectingWorldData == null)
 			{
-				LogMonoUtility.AddErrorLog("请选择世界");
+				LogKit.Error("请选择世界");
 			}
 			else
 			{

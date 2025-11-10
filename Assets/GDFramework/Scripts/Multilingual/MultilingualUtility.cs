@@ -3,6 +3,7 @@ using GDFramework.Models;
 using GDFramework.Models.Enums;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 using JsonUtility = UnityEngine.JsonUtility;
 
@@ -67,7 +68,7 @@ namespace GDFramework.Multilingual
             }
             else
             {
-                Debug.LogError("文本资源不存在");
+                LogKit.Error("文本资源不存在");
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using GDFramework.Utility;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 using YooAsset;
 
@@ -10,7 +11,7 @@ namespace GDFramework.YooAssetKit
         public override void OnEnter()
         {
             base.OnEnter();
-            LogMonoUtility.AddLog("请求资源版本");
+            LogKit.Log("请求资源版本");
             StartCoroutine(UpdatePackageVersion());
         }
         
@@ -22,11 +23,11 @@ namespace GDFramework.YooAssetKit
 
             if (operation.Status != EOperationStatus.Succeed)
             {
-                LogMonoUtility.AddErrorLog(operation.Error);
+                LogKit.Error(operation.Error);
             }
             else
             {
-                LogMonoUtility.AddLog($"请求资源版本: {operation.PackageVersion}");
+                LogKit.Log($"请求资源版本: {operation.PackageVersion}");
                 YooAssetManager.UpdatePackageVersion(operation.PackageVersion);
                 FsmManager.ChangeFsmNode(typeof(UpdatePackageManifestFsmNode));
             }

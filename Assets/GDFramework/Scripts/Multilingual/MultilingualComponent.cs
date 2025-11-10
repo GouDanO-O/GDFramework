@@ -2,6 +2,7 @@
 using GDFramework.Models.Enums;
 using GDFramework.Utility;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -61,13 +62,13 @@ namespace GDFramework.Multilingual
         {
             if (key == "")
             {
-                LogMonoUtility.AddLog($"{gameObject.name}:未配置key");
+                LogKit.Error($"{gameObject.name}:未配置key");
                 return;
             }
 
             if (_multilingualData_Model == null)
             {
-                LogMonoUtility.AddLog($"{gameObject.name}:尚未初始化");
+                LogKit.Error($"{gameObject.name}:尚未初始化");
                 return;
             }
 

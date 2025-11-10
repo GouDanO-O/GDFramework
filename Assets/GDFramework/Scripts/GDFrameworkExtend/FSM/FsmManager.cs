@@ -38,7 +38,7 @@ namespace GDFrameworkExtend.FSM
         {
             if (_fsmNodeDict.TryGetValue(type, out var p)) 
                 return p;
-            LogMonoUtility.AddLog($"{type.Name} 未注册Fsm节点");
+            LogKit.LogKit.Error($"{type.Name} 未注册Fsm节点");
             return null;
         }
 
@@ -49,14 +49,14 @@ namespace GDFrameworkExtend.FSM
         {
             if (fsmNode == null)
             {
-                LogMonoUtility.AddLog("节点为空");
+                LogKit.LogKit.Error("节点为空");
                 return;
             }
 
             var type = fsmNode.GetType();
             if (_fsmNodeDict.ContainsKey(type))
             {
-                LogMonoUtility.AddLog($"节点{type.Name} 已注册");
+                LogKit.LogKit.Error($"节点{type.Name} 已注册");
                 return;
             }
 
@@ -72,13 +72,13 @@ namespace GDFrameworkExtend.FSM
         {
             if (fsmNode == null)
             {
-                LogMonoUtility.AddLog("节点为空");
+                LogKit.LogKit.Error("节点为空");
                 return;
             }
             
             if (!_fsmNodeDict.ContainsKey(fsmNode))
             {
-                LogMonoUtility.AddLog($"节点{fsmNode.Name} 未注册");
+                LogKit.LogKit.Error($"节点{fsmNode.Name} 未注册");
                 return;
             }
             
@@ -93,7 +93,7 @@ namespace GDFrameworkExtend.FSM
         {
             if (!_fsmNodeDict.TryGetValue(type, out var next))
             {
-                LogMonoUtility.AddErrorLog($"无法切换 {type.Name} 未注册");
+                LogKit.LogKit.Error($"无法切换 {type.Name} 未注册");
                 return;
             }
 

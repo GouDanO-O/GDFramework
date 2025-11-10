@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 
 namespace Core.Game.Chunk
@@ -85,7 +86,7 @@ namespace Core.Game.Chunk
         {
             if (!ChunkManager.Instance.IsChunkEditor)
             {
-                Debug.LogError("非区块编辑模式,无法保存");
+                LogKit.Error("非区块编辑模式,无法保存");
                 return;
             }
             

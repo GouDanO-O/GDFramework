@@ -3,6 +3,7 @@ using GDFramework.Utility;
 using GDFrameworkCore;
 using GDFrameworkExtend.FSM;
 using YooAsset;
+using GDFrameworkExtend.LogKit;
 
 namespace GDFramework.YooAssetKit
 {

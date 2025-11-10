@@ -2,6 +2,7 @@
 using Core.Game.Chunk.Data.Interface;
 using Core.Game.Storage;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 
 namespace Core.Game.Chunk.Data
 {
@@ -56,7 +57,7 @@ namespace Core.Game.Chunk.Data
         {
             if (string.IsNullOrEmpty(DefId))
             {
-                UnityEngine.Debug.LogError("DefId 为空,无法设置临时数据");
+                LogKit.Error("DefId 为空,无法设置临时数据");
                 return;
             }
 
@@ -68,14 +69,14 @@ namespace Core.Game.Chunk.Data
             if (tempData != null)
             {
                 TemporaryData = tempData;
-                UnityEngine.Debug.Log($"加载临时数据: DefId={DefId}");
+                LogKit.Log($"加载临时数据: DefId={DefId}");
             }
             else
             {
                 // 创建新的临时数据
                 TemporaryData = CreateNewTemporaryData();
                 SaveTemporaryData();
-                UnityEngine.Debug.Log($"创建新临时数据: DefId={DefId}");
+                LogKit.Log($"创建新临时数据: DefId={DefId}");
             }
         }
 
@@ -96,13 +97,13 @@ namespace Core.Game.Chunk.Data
         {
             if (string.IsNullOrEmpty(DefId))
             {
-                UnityEngine.Debug.LogWarning("DefId 为空,无法保存临时数据");
+                LogKit.Error("DefId 为空,无法保存临时数据");
                 return;
             }
 
             if (TemporaryData == null)
             {
-                UnityEngine.Debug.LogWarning($"临时数据为空,无法保存: {DefId}");
+                LogKit.Error($"临时数据为空,无法保存: {DefId}");
                 return;
             }
 
@@ -116,7 +117,7 @@ namespace Core.Game.Chunk.Data
         {
             if (string.IsNullOrEmpty(DefId))
             {
-                UnityEngine.Debug.LogWarning("DefId 为空,无法删除临时数据");
+                LogKit.Error("DefId 为空,无法删除临时数据");
                 return;
             }
 

@@ -1,4 +1,5 @@
 ﻿using GDFramework.Utility;
+using GDFrameworkExtend.LogKit;
 
 namespace GDFramework.YooAssetKit
 {
@@ -7,7 +8,7 @@ namespace GDFramework.YooAssetKit
         public override void OnEnter()
         {
             base.OnEnter();
-            LogMonoUtility.AddLog("资源文件下载完毕");
+            LogKit.Log("资源文件下载完毕");
             
         }
     }

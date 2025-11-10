@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using GDFramework;
 using GDFrameworkCore;
 using GDFrameworkExtend.FluentAPI;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 using UnityEngine.U2D;
 using GDFrameworkExtend.ResKit;
@@ -144,11 +145,11 @@ namespace GDFramework.Utility
                     if (loadedObject != null)
                         action?.Invoke(loadedObject);
                     else
-                        Debug.LogError($"错误的加载类型:{typeof(T)}.");
+                        LogKit.Error($"错误的加载类型:{typeof(T)}.");
                 }
                 else
                 {
-                    Debug.LogError($"加载错误:{name}");
+                    LogKit.Error($"加载错误:{name}");
                 }
             });
 
@@ -183,7 +184,7 @@ namespace GDFramework.Utility
             }
             else
             {
-                Debug.LogError(handle.LastError);
+                LogKit.Error(handle.LastError);
             }
             handle.Release();
         }

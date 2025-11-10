@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using GDFramework.Utility;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 using YooAsset;
 
@@ -10,7 +11,7 @@ namespace GDFramework.YooAssetKit
         public override void OnEnter()
         {
             base.OnEnter();
-            LogMonoUtility.AddLog("更新资源清单");
+            LogKit.Log("更新资源清单");
             StartCoroutine(UpdateManifest());
         }
 
@@ -22,7 +23,7 @@ namespace GDFramework.YooAssetKit
 
             if (operation.Status != EOperationStatus.Succeed)
             {
-                LogMonoUtility.AddErrorLog(operation.Error);
+                LogKit.Error(operation.Error);
                 FsmManager.ChangeFsmNode(typeof(UpdatePackageManifestFsmNode));
                 yield break;
             }

@@ -2,6 +2,7 @@ using GDFramework.Models;
 using GDFramework.Utility;
 using GDFrameworkCore;
 using GDFrameworkExtend.Data;
+using GDFrameworkExtend.LogKit;
 using GDFrameworkExtend.PoolKit;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -214,7 +215,7 @@ namespace GDFramework.Input
         /// <param name="context"></param>
         private void HandleMouseMiddleDown(InputAction.CallbackContext context)
         {
-            LogMonoUtility.AddLog("按住鼠标中键");
+            LogKit.Log("按住鼠标中键");
             this.SendEvent<SInputEvent_MouseMiddleDown>();
         }
         
@@ -224,7 +225,7 @@ namespace GDFramework.Input
         /// <param name="context"></param>
         private void HandleMouseMiddleUp(InputAction.CallbackContext context)
         {
-            LogMonoUtility.AddLog("松开鼠标中键");
+            LogKit.Log("松开鼠标中键");
             this.SendEvent<SInputEvent_MouseMiddleUp>();
         }
 

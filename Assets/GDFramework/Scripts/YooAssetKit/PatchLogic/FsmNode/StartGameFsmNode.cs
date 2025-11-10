@@ -1,5 +1,6 @@
 ﻿using Game;
 using GDFramework.Utility;
+using GDFrameworkExtend.LogKit;
 
 namespace GDFramework.YooAssetKit
 {
@@ -8,7 +9,7 @@ namespace GDFramework.YooAssetKit
         public override void OnEnter()
         {
             base.OnEnter();
-            LogMonoUtility.AddLog("进入游戏");
+            LogKit.Log("进入游戏");
             PatchOperation.SetFinish();
         }
     }

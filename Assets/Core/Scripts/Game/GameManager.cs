@@ -2,6 +2,7 @@
 using Core.Game.Procedure;
 using Core.Game.View;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using GDFrameworkExtend.UIKit;
 using UnityEngine;
 using YooAsset;
@@ -28,7 +29,7 @@ namespace Core.Game
         /// </summary>
         public void LoadGameSceneComplete()
         {
-            Debug.Log("世界初始化完成");
+            LogKit.Log("世界初始化完成");
             UIKit.OpenPanel<UI_UniversePanel>();
         }
 

@@ -74,11 +74,6 @@ namespace GDFrameworkCore
                 this.RegisterUtility(frameManager.gameObject.AddComponent<CheatMonoUtility>());;
             }
             
-            if (frameManager.WillShowLogWindow)
-            {
-                this.RegisterUtility(frameManager.gameObject.AddComponent<LogMonoUtility>());;
-            }
-            
             this.RegisterUtility(frameManager.gameObject.AddComponent<CoroutineMonoUtility>());;
             
             this.RegisterUtility(frameManager.gameObject.AddComponent<GUIUtility>());;

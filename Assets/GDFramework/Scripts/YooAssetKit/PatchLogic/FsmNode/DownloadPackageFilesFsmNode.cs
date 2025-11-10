@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using GDFramework.Utility;
+using GDFrameworkExtend.LogKit;
 using YooAsset;
 
 namespace GDFramework.YooAssetKit
@@ -9,7 +10,7 @@ namespace GDFramework.YooAssetKit
         public override void OnEnter()
         {
             base.OnEnter();
-            LogMonoUtility.AddLog("开始下载资源文件");
+            LogKit.Log("开始下载资源文件");
             StartCoroutine(BeginDownload());
         }
         
