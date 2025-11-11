@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Core.Game.Chunk.Universe.Data;
+using Core.Game.Chunk.World.Data;
 using Core.Game.View.Details;
 using Cysharp.Threading.Tasks;
 using GDFramework.FrameData;
@@ -16,11 +17,11 @@ using TMPro;
 
 namespace Core.Game.View
 {
-    public class UI_UniverseEditorListPanelData : UIPanelData
+    public class UI_Editor_TotalPanelData : UIPanelData
     {
     }
 
-    public partial class UI_Editor_UniverseListPanel : UIPanel, ICanGetModel,ICanGetUtility
+    public partial class UI_Editor_TotalPanel : UIPanel, ICanGetModel,ICanGetUtility
     {
         #region UI Components
 
@@ -39,8 +40,7 @@ namespace Core.Game.View
         private UI_EditorDetail_UniverseDetailShow _universeDetailShow;
         
         //宇宙星图编辑区域
-        protected Transform UniverseWorldMap;
-        private GameObject _universeMapWorldNodePrefab;
+        private UI_EditorDetail_UniverseMap _universeMap;
 
         //当前星图中的世界
         protected List<UI_EditorDetail_UniverseMapWorldNode> curUniverseMapWorldNodeList;
@@ -63,7 +63,7 @@ namespace Core.Game.View
 
         protected override void OnInit(IUIData uiData = null)
         {
-            mData = uiData as UI_UniverseEditorListPanelData ?? new UI_UniverseEditorListPanelData();
+            mData = uiData as UI_Editor_TotalPanelData ?? new UI_Editor_TotalPanelData();
             // please add init code here
             _universeDataModel = this.GetModel<UniverseDataModel>();
 
@@ -86,9 +86,8 @@ namespace Core.Game.View
             RightDetailRoot = UniverseListContainer.Find("RightDetailRoot");
             _universeDetailShow = RightDetailRoot.Find("BasicInfoView").GetComponent<UI_EditorDetail_UniverseDetailShow>();
 
-            UniverseWorldMap = RightDetailRoot.Find("UniverseWorldMap");
+            _universeMap = RightDetailRoot.Find("UniverseWorldMap").GetComponent<UI_EditorDetail_UniverseMap>();
             
-
             // 操作按钮
             OperationButtonRoot = RightDetailRoot.Find("OperationButtons");
             SaveUniverseButton = OperationButtonRoot.Find("SaveButton").GetComponent<Button>();
@@ -125,7 +124,6 @@ namespace Core.Game.View
         { 
             await InitPrefabs();
             RefreshUniverseList();
-            RightDetailRoot.gameObject.SetActive(false);
         }
 
         protected override void OnShow()
@@ -183,9 +181,11 @@ namespace Core.Game.View
         /// </summary>
         public void SelectUniverse(UniverseDtoDef universeDef)
         {
+            if (universeDef == null) 
+                return;
             _currentSelectedUniverse = universeDef;
             LoadUniverseToDetail(universeDef);
-            RightDetailRoot.gameObject.SetActive(true);
+            ShowUniverseWorldMap();
         }
 
         /// <summary>
@@ -193,9 +193,6 @@ namespace Core.Game.View
         /// </summary>
         private void LoadUniverseToDetail(UniverseDtoDef universeDef)
         {
-            if (universeDef == null) 
-                return;
-
             _universeDetailShow.UpdateDetailShow(universeDef);
         }
 
@@ -209,6 +206,8 @@ namespace Core.Game.View
                 LogKit.Error("没有选中的宇宙");
                 return;
             }
+            
+            _universeMap.ShowUniverseMap(_currentSelectedUniverse);
         }
 
         /// <summary>
@@ -281,6 +280,19 @@ namespace Core.Game.View
         {
             UIKit.OpenPanel<UI_GameMenuPanel>();
             this.CloseSelf();
+        }
+
+        #endregion
+
+        #region World
+
+        /// <summary>
+        /// 展开世界详情
+        /// </summary>
+        /// <param name="worldDtoDef"></param>
+        public void OpenWorldDetial(WorldDtoDef worldDtoDef)
+        {
+            
         }
 
         #endregion
