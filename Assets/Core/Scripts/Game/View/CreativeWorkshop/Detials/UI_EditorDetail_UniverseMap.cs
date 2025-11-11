@@ -13,11 +13,16 @@ namespace Core.Game.View.Details
         
         private GameObject _universeMapWorldNodePrefab;
         
-        private List<UI_EditorDetail_UniverseMapWorldNode> _universeMapWorldNodeList;
-        
-        private Dictionary<string,UI_EditorDetail_UniverseMapWorldNode> _universeMapWorldNodeDict;
+        private List<UI_EditorDetail_UniverseMapWorldNode> _universeMapWorldNodeList = new List<UI_EditorDetail_UniverseMapWorldNode>();
+
+        private Dictionary<string, UI_EditorDetail_UniverseMapWorldNode> _universeMapWorldNodeDict =
+            new Dictionary<string, UI_EditorDetail_UniverseMapWorldNode>();
         
         private WorldDataModel _worldDataModel;
+
+        private UI_EditorDetail_UniverseMapWorldNode _curFocusWorldNode;
+
+        private UI_EditorDetail_UniverseMapWorldNode _curInitialWorldNode;
         
         public IArchitecture GetArchitecture()
         {
@@ -102,9 +107,36 @@ namespace Core.Game.View.Details
                     curNode.ChangeSelecting(false);
                 }
             }
+
+            _curFocusWorldNode = mapWorldNode;
         }
 
+        /// <summary>
+        /// 设置世界作为初始世界
+        /// </summary>
+        /// <param name="worldNode"></param>
+        public void UpdateInitialWorld(UI_EditorDetail_UniverseMapWorldNode mapWorldNode)
+        {
+            for (int i = 0; i < _universeMapWorldNodeList.Count; i++)
+            {
+                UI_EditorDetail_UniverseMapWorldNode curNode =  _universeMapWorldNodeList[i];
+                if (curNode != mapWorldNode)
+                {
+                    curNode.ChangeInitialWorld(false);
+                }
+            }
 
+            _curInitialWorldNode = mapWorldNode;
+        }
 
+        public WorldDtoDef GetCurFocusWorldDtoDef()
+        {
+            return _curFocusWorldNode.GetThisWorldDtoDef();
+        }
+
+        public WorldDtoDef GetCurInitialWorldDtoDef()
+        {
+            return _curInitialWorldNode.GetThisWorldDtoDef();
+        }
     }
 }

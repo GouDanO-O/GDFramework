@@ -8,6 +8,7 @@ using GDFramework.Resource;
 using GDFramework.Utility;
 using GDFrameworkCore;
 using GDFrameworkExtend.ActionKit;
+using GDFrameworkExtend.FluentAPI;
 using GDFrameworkExtend.LogKit;
 using GDFrameworkExtend.ResKit;
 using UnityEngine;
@@ -78,6 +79,8 @@ namespace Core.Game.View
             UniverseListContainer = Common.Find("UniverseListContainer");
             // 左侧列表
             LeftListRoot = UniverseListContainer.Find("LeftListRoot");
+            _universeListItemPrefab = LeftListRoot.Find("EditorDetail_UniverseListItem").gameObject;
+            
             UniverseListScrollView = LeftListRoot.Find("UniverseListScrollView").GetComponent<ScrollRect>();
             UniverseListContent = UniverseListScrollView.content;
             CreateNewUniverseButton = LeftListRoot.Find("CreateNewButton").GetComponent<Button>();
@@ -94,16 +97,7 @@ namespace Core.Game.View
             EditCurrentWorldButton = OperationButtonRoot.Find("EditCurrentWorldButton").GetComponent<Button>();
             ExitButton = OperationButtonRoot.Find("ExitButton").GetComponent<Button>();
         }
-
-        protected async UniTask InitPrefabs()
-        {
-            if (_universeListItemPrefab == null)
-            {
-                _universeListItemPrefab = await this.GetUtility<ResourcesUtility>()
-                    .LoadPrefabAsync(DefaultPackage.UIDetails.EditorDetailsAssetGroup.EditorDetail_UniverseListItem);
-            }
-            
-        }
+        
 
         protected override void RegisterEvent()
         {
@@ -117,12 +111,6 @@ namespace Core.Game.View
 
         protected override void OnOpen(IUIData uiData = null)
         {
-            OpenPanelCheck();
-        }
-
-        protected async void OpenPanelCheck()
-        { 
-            await InitPrefabs();
             RefreshUniverseList();
         }
 
@@ -174,6 +162,7 @@ namespace Core.Game.View
             
             UI_EditorDetail_UniverseListItem curListItem = itemObj.GetComponent<UI_EditorDetail_UniverseListItem>();
             curListItem.SetThisUniverseData(universeDef);
+            curListItem.Show();
         }
 
         /// <summary>

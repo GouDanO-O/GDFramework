@@ -16,10 +16,8 @@ namespace Core.Game.View.Details
         #region 拖拽相关字段
         
         [Header("拖拽设置")]
-        [SerializeField] private bool isDraggable = true;
         [SerializeField] private float dragSmoothness = 0.1f; // 拖拽平滑度 (0-1)
         [SerializeField] private float dragAlpha = 0.6f;
-        [SerializeField] private bool returnToOriginalPosition = false; // 是否返回原位置
         
         private RectTransform rectTransform;
         private Canvas canvas;
@@ -46,6 +44,8 @@ namespace Core.Game.View.Details
         protected Button SetInitialPlayerLocateWorldButton;
 
         protected GameObject SelectingOutline;
+
+        private bool _thisWorldIsInitialWorld = false;
         
         #region 初始化
 
@@ -92,10 +92,17 @@ namespace Core.Game.View.Details
             {
                 canvasGroup = gameObject.AddComponent<CanvasGroup>();
             }
+
+            Transform DownerButtons = transform.Find("DownerButtons");
+            SetInitialPlayerLocateWorldButton = DownerButtons.Find("SetInitialPlayerLocateWorldButton")
+                .GetComponent<Button>();
+            SelectingOutline = transform.Find("SelectingOutline").gameObject;
             
             // 保存初始位置
             originalPosition = rectTransform.anchoredPosition;
             targetPosition = originalPosition;
+            
+            SetInitialPlayerLocateWorldButton.onClick.AddListener(SetThisWorldAsInitialWorld);
         }
 
         #endregion
@@ -104,8 +111,6 @@ namespace Core.Game.View.Details
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (!isDraggable) return;
-            
             pointerDownTime = Time.time;
             pointerDownPosition = eventData.position;
         }
@@ -124,8 +129,6 @@ namespace Core.Game.View.Details
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-            if (!isDraggable) return;
-            
             isDragging = true;
             
             // 保存原始位置
@@ -153,7 +156,7 @@ namespace Core.Game.View.Details
 
         public void OnDrag(PointerEventData eventData)
         {
-            if (!isDraggable || !isDragging) return;
+            if (!isDragging) return;
             
             // 将屏幕坐标转换为局部坐标
             if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
@@ -189,8 +192,6 @@ namespace Core.Game.View.Details
 
         public void OnEndDrag(PointerEventData eventData)
         {
-            if (!isDraggable) return;
-            
             isDragging = false;
             
             // 恢复透明度
@@ -199,16 +200,7 @@ namespace Core.Game.View.Details
                 canvasGroup.alpha = 1f;
             }
             
-            // 是否返回原位置
-            if (returnToOriginalPosition)
-            {
-                rectTransform.anchoredPosition = originalPosition;
-            }
-            else
-            {
-                // 保存新位置
-                originalPosition = rectTransform.anchoredPosition;
-            }
+            originalPosition = rectTransform.anchoredPosition;
             
             // 触发拖拽结束事件
             OnDragEnd(eventData.position);
@@ -216,78 +208,17 @@ namespace Core.Game.View.Details
 
         #endregion
 
-        #region 辅助方法
-
-        /// <summary>
-        /// 限制位置在父容器范围内
-        /// </summary>
-        private Vector2 ClampToParentBounds(Vector2 position)
-        {
-            if (rectTransform.parent == null) return position;
-            
-            RectTransform parentRect = rectTransform.parent as RectTransform;
-            if (parentRect == null) return position;
-            
-            // 获取父容器的尺寸
-            Vector2 parentSize = parentRect.rect.size;
-            Vector2 nodeSize = rectTransform.rect.size;
-            
-            // 计算边界
-            float minX = -parentSize.x / 2 + nodeSize.x / 2;
-            float maxX = parentSize.x / 2 - nodeSize.x / 2;
-            float minY = -parentSize.y / 2 + nodeSize.y / 2;
-            float maxY = parentSize.y / 2 - nodeSize.y / 2;
-            
-            // 限制位置
-            position.x = Mathf.Clamp(position.x, minX, maxX);
-            position.y = Mathf.Clamp(position.y, minY, maxY);
-            
-            return position;
-        }
-
-        /// <summary>
-        /// 设置是否可拖拽
-        /// </summary>
-        public void SetDraggable(bool draggable)
-        {
-            isDraggable = draggable;
-        }
-
-        /// <summary>
-        /// 重置到原始位置
-        /// </summary>
-        public void ResetWorldPosition()
-        {
-            rectTransform.anchoredPosition = originalPosition;
-        }
-
-        /// <summary>
-        /// 设置位置
-        /// </summary>
-        public void SetWorldPosition(Vector2 position)
-        {
-            rectTransform.anchoredPosition = position;
-            originalPosition = position;
-            targetPosition = position;
-        }
-
-        /// <summary>
-        /// 获取当前位置
-        /// </summary>
-        public Vector2 GetWorldPosition()
-        {
-            return rectTransform.anchoredPosition;
-        }
-
-        #endregion
-
+        
 
         public void SetDestroy()
         {
             Destroy(gameObject);
         }
 
-  
+        public WorldDtoDef GetThisWorldDtoDef()
+        {
+            return _worldDto;
+        }
 
         /// <summary>
         /// 展示当前的世界详情
@@ -338,13 +269,41 @@ namespace Core.Game.View.Details
             if (isSelecting)
             {
                 _universeMap.ManageWorldSelect(this);
-                SetInitialPlayerLocateWorldButton.gameObject.Show();
+                if (ThisWorldIsInitialWorld())
+                {
+                    
+                }
+                else
+                {
+                    SetInitialPlayerLocateWorldButton.gameObject.Show();
+                }
             }
             else
             {
                 SetInitialPlayerLocateWorldButton.gameObject.Hide();
             }
             SelectingOutline.SetActive(isSelecting);
+        }
+        
+        public void ChangeInitialWorld(bool isInitialWorld)
+        {
+            _thisWorldIsInitialWorld = isInitialWorld;
+        }
+
+        private bool ThisWorldIsInitialWorld()
+        {
+            return _thisWorldIsInitialWorld;
+        }
+
+
+
+        /// <summary>
+        /// 将当前世界设置为初始世界
+        /// </summary>
+        private void SetThisWorldAsInitialWorld()
+        {
+            ChangeInitialWorld(true);
+            _universeMap.UpdateInitialWorld(this);
         }
 
         /// <summary>
@@ -361,6 +320,60 @@ namespace Core.Game.View.Details
         protected virtual void SaveWorldPosition()
         {
 
+        }
+        
+        
+        /// <summary>
+        /// 限制位置在父容器范围内
+        /// </summary>
+        private Vector2 ClampToParentBounds(Vector2 position)
+        {
+            if (rectTransform.parent == null) return position;
+            
+            RectTransform parentRect = rectTransform.parent as RectTransform;
+            if (parentRect == null) return position;
+            
+            // 获取父容器的尺寸
+            Vector2 parentSize = parentRect.rect.size;
+            Vector2 nodeSize = rectTransform.rect.size;
+            
+            // 计算边界
+            float minX = -parentSize.x / 2 + nodeSize.x / 2;
+            float maxX = parentSize.x / 2 - nodeSize.x / 2;
+            float minY = -parentSize.y / 2 + nodeSize.y / 2;
+            float maxY = parentSize.y / 2 - nodeSize.y / 2;
+            
+            // 限制位置
+            position.x = Mathf.Clamp(position.x, minX, maxX);
+            position.y = Mathf.Clamp(position.y, minY, maxY);
+            
+            return position;
+        }
+
+        /// <summary>
+        /// 重置到原始位置
+        /// </summary>
+        public void ResetWorldPosition()
+        {
+            rectTransform.anchoredPosition = originalPosition;
+        }
+
+        /// <summary>
+        /// 设置位置
+        /// </summary>
+        public void SetWorldPosition(Vector2 position)
+        {
+            rectTransform.anchoredPosition = position;
+            originalPosition = position;
+            targetPosition = position;
+        }
+
+        /// <summary>
+        /// 获取当前位置
+        /// </summary>
+        public Vector2 GetWorldPosition()
+        {
+            return rectTransform.anchoredPosition;
         }
     }
 }
