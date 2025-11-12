@@ -30,23 +30,5 @@ namespace Core.Game.Chunk.World.Data
             return "World";
         }
         
-        public override bool Validate(out string error)
-        {
-            if (!base.Validate(out error)) return false;
-
-            if (string.IsNullOrEmpty(InitialPlayerLocateRegionId))
-            {
-                error = "必须设置初始玩家区块";
-                return false;
-            }
-
-            if (!RegionIdList.Contains(InitialPlayerLocateRegionId))
-            {
-                error = "初始玩家区块ID不在区块列表中";
-                return false;
-            }
-
-            return true;
-        }
     }
 }

@@ -78,7 +78,7 @@ namespace Core.Game.View.Details
         /// 添加世界
         /// </summary>
         /// <param name="worldDtoDef"></param>
-        public void AddWorldNode(WorldDtoDef worldDtoDef)
+        public UI_EditorDetail_UniverseMapWorldNode AddWorldNode(WorldDtoDef worldDtoDef)
         {
             UI_EditorDetail_UniverseMapWorldNode worldNode = Instantiate(_universeMapWorldNodePrefab, _universeMapWorldRoot.transform)
                 .GetComponent<UI_EditorDetail_UniverseMapWorldNode>().Show();
@@ -86,6 +86,7 @@ namespace Core.Game.View.Details
             worldNode.SetWorldDto(this,worldDtoDef);
             _universeMapWorldNodeList.Add(worldNode);
             _universeMapWorldNodeDict.Add(worldDtoDef.DefId,worldNode);
+            return worldNode;
         }
 
         /// <summary>

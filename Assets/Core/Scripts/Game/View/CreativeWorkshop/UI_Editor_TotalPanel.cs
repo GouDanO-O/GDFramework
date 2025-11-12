@@ -44,11 +44,12 @@ namespace Core.Game.View
         private UI_EditorDetail_UniverseMap _universeMap;
 
         //当前星图中的世界
-        protected List<UI_EditorDetail_UniverseMapWorldNode> curUniverseMapWorldNodeList;
+        private List<UI_EditorDetail_UniverseMapWorldNode> _curUniverseMapWorldNodeList = new List<UI_EditorDetail_UniverseMapWorldNode>();
 
         // 操作按钮
         protected Transform OperationButtonRoot;
-        protected Button SaveUniverseButton;
+        protected Button AddNewWorldButton;
+        protected Button SaveButton;
         protected Button EditCurrentWorldButton;
         protected Button ExitButton;
 
@@ -56,6 +57,8 @@ namespace Core.Game.View
 
         private UniverseDataModel _universeDataModel;
         private UniverseDtoDef _currentSelectedUniverse;
+
+        private WorldDataModel _worldDataModel;
 
         public IArchitecture GetArchitecture()
         {
@@ -67,7 +70,7 @@ namespace Core.Game.View
             mData = uiData as UI_Editor_TotalPanelData ?? new UI_Editor_TotalPanelData();
             // please add init code here
             _universeDataModel = this.GetModel<UniverseDataModel>();
-
+            _worldDataModel = this.GetModel<WorldDataModel>();
             GetRelyComponent(); 
             RegisterEvent();
         }
@@ -93,7 +96,8 @@ namespace Core.Game.View
             
             // 操作按钮
             OperationButtonRoot = RightDetailRoot.Find("OperationButtons");
-            SaveUniverseButton = OperationButtonRoot.Find("SaveButton").GetComponent<Button>();
+            AddNewWorldButton = OperationButtonRoot.Find("AddNewWorldButton").GetComponent<Button>();
+            SaveButton = OperationButtonRoot.Find("SaveButton").GetComponent<Button>();
             EditCurrentWorldButton = OperationButtonRoot.Find("EditCurrentWorldButton").GetComponent<Button>();
             ExitButton = OperationButtonRoot.Find("ExitButton").GetComponent<Button>();
         }
@@ -104,7 +108,8 @@ namespace Core.Game.View
             base.RegisterEvent();
 
             CreateNewUniverseButton.onClick.AddListener(CreateNewUniverse);
-            SaveUniverseButton.onClick.AddListener(SaveCurrentUniverse);
+            AddNewWorldButton.onClick.AddListener(CreateNewWorld);
+            SaveButton.onClick.AddListener(SaveData);
             EditCurrentWorldButton.onClick.AddListener(EditCurrentWorld);
             ExitButton.onClick.AddListener(ExitPanel);
         }
@@ -172,6 +177,8 @@ namespace Core.Game.View
         {
             if (universeDef == null) 
                 return;
+            
+            _curUniverseMapWorldNodeList.Clear();
             _currentSelectedUniverse = universeDef;
             LoadUniverseToDetail(universeDef);
             ShowUniverseWorldMap();
@@ -239,6 +246,8 @@ namespace Core.Game.View
             RefreshUniverseList();
         }
 
+        
+        
         /// <summary>
         /// 保存当前宇宙
         /// </summary>
@@ -285,6 +294,34 @@ namespace Core.Game.View
         #region World
 
         /// <summary>
+        /// 创建一个新世界
+        /// </summary>
+        public void CreateNewWorld()
+        {
+            if (_currentSelectedUniverse == null)
+            {
+                LogKit.Error("请先选择一个宇宙");
+                return;
+            }
+            
+            var newWorld = new WorldDtoDef()
+            {
+                DefName = "新世界",
+                DefDescription = "这是一个新的世界",
+                InitialPlayerLocateRegionId = "",
+                InitialShowingRegionIdList = new List<string>(),
+                RegionIdList = new List<string>()
+            };
+            
+            
+            _currentSelectedUniverse.WorldIdList.Add(newWorld.DefId);
+            _universeDetailShow.UpdateDetailShow(_currentSelectedUniverse);
+            _curUniverseMapWorldNodeList.Add(_universeMap.AddWorldNode(newWorld));
+            _worldDataModel.AddDtoDef(newWorld);
+            _currentSelectedUniverse.SaveThisDef();
+        }
+        
+        /// <summary>
         /// 展开世界详情
         /// </summary>
         /// <param name="worldDtoDef"></param>
@@ -293,6 +330,24 @@ namespace Core.Game.View
             
         }
 
+        /// <summary>
+        /// 保存当前宇宙的世界数据
+        /// </summary>
+        public void SaveWorldData()
+        {
+            for (int i = 0; i < _curUniverseMapWorldNodeList.Count; i++)
+            {
+                WorldDtoDef curDef = _curUniverseMapWorldNodeList[i].GetThisWorldDtoDef();
+                curDef.SaveThisDef();
+            }
+        }
+
         #endregion
+
+        private void SaveData()
+        {
+            SaveCurrentUniverse();
+            SaveWorldData();
+        }
     }
 }

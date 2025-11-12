@@ -4,6 +4,7 @@ using UnityEngine.EventSystems;
 using Core.Game.View.Details;
 using GDFrameworkExtend.FluentAPI;
 using GDFrameworkExtend.UIKit;
+using TMPro;
 using UnityEngine.UI;
 
 namespace Core.Game.View.Details
@@ -42,16 +43,24 @@ namespace Core.Game.View.Details
         #endregion
 
         private UI_EditorDetail_UniverseMap _universeMap;
+
+        protected TextMeshProUGUI ChangeWorldLockDes;
         
         protected GameObject SelectingOutline;
 
-        protected Transform WorldLock;
+        protected GameObject WorldUnlockImage;
+
+        protected GameObject WorldLockImage;
+
+        protected Transform DownerButtons;
 
         protected Button SetInitialPlayerLocateWorldButton;
+
+        protected Button CopyThisWorldButton;
         
         protected Button ChangeWorldLockButton;
         
-        protected Button DelectThisWorldButton;
+        protected Button DeleteThisWorldButton;
         
         private bool _thisWorldIsInitialWorld = false;
 
@@ -86,7 +95,7 @@ namespace Core.Game.View.Details
         {
             _universeMap = universeMap;
             _worldDto = worldDto;
-            SetWorldPosition(_worldDto.InitialSpawnedPosition);
+            SetWorldPosition(worldDto.InitialSpawnedPosition);
             UpdateWorldName();
         }
 
@@ -100,24 +109,30 @@ namespace Core.Game.View.Details
             {
                 canvasGroup = gameObject.AddComponent<CanvasGroup>();
             }
-
-            Transform DownerButtons = transform.Find("DownerButtons");
-            SetInitialPlayerLocateWorldButton = DownerButtons.Find("SetInitialPlayerLocateWorldButton")
-                .GetComponent<Button>();
+            
             SelectingOutline = transform.Find("SelectingOutline").gameObject;
 
-            ChangeWorldLockButton = transform.Find("ChangeWorldLockButton").GetComponent<Button>();
+            DownerButtons = transform.Find("DownerButtons");
+            SetInitialPlayerLocateWorldButton = DownerButtons.Find("SetInitialPlayerLocateWorldButton")
+                .GetComponent<Button>();
+
+            CopyThisWorldButton = DownerButtons.Find("CopyThisWorldButton").GetComponent<Button>();
+            ChangeWorldLockButton = DownerButtons.Find("ChangeWorldLockButton").GetComponent<Button>();
             
-            DelectThisWorldButton = transform.Find("DelectThisWorldButton").GetComponent<Button>();
-            
-            WorldLock = transform.Find("WorldLock");
+            DeleteThisWorldButton = DownerButtons.Find("DeleteThisWorldButton").GetComponent<Button>();
+
+            ChangeWorldLockDes = ChangeWorldLockButton.transform.Find("ChangeWorldLockDes")
+                .GetComponent<TextMeshProUGUI>();
+            WorldUnlockImage = ChangeWorldLockButton.transform.Find("LockImage/Unlock").gameObject;
+            WorldLockImage = ChangeWorldLockButton.transform.Find("LockImage/Lock").gameObject;
             // 保存初始位置
             originalPosition = rectTransform.anchoredPosition;
             targetPosition = originalPosition;
 
 
             SetInitialPlayerLocateWorldButton.onClick.AddListener(SetThisWorldAsInitialWorld);
-            DelectThisWorldButton.onClick.AddListener(DelectThisWorld);
+            CopyThisWorldButton.onClick.AddListener(CopyThisWorld);
+            DeleteThisWorldButton.onClick.AddListener(DelectThisWorld);
             ChangeWorldLockButton.onClick.AddListener(ChangeWillLockThisWorld);
         }
 
@@ -162,7 +177,7 @@ namespace Core.Game.View.Details
         /// </summary>
         protected void OnDragEnd(Vector2 screenPosition)
         {
-            SaveWorldPosition();
+            SaveWorldPosition(screenPosition);
         }
 
         /// <summary>
@@ -182,13 +197,15 @@ namespace Core.Game.View.Details
             _thisWorldIsLocking = !_thisWorldIsLocking;
             if (_thisWorldIsLocking)
             {
-                WorldLock.GetChild(0).Hide();
-                WorldLock.GetChild(1).Show();
+                ChangeWorldLockDes.text = "锁定";
+                WorldUnlockImage.Hide();
+                WorldLockImage.Show();
             }
             else
             {
-                WorldLock.GetChild(0).Show();
-                WorldLock.GetChild(1).Hide();
+                ChangeWorldLockDes.text = "解锁";
+                WorldUnlockImage.Show();
+                WorldLockImage.Hide();
             }
         }
 
@@ -224,6 +241,12 @@ namespace Core.Game.View.Details
             }
 
             SelectingOutline.SetActive(isSelecting);
+            DownerButtons.gameObject.SetActive(isSelecting);
+        }
+
+        private void CopyThisWorld()
+        {
+            
         }
 
         /// <summary>
@@ -261,10 +284,11 @@ namespace Core.Game.View.Details
         }
 
         /// <summary>
-        /// 保存世界位置到临时数据
+        /// 保存世界位置
         /// </summary>
-        protected void SaveWorldPosition()
+        protected void SaveWorldPosition(Vector2 newPos)
         {
+            _worldDto.InitialSpawnedPosition = newPos;
         }
 
         /// <summary>

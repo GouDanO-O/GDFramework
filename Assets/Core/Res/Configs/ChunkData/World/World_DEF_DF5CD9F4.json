@@ -1,0 +1,20 @@
+{
+  "InitialPlayerLocateRegionId": "",
+  "InitialSpawnedPosition": {
+    "x": 1660.0,
+    "y": 668.125,
+    "normalized": {
+      "x": 0.927679658,
+      "y": 0.373377085,
+      "magnitude": 1.0,
+      "sqrMagnitude": 1.0
+    },
+    "magnitude": 1789.41077,
+    "sqrMagnitude": 3201991.0
+  },
+  "InitialShowingRegionIdList": [],
+  "RegionIdList": [],
+  "DefId": "World_DEF_DF5CD9F4",
+  "DefName": "新世界",
+  "DefDescription": "这是一个新的世界"
+}

@@ -12,27 +12,22 @@ namespace Core.Game.Chunk.Data
     [Serializable, JsonObject]
     public abstract class ChunkDtoDef : IChunkDtoDef,ICanGetSystem
     {
-        [LabelText("配置ID"), ReadOnly]
+        [LabelText("配置ID")]
         [InfoBox("这是配置的唯一标识(在编辑器保存时,只会生成一次,")]
-        public string DefId { get; protected set; }
+        public string DefId { get; set; }
 
         [LabelText("配置名称")]
         public string DefName { get; set; }
 
         [LabelText("配置描述")]
         public string DefDescription { get; set; }
-
-        public ChunkDtoDef()
-        {
-            GenerateDefId();
-        }
         
         public IArchitecture GetArchitecture()
         {
             return GameMain.Interface;
         }
 
-        private void GenerateDefId()
+        public void GenerateDefId()
         {
             string typePrefix = GetTypePrefix();
             string uniqueId = Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper();
