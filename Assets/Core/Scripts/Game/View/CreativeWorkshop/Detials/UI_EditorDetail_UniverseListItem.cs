@@ -20,6 +20,8 @@ namespace Core.Game.View.Details
         
         private Button _showDetailsButton;
         
+        private Button _copyButton;
+        
         private Button _deleteThisButton;
         
         protected override void OnInit()
@@ -29,9 +31,12 @@ namespace Core.Game.View.Details
             _ownedWorldCount = transform.Find("OwnedWorldCount/WorldCount").GetComponent<TextMeshProUGUI>();
             
             _showDetailsButton = transform.Find("ShowDetailsButton").GetComponent<Button>();
+            _copyButton = transform.Find("CopyButton").GetComponent<Button>();
             _deleteThisButton = transform.Find("DeleteThisButton").GetComponent<Button>();
             
+            
             _showDetailsButton.onClick.AddListener(ShowUniverseDetail);
+            _copyButton.onClick.AddListener(CopyThisUniverseDetail);
             _deleteThisButton.onClick.AddListener(DeleteUniverseDetail);
         }
 
@@ -78,6 +83,14 @@ namespace Core.Game.View.Details
         private void ShowUniverseDetail()
         {
             UIKit.GetPanel<UI_Editor_TotalPanel>().SelectUniverse(_universeDef);
+        }
+
+        /// <summary>
+        /// 复制当前宇宙
+        /// </summary>
+        private void CopyThisUniverseDetail()
+        {
+            
         }
 
         /// <summary>

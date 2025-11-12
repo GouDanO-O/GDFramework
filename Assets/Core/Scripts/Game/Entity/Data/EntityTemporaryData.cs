@@ -1,6 +1,7 @@
 ﻿using System;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Substance.Interface;
+using Core.Game.Chunk.Tile;
 using Core.Game.Storage;
 using GDFrameworkCore;
 using JetBrains.Annotations;
@@ -10,13 +11,10 @@ using UnityEngine;
 namespace Core.Game.Chunk.Substance.Data
 {
     [Serializable]
-    public class EntityTemporaryData : IEntityTemporaryData,ICanGetSystem
+    public class EntityTemporaryData : TileEntityData,IEntityTemporaryData,ICanGetSystem
     {
         [LabelText("实例生成时唯一ID(如果是从池中取出,那么每次取出或回收都要置空)")]
         public string EntityInstanceId { get; set; }
-        
-        [LabelText("关联的配置ID")]
-        public string DefId { get; set; }
         
         [LabelText("创建时间")]
         public DateTime CreateTime { get; set; }
@@ -29,12 +27,6 @@ namespace Core.Game.Chunk.Substance.Data
         
         [LabelText("当前最大生命值")]
         public int CurrentMaxHealth { get; set; }
-        
-        [LabelText("当前坐标")]
-        public Vector2Int CurrentPosition { get; set; }
-        
-        [LabelText("当前旋转")]
-        public EEntityRotationType CurrentRotationType { get; set; }
         
         private StorageSystem _storageSystem;
 
@@ -49,7 +41,7 @@ namespace Core.Game.Chunk.Substance.Data
         /// <param name="instanceId"></param>
         public virtual void CreateEntityTempData(string defId, string instanceId)
         {
-            DefId = defId;
+            EntityDtoDefId = defId;
             CreateTime = DateTime.Now;
             LastModifyTime = DateTime.Now;
             if (instanceId == string.Empty && EntityInstanceId == string.Empty)

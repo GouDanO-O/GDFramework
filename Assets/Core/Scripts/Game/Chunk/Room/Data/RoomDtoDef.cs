@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Substance.Data;
+using Core.Game.Chunk.Substance.Interface;
 using Core.Game.Chunk.Tile;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
@@ -20,11 +21,16 @@ namespace Core.Game.Chunk.Room.Data
         public TileData[,] InitialTiles;
         
         [LabelText("初始实体")]
-        public List<EntityDtoDef> InitialEntities = new List<EntityDtoDef>();
+        public List<TileEntityData> InitialEntities = new List<TileEntityData>();
 
         public override string GetTypePrefix()
         {
             return "Room";
+        }
+
+        public void AddEntityToTile(Vector2Int tileIndex, IEntityDtoDef entityDtoDef)
+        {
+            
         }
     }
 }

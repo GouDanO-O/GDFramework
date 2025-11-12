@@ -7,7 +7,7 @@ namespace GDFramework.FrameData
    public struct DefaultPackage
     {
 
-       public struct ChunkConfig
+       public struct Config
        {
 
            public struct ChunkDataAssetGroup
@@ -16,10 +16,6 @@ namespace GDFramework.FrameData
                public const string Universe_DEF_4827DD95 = "yoo:Universe_DEF_4827DD95";
                public const string Universe_DEF_8F48F56E = "yoo:Universe_DEF_8F48F56E";
            }
-       }
-
-       public struct GameDefaultConfig
-       {
 
            public struct GameInputAssetGroup
            {
@@ -67,10 +63,10 @@ namespace GDFramework.FrameData
                public const string UI_WorldPanel = "yoo:UI_WorldPanel";
            }
 
-           public struct UI_UniverseEditorListPanelAssetGroup
+           public struct UI_Editor_TotalPanelAssetGroup
            {
-               public const string BundleName = "defaultpackage_core_res_prefabs_view_editor_ui_universeeditorlistpanel.prefab";
-               public const string UI_UniverseEditorListPanel = "yoo:UI_UniverseEditorListPanel";
+               public const string BundleName = "defaultpackage_core_res_prefabs_view_editor_ui_editor_totalpanel.prefab";
+               public const string UI_Editor_TotalPanel = "yoo:UI_Editor_TotalPanel";
            }
        }
 
@@ -81,12 +77,6 @@ namespace GDFramework.FrameData
            {
                public const string BundleName = "defaultpackage_core_res_prefabs_view_details";
                public const string UniverseSingleWorld = "yoo:UniverseSingleWorld";
-           }
-
-           public struct EditorDetailsAssetGroup
-           {
-               public const string BundleName = "defaultpackage_core_res_prefabs_view_editor_details";
-               public const string EditorDetail_UniverseListItem = "yoo:EditorDetail_UniverseListItem";
            }
        }
 

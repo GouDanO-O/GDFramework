@@ -249,6 +249,15 @@ namespace Core.Game.View
                 LogKit.Error("没有选中要保存的宇宙");
                 return;
             }
+
+            _currentSelectedUniverse.DefName = _universeDetailShow.GetUniverseName();
+            _currentSelectedUniverse.DefDescription = _universeDetailShow.GetUniverseDesc();
+
+            _currentSelectedUniverse.InitialPlayerLocateWorldId = _universeMap.GetCurInitialWorldDtoDef().DefId;
+            _currentSelectedUniverse.InitialShowingWorldIdList.Clear();
+            _currentSelectedUniverse.InitialShowingWorldIdList = _universeMap.GetCurIsLockingWorldDtoDefID(false);
+            _currentSelectedUniverse.WorldIdList.Clear();
+            _currentSelectedUniverse.WorldIdList = _universeMap.GetCurOwnedWorldDtoDefId();
             
             _currentSelectedUniverse.SaveThisDef();
 
@@ -279,7 +288,7 @@ namespace Core.Game.View
         /// 展开世界详情
         /// </summary>
         /// <param name="worldDtoDef"></param>
-        public void OpenWorldDetial(WorldDtoDef worldDtoDef)
+        public void OpenWorldDetail(WorldDtoDef worldDtoDef)
         {
             
         }

@@ -12,5 +12,31 @@ namespace Core.Game.Chunk.Substance
     {
         [LabelText("实体数据")]
         public EntityData EntityData;
+
+        #region  生命周期行为
+
+        protected virtual void ExecuteSpawnAction()
+        {
+            
+        }
+
+        protected virtual void ExecuteEnableAction()
+        {
+            
+        }
+
+        protected virtual void ExecuteDisableAction()
+        {
+            
+        }
+        
+        protected virtual void ExecuteDestroyAction()
+        {
+            
+        }
+
+        #endregion
+        
+
     }
 }

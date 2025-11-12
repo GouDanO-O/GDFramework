@@ -1,4 +1,5 @@
 ﻿using System;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,8 +11,8 @@ namespace Core.Game.Chunk.Tile
     /// 底部装饰层-->瓦片上面的装饰(可以是花,草,碎石等),根据装饰渲染优先级,依次去渲染(如果同级则按照先后顺序去渲染)
     /// 物体层-->瓦片上面的物体,根据渲染优先级,依次去渲染(如果同级则按照先后顺序去渲染)
     /// </summary>
-    [Serializable]
-    public class TileData
+    [Serializable,JsonObject]
+    public struct TileData
     {
         [LabelText("位置")]
         public Vector2Int Position;

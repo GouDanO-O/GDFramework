@@ -87,7 +87,7 @@ namespace Core.Game.Chunk.Universe
         /// <summary>
         /// 切换世界
         /// </summary>
-        public void ChangeWorld(WorldData willChangeWorld, WorldData lastWorld)
+        public void ChangeWorld(WorldData willChangeWorld)
         {
 
         }

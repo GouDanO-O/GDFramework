@@ -22,12 +22,6 @@ namespace Core.Game.Chunk.Room.Data
         /// </summary>
         public Dictionary<string, EntityData> Entities = new Dictionary<string, EntityData>();
         
-        /// <summary>
-        /// 房间状态
-        /// </summary>
-        public bool IsCleared = false;
-        public bool IsLocked = false;
-        public bool IsDiscovered = false;
         
         public RoomTemporaryData() : base() { }
         public RoomTemporaryData(string defId) : base(defId) { }

@@ -4,6 +4,7 @@ using Core.Game.Procedure.Models.Resource;
 using Core.Game.Procedure.Resource;
 using Core.Game.Storage;
 using GDFrameworkCore;
+using GDFrameworkExtend.LogKit;
 using UnityEngine;
 
 namespace Core.Game.Chunk.World.Data
@@ -19,12 +20,6 @@ namespace Core.Game.Chunk.World.Data
         /// DefId -> DtoDef 的快速查找字典
         /// </summary>
         private Dictionary<string, WorldDtoDef> _defIdToDefDict = new Dictionary<string, WorldDtoDef>();
-        
-        /// <summary>
-        /// DefId -> Context 的上下文映射
-        /// </summary>
-        private Dictionary<string, LaunchResourcesLoader.HierarchyContext> _defIdToContextDict = 
-            new Dictionary<string, LaunchResourcesLoader.HierarchyContext>();
         
         /// <summary>
         /// 所有世界运行时数据字典 (InstanceId -> Data)
@@ -56,37 +51,7 @@ namespace Core.Game.Chunk.World.Data
         {
             return _defIdToDefDict.TryGetValue(defId, out var def) ? def : null;
         }
-
-        /// <summary>
-        /// 根据 DefId 获取上下文
-        /// </summary>
-        public LaunchResourcesLoader.HierarchyContext GetContextByDefId(string defId)
-        {
-            return _defIdToContextDict.TryGetValue(defId, out var context) ? context : null;
-        }
-
-        /// <summary>
-        /// 根据宇宙名称获取所有世界配置
-        /// </summary>
-        public List<WorldDtoDef> GetWorldDefsByUniverse(string universeName)
-        {
-            var result = new List<WorldDtoDef>();
-            
-            foreach (var kvp in _defIdToContextDict)
-            {
-                if (kvp.Value.UniverseName == universeName)
-                {
-                    var def = GetDefById(kvp.Key);
-                    if (def != null)
-                    {
-                        result.Add(def);
-                    }
-                }
-            }
-            
-            return result;
-        }
-
+        
         /// <summary>
         /// 根据 InstanceId 获取世界数据
         /// </summary>
@@ -152,30 +117,24 @@ namespace Core.Game.Chunk.World.Data
         /// <summary>
         /// 添加 Def 配置(带上下文)
         /// </summary>
-        public void AddDtoDef(LaunchResourcesLoader.HierarchyContext context, WorldDtoDef dtoDef)
+        public void AddDtoDef(WorldDtoDef dtoDef)
         {
             if (dtoDef == null)
             {
-                Debug.LogError("无法添加空的 WorldDtoDef");
+                LogKit.Error("无法添加空的 WorldDtoDef");
                 return;
             }
 
             if (_defIdToDefDict.ContainsKey(dtoDef.DefId))
             {
-                Debug.LogWarning($"WorldDtoDef 已存在,跳过: {dtoDef.DefId}");
+                LogKit.Error($"WorldDtoDef 已存在,跳过: {dtoDef.DefId}");
                 return;
             }
 
             _worldDtoDefList.Add(dtoDef);
             _defIdToDefDict[dtoDef.DefId] = dtoDef;
             
-            // 保存上下文信息
-            if (context != null)
-            {
-                _defIdToContextDict[dtoDef.DefId] = context;
-            }
-
-            Debug.Log($"添加世界配置: {dtoDef.DefName} (DefId: {dtoDef.DefId}, Universe: {context?.UniverseName})");
+            LogKit.Error($"添加配置: {dtoDef.DefName} (DefId: {dtoDef.DefId}");
 
             TryLoadExistingInstancesForDef(dtoDef);
         }
@@ -189,9 +148,8 @@ namespace Core.Game.Chunk.World.Data
             {
                 _worldDtoDefList.Remove(def);
                 _defIdToDefDict.Remove(defId);
-                _defIdToContextDict.Remove(defId);
                 
-                Debug.Log($"移除世界配置: {def.DefName} ({defId})");
+                LogKit.Log($"移除世界配置: {def.DefName} ({defId})");
             }
         }
 
@@ -203,7 +161,7 @@ namespace Core.Game.Chunk.World.Data
             var storageSystem = this.GetSystem<StorageSystem>();
             if (storageSystem == null)
             {
-                Debug.LogWarning("StorageSystem 未初始化,跳过临时数据加载");
+                LogKit.Error("StorageSystem 未初始化,跳过临时数据加载");
                 return;
             }
 

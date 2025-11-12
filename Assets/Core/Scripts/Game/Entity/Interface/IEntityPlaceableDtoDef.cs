@@ -8,10 +8,6 @@ namespace Core.Game.Chunk.Substance.Interface
     {
         Vector2Int EntitySize { get; set; }
         
-        Vector2Int Position { get; set; }
-        
-        EEntityRotationType RotationType { get; set; }
-        
         bool IsBlockingMovement { get; set; }
     }
 }

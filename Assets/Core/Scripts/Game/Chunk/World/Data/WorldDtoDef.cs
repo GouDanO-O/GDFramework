@@ -12,26 +12,11 @@ namespace Core.Game.Chunk.World.Data
     [Serializable,JsonObject]
     public class WorldDtoDef : ChunkDtoDef
     {
-        [LabelText("初始年数")]
-        public int InitialWorldYearTime;
-        
-        [LabelText("初始月数")]
-        public int InitialWorldMonthTime;
-        
-        [LabelText("初始天数")]
-        public int InitialWorldDayTime;
-        
-        [LabelText("初始小时数")]
-        public int InitialWorldHourTime;
-        
-        [LabelText("初始分钟数")]
-        public int InitialWorldMinutesTime;
-        
         [LabelText("初始玩家所处的区块ID"),ReadOnly]
         [InfoBox("无特殊事件的情况下,玩家会处于的第一个区块的ID")]
         public string InitialPlayerLocateRegionId;
 
-        [LabelText("当在世界中生成的坐标")]
+        [LabelText("在宇宙中生成的坐标")]
         public Vector2 InitialSpawnedPosition;
         
         [LabelText("第一次进入世界展示的区块"),ReadOnly]
@@ -62,11 +47,6 @@ namespace Core.Game.Chunk.World.Data
             }
 
             return true;
-        }
-
-        public void UpdatePosition(Vector2 position)
-        {
-            
         }
     }
 }

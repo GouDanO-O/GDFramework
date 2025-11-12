@@ -1,5 +1,6 @@
 ﻿using System;
 using Core.Game.Chunk.Data;
+using Core.Game.Chunk.Substance.Actions.Interface;
 using Core.Game.Chunk.Substance.Interface;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
@@ -8,7 +9,7 @@ using UnityEngine;
 namespace Core.Game.Chunk.Substance.Data
 {
     [Serializable]
-    public abstract class EntityDtoDef : IEntityDtoDef,IEntityPlaceableDtoDef
+    public abstract class EntityDtoDef : IEntityDtoDef,IEntityPlaceableDtoDef,IEntityLifeCycleAction
     {
         [LabelText("配置ID"), ReadOnly]
         [InfoBox("这是配置的唯一标识(在编辑器保存时,只会生成一次,")]
@@ -26,15 +27,10 @@ namespace Core.Game.Chunk.Substance.Data
         [LabelText("尺寸,默认为1x1个瓦片大小")]
         public Vector2Int EntitySize { get; set; }
         
-        [LabelText("初始所处区块")]
-        public Vector2Int Position { get; set; }
-        
-        [LabelText("初始旋转方向")]
-        public EEntityRotationType RotationType { get; set; }
-        
         [LabelText("是否阻碍移动")]
         public bool IsBlockingMovement { get; set; }
         
+
         private void GenerateDefId()
         {
             string typePrefix = GetTypePrefix();
