@@ -47,7 +47,6 @@ namespace Core.Game.View
         protected Transform OperationButtonRoot;
         protected Button AddNewWorldButton;
         protected Button SaveButton;
-        protected Button EditCurrentWorldButton;
         protected Button ExitButton;
 
         #endregion
@@ -93,7 +92,6 @@ namespace Core.Game.View
             OperationButtonRoot = RightDetailRoot.Find("OperationButtons");
             AddNewWorldButton = OperationButtonRoot.Find("AddNewWorldButton").GetComponent<Button>();
             SaveButton = OperationButtonRoot.Find("SaveButton").GetComponent<Button>();
-            EditCurrentWorldButton = OperationButtonRoot.Find("EditCurrentWorldButton").GetComponent<Button>();
             ExitButton = OperationButtonRoot.Find("ExitButton").GetComponent<Button>();
         }
         
@@ -105,7 +103,6 @@ namespace Core.Game.View
             CreateNewUniverseButton.onClick.AddListener(CreateNewUniverse);
             AddNewWorldButton.onClick.AddListener(CreateNewWorld);
             SaveButton.onClick.AddListener(SaveData);
-            EditCurrentWorldButton.onClick.AddListener(EditCurrentWorld);
             ExitButton.onClick.AddListener(ExitPanel);
         }
 
@@ -263,12 +260,7 @@ namespace Core.Game.View
             _editorDataManager.AddNewUniverseDtoDef();
             RefreshUniverseList();
         }
-
-        private void EditCurrentWorld()
-        {
-            
-        }
-
+        
         /// <summary>
         /// 退出面板
         /// </summary>
@@ -328,8 +320,6 @@ namespace Core.Game.View
         {
             
         }
-        
-
         #endregion
 
         private void SaveData()

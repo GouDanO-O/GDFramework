@@ -34,9 +34,10 @@ namespace Core.Game.View
 		{
 			mData = uiData as UI_TipsWindowData ?? new UI_TipsWindowData();
 			// please add init code here
-			TipsText = transform.Find("TipsText").GetComponent<TextMeshProUGUI>();
-			CancelButton = transform.Find("CancelButton").GetComponent<Button>();
-			SureButton = transform.Find("SureButton").GetComponent<Button>();
+			Transform window = transform.Find("Window");
+			TipsText = window.Find("TipsText").GetComponent<TextMeshProUGUI>();
+			CancelButton = window.Find("CancelButton").GetComponent<Button>();
+			SureButton = window.Find("SureButton").GetComponent<Button>();
 			
 			CancelText = CancelButton.transform.Find("CancelText").GetComponent<TextMeshProUGUI>();
 			SureText = SureButton.transform.Find("SureText").GetComponent<TextMeshProUGUI>();
@@ -70,6 +71,7 @@ namespace Core.Game.View
 		private void ClickSureButton()
 		{
 			mData.SureAction?.Invoke();
+			CloseSelf();
 		}
 
 		/// <summary>
@@ -78,6 +80,7 @@ namespace Core.Game.View
 		private void ClickCancelButton()
 		{
 			mData.CancelAction?.Invoke();
+			CloseSelf();
 		}
 	}
 }
