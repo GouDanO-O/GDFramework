@@ -11,7 +11,7 @@ namespace Core.Game.Chunk.Substance.Data
     [Serializable]
     public abstract class EntityDtoDef : IEntityDtoDef,IEntityPlaceableDtoDef,IEntityLifeCycleAction
     {
-        [LabelText("配置ID"), ReadOnly]
+        [LabelText("配置ID")]
         [InfoBox("这是配置的唯一标识(在编辑器保存时,只会生成一次,")]
         public string DefId { get; protected set; }
 

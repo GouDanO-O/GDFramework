@@ -22,7 +22,7 @@ namespace Core.Game.View
     {
     }
 
-    public partial class UI_Editor_TotalPanel : UIPanel, ICanGetModel,ICanGetUtility
+    public partial class UI_Editor_TotalPanel : UIPanel, ICanGetModel,ICanGetUtility,ICanGetSystem
     {
         #region UI Components
 
@@ -43,9 +43,6 @@ namespace Core.Game.View
         //宇宙星图编辑区域
         private UI_EditorDetail_UniverseMap _universeMap;
 
-        //当前星图中的世界
-        private List<UI_EditorDetail_UniverseMapWorldNode> _curUniverseMapWorldNodeList = new List<UI_EditorDetail_UniverseMapWorldNode>();
-
         // 操作按钮
         protected Transform OperationButtonRoot;
         protected Button AddNewWorldButton;
@@ -55,11 +52,8 @@ namespace Core.Game.View
 
         #endregion
 
-        private UniverseDataModel _universeDataModel;
-        private UniverseDtoDef _currentSelectedUniverse;
-
-        private WorldDataModel _worldDataModel;
-
+        private EditorDataManager _editorDataManager;
+        
         public IArchitecture GetArchitecture()
         {
             return GameMain.Interface;
@@ -69,8 +63,9 @@ namespace Core.Game.View
         {
             mData = uiData as UI_Editor_TotalPanelData ?? new UI_Editor_TotalPanelData();
             // please add init code here
-            _universeDataModel = this.GetModel<UniverseDataModel>();
-            _worldDataModel = this.GetModel<WorldDataModel>();
+
+            _editorDataManager = this.GetSystem<EditorDataManager>();
+            
             GetRelyComponent(); 
             RegisterEvent();
         }
@@ -130,20 +125,25 @@ namespace Core.Game.View
 
         protected override void OnClose()
         {
-            _currentSelectedUniverse = null;
-            ClearUniverseListItems();
+            CloseTotalPanel();
         }
 
-        #region Universe List Management
+        private void CloseTotalPanel()
+        {
+            _editorDataManager.ClearEditorData();
+            ClearUniverseListItems();
+        }
+        
+        #region Universe
 
-        /// <summary>
+         /// <summary>
         /// 刷新宇宙列表
         /// </summary>
         private void RefreshUniverseList()
         {
             ClearUniverseListItems();
 
-            var allUniverses = _universeDataModel.GetAllUniverseDefs();
+            var allUniverses = _editorDataManager.GetAllUniverseDefs();
 
             if (allUniverses == null || allUniverses.Count == 0)
             {
@@ -177,11 +177,29 @@ namespace Core.Game.View
         {
             if (universeDef == null) 
                 return;
-            
-            _curUniverseMapWorldNodeList.Clear();
-            _currentSelectedUniverse = universeDef;
-            LoadUniverseToDetail(universeDef);
-            ShowUniverseWorldMap();
+
+            if (_editorDataManager.HasAnyChangeDidNotSave())
+            {
+                UIKit.OpenPanel<UI_TipsWindow>(new UI_TipsWindowData()
+                {
+                    TipsString = $"当前有未保存的数据\n{_editorDataManager.GetChangeSummary()}",
+                    CancelString = "取消",
+                    SureString = "保存并打开",
+                    SureAction = () =>
+                    {
+                        SaveData();
+                        _editorDataManager.SetFocusUniverse(universeDef);
+                        LoadUniverseToDetail(universeDef);
+                        ShowUniverseWorldMap(universeDef);
+                    }
+                });
+            }
+            else
+            {
+                _editorDataManager.SetFocusUniverse(universeDef);
+                LoadUniverseToDetail(universeDef);
+                ShowUniverseWorldMap(universeDef);
+            }
         }
 
         /// <summary>
@@ -195,15 +213,9 @@ namespace Core.Game.View
         /// <summary>
         /// 显示宇宙星图
         /// </summary>
-        private void ShowUniverseWorldMap()
+        private void ShowUniverseWorldMap(UniverseDtoDef universeDef)
         {
-            if (_currentSelectedUniverse == null)
-            {
-                LogKit.Error("没有选中的宇宙");
-                return;
-            }
-            
-            _universeMap.ShowUniverseMap(_currentSelectedUniverse);
+            _universeMap.ShowUniverseMap(universeDef);
         }
 
         /// <summary>
@@ -218,60 +230,37 @@ namespace Core.Game.View
             }
 
             _universeListItems.Clear();
+
         }
-
-        #endregion
-
-        #region Universe Operations
-
+        
         /// <summary>
         /// 创建新宇宙
         /// </summary>
         private void CreateNewUniverse()
         {
-            var newUniverse = new UniverseDtoDef
+            if (_editorDataManager.HasAnyChangeDidNotSave())
             {
-                DefName = "新宇宙",
-                DefDescription = "这是一个新的宇宙",
-                InitialPlayerLocateWorldId = "",
-                InitialShowingWorldIdList = new List<string>(),
-                WorldIdList = new List<string>()
-            };
-
-            _universeDataModel.AddDtoDef(newUniverse);
-            newUniverse.SaveThisDef();
-
-            LogKit.Log($"<color=green>✓ 创建新宇宙: {newUniverse.DefName} ({newUniverse.DefId})</color>");
-
-            RefreshUniverseList();
+                UIKit.OpenPanel<UI_TipsWindow>(new UI_TipsWindowData()
+                {
+                    TipsString = $"当前有未保存的数据\n{_editorDataManager.GetChangeSummary()}",
+                    CancelString = "取消创建",
+                    SureString = "保存并创建",
+                    SureAction = () =>
+                    {
+                        SaveData();
+                        CreateNewUniverseInternal();
+                    }
+                });
+            }
+            else
+            {
+                CreateNewUniverseInternal();
+            }
         }
 
-        
-        
-        /// <summary>
-        /// 保存当前宇宙
-        /// </summary>
-        private void SaveCurrentUniverse()
+        private void CreateNewUniverseInternal()
         {
-            if (_currentSelectedUniverse == null)
-            {
-                LogKit.Error("没有选中要保存的宇宙");
-                return;
-            }
-
-            _currentSelectedUniverse.DefName = _universeDetailShow.GetUniverseName();
-            _currentSelectedUniverse.DefDescription = _universeDetailShow.GetUniverseDesc();
-
-            _currentSelectedUniverse.InitialPlayerLocateWorldId = _universeMap.GetCurInitialWorldDtoDef().DefId;
-            _currentSelectedUniverse.InitialShowingWorldIdList.Clear();
-            _currentSelectedUniverse.InitialShowingWorldIdList = _universeMap.GetCurIsLockingWorldDtoDefID(false);
-            _currentSelectedUniverse.WorldIdList.Clear();
-            _currentSelectedUniverse.WorldIdList = _universeMap.GetCurOwnedWorldDtoDefId();
-            
-            _currentSelectedUniverse.SaveThisDef();
-
-            LogKit.Log($"<color=green>✓ 保存宇宙配置: {_currentSelectedUniverse.DefName}</color>");
-
+            _editorDataManager.AddNewUniverseDtoDef();
             RefreshUniverseList();
         }
 
@@ -285,8 +274,32 @@ namespace Core.Game.View
         /// </summary>
         private void ExitPanel()
         {
-            UIKit.OpenPanel<UI_GameMenuPanel>();
-            this.CloseSelf();
+            if (_editorDataManager.HasAnyChangeDidNotSave())
+            {
+                UIKit.OpenPanel<UI_TipsWindow>(new UI_TipsWindowData()
+                {
+                    TipsString = "当前有未保存的数据",
+                    CancelString = "不保存就退出",
+                    SureString = "保存并退出",
+                    SureAction = () =>
+                    {
+                        SaveData();
+                        UIKit.OpenPanel<UI_GameMenuPanel>();
+                        this.CloseSelf();
+                    },
+                    CancelAction = () =>
+                    {
+                        UIKit.OpenPanel<UI_GameMenuPanel>();
+                        this.CloseSelf();
+                    }
+                });
+            }
+            else
+            {
+                UIKit.OpenPanel<UI_GameMenuPanel>();
+                this.CloseSelf();
+            }
+
         }
 
         #endregion
@@ -298,27 +311,13 @@ namespace Core.Game.View
         /// </summary>
         public void CreateNewWorld()
         {
-            if (_currentSelectedUniverse == null)
+            if (_editorDataManager.GetFocusedUniverse() == null)
             {
                 LogKit.Error("请先选择一个宇宙");
                 return;
             }
-            
-            var newWorld = new WorldDtoDef()
-            {
-                DefName = "新世界",
-                DefDescription = "这是一个新的世界",
-                InitialPlayerLocateRegionId = "",
-                InitialShowingRegionIdList = new List<string>(),
-                RegionIdList = new List<string>()
-            };
-            
-            
-            _currentSelectedUniverse.WorldIdList.Add(newWorld.DefId);
-            _universeDetailShow.UpdateDetailShow(_currentSelectedUniverse);
-            _curUniverseMapWorldNodeList.Add(_universeMap.AddWorldNode(newWorld));
-            _worldDataModel.AddDtoDef(newWorld);
-            _currentSelectedUniverse.SaveThisDef();
+
+            _universeMap.AddWorldNode(_editorDataManager.AddNewWorldToFocusUniverse());
         }
         
         /// <summary>
@@ -329,25 +328,13 @@ namespace Core.Game.View
         {
             
         }
-
-        /// <summary>
-        /// 保存当前宇宙的世界数据
-        /// </summary>
-        public void SaveWorldData()
-        {
-            for (int i = 0; i < _curUniverseMapWorldNodeList.Count; i++)
-            {
-                WorldDtoDef curDef = _curUniverseMapWorldNodeList[i].GetThisWorldDtoDef();
-                curDef.SaveThisDef();
-            }
-        }
+        
 
         #endregion
 
         private void SaveData()
         {
-            SaveCurrentUniverse();
-            SaveWorldData();
+            _editorDataManager.UpdateTrackedSnapshots();
         }
     }
 }

@@ -3,6 +3,7 @@ using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World.Data;
 using GDFrameworkCore;
 using GDFrameworkExtend.FluentAPI;
+using GDFrameworkExtend.UIKit;
 using TMPro;
 using UnityEngine;
 
@@ -11,16 +12,13 @@ namespace Core.Game.View.Details
     /// <summary>
     /// 宇宙星图编辑器
     /// </summary>
-    public class UI_EditorDetail_UniverseMap : UI_Details,ICanGetModel
+    public class UI_EditorDetail_UniverseMap : UI_Details,ICanGetModel,ICanGetSystem
     {
         private Transform _universeMapWorldRoot;
         
         private GameObject _universeMapWorldNodePrefab;
         
         private List<UI_EditorDetail_UniverseMapWorldNode> _universeMapWorldNodeList = new List<UI_EditorDetail_UniverseMapWorldNode>();
-
-        private Dictionary<string, UI_EditorDetail_UniverseMapWorldNode> _universeMapWorldNodeDict =
-            new Dictionary<string, UI_EditorDetail_UniverseMapWorldNode>();
         
         private WorldDataModel _worldDataModel;
 
@@ -28,6 +26,8 @@ namespace Core.Game.View.Details
 
         private UI_EditorDetail_UniverseMapWorldNode _curInitialWorldNode;
 
+        private EditorDataManager _editorDataManager;
+        
         private TextMeshProUGUI _curInitialWorldName;
         
         public IArchitecture GetArchitecture()
@@ -41,6 +41,8 @@ namespace Core.Game.View.Details
             _universeMapWorldNodePrefab = transform.Find("UniverseMapWorldNodePrefab").gameObject;
             
             _curInitialWorldName = transform.Find("CurInitialWorldName").GetComponent<TextMeshProUGUI>();
+
+            _editorDataManager = this.GetSystem<EditorDataManager>();
             _worldDataModel = this.GetModel<WorldDataModel>();
         }
         
@@ -71,6 +73,7 @@ namespace Core.Game.View.Details
                 string worldId =  universeDtoDef.WorldIdList[i];
                 WorldDtoDef worldDtoDef = _worldDataModel.GetDefById(worldId);
                 AddWorldNode(worldDtoDef);
+                _editorDataManager.StartTrackingWorld(worldDtoDef);
             }
         }
 
@@ -78,15 +81,18 @@ namespace Core.Game.View.Details
         /// 添加世界
         /// </summary>
         /// <param name="worldDtoDef"></param>
-        public UI_EditorDetail_UniverseMapWorldNode AddWorldNode(WorldDtoDef worldDtoDef)
+        public void AddWorldNode(WorldDtoDef worldDtoDef)
         {
             UI_EditorDetail_UniverseMapWorldNode worldNode = Instantiate(_universeMapWorldNodePrefab, _universeMapWorldRoot.transform)
                 .GetComponent<UI_EditorDetail_UniverseMapWorldNode>().Show();
 
             worldNode.SetWorldDto(this,worldDtoDef);
             _universeMapWorldNodeList.Add(worldNode);
-            _universeMapWorldNodeDict.Add(worldDtoDef.DefId,worldNode);
-            return worldNode;
+        }
+
+        public List<UI_EditorDetail_UniverseMapWorldNode> GetCurUniverseWorldNodes()
+        {
+            return _universeMapWorldNodeList;
         }
 
         /// <summary>
@@ -99,7 +105,6 @@ namespace Core.Game.View.Details
                 _universeMapWorldNodeList[i].SetDestroy();
             }
             _universeMapWorldNodeList.Clear();
-            _universeMapWorldNodeDict.Clear();
         }
 
         /// <summary>

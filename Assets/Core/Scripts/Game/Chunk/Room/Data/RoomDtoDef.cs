@@ -4,6 +4,7 @@ using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Substance.Data;
 using Core.Game.Chunk.Substance.Interface;
 using Core.Game.Chunk.Tile;
+using GDFrameworkExtend.JsonKit;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Core.Game.Chunk.Room.Data
     public class RoomDtoDef : ChunkDtoDef
     {
         [LabelText("房间尺寸,默认为300x300大小")]
+        [JsonConverter(typeof(Vector2IntConverter))]
         public Vector2Int GridSize = Vector2Int.one * 300;
 
         [LabelText("初始瓦片布局")]

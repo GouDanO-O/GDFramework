@@ -25,7 +25,7 @@ namespace GDFrameworkExtend.Data
         {
         }
 
-        public virtual void SaveConfigData(string directory) => SaveConfigData(directory, JsonSettings.Make());
+        public virtual void SaveConfigData(string directory) => SaveConfigData(directory, JsonSettings.Default);
 
         public virtual void SaveConfigData(string directory, JsonSerializerSettings settings)
         {

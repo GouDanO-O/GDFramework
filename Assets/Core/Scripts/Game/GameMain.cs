@@ -9,6 +9,7 @@ using Core.Game.Chunk.World;
 using Core.Game.Chunk.World.Data;
 using Core.Game.Procedure.Models.Resource;
 using Core.Game.Storage;
+using Core.Game.View;
 using GDFrameworkCore;
 
 namespace Core.Game
@@ -18,6 +19,8 @@ namespace Core.Game
         protected override void Register_System()
         {
             base.Register_System();
+            this.RegisterSystem(new ChangeTrackerSystem());
+            
             this.RegisterSystem(new UniverseSystem());
             this.RegisterSystem(new WorldSystem());
             this.RegisterSystem(new RegionSystem());

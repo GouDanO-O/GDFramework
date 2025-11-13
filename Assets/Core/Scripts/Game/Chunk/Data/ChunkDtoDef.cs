@@ -3,6 +3,7 @@ using System.IO;
 using Core.Game.Chunk.Data.Interface;
 using Core.Game.Storage;
 using GDFrameworkCore;
+using GDFrameworkExtend.JsonKit;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -10,7 +11,7 @@ using UnityEngine;
 namespace Core.Game.Chunk.Data
 {
     [Serializable, JsonObject]
-    public abstract class ChunkDtoDef : IChunkDtoDef,ICanGetSystem
+    public abstract class ChunkDtoDef : IChunkDtoDef,ICanGetSystem,ITrackableData
     {
         [LabelText("配置ID")]
         [InfoBox("这是配置的唯一标识(在编辑器保存时,只会生成一次,")]
@@ -64,6 +65,26 @@ namespace Core.Game.Chunk.Data
 
             error = string.Empty;
             return true;
+        }
+
+        /// <summary>
+        /// 创建当前数据的快照
+        /// </summary>
+        public string CreateSnapshot()
+        {
+            return JsonConvert.SerializeObject(this, JsonSettings.Compact);
+        }
+
+        /// <summary>
+        /// 与快照比较是否有变化
+        /// </summary>
+        public bool HasChanges(string snapshot)
+        {
+            if (string.IsNullOrEmpty(snapshot))
+                return true;
+                
+            string currentSnapshot = CreateSnapshot();
+            return currentSnapshot != snapshot;
         }
     }
 }

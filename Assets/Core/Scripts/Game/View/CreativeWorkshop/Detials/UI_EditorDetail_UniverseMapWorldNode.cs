@@ -195,6 +195,7 @@ namespace Core.Game.View.Details
         private void ChangeWillLockThisWorld()
         {
             _thisWorldIsLocking = !_thisWorldIsLocking;
+            _worldDto.IsLockInInitialUniverse = _thisWorldIsLocking;
             if (_thisWorldIsLocking)
             {
                 ChangeWorldLockDes.text = "锁定";
