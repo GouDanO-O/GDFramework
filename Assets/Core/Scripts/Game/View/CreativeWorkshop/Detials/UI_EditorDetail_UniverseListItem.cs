@@ -82,7 +82,7 @@ namespace Core.Game.View.Details
         /// </summary>
         private void ShowUniverseDetail()
         {
-            UIKit.GetPanel<UI_Editor_TotalPanel>().SelectUniverse(_universeDef);
+            UIKit.GetPanel<UI_Editor_UniversePanel>().SelectUniverse(_universeDef);
         }
 
         /// <summary>

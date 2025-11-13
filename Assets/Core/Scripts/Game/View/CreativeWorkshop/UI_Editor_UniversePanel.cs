@@ -18,11 +18,12 @@ using TMPro;
 
 namespace Core.Game.View
 {
-    public class UI_Editor_TotalPanelData : UIPanelData
+    public class UI_Editor_UniversePanelData : UIPanelData
     {
+        
     }
 
-    public partial class UI_Editor_TotalPanel : UIPanel, ICanGetModel,ICanGetUtility,ICanGetSystem
+    public partial class UI_Editor_UniversePanel : UIPanel, ICanGetModel,ICanGetUtility,ICanGetSystem
     {
         #region UI Components
 
@@ -60,11 +61,10 @@ namespace Core.Game.View
 
         protected override void OnInit(IUIData uiData = null)
         {
-            mData = uiData as UI_Editor_TotalPanelData ?? new UI_Editor_TotalPanelData();
+            mData = uiData as UI_Editor_UniversePanelData ?? new UI_Editor_UniversePanelData();
             // please add init code here
 
             _editorDataManager = this.GetSystem<EditorDataManager>();
-            
             GetRelyComponent(); 
             RegisterEvent();
         }
@@ -309,7 +309,17 @@ namespace Core.Game.View
                 return;
             }
 
-            _universeMap.AddWorldNode(_editorDataManager.AddNewWorldToFocusUniverse());
+            _universeMap.AddWorldNode(_editorDataManager.AddNewWorldToFocusUniverse(),
+                _editorDataManager.GetFocusedUniverse().InitialPlayerLocateWorldId);
+        }
+
+        //TODO 从配置中加载一个已经创建的世界
+        /// <summary>
+        /// 从配置中加载一个已经创建的世界
+        /// </summary>
+        public void LoadExistWorldDtoDefForCreate()
+        {
+            
         }
         
         /// <summary>

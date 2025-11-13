@@ -1,0 +1,15 @@
+{
+  "InitialPlayerLocateWorldId": "World_DEF_3FAC2E2F",
+  "InitialShowingWorldIdList": [
+    "World_DEF_3FAC2E2F"
+  ],
+  "WorldIdList": [
+    "World_DEF_3FAC2E2F",
+    "World_DEF_39F4822F",
+    "World_DEF_308D7FB4",
+    "World_DEF_FFFF04C8"
+  ],
+  "DefId": "Universe_DEF_EF53946C",
+  "DefName": "新宇宙",
+  "DefDescription": "这是一个新的宇宙"
+}

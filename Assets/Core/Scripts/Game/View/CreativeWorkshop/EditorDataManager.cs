@@ -35,6 +35,7 @@ namespace Core.Game.View
             _universeDataModel = this.GetModel<UniverseDataModel>();
             _worldDataModel = this.GetModel<WorldDataModel>();
         }
+        
 
         public void ClearEditorData()
         {
@@ -57,6 +58,7 @@ namespace Core.Game.View
                 WorldIdList = new List<string>()
             };
             
+            newUniverseDtoDef.GenerateDefId();
             // if (GetAllUniverseDefs().Count == 0)
             // {
             //     SetFocusUniverse(newUniverseDtoDef);
@@ -106,6 +108,7 @@ namespace Core.Game.View
                 RegionIdList = new List<string>()
             };
 
+            newWorld.GenerateDefId();
             //如果当前宇宙中,没有其他世界,则设置第一个创建的世界为初始世界
             if (_currentFocusUniverse.WorldIdList.Count == 0)
             {
@@ -165,6 +168,8 @@ namespace Core.Game.View
         /// </summary>
         private void CheckAllTrackedChanges()
         {
+            if(_currentFocusUniverse == null)
+                return;
             // 先从UI同步数据到对象
             SyncUIDataToObjects();
             

@@ -70,9 +70,10 @@ namespace Core.Game.View.Details
 
             for (int i = 0; i < universeDtoDef.WorldIdList.Count; i++)
             {
+                string initialWorldId = universeDtoDef.InitialPlayerLocateWorldId;
                 string worldId =  universeDtoDef.WorldIdList[i];
                 WorldDtoDef worldDtoDef = _worldDataModel.GetDefById(worldId);
-                AddWorldNode(worldDtoDef);
+                AddWorldNode(worldDtoDef,initialWorldId);
                 _editorDataManager.StartTrackingWorld(worldDtoDef);
             }
         }
@@ -81,13 +82,18 @@ namespace Core.Game.View.Details
         /// 添加世界
         /// </summary>
         /// <param name="worldDtoDef"></param>
-        public void AddWorldNode(WorldDtoDef worldDtoDef)
+        public void AddWorldNode(WorldDtoDef worldDtoDef,string initialWorldId)
         {
             UI_EditorDetail_UniverseMapWorldNode worldNode = Instantiate(_universeMapWorldNodePrefab, _universeMapWorldRoot.transform)
                 .GetComponent<UI_EditorDetail_UniverseMapWorldNode>().Show();
-
+            
             worldNode.SetWorldDto(this,worldDtoDef);
+            if (worldDtoDef.DefId.Equals(initialWorldId))
+            {
+                worldNode.SetThisWorldAsInitialWorld();
+            }
             _universeMapWorldNodeList.Add(worldNode);
+
         }
 
         public List<UI_EditorDetail_UniverseMapWorldNode> GetCurUniverseWorldNodes()
@@ -142,6 +148,9 @@ namespace Core.Game.View.Details
 
             _curInitialWorldName.text = mapWorldNode.GetThisWorldDtoDef().DefName;
             _curInitialWorldNode = mapWorldNode;
+
+            _editorDataManager.GetFocusedUniverse().InitialPlayerLocateWorldId =
+                mapWorldNode.GetThisWorldDtoDef().DefId;
         }
 
         /// <summary>

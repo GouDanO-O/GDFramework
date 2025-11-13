@@ -44,7 +44,11 @@ namespace Core.Game.View.Details
 
         private UI_EditorDetail_UniverseMap _universeMap;
 
+        protected TextMeshProUGUI WorldName;
+
         protected TextMeshProUGUI ChangeWorldLockDes;
+
+        protected TextMeshProUGUI ChangeInitialPlayerLocateWorldDes;
         
         protected GameObject SelectingOutline;
 
@@ -61,6 +65,8 @@ namespace Core.Game.View.Details
         protected Button ChangeWorldLockButton;
         
         protected Button DeleteThisWorldButton;
+
+        protected Button ShowDetailButton;
         
         private bool _thisWorldIsInitialWorld = false;
 
@@ -112,10 +118,15 @@ namespace Core.Game.View.Details
             
             SelectingOutline = transform.Find("SelectingOutline").gameObject;
 
+            WorldName = transform.Find("WorldName").GetComponent<TextMeshProUGUI>();
+            
             DownerButtons = transform.Find("DownerButtons");
             SetInitialPlayerLocateWorldButton = DownerButtons.Find("SetInitialPlayerLocateWorldButton")
                 .GetComponent<Button>();
 
+            ChangeInitialPlayerLocateWorldDes = SetInitialPlayerLocateWorldButton.transform.GetChild(0)
+                .GetComponent<TextMeshProUGUI>();
+            
             CopyThisWorldButton = DownerButtons.Find("CopyThisWorldButton").GetComponent<Button>();
             ChangeWorldLockButton = DownerButtons.Find("ChangeWorldLockButton").GetComponent<Button>();
             
@@ -125,6 +136,10 @@ namespace Core.Game.View.Details
                 .GetComponent<TextMeshProUGUI>();
             WorldUnlockImage = ChangeWorldLockButton.transform.Find("LockImage/Unlock").gameObject;
             WorldLockImage = ChangeWorldLockButton.transform.Find("LockImage/Lock").gameObject;
+
+
+            ShowDetailButton = transform.Find("ShowDetailButton").GetComponent<Button>();
+            
             // 保存初始位置
             originalPosition = rectTransform.anchoredPosition;
             targetPosition = originalPosition;
@@ -132,8 +147,10 @@ namespace Core.Game.View.Details
 
             SetInitialPlayerLocateWorldButton.onClick.AddListener(SetThisWorldAsInitialWorld);
             CopyThisWorldButton.onClick.AddListener(CopyThisWorld);
-            DeleteThisWorldButton.onClick.AddListener(DelectThisWorld);
+            DeleteThisWorldButton.onClick.AddListener(DeleteThisWorld);
             ChangeWorldLockButton.onClick.AddListener(ChangeWillLockThisWorld);
+            
+            ShowDetailButton.onClick.AddListener(ShowWorldDetail);
         }
 
         #endregion
@@ -153,7 +170,7 @@ namespace Core.Game.View.Details
         /// </summary>
         private void ShowWorldDetail()
         {
-            UIKit.GetPanel<UI_Editor_TotalPanel>().OpenWorldDetail(_worldDto);
+            UIKit.GetPanel<UI_Editor_UniversePanel>().OpenWorldDetail(_worldDto);
         }
 
         /// <summary>
@@ -243,8 +260,13 @@ namespace Core.Game.View.Details
 
             SelectingOutline.SetActive(isSelecting);
             DownerButtons.gameObject.SetActive(isSelecting);
+            ShowDetailButton.gameObject.SetActive(isSelecting);
         }
 
+        //TODO 复制当前世界
+        /// <summary>
+        /// 复制当前世界
+        /// </summary>
         private void CopyThisWorld()
         {
             
@@ -257,6 +279,14 @@ namespace Core.Game.View.Details
         public void ChangeInitialWorld(bool isInitialWorld)
         {
             _thisWorldIsInitialWorld = isInitialWorld;
+            if (isInitialWorld)
+            {
+                ChangeInitialPlayerLocateWorldDes.text = "初始世界";
+            }
+            else
+            {
+                ChangeInitialPlayerLocateWorldDes.text = "设置为初始世界";
+            }
         }
 
         /// <summary>
@@ -271,10 +301,12 @@ namespace Core.Game.View.Details
         /// <summary>
         /// 将当前世界设置为初始世界
         /// </summary>
-        private void SetThisWorldAsInitialWorld()
+        public void SetThisWorldAsInitialWorld()
         {
             ChangeInitialWorld(true);
+            ChangeSelecting(true);
             _universeMap.UpdateInitialWorld(this);
+
         }
 
         /// <summary>
@@ -282,6 +314,7 @@ namespace Core.Game.View.Details
         /// </summary>
         protected void UpdateWorldName()
         {
+            WorldName.text = _worldDto.DefName;
         }
 
         /// <summary>
@@ -295,7 +328,7 @@ namespace Core.Game.View.Details
         /// <summary>
         /// 删除当前世界
         /// </summary>
-        protected void DelectThisWorld()
+        protected void DeleteThisWorld()
         {
             
         }
@@ -397,7 +430,7 @@ namespace Core.Game.View.Details
             originalPosition = rectTransform.anchoredPosition;
 
             // 触发拖拽结束事件
-            OnDragEnd(eventData.position);
+            OnDragEnd(originalPosition);
         }
 
         /// <summary>

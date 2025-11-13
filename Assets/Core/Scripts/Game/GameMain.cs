@@ -19,8 +19,9 @@ namespace Core.Game
         protected override void Register_System()
         {
             base.Register_System();
+
             this.RegisterSystem(new ChangeTrackerSystem());
-            
+            this.RegisterSystem(new EditorDataManager());
             this.RegisterSystem(new UniverseSystem());
             this.RegisterSystem(new WorldSystem());
             this.RegisterSystem(new RegionSystem());
