@@ -212,7 +212,7 @@ namespace Core.Game.View
         /// </summary>
         private void ShowUniverseWorldMap(UniverseDtoDef universeDef)
         {
-            _universeMap.ShowUniverseMap(universeDef);
+            _universeMap.ShowMap(universeDef);
         }
 
         /// <summary>
@@ -294,6 +294,16 @@ namespace Core.Game.View
 
         }
 
+        public string GetCurUniverseName()
+        {
+            return _universeDetailShow.GetUniverseName();
+        }
+
+        public string GetCurUniverseDes()
+        {
+            return _universeDetailShow.GetUniverseDesc();
+        }
+
         #endregion
 
         #region World
@@ -309,8 +319,8 @@ namespace Core.Game.View
                 return;
             }
 
-            _universeMap.AddWorldNode(_editorDataManager.AddNewWorldToFocusUniverse(),
-                _editorDataManager.GetFocusedUniverse().InitialPlayerLocateWorldId);
+            _universeMap.AddMapNode(_editorDataManager.AddNewWorldToFocusUniverse(),
+                _editorDataManager.GetFocusedUniverse().PlayerInitialLocateChildDtoDefId);
         }
 
         //TODO 从配置中加载一个已经创建的世界

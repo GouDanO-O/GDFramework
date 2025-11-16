@@ -1,0 +1,9 @@
+{
+  "DefId": "Universe_DEF_A7031ACC",
+  "DefName": "新宇宙",
+  "DefDescription": "这是一个新的宇宙",
+  "IsLockInInitial": false,
+  "PlayerInitialLocateChildDtoDefId": "",
+  "InitialShowChildDtoDefId": [],
+  "OwnedChildDtoDefID": []
+}

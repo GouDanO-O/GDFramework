@@ -1,4 +1,6 @@
-﻿namespace Core.Game.Chunk.Data.Interface
+﻿using System.Collections.Generic;
+
+namespace Core.Game.Chunk.Data.Interface
 {
     /// <summary>
     /// 固定数据定义接口(配置)
@@ -6,8 +8,16 @@
     public interface IChunkDtoDef
     {
         string DefId { get; }
-        string DefName { get; }
-        string DefDescription { get; }
+        string DefName { get; set; }
+        string DefDescription { get; set; }
+
+        bool IsLockInInitial { get; set; }
+
+        string PlayerInitialLocateChildDtoDefId { get; set; }
+        
+        List<string> InitialShowChildDtoDefId { get; set; }
+        
+        List<string> OwnedChildDtoDefID { get; set; }
 
         void SaveThisDef();
 

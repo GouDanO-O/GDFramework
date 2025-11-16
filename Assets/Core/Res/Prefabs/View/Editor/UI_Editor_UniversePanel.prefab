@@ -472,7 +472,7 @@ GameObject:
   - component: {fileID: 9091090607446537556}
   - component: {fileID: 4999958442686465217}
   m_Layer: 0
-  m_Name: ChangeWorldLockDes
+  m_Name: ChangeNodeLockDes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -883,7 +883,7 @@ GameObject:
   - component: {fileID: 175016298480868337}
   - component: {fileID: 371428736525794918}
   m_Layer: 0
-  m_Name: WorldName
+  m_Name: NodeName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1251,7 +1251,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000374789}
+  m_AnchoredPosition: {x: 0, y: 0.00022656212}
   m_SizeDelta: {x: 0, y: 750}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &6637975781297270191
@@ -1707,7 +1707,7 @@ GameObject:
   - component: {fileID: 4637954685947738445}
   - component: {fileID: 322652921690735948}
   m_Layer: 0
-  m_Name: UniverseIdText
+  m_Name: DefIdText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2344,7 +2344,7 @@ GameObject:
   - component: {fileID: 2354114379238691616}
   - component: {fileID: 4356382891865030208}
   m_Layer: 0
-  m_Name: CopyThisWorldButton
+  m_Name: CopyThisNodeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3870,7 +3870,7 @@ GameObject:
   - component: {fileID: 2775258127790719967}
   - component: {fileID: 5046685883146239395}
   m_Layer: 0
-  m_Name: UniverseMapWorldNodePrefab
+  m_Name: MapNodePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4473,7 +4473,7 @@ GameObject:
   - component: {fileID: 1485968189809172983}
   - component: {fileID: 4893776354937015343}
   m_Layer: 0
-  m_Name: UniverseNameInput
+  m_Name: DefNameInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5449,7 +5449,7 @@ GameObject:
   - component: {fileID: 7555885462997864371}
   - component: {fileID: 1554840963257033868}
   m_Layer: 0
-  m_Name: DeleteThisWorldButton
+  m_Name: DeleteThisNodeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6268,7 +6268,7 @@ GameObject:
   - component: {fileID: 8997075272433494911}
   - component: {fileID: 8513555144969795826}
   m_Layer: 0
-  m_Name: UniverseDescInput
+  m_Name: DefDescInput
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6789,7 +6789,7 @@ GameObject:
   - component: {fileID: 5454441742658391967}
   - component: {fileID: 6962124202934230688}
   m_Layer: 0
-  m_Name: ChangeWorldLockButton
+  m_Name: ChangeNodeLockButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8133,7 +8133,7 @@ GameObject:
   - component: {fileID: 6012752681175139603}
   - component: {fileID: 1103514971818363796}
   m_Layer: 0
-  m_Name: SetInitialPlayerLocateWorldButton
+  m_Name: SetInitialPlayerLocateNodeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8253,7 +8253,7 @@ GameObject:
   - component: {fileID: 3452392500776773751}
   - component: {fileID: 7809280559982557480}
   m_Layer: 0
-  m_Name: CurInitialWorldName
+  m_Name: CurInitialNodeName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8840,7 +8840,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3674722150282179477}
   m_Layer: 0
-  m_Name: UniverseMapWorldRoot
+  m_Name: MapRoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

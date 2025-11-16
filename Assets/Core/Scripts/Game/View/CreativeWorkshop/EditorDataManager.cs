@@ -28,6 +28,8 @@ namespace Core.Game.View
         /// 当前宇宙中的所有世界数据
         /// </summary>
         private Dictionary<string, WorldDtoDef> _trackingWorlds = new Dictionary<string, WorldDtoDef>();
+
+        private UI_Editor_UniversePanel _universePanel;
         
         protected override void OnInit()
         {
@@ -53,9 +55,9 @@ namespace Core.Game.View
             {
                 DefName = "新宇宙",
                 DefDescription = "这是一个新的宇宙",
-                InitialPlayerLocateWorldId = "",
-                InitialShowingWorldIdList = new List<string>(),
-                WorldIdList = new List<string>()
+                PlayerInitialLocateChildDtoDefId = "",
+                InitialShowChildDtoDefId = new List<string>(),
+                OwnedChildDtoDefID = new List<string>()
             };
             
             newUniverseDtoDef.GenerateDefId();
@@ -103,20 +105,20 @@ namespace Core.Game.View
             {
                 DefName = "新世界",
                 DefDescription = "这是一个新的世界",
-                InitialPlayerLocateRegionId = "",
-                InitialShowingRegionIdList = new List<string>(),
-                RegionIdList = new List<string>()
+                PlayerInitialLocateChildDtoDefId = "",
+                InitialShowChildDtoDefId = new List<string>(),
+                OwnedChildDtoDefID = new List<string>()
             };
 
             newWorld.GenerateDefId();
             //如果当前宇宙中,没有其他世界,则设置第一个创建的世界为初始世界
-            if (_currentFocusUniverse.WorldIdList.Count == 0)
+            if (_currentFocusUniverse.OwnedChildDtoDefID.Count == 0)
             {
-                _currentFocusUniverse.InitialShowingWorldIdList.Add(newWorld.DefId);
-                _currentFocusUniverse.InitialPlayerLocateWorldId = newWorld.DefId;
+                _currentFocusUniverse.InitialShowChildDtoDefId.Add(newWorld.DefId);
+                _currentFocusUniverse.PlayerInitialLocateChildDtoDefId = newWorld.DefId;
             }
             
-            _currentFocusUniverse.WorldIdList.Add(newWorld.DefId);
+            _currentFocusUniverse.OwnedChildDtoDefID.Add(newWorld.DefId);
             _worldDataModel.AddDtoDef(newWorld);
             StartTrackingWorld(newWorld);
             
@@ -187,7 +189,11 @@ namespace Core.Game.View
         /// </summary>
         private void SyncUIDataToObjects()
         {
-
+            if (_universePanel != null)
+            {
+                _currentFocusUniverse.DefName = _universePanel.GetCurUniverseName();
+                _currentFocusUniverse.DefName = _universePanel.GetCurUniverseDes();
+            }
         }
         
         /// <summary>

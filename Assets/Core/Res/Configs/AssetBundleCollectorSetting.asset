@@ -114,7 +114,7 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-      - CollectPath: Assets/Core/Res/Prefabs/View/UI_Editor_WorldPanel.prefab
+      - CollectPath: Assets/Core/Res/Prefabs/View/Editor/UI_Editor_WorldPanel.prefab
         CollectorGUID: 23febe71314ee1f4c84150fcdcf2f6ba
         CollectorType: 0
         AddressRuleName: AddressByFileName
