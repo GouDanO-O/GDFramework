@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core.Game.Chunk.Region.Data;
 using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World.Data;
 using GDFrameworkCore;
@@ -211,6 +212,11 @@ namespace Core.Game.View
             _changeTrackerSystem.StartTracking(worldDef, worldDef.DefId);
             
             LogKit.Log($"开始追踪世界: {worldDef.DefName} ({worldDef.DefId})");
+        }
+
+        public void StartTrackingRegion(RegionDtoDef regionDef)
+        {
+            
         }
         
         /// <summary>

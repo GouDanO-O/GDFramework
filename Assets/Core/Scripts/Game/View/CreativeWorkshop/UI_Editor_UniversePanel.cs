@@ -86,7 +86,7 @@ namespace Core.Game.View
             RightDetailRoot = UniverseListContainer.Find("RightDetailRoot");
             _universeDetailShow = RightDetailRoot.Find("BasicInfoView").GetComponent<UI_EditorDetail_UniverseDetailShow>();
 
-            _universeMap = RightDetailRoot.Find("UniverseWorldMap").GetComponent<UI_EditorDetail_UniverseMap>();
+            _universeMap = RightDetailRoot.Find("Map").GetComponent<UI_EditorDetail_UniverseMap>();
             
             // 操作按钮
             OperationButtonRoot = RightDetailRoot.Find("OperationButtons");

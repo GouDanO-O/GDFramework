@@ -14,21 +14,21 @@ namespace Core.Game.View.Details
     /// </summary>
     public class UI_EditorDetail_UniverseMap : UI_Details,ICanGetModel,ICanGetSystem
     {
-        private Transform _universeMapWorldRoot;
+        private Transform _contentRoot;
         
-        private GameObject _universeMapWorldNodePrefab;
+        private GameObject _mapNodePrefab;
         
-        private List<UI_EditorDetail_UniverseMapWorldNode> _universeMapWorldNodeList = new List<UI_EditorDetail_UniverseMapWorldNode>();
+        private List<UI_EditorDetail_UniverseMapNode> _universeMapWorldNodeList = new List<UI_EditorDetail_UniverseMapNode>();
         
         private WorldDataModel _worldDataModel;
 
-        private UI_EditorDetail_UniverseMapWorldNode _curFocusWorldNode;
+        private UI_EditorDetail_UniverseMapNode _curFocusNode;
 
-        private UI_EditorDetail_UniverseMapWorldNode _curInitialWorldNode;
+        private UI_EditorDetail_UniverseMapNode _curInitialNode;
 
         private EditorDataManager _editorDataManager;
         
-        private TextMeshProUGUI _curInitialWorldName;
+        private TextMeshProUGUI _initialName;
         
         public IArchitecture GetArchitecture()
         {
@@ -37,10 +37,10 @@ namespace Core.Game.View.Details
         
         protected override void OnInit()
         {
-            _universeMapWorldRoot = transform.Find("UniverseMapWorldRoot");
-            _universeMapWorldNodePrefab = transform.Find("UniverseMapWorldNodePrefab").gameObject;
+            _contentRoot = transform.Find("ContentRoot");
+            _mapNodePrefab = transform.Find("MapNodePrefab").gameObject;
             
-            _curInitialWorldName = transform.Find("CurInitialWorldName").GetComponent<TextMeshProUGUI>();
+            _initialName = transform.Find("InitialName").GetComponent<TextMeshProUGUI>();
 
             _editorDataManager = this.GetSystem<EditorDataManager>();
             _worldDataModel = this.GetModel<WorldDataModel>();
@@ -84,19 +84,19 @@ namespace Core.Game.View.Details
         /// <param name="worldDtoDef"></param>
         public void AddWorldNode(WorldDtoDef worldDtoDef,string initialWorldId)
         {
-            UI_EditorDetail_UniverseMapWorldNode worldNode = Instantiate(_universeMapWorldNodePrefab, _universeMapWorldRoot.transform)
-                .GetComponent<UI_EditorDetail_UniverseMapWorldNode>().Show();
+            UI_EditorDetail_UniverseMapNode node = Instantiate(_mapNodePrefab, _contentRoot.transform)
+                .GetComponent<UI_EditorDetail_UniverseMapNode>().Show();
             
-            worldNode.SetWorldDto(this,worldDtoDef);
+            node.SetWorldDto(this,worldDtoDef);
             if (worldDtoDef.DefId.Equals(initialWorldId))
             {
-                worldNode.SetThisWorldAsInitialWorld();
+                node.SetThisWorldAsInitialWorld();
             }
-            _universeMapWorldNodeList.Add(worldNode);
+            _universeMapWorldNodeList.Add(node);
 
         }
 
-        public List<UI_EditorDetail_UniverseMapWorldNode> GetCurUniverseWorldNodes()
+        public List<UI_EditorDetail_UniverseMapNode> GetCurUniverseWorldNodes()
         {
             return _universeMapWorldNodeList;
         }
@@ -116,41 +116,41 @@ namespace Core.Game.View.Details
         /// <summary>
         /// 管理星图中的世界节点的点击
         /// </summary>
-        /// <param name="mapWorldNode"></param>
-        public void ManageWorldSelect(UI_EditorDetail_UniverseMapWorldNode mapWorldNode)
+        /// <param name="mapNode"></param>
+        public void ManageWorldSelect(UI_EditorDetail_UniverseMapNode mapNode)
         {
             for (int i = 0; i < _universeMapWorldNodeList.Count; i++)
             {
-                UI_EditorDetail_UniverseMapWorldNode curNode =  _universeMapWorldNodeList[i];
-                if (curNode != mapWorldNode)
+                UI_EditorDetail_UniverseMapNode curNode =  _universeMapWorldNodeList[i];
+                if (curNode != mapNode)
                 {
                     curNode.ChangeSelecting(false);
                 }
             }
 
-            _curFocusWorldNode = mapWorldNode;
+            _curFocusNode = mapNode;
         }
 
         /// <summary>
         /// 设置世界作为初始世界
         /// </summary>
         /// <param name="worldNode"></param>
-        public void UpdateInitialWorld(UI_EditorDetail_UniverseMapWorldNode mapWorldNode)
+        public void UpdateInitialWorld(UI_EditorDetail_UniverseMapNode mapNode)
         {
             for (int i = 0; i < _universeMapWorldNodeList.Count; i++)
             {
-                UI_EditorDetail_UniverseMapWorldNode curNode =  _universeMapWorldNodeList[i];
-                if (curNode != mapWorldNode)
+                UI_EditorDetail_UniverseMapNode curNode =  _universeMapWorldNodeList[i];
+                if (curNode != mapNode)
                 {
                     curNode.ChangeInitialWorld(false);
                 }
             }
 
-            _curInitialWorldName.text = mapWorldNode.GetThisWorldDtoDef().DefName;
-            _curInitialWorldNode = mapWorldNode;
+            _initialName.text = mapNode.GetThisWorldDtoDef().DefName;
+            _curInitialNode = mapNode;
 
             _editorDataManager.GetFocusedUniverse().InitialPlayerLocateWorldId =
-                mapWorldNode.GetThisWorldDtoDef().DefId;
+                mapNode.GetThisWorldDtoDef().DefId;
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Core.Game.View.Details
         /// <returns></returns>
         public WorldDtoDef GetCurFocusWorldDtoDef()
         {
-            return _curFocusWorldNode.GetThisWorldDtoDef();
+            return _curFocusNode.GetThisWorldDtoDef();
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace Core.Game.View.Details
         /// <returns></returns>
         public WorldDtoDef GetCurInitialWorldDtoDef()
         {
-            return _curInitialWorldNode.GetThisWorldDtoDef();
+            return _curInitialNode.GetThisWorldDtoDef();
         }
 
         /// <summary>

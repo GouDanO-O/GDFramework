@@ -14,23 +14,23 @@ namespace Core.Game.View.Details
     {
         protected Transform ContentRoot;
         
-        protected TextMeshProUGUI UniverseIdText;
+        protected TextMeshProUGUI DefIdText;
         
-        protected TMP_InputField UniverseNameInput;
+        protected TMP_InputField DefNameInput;
         
-        protected TMP_InputField UniverseDescInput;
+        protected TMP_InputField DefDescInput;
 
         private UniverseDtoDef _curUniverseDtoDef;
         
         protected override void OnInit()
         {
             ContentRoot = transform.GetComponent<ScrollRect>().content;
-            UniverseIdText = ContentRoot.Find("UniverseIdText/Text").GetComponent<TextMeshProUGUI>();
-            UniverseNameInput = ContentRoot.Find("UniverseNameInput").GetComponent<TMP_InputField>();
-            UniverseDescInput = ContentRoot.Find("UniverseDescInput").GetComponent<TMP_InputField>();
+            DefIdText = ContentRoot.Find("DefIdText/Text").GetComponent<TextMeshProUGUI>();
+            DefNameInput = ContentRoot.Find("DefNameInput").GetComponent<TMP_InputField>();
+            DefDescInput = ContentRoot.Find("DefDescInput").GetComponent<TMP_InputField>();
             
-            UniverseNameInput.onValueChanged.AddListener(UniverseNameInput_OnValueChanged);
-            UniverseDescInput.onValueChanged.AddListener(UniverseDescInput_OnValueChanged);
+            DefNameInput.onValueChanged.AddListener(UniverseNameInput_OnValueChanged);
+            DefDescInput.onValueChanged.AddListener(UniverseDescInput_OnValueChanged);
         }
 
         protected override void OnShow()
@@ -55,9 +55,9 @@ namespace Core.Game.View.Details
         public void UpdateDetailShow(UniverseDtoDef universeDef)
         {
             _curUniverseDtoDef = universeDef;
-            UniverseIdText.text = universeDef.DefId;
-            UniverseNameInput.text = universeDef.DefName;
-            UniverseDescInput.text = universeDef.DefDescription;
+            DefIdText.text = universeDef.DefId;
+            DefNameInput.text = universeDef.DefName;
+            DefDescInput.text = universeDef.DefDescription;
         }
 
         private void UniverseNameInput_OnValueChanged(string newValue) 
@@ -72,12 +72,12 @@ namespace Core.Game.View.Details
 
         public string GetUniverseName()
         {
-            return UniverseNameInput.text;
+            return DefNameInput.text;
         }
 
         public string GetUniverseDesc()
         {
-            return UniverseDescInput.text;
+            return DefDescInput.text;
         }
 
     }

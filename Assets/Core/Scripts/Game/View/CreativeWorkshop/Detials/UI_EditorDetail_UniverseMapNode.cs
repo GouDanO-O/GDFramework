@@ -12,7 +12,7 @@ namespace Core.Game.View.Details
     /// <summary>
     /// 星图编辑器中的世界节点
     /// </summary>
-    public class UI_EditorDetail_UniverseMapWorldNode : UI_Details, IBeginDragHandler, IDragHandler, IEndDragHandler,
+    public class UI_EditorDetail_UniverseMapNode : UI_Details, IBeginDragHandler, IDragHandler, IEndDragHandler,
         IPointerDownHandler, IPointerUpHandler
     {
         #region 拖拽相关字段
@@ -44,7 +44,7 @@ namespace Core.Game.View.Details
 
         private UI_EditorDetail_UniverseMap _universeMap;
 
-        protected TextMeshProUGUI WorldName;
+        protected TextMeshProUGUI NodeName;
 
         protected TextMeshProUGUI ChangeWorldLockDes;
 
@@ -118,7 +118,7 @@ namespace Core.Game.View.Details
             
             SelectingOutline = transform.Find("SelectingOutline").gameObject;
 
-            WorldName = transform.Find("WorldName").GetComponent<TextMeshProUGUI>();
+            NodeName = transform.Find("NodeName").GetComponent<TextMeshProUGUI>();
             
             DownerButtons = transform.Find("DownerButtons");
             SetInitialPlayerLocateWorldButton = DownerButtons.Find("SetInitialPlayerLocateWorldButton")
@@ -314,7 +314,7 @@ namespace Core.Game.View.Details
         /// </summary>
         protected void UpdateWorldName()
         {
-            WorldName.text = _worldDto.DefName;
+            NodeName.text = _worldDto.DefName;
         }
 
         /// <summary>

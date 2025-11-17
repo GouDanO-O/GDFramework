@@ -55,6 +55,11 @@ namespace Core.Game.Chunk.Region.Data
             LogKit.Error($"添加配置: {dtoDef.DefName} (DefId: {dtoDef.DefId}");
             TryLoadExistingInstancesForDef(dtoDef);
         }
+
+        public RegionDtoDef GetDefById(string defId)
+        {
+            return _defIdToDefDict.TryGetValue(defId, out var def) ? def : null; 
+        }
         
         /// <summary>
         /// 尝试为配置加载已存在的临时数据实例
@@ -67,8 +72,7 @@ namespace Core.Game.Chunk.Region.Data
                 LogKit.Error("StorageSystem 未初始化,跳过临时数据加载");
                 return;
             }
-
-
         }
+        
     }
 }
