@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Core.Game.Chunk.Data.Interface;
 using Core.Game.Storage;
@@ -23,6 +24,18 @@ namespace Core.Game.Chunk.Data
         [LabelText("配置描述")]
         public string DefDescription { get; set; }
         
+        [LabelText("一开始是否处于解锁状态")]
+        public bool IsLockInInitial { get; set; }
+
+        [LabelText("初始定位区块ID")]
+        public string PlayerInitialLocateChildDtoDefId { get; set; }
+
+        [LabelText("一开始就展示的子配置ID(解锁状态)")]
+        public List<string> InitialShowChildDtoDefId { get; set; }
+
+        [LabelText("拥有的子配置ID")]
+        public List<string> OwnedChildDtoDefID { get; set; }
+
         public IArchitecture GetArchitecture()
         {
             return GameMain.Interface;
