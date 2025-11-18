@@ -16,7 +16,8 @@ namespace GDFrameworkExtend.ResKit
 {
     using System.Collections.Generic;
     using UnityEngine;
-    
+
+    [MonoSingletonPath("QFramework/ResKit/ResManager")]
     public class ResMgr : MonoBehaviour,ISingleton
     {
         public static ResMgr Instance => MonoSingletonProperty<ResMgr>.Instance;

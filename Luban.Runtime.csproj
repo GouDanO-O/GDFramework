@@ -47,10 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\GDFramework\Scripts\LubanKit\LUbanbase\Runtime\BeanBase.cs" />
-    <Compile Include="Assets\GDFramework\Scripts\LubanKit\LUbanbase\Runtime\StringUtil.cs" />
-    <Compile Include="Assets\GDFramework\Scripts\LubanKit\LUbanbase\Runtime\SimpleJSON\SimpleJSONBinary.cs" />
     <Compile Include="Assets\GDFramework\Scripts\LubanKit\LUbanbase\Runtime\SimpleJSON\SimpleJSON.cs" />
     <Compile Include="Assets\GDFramework\Scripts\LubanKit\LUbanbase\Runtime\ByteBuf.cs" />
+    <Compile Include="Assets\GDFramework\Scripts\LubanKit\LUbanbase\Runtime\StringUtil.cs" />
+    <Compile Include="Assets\GDFramework\Scripts\LubanKit\LUbanbase\Runtime\SimpleJSON\SimpleJSONBinary.cs" />
     <Compile Include="Assets\GDFramework\Scripts\LubanKit\LUbanbase\Runtime\SimpleJSON\SimpleJSONUnity.cs" />
     <Compile Include="Assets\GDFramework\Scripts\LubanKit\LUbanbase\Runtime\SimpleJSON\SimpleJSONDotNetTypes.cs" />
     <None Include="Assets\GDFramework\Scripts\LubanKit\LUbanbase\Runtime\SimpleJSON\Changelog.txt" />

@@ -54,7 +54,7 @@ namespace GDFrameworkExtend.ResKit
             var res = ResMgr.Instance.GetRes(resSearchKeys, false);
             if (res == null)
             {
-                LogKit.LogKit.Error("Failed to Load Res:" + resSearchKeys);
+                Debug.LogError("Failed to Load Res:" + resSearchKeys);
                 return null;
             }
 
@@ -376,7 +376,7 @@ namespace GDFrameworkExtend.ResKit
         {
             foreach (var res in mResList)
             {
-                LogKit.LogKit.Log(res.AssetName);
+                Debug.Log(res.AssetName);
             }
         }
 

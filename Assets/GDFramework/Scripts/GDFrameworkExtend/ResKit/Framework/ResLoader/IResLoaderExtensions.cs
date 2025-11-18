@@ -113,7 +113,8 @@ namespace GDFrameworkExtend.ResKit
                 searchRule.Recycle2Cache();
             }
         }
-
+        
+        
         public static void LoadSceneSync(this IResLoader self, string assetName,
             LoadSceneMode mode = LoadSceneMode.Single,
             LocalPhysicsMode physicsMode = LocalPhysicsMode.None)

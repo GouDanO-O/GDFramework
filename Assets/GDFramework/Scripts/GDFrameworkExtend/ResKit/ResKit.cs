@@ -26,12 +26,12 @@ namespace GDFrameworkExtend.ResKit
             }
         }
 #endif
-
+        
         public static void Init()
         {
             ResMgr.Init();
         }
-
+        
         public static IEnumerator InitAsync()
         {
             yield return ResMgr.InitAsync();
@@ -44,6 +44,7 @@ namespace GDFrameworkExtend.ResKit
 
         ResKit InternalInit()
         {
+            Container.Register<IZipFileHelper>(new ZipFileHelper());
             Container.Register<IBinarySerializer>(new BinarySerializer());
             return this;
         }
