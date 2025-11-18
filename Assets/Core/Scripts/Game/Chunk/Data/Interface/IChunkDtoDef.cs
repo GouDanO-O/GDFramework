@@ -11,14 +11,6 @@ namespace Core.Game.Chunk.Data.Interface
         string DefName { get; set; }
         string DefDescription { get; set; }
 
-        bool IsLockInInitial { get; set; }
-
-        string PlayerInitialLocateChildDtoDefId { get; set; }
-        
-        List<string> InitialShowChildDtoDefId { get; set; }
-        
-        List<string> OwnedChildDtoDefID { get; set; }
-
         void SaveThisDef();
 
         void DeleteThisDef();

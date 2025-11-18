@@ -160,7 +160,7 @@ namespace Core.Game.View.Details
             Destroy(gameObject);
         }
 
-        public WorldDtoDef GetThisWorldDtoDef()
+        public WorldDtoDef GetThisNodeDtoDef()
         {
             return _worldDto;
         }
@@ -244,7 +244,7 @@ namespace Core.Game.View.Details
         {
             if (isSelecting)
             {
-                _universeMap.ManageWorldSelect(this);
+                _universeMap.ManageNodeSelect(this);
                 if (ThisWorldIsInitialWorld())
                 {
                 }
@@ -305,7 +305,7 @@ namespace Core.Game.View.Details
         {
             ChangeInitialWorld(true);
             ChangeSelecting(true);
-            _universeMap.UpdateInitialWorld(this);
+            _universeMap.UpdateInitialNode(this);
 
         }
 

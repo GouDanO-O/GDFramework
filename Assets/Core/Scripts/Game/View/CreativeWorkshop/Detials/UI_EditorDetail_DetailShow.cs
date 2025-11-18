@@ -62,12 +62,12 @@ namespace Core.Game.View.Details
             
         }
 
-        public string GetUniverseName()
+        public string GetDefName()
         {
             return DefNameInput.text;
         }
 
-        public string GetUniverseDesc()
+        public string GetDefDesc()
         {
             return DefDescInput.text;
         }

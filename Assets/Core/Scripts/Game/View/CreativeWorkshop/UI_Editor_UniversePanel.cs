@@ -296,12 +296,12 @@ namespace Core.Game.View
 
         public string GetCurUniverseName()
         {
-            return _universeDetailShow.GetUniverseName();
+            return _universeDetailShow.GetDefName();
         }
 
         public string GetCurUniverseDes()
         {
-            return _universeDetailShow.GetUniverseDesc();
+            return _universeDetailShow.GetDefDesc();
         }
 
         #endregion

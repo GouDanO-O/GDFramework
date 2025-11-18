@@ -10,44 +10,12 @@ namespace Core.Game.View.Details
     /// <summary>
     /// 宇宙数据详情编辑器
     /// </summary>
-    public class UI_EditorDetail_UniverseDetailShow : UI_Details
+    public class UI_EditorDetail_UniverseDetailShow : UI_EditorDetail_DetailShow
     {
-        protected Transform ContentRoot;
-        
-        protected TextMeshProUGUI DefIdText;
-        
-        protected TMP_InputField DefNameInput;
-        
-        protected TMP_InputField DefDescInput;
+
 
         private UniverseDtoDef _curUniverseDtoDef;
         
-        protected override void OnInit()
-        {
-            ContentRoot = transform.GetComponent<ScrollRect>().content;
-            DefIdText = ContentRoot.Find("DefIdText/Text").GetComponent<TextMeshProUGUI>();
-            DefNameInput = ContentRoot.Find("DefNameInput").GetComponent<TMP_InputField>();
-            DefDescInput = ContentRoot.Find("DefDescInput").GetComponent<TMP_InputField>();
-            
-            DefNameInput.onValueChanged.AddListener(UniverseNameInput_OnValueChanged);
-            DefDescInput.onValueChanged.AddListener(UniverseDescInput_OnValueChanged);
-        }
-
-        protected override void OnShow()
-        {
-            
-        }
-
-        protected override void OnStart()
-        {
-            
-        }
-
-        protected override void OnClose()
-        {
-            
-        }
-
         /// <summary>
         /// 更新当前的宇宙详情显示
         /// </summary>
@@ -60,24 +28,16 @@ namespace Core.Game.View.Details
             DefDescInput.text = universeDef.DefDescription;
         }
 
-        private void UniverseNameInput_OnValueChanged(string newValue) 
-        {
-            
-        }
 
-        private void UniverseDescInput_OnValueChanged(string newValue) 
-        {
-            
-        }
 
-        public string GetUniverseName()
+        protected override void DefNameInput_OnValueChanged(string newValue)
         {
-            return DefNameInput.text;
+            base.DefNameInput_OnValueChanged(newValue);
         }
-
-        public string GetUniverseDesc()
+        
+        protected override void DefDescInput_OnValueChanged(string newValue)
         {
-            return DefDescInput.text;
+            base.DefDescInput_OnValueChanged(newValue);
         }
 
     }

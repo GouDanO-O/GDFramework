@@ -9,7 +9,8 @@ using UnityEngine.UI;
 
 namespace Core.Game.View.Details
 {
-    public class UI_EditorDetail_WorldMapNode : UI_Details
+    public class UI_EditorDetail_WorldMapNode : UI_Details, IBeginDragHandler, IDragHandler, IEndDragHandler,
+        IPointerDownHandler, IPointerUpHandler
     {
   #region 拖拽相关字段
 
@@ -240,7 +241,7 @@ namespace Core.Game.View.Details
         {
             if (isSelecting)
             {
-                _worldMap.ManageWorldSelect(this);
+                _worldMap.ManageNodeSelect(this);
                 if (ThisIsInitial())
                 {
                 }
@@ -301,7 +302,7 @@ namespace Core.Game.View.Details
         {
             ChangeInitial(true);
             ChangeSelecting(true);
-            _worldMap.UpdateInitialWorld(this);
+            _worldMap.UpdateInitialNode(this);
 
         }
 

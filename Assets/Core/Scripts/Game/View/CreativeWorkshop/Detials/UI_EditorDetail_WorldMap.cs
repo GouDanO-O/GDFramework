@@ -59,11 +59,11 @@ namespace Core.Game.View.Details
         }
 
         /// <summary>
-        /// 展示宇宙星图
+        /// 展示世界地图
         /// </summary>
-        public void ShowUniverseMap(WorldDtoDef curDtoDef)
+        public void ShowMap(WorldDtoDef curDtoDef)
         {
-            ClearUniverseMap();
+            ClearMap();
 
             for (int i = 0; i < curDtoDef.RegionIdList.Count; i++)
             {
@@ -93,7 +93,7 @@ namespace Core.Game.View.Details
             _mapNodeList.Add(node);
         }
 
-        public List<UI_EditorDetail_WorldMapNode> GetCurUniverseWorldNodes()
+        public List<UI_EditorDetail_WorldMapNode> GetCurWorldRegionNodes()
         {
             return _mapNodeList;
         }
@@ -101,7 +101,7 @@ namespace Core.Game.View.Details
         /// <summary>
         /// 清空星图
         /// </summary>
-        private void ClearUniverseMap()
+        private void ClearMap()
         {
             for (int i = 0; i < _mapNodeList.Count; i++)
             {
@@ -112,10 +112,10 @@ namespace Core.Game.View.Details
         }
 
         /// <summary>
-        /// 管理星图中的世界节点的点击
+        /// 管理节点的点击
         /// </summary>
         /// <param name="mapNode"></param>
-        public void ManageWorldSelect(UI_EditorDetail_WorldMapNode mapNode)
+        public void ManageNodeSelect(UI_EditorDetail_WorldMapNode mapNode)
         {
             for (int i = 0; i < _mapNodeList.Count; i++)
             {
@@ -133,7 +133,7 @@ namespace Core.Game.View.Details
         /// 设置世界作为初始世界
         /// </summary>
         /// <param name="worldNode"></param>
-        public void UpdateInitialWorld(UI_EditorDetail_WorldMapNode mapNode)
+        public void UpdateInitialNode(UI_EditorDetail_WorldMapNode mapNode)
         {
             for (int i = 0; i < _mapNodeList.Count; i++)
             {
@@ -185,7 +185,7 @@ namespace Core.Game.View.Details
         }
 
         /// <summary>
-        /// 获取当前锁定和非锁定状态的所有世界ID
+        /// 获取当前锁定和非锁定状态的所有ID
         /// </summary>
         /// <param name="isLocking">True获取锁定状态,false获取非锁定状态</param>
         /// <returns></returns>
@@ -193,20 +193,20 @@ namespace Core.Game.View.Details
         {
             List<string> newIdList = new List<string>();
 
-            foreach (var worldNode in _mapNodeList)
+            foreach (var mapNode in _mapNodeList)
             {
-                if (worldNode.GetThisIsLocking())
+                if (mapNode.GetThisIsLocking())
                 {
                     if (isLocking)
                     {
-                        newIdList.Add(worldNode.GetThisDtoDef().DefId);
+                        newIdList.Add(mapNode.GetThisDtoDef().DefId);
                     }
                 }
                 else
                 {
                     if (!isLocking)
                     {
-                        newIdList.Add(worldNode.GetThisDtoDef().DefId);
+                        newIdList.Add(mapNode.GetThisDtoDef().DefId);
                     }
                 }
             }

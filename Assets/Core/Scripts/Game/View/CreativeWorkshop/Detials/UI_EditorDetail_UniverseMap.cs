@@ -64,16 +64,16 @@ namespace Core.Game.View.Details
         /// <summary>
         /// 展示宇宙星图
         /// </summary>
-        public void ShowUniverseMap(UniverseDtoDef universeDtoDef)
+        public void ShowMap(UniverseDtoDef universeDtoDef)
         {
-            ClearUniverseMap();
+            ClearMap();
 
             for (int i = 0; i < universeDtoDef.WorldIdList.Count; i++)
             {
                 string initialWorldId = universeDtoDef.InitialPlayerLocateWorldId;
                 string worldId =  universeDtoDef.WorldIdList[i];
                 WorldDtoDef worldDtoDef = _worldDataModel.GetDefById(worldId);
-                AddWorldNode(worldDtoDef,initialWorldId);
+                AddMapNode(worldDtoDef,initialWorldId);
                 _editorDataManager.StartTrackingWorld(worldDtoDef);
             }
         }
@@ -82,7 +82,7 @@ namespace Core.Game.View.Details
         /// 添加世界
         /// </summary>
         /// <param name="worldDtoDef"></param>
-        public void AddWorldNode(WorldDtoDef worldDtoDef,string initialWorldId)
+        public void AddMapNode(WorldDtoDef worldDtoDef,string initialWorldId)
         {
             UI_EditorDetail_UniverseMapNode node = Instantiate(_mapNodePrefab, _contentRoot.transform)
                 .GetComponent<UI_EditorDetail_UniverseMapNode>().Show();
@@ -104,7 +104,7 @@ namespace Core.Game.View.Details
         /// <summary>
         /// 清空星图
         /// </summary>
-        private void ClearUniverseMap()
+        private void ClearMap()
         {
             for (int i = 0; i < _universeMapWorldNodeList.Count; i++)
             {
@@ -117,7 +117,7 @@ namespace Core.Game.View.Details
         /// 管理星图中的世界节点的点击
         /// </summary>
         /// <param name="mapNode"></param>
-        public void ManageWorldSelect(UI_EditorDetail_UniverseMapNode mapNode)
+        public void ManageNodeSelect(UI_EditorDetail_UniverseMapNode mapNode)
         {
             for (int i = 0; i < _universeMapWorldNodeList.Count; i++)
             {
@@ -135,7 +135,7 @@ namespace Core.Game.View.Details
         /// 设置世界作为初始世界
         /// </summary>
         /// <param name="worldNode"></param>
-        public void UpdateInitialWorld(UI_EditorDetail_UniverseMapNode mapNode)
+        public void UpdateInitialNode(UI_EditorDetail_UniverseMapNode mapNode)
         {
             for (int i = 0; i < _universeMapWorldNodeList.Count; i++)
             {
@@ -146,29 +146,29 @@ namespace Core.Game.View.Details
                 }
             }
 
-            _initialName.text = mapNode.GetThisWorldDtoDef().DefName;
+            _initialName.text = mapNode.GetThisNodeDtoDef().DefName;
             _curInitialNode = mapNode;
 
             _editorDataManager.GetFocusedUniverse().InitialPlayerLocateWorldId =
-                mapNode.GetThisWorldDtoDef().DefId;
+                mapNode.GetThisNodeDtoDef().DefId;
         }
 
         /// <summary>
         /// 获取当前焦点世界
         /// </summary>
         /// <returns></returns>
-        public WorldDtoDef GetCurFocusWorldDtoDef()
+        public WorldDtoDef GetCurFocusNodeDtoDef()
         {
-            return _curFocusNode.GetThisWorldDtoDef();
+            return _curFocusNode.GetThisNodeDtoDef();
         }
 
         /// <summary>
         /// 获取当前初始世界
         /// </summary>
         /// <returns></returns>
-        public WorldDtoDef GetCurInitialWorldDtoDef()
+        public WorldDtoDef GetCurInitialNodeDtoDef()
         {
-            return _curInitialNode.GetThisWorldDtoDef();
+            return _curInitialNode.GetThisNodeDtoDef();
         }
 
         /// <summary>
@@ -180,7 +180,7 @@ namespace Core.Game.View.Details
             List<string> newIdList = new List<string>();
             for (int i = 0; i < _universeMapWorldNodeList.Count; i++)
             {
-                newIdList.Add(_universeMapWorldNodeList[i].GetThisWorldDtoDef().DefId);
+                newIdList.Add(_universeMapWorldNodeList[i].GetThisNodeDtoDef().DefId);
             }
             
             return newIdList;
@@ -201,14 +201,14 @@ namespace Core.Game.View.Details
                 {
                     if (isLocking)
                     {
-                        newIdList.Add(worldNode.GetThisWorldDtoDef().DefId);
+                        newIdList.Add(worldNode.GetThisNodeDtoDef().DefId);
                     }
                 }
                 else
                 {
                     if (!isLocking)
                     {
-                        newIdList.Add(worldNode.GetThisWorldDtoDef().DefId);
+                        newIdList.Add(worldNode.GetThisNodeDtoDef().DefId);
                     }
                 }
             }
