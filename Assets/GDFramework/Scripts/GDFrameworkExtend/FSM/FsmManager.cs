@@ -114,6 +114,11 @@ namespace GDFrameworkExtend.FSM
 
         }
 
+        public void ReturnToLastFsmNode()
+        {
+            
+        }
+
         public void UpdateFsmNode() => CurrentFsmNode?.OnUpdate();
     }
 }
