@@ -1,9 +1,12 @@
-﻿namespace Core.Game.View.Interface
+﻿using UnityEngine.EventSystems;
+
+namespace Core.Game.View.Interface
 {
     /// <summary>
     /// UI可以进行拖拽
     /// </summary>
-    public interface IUIViewDraggable
+    public interface IUIViewDraggable : IBeginDragHandler, IDragHandler, IEndDragHandler,
+        IPointerDownHandler, IPointerUpHandler
     {
         
     }

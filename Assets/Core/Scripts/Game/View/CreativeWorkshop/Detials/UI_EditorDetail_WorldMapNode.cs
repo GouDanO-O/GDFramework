@@ -1,5 +1,6 @@
 ﻿using Core.Game.Chunk.Region.Data;
 using Core.Game.Chunk.World.Data;
+using Core.Game.View.Interface;
 using GDFrameworkExtend.FluentAPI;
 using GDFrameworkExtend.UIKit;
 using TMPro;
@@ -9,10 +10,9 @@ using UnityEngine.UI;
 
 namespace Core.Game.View.Details
 {
-    public class UI_EditorDetail_WorldMapNode : UI_Details, IBeginDragHandler, IDragHandler, IEndDragHandler,
-        IPointerDownHandler, IPointerUpHandler
+    public class UI_EditorDetail_WorldMapNode : UI_Details, IUIViewDraggable
     {
-  #region 拖拽相关字段
+        #region 拖拽相关字段
 
         [Header("拖拽设置")]
         [SerializeField]

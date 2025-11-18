@@ -332,19 +332,11 @@ namespace Core.Game.View
             
         }
         
-        /// <summary>
-        /// 展开世界详情
-        /// </summary>
-        /// <param name="worldDtoDef"></param>
-        public void OpenWorldDetail(WorldDtoDef worldDtoDef)
-        {
-            
-        }
         #endregion
 
         private void SaveData()
         {
-            _editorDataManager.UpdateTrackedSnapshots();
+            _editorDataManager.UpdateAllTrackedSnapshots();
         }
     }
 }

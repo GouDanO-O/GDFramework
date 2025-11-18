@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using Core.Game.Chunk.Dungeon.Data;
 using Core.Game.Chunk.Region.Data;
+using Core.Game.Chunk.Room.Data;
 using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World.Data;
 using GDFrameworkCore;
@@ -15,6 +17,12 @@ namespace Core.Game.View
         
         private WorldDataModel _worldDataModel;
         
+        private RegionDataModel _regionDataModel;
+        
+        private DungeonDataModel _dungeonDataModel;
+
+        private RoomDataModel _roomDataModel;
+        
         /// <summary>
         /// 当前聚焦的宇宙
         /// </summary>
@@ -29,6 +37,21 @@ namespace Core.Game.View
         /// 当前宇宙中的所有世界数据
         /// </summary>
         private Dictionary<string, WorldDtoDef> _trackingWorlds = new Dictionary<string, WorldDtoDef>();
+        
+        /// <summary>
+        /// 当前世界中所有的区域
+        /// </summary>
+        private Dictionary<string,RegionDtoDef> _trackingRegions = new Dictionary<string, RegionDtoDef>();
+        
+        /// <summary>
+        /// 当前区域中所有的副本
+        /// </summary>
+        private Dictionary<string,DungeonDtoDef> _trackingDungeons = new Dictionary<string, DungeonDtoDef>();
+        
+        /// <summary>
+        /// 当前副本中所有的房间
+        /// </summary>
+        private Dictionary<string,RoomDtoDef> _trackingRooms = new Dictionary<string, RoomDtoDef>();
 
         private UI_Editor_UniversePanel _universePanel;
         
@@ -42,7 +65,7 @@ namespace Core.Game.View
 
         public void ClearEditorData()
         {
-            StopTrackedSnapshots();
+            StopAllTrackedSnapshots();
         }
 
         #region Universe
@@ -173,13 +196,27 @@ namespace Core.Game.View
         {
             if(_currentFocusUniverse == null)
                 return;
-            // 先从UI同步数据到对象
+
             SyncUIDataToObjects();
             
             _changeTrackerSystem.HasChanges(_currentFocusUniverse,_currentFocusUniverse.DefId);
             
-            // 检查当前宇宙中的世界的变化
             foreach (var kvp in _trackingWorlds)
+            {
+                _changeTrackerSystem.HasChanges(kvp.Value, kvp.Key);
+            }
+            
+            foreach (var kvp in _trackingRegions)
+            {
+                _changeTrackerSystem.HasChanges(kvp.Value, kvp.Key);
+            }
+            
+            foreach (var kvp in _trackingDungeons)
+            {
+                _changeTrackerSystem.HasChanges(kvp.Value, kvp.Key);
+            }
+            
+            foreach (var kvp in _trackingRooms)
             {
                 _changeTrackerSystem.HasChanges(kvp.Value, kvp.Key);
             }
@@ -190,11 +227,40 @@ namespace Core.Game.View
         /// </summary>
         private void SyncUIDataToObjects()
         {
+            SyncUniverseUIDataToObjects();
+            SyncWorldUIDataToObjects();
+            SyncRegionDataToObjects();
+            SyncDungeonUIDataToObjects();
+            SyncRoomUIDataToObjects();
+        }
+
+        private void SyncUniverseUIDataToObjects()
+        {
             if (_universePanel != null)
             {
                 _currentFocusUniverse.DefName = _universePanel.GetCurUniverseName();
                 _currentFocusUniverse.DefName = _universePanel.GetCurUniverseDes();
             }
+        }
+
+        private void SyncWorldUIDataToObjects()
+        {
+            
+        }
+
+        private void SyncRegionDataToObjects()
+        {
+            
+        }
+
+        private void SyncDungeonUIDataToObjects()
+        {
+            
+        }
+        
+        private void SyncRoomUIDataToObjects()
+        {
+            
         }
         
         /// <summary>
@@ -220,7 +286,29 @@ namespace Core.Game.View
             LogKit.Log($"开始追踪世界: {worldDef.DefName} ({worldDef.DefId})");
         }
 
+        /// <summary>
+        /// 开始追踪区块
+        /// </summary>
+        /// <param name="regionDef"></param>
         public void StartTrackingRegion(RegionDtoDef regionDef)
+        {
+            
+        }
+
+        /// <summary>
+        /// 开始追踪副本
+        /// </summary>
+        /// <param name="dungeonDef"></param>
+        public void StartTrackingDungeon(DungeonDtoDef dungeonDef)
+        {
+            
+        }
+
+        /// <summary>
+        /// 开始追踪房间
+        /// </summary>
+        /// <param name="roomDef"></param>
+        public void StartTrackingRoom(RoomDtoDef roomDef)
         {
             
         }
@@ -228,38 +316,136 @@ namespace Core.Game.View
         /// <summary>
         /// 更新当前的快照
         /// </summary>
-        public void UpdateTrackedSnapshots()
+        public void UpdateAllTrackedSnapshots()
+        {
+            UpdateUniverseTrackedSnapshots();
+            UpdateWorldTrackedSnapshots();
+            UpdateRegionTrackedSnapshots();
+            UpdateDungeonTrackedSnapshots();
+            UpdateRoomTrackedSnapshots();
+            LogKit.Log("<color=green>已更新所有数据快照</color>");
+        }
+
+        public void UpdateUniverseTrackedSnapshots()
         {
             if (_currentFocusUniverse != null)
             {
                 _currentFocusUniverse.SaveThisDef();
                 _changeTrackerSystem.UpdateSnapshot(_currentFocusUniverse,_currentFocusUniverse.DefId);
-                foreach (var worldDtoDef in _trackingWorlds)
-                {
-                    worldDtoDef.Value.SaveThisDef();
-                    _changeTrackerSystem.UpdateSnapshot(worldDtoDef.Value, worldDtoDef.Key);
-                }
                 
-                LogKit.Log("<color=green>已更新所有数据快照</color>");
+                LogKit.Log("<color=green>已更新当前宇宙数据快照</color>");
             }
+        }
+
+        public void UpdateWorldTrackedSnapshots()
+        {
+            foreach (var worldDtoDef in _trackingWorlds)
+            {
+                worldDtoDef.Value.SaveThisDef();
+                _changeTrackerSystem.UpdateSnapshot(worldDtoDef.Value, worldDtoDef.Key);
+            }
+            
+            LogKit.Log("<color=green>已更新当前世界数据快照</color>");
+        }
+
+        public void UpdateRegionTrackedSnapshots()
+        {
+            foreach (var regionDtoDef in _trackingRegions)
+            {
+                regionDtoDef.Value.SaveThisDef();
+                _changeTrackerSystem.UpdateSnapshot(regionDtoDef.Value, regionDtoDef.Key);
+            }
+            
+            LogKit.Log("<color=green>已更新当前区域数据快照</color>");
+        }
+
+        public void UpdateDungeonTrackedSnapshots()
+        {
+            foreach (var dungeonDtoDef in _trackingDungeons)
+            {
+                dungeonDtoDef.Value.SaveThisDef();
+                _changeTrackerSystem.UpdateSnapshot(dungeonDtoDef.Value, dungeonDtoDef.Key);
+            }
+            
+            LogKit.Log("<color=green>已更新当前副本数据快照</color>");
+        }
+
+        public void UpdateRoomTrackedSnapshots()
+        {
+            foreach (var roomDtoDef in _trackingRooms)
+            {
+                roomDtoDef.Value.SaveThisDef();
+                _changeTrackerSystem.UpdateSnapshot(roomDtoDef.Value, roomDtoDef.Key);
+            }
+            
+            LogKit.Log("<color=green>已更新当前房间数据快照</color>");
         }
         
         /// <summary>
-        /// 停止追踪快照
+        /// 停止所有的追踪快照
         /// </summary>
-        public void StopTrackedSnapshots()
+        public void StopAllTrackedSnapshots()
+        {
+            StopUniverseTrackedSnapshots();
+            StopWorldTrackedSnapshots();
+            StopRegionTrackedSnapshots();
+            StopDungeonTrackedSnapshots();
+            StopRoomTrackedSnapshots();
+            LogKit.Log("<color=green>停止追踪全部快照</color>");
+        }
+
+        public void StopUniverseTrackedSnapshots()
         {
             if (_currentFocusUniverse != null)
             {
                 _changeTrackerSystem.StopTracking(_currentFocusUniverse.DefId);
                 _currentFocusUniverse = null;
-                foreach (var worldDtoDef in _trackingWorlds)
-                {
-                    _changeTrackerSystem.StopTracking(worldDtoDef.Key);
-                }
-                _trackingWorlds.Clear();
-                LogKit.Log("<color=green>停止追踪并更新快照</color>");
+                LogKit.Log("<color=green>停止追踪宇宙快照</color>");
             }
+        }
+
+        public void StopWorldTrackedSnapshots()
+        {
+            foreach (var worldDtoDef in _trackingWorlds)
+            {
+                _changeTrackerSystem.StopTracking(worldDtoDef.Key);
+            }
+            
+            _trackingWorlds.Clear();
+            LogKit.Log("<color=green>停止追踪世界快照</color>");
+        }
+
+        public void StopRegionTrackedSnapshots()
+        {
+            foreach (var regionDtoDef in _trackingRegions)
+            {
+                _changeTrackerSystem.StopTracking(regionDtoDef.Key);
+            }
+            
+            _trackingRegions.Clear();
+            LogKit.Log("<color=green>停止追踪区域快照</color>");
+        }
+
+        public void StopDungeonTrackedSnapshots()
+        {
+            foreach (var dungeonDtoDef in _trackingDungeons)
+            {
+                _changeTrackerSystem.StopTracking(dungeonDtoDef.Key);
+            }
+            
+            _trackingDungeons.Clear();
+            LogKit.Log("<color=green>停止追踪副本快照</color>");
+        }
+
+        public void StopRoomTrackedSnapshots()
+        {
+            foreach (var roomDtoDef in _trackingRooms)
+            {
+                _changeTrackerSystem.StopTracking(roomDtoDef.Key);
+            }
+            
+            _trackingRooms.Clear();
+            LogKit.Log("<color=green>停止追踪房间快照</color>");
         }
 
         #endregion

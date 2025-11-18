@@ -404,6 +404,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60d714bc43324731b9b79b216f572c7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dragSmoothness: 0.1
+  dragAlpha: 0.6
 --- !u!1 &902768281718574009
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,7 +1194,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.00017817659}
+  m_AnchoredPosition: {x: 0, y: 0.000066293}
   m_SizeDelta: {x: 0, y: 750}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3841471415784109327
@@ -2291,7 +2293,7 @@ GameObject:
   - component: {fileID: 8836930399355838969}
   - component: {fileID: 8933352517022610463}
   m_Layer: 0
-  m_Name: AddNewWorldButton
+  m_Name: AddNewRegionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2540,7 +2542,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 300031819765794638}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9990008
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

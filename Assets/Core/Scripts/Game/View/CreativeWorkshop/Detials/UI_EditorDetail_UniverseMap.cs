@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World.Data;
+using Core.Game.View.Interface;
 using GDFrameworkCore;
 using GDFrameworkExtend.FluentAPI;
 using GDFrameworkExtend.UIKit;
@@ -12,7 +13,7 @@ namespace Core.Game.View.Details
     /// <summary>
     /// 宇宙星图编辑器
     /// </summary>
-    public class UI_EditorDetail_UniverseMap : UI_Details,ICanGetModel,ICanGetSystem
+    public class UI_EditorDetail_UniverseMap : UI_Details,ICanGetModel,ICanGetSystem,IUIViewScaleable
     {
         private Transform _contentRoot;
         

@@ -2,6 +2,8 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Core.Game.View.Details;
+using Core.Game.View.Interface;
+using GDFrameworkCore;
 using GDFrameworkExtend.FluentAPI;
 using GDFrameworkExtend.UIKit;
 using TMPro;
@@ -12,8 +14,7 @@ namespace Core.Game.View.Details
     /// <summary>
     /// 星图编辑器中的世界节点
     /// </summary>
-    public class UI_EditorDetail_UniverseMapNode : UI_Details, IBeginDragHandler, IDragHandler, IEndDragHandler,
-        IPointerDownHandler, IPointerUpHandler
+    public class UI_EditorDetail_UniverseMapNode : UI_Details, IUIViewDraggable,ICanGetSystem
     {
         #region 拖拽相关字段
 
@@ -74,8 +75,15 @@ namespace Core.Game.View.Details
         
         private WorldDtoDef _worldDto;
 
+        private EditorDataManager _editorDataManager;
+
         #region 初始化
 
+        public IArchitecture GetArchitecture()
+        {
+            return GameMain.Interface;
+        }
+        
         protected override void OnInit()
         {
             InitializeDragComponents();
@@ -151,6 +159,8 @@ namespace Core.Game.View.Details
             ChangeWorldLockButton.onClick.AddListener(ChangeWillLockThisWorld);
             
             ShowDetailButton.onClick.AddListener(ShowWorldDetail);
+
+            _editorDataManager = this.GetSystem<EditorDataManager>();
         }
 
         #endregion
@@ -170,7 +180,23 @@ namespace Core.Game.View.Details
         /// </summary>
         private void ShowWorldDetail()
         {
-            UIKit.GetPanel<UI_Editor_UniversePanel>().OpenWorldDetail(_worldDto);
+            if (_editorDataManager.HasAnyChangeDidNotSave())
+            {
+                UIKit.OpenPanel<UI_TipsWindow>(new UI_TipsWindowData()
+                {
+                    TipsString = $"当前有未保存的数据\n{_editorDataManager.GetChangeSummary()}",
+                    CancelString = "取消",
+                    SureString = "保存并打开详情",
+                    SureAction = () =>
+                    {
+                        UIKit.OpenPanel<UI_WorldPanel>();
+                    }
+                });
+            }
+            else
+            {
+                UIKit.OpenPanel<UI_WorldPanel>();
+            }
         }
 
         /// <summary>
@@ -487,5 +513,7 @@ namespace Core.Game.View.Details
         }
 
         #endregion
+
+
     }
 }

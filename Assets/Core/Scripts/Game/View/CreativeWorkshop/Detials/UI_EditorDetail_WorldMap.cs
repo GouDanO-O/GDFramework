@@ -2,6 +2,7 @@
 using Core.Game.Chunk.Region.Data;
 using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World.Data;
+using Core.Game.View.Interface;
 using GDFrameworkCore;
 using GDFrameworkExtend.FluentAPI;
 using TMPro;
@@ -9,7 +10,7 @@ using UnityEngine;
 
 namespace Core.Game.View.Details
 {
-    public class UI_EditorDetail_WorldMap : UI_Details,ICanGetSystem,ICanGetModel
+    public class UI_EditorDetail_WorldMap : UI_Details,ICanGetSystem,ICanGetModel,IUIViewScaleable
     {
         private Transform _contentRoot;
 
