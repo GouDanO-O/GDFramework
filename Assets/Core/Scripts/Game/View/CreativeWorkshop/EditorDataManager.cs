@@ -73,15 +73,15 @@ namespace Core.Game.View
         /// <summary>
         /// 添加新宇宙配置
         /// </summary>
-        public void AddNewUniverseDtoDef()
+        public UniverseDtoDef AddNewUniverseDtoDef()
         {
             var newUniverseDtoDef = new UniverseDtoDef
             {
                 DefName = "新宇宙",
                 DefDescription = "这是一个新的宇宙",
-                PlayerInitialLocateChildDtoDefId = "",
-                InitialShowChildDtoDefId = new List<string>(),
-                OwnedChildDtoDefID = new List<string>()
+                InitialPlayerLocateWorldId = "",
+                InitialShowingWorldIdList = new List<string>(),
+                WorldIdList = new List<string>()
             };
             
             newUniverseDtoDef.GenerateDefId();
@@ -91,6 +91,8 @@ namespace Core.Game.View
             // }
             _universeDataModel.AddDtoDef(newUniverseDtoDef);
             LogKit.Log($"<color=green>✓ 创建新宇宙: {newUniverseDtoDef.DefName} ({newUniverseDtoDef.DefId})</color>");
+            return newUniverseDtoDef;
+
         }
         
         /// <summary>
@@ -129,20 +131,20 @@ namespace Core.Game.View
             {
                 DefName = "新世界",
                 DefDescription = "这是一个新的世界",
-                PlayerInitialLocateChildDtoDefId = "",
-                InitialShowChildDtoDefId = new List<string>(),
-                OwnedChildDtoDefID = new List<string>()
+                InitialPlayerLocateRegionId = "",
+                InitialShowingRegionIdList = new List<string>(),
+                RegionIdList = new List<string>()
             };
 
             newWorld.GenerateDefId();
             //如果当前宇宙中,没有其他世界,则设置第一个创建的世界为初始世界
-            if (_currentFocusUniverse.OwnedChildDtoDefID.Count == 0)
+            if (_currentFocusUniverse.WorldIdList.Count == 0)
             {
-                _currentFocusUniverse.InitialShowChildDtoDefId.Add(newWorld.DefId);
-                _currentFocusUniverse.PlayerInitialLocateChildDtoDefId = newWorld.DefId;
+                _currentFocusUniverse.InitialShowingWorldIdList.Add(newWorld.DefId);
+                _currentFocusUniverse.InitialPlayerLocateWorldId = newWorld.DefId;
             }
             
-            _currentFocusUniverse.OwnedChildDtoDefID.Add(newWorld.DefId);
+            _currentFocusUniverse.WorldIdList.Add(newWorld.DefId);
             _worldDataModel.AddDtoDef(newWorld);
             StartTrackingWorld(newWorld);
             
@@ -156,6 +158,39 @@ namespace Core.Game.View
         public WorldDtoDef GetFocusedWorld()
         {
             return _currentFocusUniverseWorld;
+        }
+
+        #endregion
+
+        #region Region
+
+        /// <summary>
+        /// 从当前焦点世界中添加区域
+        /// </summary>
+        public RegionDtoDef AddNewRegionToFocusWorld()
+        {
+            var newRegion = new RegionDtoDef()
+            {
+                DefName = "新区域",
+                DefDescription = "这是一个新的区域",
+                InitialPlayerLocateDungeonId = "",
+                InitialShowingDungeonIdList = new List<string>(),
+                DungeonIdList = new List<string>()
+            };
+
+            newRegion.GenerateDefId();
+            //如果当前世界中,没有其他区域,则设置第一个创建的区域为初始区域
+            if (_currentFocusUniverseWorld.RegionIdList.Count == 0)
+            {
+                _currentFocusUniverseWorld.InitialShowingRegionIdList.Add(newRegion.DefId);
+                _currentFocusUniverseWorld.InitialPlayerLocateRegionId = newRegion.DefId;
+            }
+            
+            _currentFocusUniverseWorld.RegionIdList.Add(newRegion.DefId);
+            _regionDataModel.AddDtoDef(newRegion);
+            StartTrackingRegion(newRegion);
+            
+            return newRegion;
         }
 
         #endregion

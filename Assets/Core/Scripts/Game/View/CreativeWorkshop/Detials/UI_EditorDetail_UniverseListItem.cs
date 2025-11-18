@@ -74,7 +74,7 @@ namespace Core.Game.View.Details
 
             _universeName.text = _universeDef.DefName;
             _universeDescription.text = _universeDef.DefDescription;
-            _ownedWorldCount.text = _universeDef.OwnedChildDtoDefID.Count.ToString();
+            _ownedWorldCount.text = _universeDef.WorldIdList.Count.ToString();
         }
 
         /// <summary>

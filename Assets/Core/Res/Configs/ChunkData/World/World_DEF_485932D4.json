@@ -2,12 +2,12 @@
   "IsLockInInitialUniverse": false,
   "InitialPlayerLocateRegionId": "",
   "InitialSpawnedPosition": {
-    "x": 177.420334,
-    "y": 105.341019
+    "x": -242.275131,
+    "y": 212.184708
   },
   "InitialShowingRegionIdList": [],
   "RegionIdList": [],
-  "DefId": "World_DEF_8181ABFE",
+  "DefId": "World_DEF_485932D4",
   "DefName": "新世界",
   "DefDescription": "这是一个新的世界"
 }

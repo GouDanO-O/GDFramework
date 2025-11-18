@@ -48,7 +48,7 @@ namespace Core.Game.View
 			_worldDetailShow = DetailRoot.Find("BasicInfoView").GetComponent<UI_EditorDetail_WorldDetailShow>();
 			_worldMap = DetailRoot.Find("Map").GetComponent<UI_EditorDetail_WorldMap>();
 
-			OperationButtons = Common.Find("OperationButtons");
+			OperationButtons = DetailRoot.Find("OperationButtons");
 			AddNewRegionButton = OperationButtons.Find("AddNewRegionButton").GetComponent<Button>();
 			SaveButton = OperationButtons.Find("SaveButton").GetComponent<Button>();
 			ExitButton = OperationButtons.Find("ExitButton").GetComponent<Button>();
@@ -86,7 +86,7 @@ namespace Core.Game.View
 		/// </summary>
 		private void AddNewRegion()
 		{
-			
+			_editorDataManager.AddNewRegionToFocusWorld();
 		}
 
 		/// <summary>
@@ -104,7 +104,23 @@ namespace Core.Game.View
 		{
 			if (_editorDataManager.HasAnyChangeDidNotSave())
 			{
-				
+				UIKit.OpenPanel<UI_TipsWindow>(UILevel.PopUI,new UI_TipsWindowData()
+				{
+					TipsString = "当前有未保存的数据",
+					CancelString = "不保存就退出",
+					SureString = "保存并退出",
+					SureAction = () =>
+					{
+						SaveData();
+						UIKit.OpenPanel<UI_GameMenuPanel>();
+						this.CloseSelf();
+					},
+					CancelAction = () =>
+					{
+						UIKit.OpenPanel<UI_GameMenuPanel>();
+						this.CloseSelf();
+					}
+				});
 			}
 		}
 

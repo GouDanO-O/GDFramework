@@ -177,7 +177,7 @@ namespace Core.Game.View
 
             if (_editorDataManager.HasAnyChangeDidNotSave())
             {
-                UIKit.OpenPanel<UI_TipsWindow>(new UI_TipsWindowData()
+                UIKit.OpenPanel<UI_TipsWindow>(UILevel.PopUI,new UI_TipsWindowData()
                 {
                     TipsString = $"当前有未保存的数据\n{_editorDataManager.GetChangeSummary()}",
                     CancelString = "取消",
@@ -237,7 +237,7 @@ namespace Core.Game.View
         {
             if (_editorDataManager.HasAnyChangeDidNotSave())
             {
-                UIKit.OpenPanel<UI_TipsWindow>(new UI_TipsWindowData()
+                UIKit.OpenPanel<UI_TipsWindow>(UILevel.PopUI,new UI_TipsWindowData()
                 {
                     TipsString = $"当前有未保存的数据\n{_editorDataManager.GetChangeSummary()}",
                     CancelString = "取消创建",
@@ -257,7 +257,16 @@ namespace Core.Game.View
 
         private void CreateNewUniverseInternal()
         {
-            _editorDataManager.AddNewUniverseDtoDef();
+            if (_editorDataManager.GetFocusedUniverse() == null)
+            {
+                SelectUniverse(_editorDataManager.AddNewUniverseDtoDef());
+            }
+            else
+            {
+                _editorDataManager.AddNewUniverseDtoDef();
+            }
+
+
             RefreshUniverseList();
         }
         
@@ -268,7 +277,7 @@ namespace Core.Game.View
         {
             if (_editorDataManager.HasAnyChangeDidNotSave())
             {
-                UIKit.OpenPanel<UI_TipsWindow>(new UI_TipsWindowData()
+                UIKit.OpenPanel<UI_TipsWindow>(UILevel.PopUI,new UI_TipsWindowData()
                 {
                     TipsString = "当前有未保存的数据",
                     CancelString = "不保存就退出",
@@ -319,8 +328,9 @@ namespace Core.Game.View
                 return;
             }
 
+            
             _universeMap.AddMapNode(_editorDataManager.AddNewWorldToFocusUniverse(),
-                _editorDataManager.GetFocusedUniverse().PlayerInitialLocateChildDtoDefId);
+                _editorDataManager.GetFocusedUniverse().InitialPlayerLocateWorldId);
         }
 
         //TODO 从配置中加载一个已经创建的世界

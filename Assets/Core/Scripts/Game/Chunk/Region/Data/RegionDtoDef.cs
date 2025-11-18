@@ -17,13 +17,13 @@ namespace Core.Game.Chunk.Region.Data
         public bool IsLockInInitialWorld;
         
         [Title("玩家第一次进入区块所处的副本ID,如果为空,则默认取索引第一位"),LabelText("初始副本ID"),ReadOnly]
-        public string initialPlayerLocateDungeonId;
+        public string InitialPlayerLocateDungeonId;
 
         [LabelText("第一次进入区块展示的副本"),ReadOnly]
-        public List<string> initialShowingStrongholdIdList = new List<string>();
+        public List<string> InitialShowingDungeonIdList = new List<string>();
         
         [LabelText("区块拥有的所有副本ID"),ReadOnly]
-        public List<string> strongholdIdList  = new List<string>();
+        public List<string> DungeonIdList  = new List<string>();
         
         public override string GetTypePrefix()
         {
