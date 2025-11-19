@@ -19,6 +19,7 @@ namespace Core.Game.View.Details
 
         protected override void OnNodeSelected()
         {
+            editorDataManager.UpdateFocusedWorld(GetDtoDef());
             _universeMap?.ManageNodeSelect(this);
         }
 

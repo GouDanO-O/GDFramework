@@ -52,7 +52,7 @@ namespace Core.Game.Chunk.Region.Data
             _dtoDefList.Add(dtoDef);
             _defIdToDefDict[dtoDef.DefId] = dtoDef;
             
-            LogKit.Error($"添加配置: {dtoDef.DefName} (DefId: {dtoDef.DefId}");
+            LogKit.Log($"添加配置: {dtoDef.DefName} (DefId: {dtoDef.DefId}");
             TryLoadExistingInstancesForDef(dtoDef);
         }
 

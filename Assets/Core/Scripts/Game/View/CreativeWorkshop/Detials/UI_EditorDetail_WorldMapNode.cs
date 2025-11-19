@@ -50,12 +50,12 @@ namespace Core.Game.View.Details
 
         protected override void LoadNodePosition()
         {
-            SetNodePosition(dtoDef.InitialSpawnPos);
+            SetNodePosition(dtoDef.InitialSpawnedPosition);
         }
 
         protected override void SaveNodePosition(Vector2 newPos)
         {
-            dtoDef.InitialSpawnPos = newPos;
+            dtoDef.InitialSpawnedPosition = newPos;
         }
     }
 }

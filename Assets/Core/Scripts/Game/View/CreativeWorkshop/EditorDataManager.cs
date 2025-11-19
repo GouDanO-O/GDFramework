@@ -80,6 +80,9 @@ namespace Core.Game.View
             _changeTrackerSystem = this.GetSystem<ChangeTrackerSystem>();
             _universeDataModel = this.GetModel<UniverseDataModel>();
             _worldDataModel = this.GetModel<WorldDataModel>();
+            _regionDataModel = this.GetModel<RegionDataModel>();
+            _dungeonDataModel = this.GetModel<DungeonDataModel>();
+            _roomDataModel = this.GetModel<RoomDataModel>();
         }
         
 
@@ -463,7 +466,13 @@ namespace Core.Game.View
         /// <param name="regionDef"></param>
         public void StartTrackingRegion(RegionDtoDef regionDef)
         {
+            if (regionDef == null)
+                return;
+                
+            _trackingRegions[regionDef.DefId] = regionDef;
+            _changeTrackerSystem.StartTracking(regionDef, regionDef.DefId);
             
+            LogKit.Log($"开始追踪区域: {regionDef.DefName} ({regionDef.DefId})");
         }
 
         /// <summary>
@@ -472,7 +481,13 @@ namespace Core.Game.View
         /// <param name="dungeonDef"></param>
         public void StartTrackingDungeon(DungeonDtoDef dungeonDef)
         {
+            if (dungeonDef == null)
+                return;
+                
+            _trackingDungeons[dungeonDef.DefId] = dungeonDef;
+            _changeTrackerSystem.StartTracking(dungeonDef, dungeonDef.DefId);
             
+            LogKit.Log($"开始追踪副本: {dungeonDef.DefName} ({dungeonDef.DefId})");
         }
 
         /// <summary>
@@ -481,7 +496,13 @@ namespace Core.Game.View
         /// <param name="roomDef"></param>
         public void StartTrackingRoom(RoomDtoDef roomDef)
         {
+            if (roomDef == null)
+                return;
+                
+            _trackingRooms[roomDef.DefId] = roomDef;
+            _changeTrackerSystem.StartTracking(roomDef, roomDef.DefId);
             
+            LogKit.Log($"开始追踪房间: {roomDef.DefName} ({roomDef.DefId})");
         }
         
         /// <summary>

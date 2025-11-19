@@ -1,11 +1,12 @@
-﻿using Core.Game.Chunk.Universe.Data;
+﻿using Core.Game.Chunk.Data;
+using Core.Game.Chunk.Universe.Data;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Core.Game.View.Details
 {
-    public abstract class UI_EditorDetail_DetailShow: UI_Details
+    public abstract class UI_EditorDetail_DetailShow <TDetailDef>: UI_Details where TDetailDef : ChunkDtoDef
     {
         protected Transform ContentRoot;
         
@@ -45,7 +46,7 @@ namespace Core.Game.View.Details
         /// 更新当前的宇宙详情显示
         /// </summary>
         /// <param name="universeDef"></param>
-        public virtual void UpdateDetailShow(UniverseDtoDef universeDef)
+        public virtual void UpdateDetailShow(TDetailDef universeDef)
         {
             DefIdText.text = universeDef.DefId;
             DefNameInput.text = universeDef.DefName;

@@ -326,7 +326,6 @@ namespace Core.Game.View
                 LogKit.Error("请先选择一个宇宙");
                 return;
             }
-
             
             _universeMap.AddMapNode(_editorDataManager.AddNewWorldToFocusUniverse(),
                 _editorDataManager.GetFocusedUniverse().InitialPlayerLocateWorldId);

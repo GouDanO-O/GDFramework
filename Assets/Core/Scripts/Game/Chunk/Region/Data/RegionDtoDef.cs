@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Room;
 using Core.Game.Chunk.Room.Data;
+using GDFrameworkExtend.JsonKit;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -12,7 +13,8 @@ namespace Core.Game.Chunk.Region.Data
     [Serializable,JsonObject]
     public class RegionDtoDef : ChunkDtoDef
     {
-        public Vector2 InitialSpawnPos;
+        [JsonConverter(typeof(Vector2Converter))]
+        public Vector2 InitialSpawnedPosition;
 
         public bool IsLockInInitialWorld;
         

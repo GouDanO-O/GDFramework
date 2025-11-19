@@ -1,4 +1,5 @@
 using Core.Game.Chunk.Region.Data;
+using Core.Game.Chunk.World.Data;
 using Core.Game.View.Details;
 using GDFrameworkCore;
 using UnityEngine;
@@ -25,6 +26,8 @@ namespace Core.Game.View
 		private UI_EditorDetail_WorldDetailShow _worldDetailShow;
 		
 		private UI_EditorDetail_WorldMap _worldMap;
+
+		private WorldDtoDef _curFocusWorld;
 
 		private EditorDataManager _editorDataManager;
 		
@@ -68,10 +71,12 @@ namespace Core.Game.View
 
 		protected override void OnOpen(IUIData uiData = null)
 		{
+			RefreshWorldData();
 		}
 		
 		protected override void OnShow()
 		{
+			
 		}
 		
 		protected override void OnHide()
@@ -82,29 +87,20 @@ namespace Core.Game.View
 		{
 		}
 
+		private void RefreshWorldData()
+		{
+			_curFocusWorld = _editorDataManager.GetFocusedWorld();
+			_worldDetailShow.UpdateDetailShow(_curFocusWorld);
+			_worldMap.ShowMap(_curFocusWorld);
+		}
+
 		/// <summary>
 		/// 添加新区域
 		/// </summary>
 		private void AddNewRegion()
 		{
-			if (_editorDataManager.GetFocusedWorld().RegionIdList.Count == 0)
-			{
-				SelectRegion(_editorDataManager.AddNewRegionToFocusWorld());
-			}
-			else
-			{
-				_editorDataManager.AddNewRegionToFocusWorld();
-			}
-
-		}
-
-		/// <summary>
-		/// 世界地图中选择区域
-		/// </summary>
-		/// <param name="regionDtoDef"></param>
-		public void SelectRegion(RegionDtoDef regionDtoDef)
-		{
-			
+			RegionDtoDef newRegionDto = _editorDataManager.AddNewRegionToFocusWorld();
+			_worldMap.AddMapNode(newRegionDto, _curFocusWorld.InitialPlayerLocateRegionId);
 		}
 
 		/// <summary>
@@ -113,6 +109,7 @@ namespace Core.Game.View
 		private void SaveData()
 		{
 			_editorDataManager.UpdateWorldTrackedSnapshots();
+			_editorDataManager.UpdateRegionTrackedSnapshots();
 		}
 
 		/// <summary>

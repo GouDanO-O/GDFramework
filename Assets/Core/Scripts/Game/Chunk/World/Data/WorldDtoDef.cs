@@ -13,6 +13,9 @@ namespace Core.Game.Chunk.World.Data
     [Serializable,JsonObject]
     public class WorldDtoDef : ChunkDtoDef
     {
+        [LabelText("世界地图背景")]
+        public string WorldMapImage;
+        
         [LabelText("第一次进入宇宙时,当前世界是否处于解锁状态")]
         public bool IsLockInInitialUniverse;
         

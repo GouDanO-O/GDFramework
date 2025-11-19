@@ -1,12 +1,18 @@
 {
+  "WorldMapImage": null,
   "IsLockInInitialUniverse": false,
-  "InitialPlayerLocateRegionId": "",
+  "InitialPlayerLocateRegionId": "Region_DEF_E5983D17",
   "InitialSpawnedPosition": {
     "x": -91.66323,
     "y": -105.064972
   },
-  "InitialShowingRegionIdList": [],
-  "RegionIdList": [],
+  "InitialShowingRegionIdList": [
+    "Region_DEF_E5983D17"
+  ],
+  "RegionIdList": [
+    "Region_DEF_E5983D17",
+    "Region_DEF_24F04C67"
+  ],
   "DefId": "World_DEF_C0246949",
   "DefName": "新世界",
   "DefDescription": "这是一个新的世界"

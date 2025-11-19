@@ -2,6 +2,9 @@
 using Core.Game.Chunk.Region.Data;
 using Core.Game.Chunk.World.Data;
 using GDFrameworkCore;
+using GDFrameworkExtend.FluentAPI;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Core.Game.View.Details
 {
@@ -15,6 +18,22 @@ namespace Core.Game.View.Details
         : UI_EditorDetail_Map<WorldDtoDef, RegionDtoDef, UI_EditorDetail_WorldMapNode>
     {
         private RegionDataModel _regionDataModel;
+
+        protected Image BaseMapImage;
+
+        protected override void InitializeComponents()
+        {
+            base.InitializeComponents();
+            BaseMapImage = _contentRoot.Find("BaseMap").GetComponent<Image>();
+            _contentRoot = transform.Find("ContentRoot/NodeRoot");
+        }
+
+        public override void ShowMap(WorldDtoDef parentDef)
+        {
+            base.ShowMap(parentDef);
+            //TODO 这里根据配置里面的地图ID去查找对应的地图图片
+            //BaseMapImage.sprite = parentDef.
+        }
 
         protected override void InitializeModels()
         {

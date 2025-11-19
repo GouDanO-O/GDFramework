@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 750564604334797908}
   - component: {fileID: 6727448100716341461}
   m_Layer: 0
-  m_Name: ChangeWorldLockDes
+  m_Name: ChangeLockDes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2757,7 +2757,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000047683716}
+  m_AnchoredPosition: {x: 0, y: 0.00006319076}
   m_SizeDelta: {x: 0, y: 750}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &4988612980414636945
@@ -5286,7 +5286,7 @@ GameObject:
   - component: {fileID: 3875569354353783509}
   - component: {fileID: 7609681284400917071}
   m_Layer: 0
-  m_Name: ChangeWorldLockButton
+  m_Name: ChangeLockButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5544,7 +5544,7 @@ GameObject:
   - component: {fileID: 6423089258026433177}
   - component: {fileID: 4980216309058875379}
   m_Layer: 0
-  m_Name: DeleteThisWorldButton
+  m_Name: DeleteThisButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7853,7 +7853,7 @@ GameObject:
   - component: {fileID: 7747410793104875412}
   - component: {fileID: 2169629735013049703}
   m_Layer: 0
-  m_Name: SetInitialPlayerLocateWorldButton
+  m_Name: SetInitialPlayerLocateButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8718,7 +8718,7 @@ GameObject:
   - component: {fileID: 7066595909762693419}
   - component: {fileID: 48870830793437686}
   m_Layer: 0
-  m_Name: CopyThisWorldButton
+  m_Name: CopyThisButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
