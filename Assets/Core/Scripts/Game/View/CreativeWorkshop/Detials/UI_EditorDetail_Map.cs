@@ -114,7 +114,7 @@ namespace Core.Game.View.Details
         }
 
         /// <summary>
-        /// 创建节点实例 (子类实现)
+        /// 创建节点实例
         /// </summary>
         protected virtual TNode CreateNode(TChildDef childDef)
         {
@@ -224,7 +224,7 @@ namespace Core.Game.View.Details
 
         #endregion
 
-        #region 抽象方法 (子类必须实现)
+        #region 抽象方法
 
         /// <summary>
         /// 获取子级Def列表

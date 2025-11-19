@@ -29,7 +29,7 @@ namespace Core.Game.Chunk.Data
             return GameMain.Interface;
         }
 
-        public void GenerateDefId()
+        public virtual void GenerateDefId()
         {
             string typePrefix = GetTypePrefix();
             string uniqueId = Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper();

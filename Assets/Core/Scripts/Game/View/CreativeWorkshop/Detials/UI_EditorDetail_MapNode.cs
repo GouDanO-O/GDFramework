@@ -58,14 +58,17 @@ namespace Core.Game.View.Details
 
         #region 状态数据
 
-        protected TDef _dtoDef;
+        protected TDef dtoDef;
         protected bool ThisNodeIsInitial = false;
         protected bool ThisNodeIsLocking = false;
         protected EditorDataManager editorDataManager;
 
         #endregion
 
-        public IArchitecture GetArchitecture() => GameMain.Interface;
+        public IArchitecture GetArchitecture()
+        {
+            return GameMain.Interface;
+        }
 
         protected override void OnInit()
         {
@@ -123,17 +126,17 @@ namespace Core.Game.View.Details
         /// <summary>
         /// 设置节点数据
         /// </summary>
-        public virtual void SetDto<TMap>(TMap map, TDef dtoDef)
+        public virtual void SetDto<TMap>(TMap map, TDef curDtoDef)
             where TMap : UI_Details
         {
-            _dtoDef = dtoDef;
+            dtoDef = curDtoDef;
             LoadNodePosition();
             UpdateNodeName();
             OnDataSet(map);
         }
 
         /// <summary>
-        /// 数据设置完成后的回调 (子类可重写)
+        /// 数据设置完成后的回调
         /// </summary>
         protected virtual void OnDataSet<TMap>(TMap map) where TMap : UI_Details { }
 
@@ -144,7 +147,7 @@ namespace Core.Game.View.Details
         /// <summary>
         /// 获取当前节点的 DtoDef
         /// </summary>
-        public TDef GetDtoDef() => _dtoDef;
+        public TDef GetDtoDef() => dtoDef;
 
         /// <summary>
         /// 获取节点锁定状态
@@ -179,7 +182,7 @@ namespace Core.Game.View.Details
         }
 
         /// <summary>
-        /// 节点被选中时的回调 (子类可重写)
+        /// 节点被选中时的回调
         /// </summary>
         protected virtual void OnNodeSelected() { }
 
@@ -193,7 +196,7 @@ namespace Core.Game.View.Details
         }
 
         /// <summary>
-        /// 更新初始节点UI (子类实现)
+        /// 更新初始节点UI
         /// </summary>
         protected abstract void UpdateInitialNodeUI(bool isInitial);
 
@@ -236,7 +239,7 @@ namespace Core.Game.View.Details
         }
 
         /// <summary>
-        /// 锁定状态改变时的回调 (子类可重写)
+        /// 锁定状态改变时的回调
         /// </summary>
         protected virtual void OnLockStateChanged(bool isLocked) { }
 
@@ -254,7 +257,7 @@ namespace Core.Game.View.Details
         /// </summary>
         protected virtual void UpdateNodeName()
         {
-            NodeName.text = _dtoDef.DefName;
+            NodeName.text = dtoDef.DefName;
         }
 
         /// <summary>

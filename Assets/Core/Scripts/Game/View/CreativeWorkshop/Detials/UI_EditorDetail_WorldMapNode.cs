@@ -40,7 +40,7 @@ namespace Core.Game.View.Details
 
         protected override void OnLockStateChanged(bool isLocked)
         {
-            _dtoDef.IsLockInInitialWorld = isLocked;
+            dtoDef.IsLockInInitialWorld = isLocked;
         }
 
         protected override void ShowNodeDetail()
@@ -50,12 +50,12 @@ namespace Core.Game.View.Details
 
         protected override void LoadNodePosition()
         {
-            SetNodePosition(_dtoDef.InitialSpawnPos);
+            SetNodePosition(dtoDef.InitialSpawnPos);
         }
 
         protected override void SaveNodePosition(Vector2 newPos)
         {
-            _dtoDef.InitialSpawnPos = newPos;
+            dtoDef.InitialSpawnPos = newPos;
         }
     }
 }

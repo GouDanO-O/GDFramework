@@ -185,7 +185,7 @@ namespace Core.Game.View
                     SureAction = () =>
                     {
                         SaveData();
-                        _editorDataManager.SetFocusUniverse(universeDef);
+                        _editorDataManager.UpdateFocusUniverse(universeDef);
                         LoadUniverseToDetail(universeDef);
                         ShowUniverseWorldMap(universeDef);
                     }
@@ -193,7 +193,7 @@ namespace Core.Game.View
             }
             else
             {
-                _editorDataManager.SetFocusUniverse(universeDef);
+                _editorDataManager.UpdateFocusUniverse(universeDef);
                 LoadUniverseToDetail(universeDef);
                 ShowUniverseWorldMap(universeDef);
             }
@@ -265,8 +265,7 @@ namespace Core.Game.View
             {
                 _editorDataManager.AddNewUniverseDtoDef();
             }
-
-
+            
             RefreshUniverseList();
         }
         

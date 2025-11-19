@@ -1,3 +1,4 @@
+using Core.Game.Chunk.Region.Data;
 using Core.Game.View.Details;
 using GDFrameworkCore;
 using UnityEngine;
@@ -86,7 +87,24 @@ namespace Core.Game.View
 		/// </summary>
 		private void AddNewRegion()
 		{
-			_editorDataManager.AddNewRegionToFocusWorld();
+			if (_editorDataManager.GetFocusedWorld().RegionIdList.Count == 0)
+			{
+				SelectRegion(_editorDataManager.AddNewRegionToFocusWorld());
+			}
+			else
+			{
+				_editorDataManager.AddNewRegionToFocusWorld();
+			}
+
+		}
+
+		/// <summary>
+		/// 世界地图中选择区域
+		/// </summary>
+		/// <param name="regionDtoDef"></param>
+		public void SelectRegion(RegionDtoDef regionDtoDef)
+		{
+			
 		}
 
 		/// <summary>

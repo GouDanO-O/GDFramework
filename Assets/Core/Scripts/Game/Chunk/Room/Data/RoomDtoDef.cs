@@ -30,6 +30,12 @@ namespace Core.Game.Chunk.Room.Data
             return "Room";
         }
 
+        public override void GenerateDefId()
+        {
+            base.GenerateDefId();
+            this.InitialTiles = new TileData[GridSize.x, GridSize.y];
+        }
+
         public void AddEntityToTile(Vector2Int tileIndex, IEntityDtoDef entityDtoDef)
         {
             
