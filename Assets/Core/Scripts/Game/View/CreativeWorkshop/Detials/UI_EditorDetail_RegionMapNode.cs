@@ -1,57 +1,52 @@
-﻿using Core.Game.Chunk.World.Data;
-using GDFrameworkExtend.FluentAPI;
+﻿using Core.Game.Chunk.Dungeon.Data;
+using Core.Game.Chunk.Region.Data;
 using GDFrameworkExtend.UIKit;
 using UnityEngine;
 
 namespace Core.Game.View.Details
 {
-    /// <summary>
-    /// 宇宙星图中的世界节点
-    /// </summary>
-    public class UI_EditorDetail_UniverseMapNode : UI_EditorDetail_MapNode<WorldDtoDef>
+    public class UI_EditorDetail_RegionMapNode : UI_EditorDetail_MapNode<DungeonDtoDef>
     {
-        private UI_EditorDetail_UniverseMap _universeMap;
-
+        private UI_EditorDetail_RegionMap _regionMap;
+        
         protected override void OnDataSet<TMap>(TMap map)
         {
-            _universeMap = map as UI_EditorDetail_UniverseMap;
+            _regionMap = map as UI_EditorDetail_RegionMap;
         }
-
+        
         protected override void OnNodeSelected()
         {
-            editorDataManager.UpdateFocusedWorld(GetDtoDef());
-            _universeMap?.ManageNodeSelect(this);
+            _regionMap?.ManageNodeSelect(this);
         }
-
+        
         protected override void UpdateInitialNodeUI(bool isInitial)
         {
             if (isInitial)
             {
-                ChangeInitialPlayerLocateNodeDes.text = "初始世界";
+                ChangeInitialPlayerLocateNodeDes.text = "初始副本";
             }
             else
             {
-                ChangeInitialPlayerLocateNodeDes.text = "设置为初始世界";
+                ChangeInitialPlayerLocateNodeDes.text = "设置为初始副本";
             }
         }
-
+        
         public override void SetThisNodeAsInitial()
         {
             base.SetThisNodeAsInitial();
-            _universeMap?.UpdateInitialNode(this);
+            _regionMap?.UpdateInitialNode(this);
         }
-
+        
         protected override void OnLockStateChanged(bool isLocked)
         {
             if (isLocked)
             {
-                editorDataManager.GetFocusedUniverse().RemoveInitialShowingWorld(dtoDef.DefId);
+                editorDataManager.GetFocusedRegion().RemoveInitialShowingRegion(dtoDef.DefId);
             }
             else
             {
-                editorDataManager.GetFocusedUniverse().AddInitialShowingWorld(dtoDef.DefId);
+                editorDataManager.GetFocusedRegion().AddInitialShowingRegion(dtoDef.DefId);
             }
-
         }
 
         protected override void ShowNodeDetail()
@@ -66,13 +61,13 @@ namespace Core.Game.View.Details
                     SureAction = () =>
                     {
                         editorDataManager.UpdateAllTrackedSnapshots();
-                        UIKit.OpenPanel<UI_Editor_WorldPanel>();
+
                     }
                 });
             }
             else
             {
-                UIKit.OpenPanel<UI_Editor_WorldPanel>();
+               
             }
         }
 

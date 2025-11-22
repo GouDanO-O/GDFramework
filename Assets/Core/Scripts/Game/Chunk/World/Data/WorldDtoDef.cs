@@ -16,9 +16,6 @@ namespace Core.Game.Chunk.World.Data
         [LabelText("世界地图背景")]
         public string WorldMapImage;
         
-        [LabelText("第一次进入宇宙时,当前世界是否处于解锁状态")]
-        public bool IsLockInInitialUniverse;
-        
         [LabelText("初始玩家所处的区块ID"),ReadOnly]
         [InfoBox("无特殊事件的情况下,玩家会处于的第一个区块的ID")]
         public string InitialPlayerLocateRegionId;
@@ -38,5 +35,30 @@ namespace Core.Game.Chunk.World.Data
             return "World";
         }
         
+        public void AddInitialShowingRegion(string defId)
+        {
+            if (InitialShowingRegionIdList == null)
+            {
+                InitialShowingRegionIdList = new List<string>();
+            }
+
+            if (!InitialShowingRegionIdList.Contains(defId))
+            {
+                InitialShowingRegionIdList.Add(defId);
+            }
+        }
+        
+        public void RemoveInitialShowingRegion(string defId)
+        {
+            if (InitialShowingRegionIdList == null)
+            {
+                InitialShowingRegionIdList = new List<string>();
+            }
+
+            if (InitialShowingRegionIdList.Contains(defId))
+            {
+                InitialShowingRegionIdList.Remove(defId);
+            }
+        }
     }
 }

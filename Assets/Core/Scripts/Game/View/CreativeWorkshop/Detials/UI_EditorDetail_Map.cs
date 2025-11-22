@@ -71,6 +71,7 @@ namespace Core.Game.View.Details
 
         #region 地图显示
 
+        //TODO 这里还根据配置里面的图片ID去查找对应的图片来进行填充背景
         /// <summary>
         /// 显示地图
         /// </summary>
@@ -85,20 +86,36 @@ namespace Core.Game.View.Details
             foreach (var childId in childIds)
             {
                 TChildDef childDef = GetChildDef(childId);
+                List<string> initialShowingList = GetInitialShowingListDtoDef();
+                bool isShowing = false;
+                for (int i = 0; i < initialShowingList.Count; i++)
+                {
+                    if (childDef != null)
+                    {
+                        if (childDef.DefId.Equals(initialShowingList[i]))
+                        {
+                            isShowing = true;
+                            break;
+                        }
+                    }
+                }
+
                 if (childDef != null)
                 {
-                    AddMapNode(childDef, initialId);
+                    AddMapNode(childDef, initialId,isShowing);
                 }
+
             }
         }
 
         /// <summary>
         /// 添加地图节点
         /// </summary>
-        public virtual TNode AddMapNode(TChildDef childDef, string initialId)
+        public virtual TNode AddMapNode(TChildDef childDef, string initialId,bool willShow)
         {
             TNode node = CreateNode(childDef);
-            if (node == null) return null;
+            if (node == null) 
+                return null;
 
             node.SetDto(this, childDef);
             
@@ -107,6 +124,8 @@ namespace Core.Game.View.Details
                 node.SetThisNodeAsInitial();
             }
 
+            node.SetThisNodeWillLock(!willShow);
+            
             _mapNodeList.Add(node);
             StartTrackingNode(childDef);
 
@@ -245,6 +264,12 @@ namespace Core.Game.View.Details
         /// 根据ID获取子级Def
         /// </summary>
         protected abstract TChildDef GetChildDef(string defId);
+
+        /// <summary>
+        /// 获取初始展示节点列表
+        /// </summary>
+        /// <returns></returns>
+        protected abstract List<string> GetInitialShowingListDtoDef();
 
         /// <summary>
         /// 开始追踪节点数据

@@ -40,6 +40,11 @@ namespace Core.Game.View.Details
         {
             return _worldDataModel.GetDefById(defId);
         }
+        
+        protected override List<string> GetInitialShowingListDtoDef()
+        {
+            return _currentParentDef.InitialShowingWorldIdList;
+        }
 
         protected override void StartTrackingNode(WorldDtoDef childDef)
         {

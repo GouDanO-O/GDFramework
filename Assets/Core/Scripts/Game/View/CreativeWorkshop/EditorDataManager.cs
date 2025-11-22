@@ -418,7 +418,7 @@ namespace Core.Game.View
         {
             if (_worldPanel != null)
             {
-                
+
             }
         }
 

@@ -210,6 +210,15 @@ namespace Core.Game.View.Details
         }
 
         /// <summary>
+        /// 设置节点是否为锁定状态
+        /// </summary>
+        public virtual void SetThisNodeWillLock(bool isLock)
+        {
+            ThisNodeIsLocking = isLock;
+            UpdateLockUI();
+        }
+
+        /// <summary>
         /// 改变锁定状态
         /// </summary>
         protected virtual void ChangeWillLockThisNode()

@@ -8,137 +8,130 @@ using GDFrameworkExtend.UIKit;
 
 namespace Core.Game.View
 {
-	public class UI_Editor_WorldPanelData : UIPanelData
-	{
-	}
-	public partial class UI_Editor_WorldPanel : UIPanel,ICanGetSystem
-	{
-		protected Transform DetailRoot;
+    public class UI_Editor_WorldPanelData : UIPanelData
+    {
+    }
 
-		protected Transform OperationButtons;
-		
-		protected Button AddNewRegionButton;
+    public partial class UI_Editor_WorldPanel : UIPanel, ICanGetSystem
+    {
+        protected Transform DetailRoot;
 
-		protected Button SaveButton;
+        protected Transform OperationButtons;
 
-		protected Button ExitButton;
-		
-		private UI_EditorDetail_WorldDetailShow _worldDetailShow;
-		
-		private UI_EditorDetail_WorldMap _worldMap;
+        protected Button AddNewRegionButton;
 
-		private WorldDtoDef _curFocusWorld;
+        protected Button SaveButton;
 
-		private EditorDataManager _editorDataManager;
-		
-		public IArchitecture GetArchitecture()
-		{
-			return GameMain.Interface;
-		}
-		
-		protected override void OnInit(IUIData uiData = null)
-		{
-			mData = uiData as UI_Editor_WorldPanelData ?? new UI_Editor_WorldPanelData();
-			// please add init code here
-			
-			GetRelyComponent();
-			RegisterEvent();
-		}
+        protected Button ExitButton;
 
-		protected override void GetRelyComponent()
-		{
-			base.GetRelyComponent();
-			DetailRoot = Common.Find("DetailRoot");
-			_worldDetailShow = DetailRoot.Find("BasicInfoView").GetComponent<UI_EditorDetail_WorldDetailShow>();
-			_worldMap = DetailRoot.Find("Map").GetComponent<UI_EditorDetail_WorldMap>();
+        private UI_EditorDetail_WorldDetailShow _worldDetailShow;
 
-			OperationButtons = DetailRoot.Find("OperationButtons");
-			AddNewRegionButton = OperationButtons.Find("AddNewRegionButton").GetComponent<Button>();
-			SaveButton = OperationButtons.Find("SaveButton").GetComponent<Button>();
-			ExitButton = OperationButtons.Find("ExitButton").GetComponent<Button>();
+        private UI_EditorDetail_WorldMap _worldMap;
 
-			_editorDataManager = this.GetSystem<EditorDataManager>();
-		}
+        private WorldDtoDef _curFocusWorld;
 
-		protected override void RegisterEvent()
-		{
-			base.RegisterEvent();
-			
-			AddNewRegionButton.onClick.AddListener(AddNewRegion);
-			SaveButton.onClick.AddListener(SaveData);
-			ExitButton.onClick.AddListener(ExitThis);
-		}
+        private EditorDataManager _editorDataManager;
 
-		protected override void OnOpen(IUIData uiData = null)
-		{
-			RefreshWorldData();
-		}
-		
-		protected override void OnShow()
-		{
-			
-		}
-		
-		protected override void OnHide()
-		{
-		}
-		
-		protected override void OnClose()
-		{
-		}
+        public IArchitecture GetArchitecture()
+        {
+            return GameMain.Interface;
+        }
 
-		private void RefreshWorldData()
-		{
-			_curFocusWorld = _editorDataManager.GetFocusedWorld();
-			_worldDetailShow.UpdateDetailShow(_curFocusWorld);
-			_worldMap.ShowMap(_curFocusWorld);
-		}
+        protected override void OnInit(IUIData uiData = null)
+        {
+            mData = uiData as UI_Editor_WorldPanelData ?? new UI_Editor_WorldPanelData();
+            // please add init code here
 
-		/// <summary>
-		/// 添加新区域
-		/// </summary>
-		private void AddNewRegion()
-		{
-			RegionDtoDef newRegionDto = _editorDataManager.AddNewRegionToFocusWorld();
-			_worldMap.AddMapNode(newRegionDto, _curFocusWorld.InitialPlayerLocateRegionId);
-		}
+            GetRelyComponent();
+            RegisterEvent();
+        }
 
-		/// <summary>
-		/// 保存数据
-		/// </summary>
-		private void SaveData()
-		{
-			_editorDataManager.UpdateWorldTrackedSnapshots();
-			_editorDataManager.UpdateRegionTrackedSnapshots();
-		}
+        protected override void GetRelyComponent()
+        {
+            base.GetRelyComponent();
+            DetailRoot = Common.Find("DetailRoot");
+            _worldDetailShow = DetailRoot.Find("BasicInfoView").GetComponent<UI_EditorDetail_WorldDetailShow>();
+            _worldMap = DetailRoot.Find("Map").GetComponent<UI_EditorDetail_WorldMap>();
 
-		/// <summary>
-		/// 退出面板
-		/// </summary>
-		private void ExitThis()
-		{
-			if (_editorDataManager.HasAnyChangeDidNotSave())
-			{
-				UIKit.OpenPanel<UI_TipsWindow>(UILevel.PopUI,new UI_TipsWindowData()
-				{
-					TipsString = "当前有未保存的数据",
-					CancelString = "不保存就退出",
-					SureString = "保存并退出",
-					SureAction = () =>
-					{
-						SaveData();
-						UIKit.OpenPanel<UI_GameMenuPanel>();
-						this.CloseSelf();
-					},
-					CancelAction = () =>
-					{
-						UIKit.OpenPanel<UI_GameMenuPanel>();
-						this.CloseSelf();
-					}
-				});
-			}
-		}
+            OperationButtons = DetailRoot.Find("OperationButtons");
+            AddNewRegionButton = OperationButtons.Find("AddNewRegionButton").GetComponent<Button>();
+            SaveButton = OperationButtons.Find("SaveButton").GetComponent<Button>();
+            ExitButton = OperationButtons.Find("ExitButton").GetComponent<Button>();
 
+            _editorDataManager = this.GetSystem<EditorDataManager>();
+        }
 
-	}
+        protected override void RegisterEvent()
+        {
+            base.RegisterEvent();
+
+            AddNewRegionButton.onClick.AddListener(AddNewRegion);
+            SaveButton.onClick.AddListener(SaveData);
+            ExitButton.onClick.AddListener(ExitThis);
+        }
+
+        protected override void OnOpen(IUIData uiData = null)
+        {
+            RefreshWorldData();
+        }
+
+        protected override void OnShow()
+        {
+        }
+
+        protected override void OnHide()
+        {
+        }
+
+        protected override void OnClose()
+        {
+        }
+
+        private void RefreshWorldData()
+        {
+            _curFocusWorld = _editorDataManager.GetFocusedWorld();
+            _worldDetailShow.UpdateDetailShow(_curFocusWorld);
+            _worldMap.ShowMap(_curFocusWorld);
+        }
+
+        /// <summary>
+        /// 添加新区域
+        /// </summary>
+        private void AddNewRegion()
+        {
+            RegionDtoDef newRegionDto = _editorDataManager.AddNewRegionToFocusWorld();
+            _worldMap.AddMapNode(newRegionDto, _curFocusWorld.InitialPlayerLocateRegionId,true);
+        }
+
+        /// <summary>
+        /// 保存数据
+        /// </summary>
+        private void SaveData()
+        {
+            _editorDataManager.UpdateWorldTrackedSnapshots();
+            _editorDataManager.UpdateRegionTrackedSnapshots();
+        }
+
+        /// <summary>
+        /// 退出面板
+        /// </summary>
+        private void ExitThis()
+        {
+            if (_editorDataManager.HasAnyChangeDidNotSave())
+            {
+                UIKit.OpenPanel<UI_TipsWindow>(UILevel.PopUI, new UI_TipsWindowData()
+                {
+                    TipsString = "当前有未保存的数据",
+                    CancelString = "不保存就退出",
+                    SureString = "保存并退出",
+                    SureAction = () =>
+                    {
+                        SaveData();
+                        this.CloseSelf();
+                    },
+                    CancelAction = () => { this.CloseSelf(); }
+                });
+            }
+        }
+    }
 }

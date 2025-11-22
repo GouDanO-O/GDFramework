@@ -1,4 +1,5 @@
 ﻿using Core.Game.Chunk.Region.Data;
+using GDFrameworkExtend.UIKit;
 using UnityEngine;
 
 namespace Core.Game.View.Details
@@ -40,12 +41,36 @@ namespace Core.Game.View.Details
 
         protected override void OnLockStateChanged(bool isLocked)
         {
-            dtoDef.IsLockInInitialWorld = isLocked;
+            if (isLocked)
+            {
+                editorDataManager.GetFocusedWorld().RemoveInitialShowingRegion(dtoDef.DefId);
+            }
+            else
+            {
+                editorDataManager.GetFocusedWorld().AddInitialShowingRegion(dtoDef.DefId);
+            }
         }
 
         protected override void ShowNodeDetail()
         {
-            // TODO: 实现区域详情显示
+            if (editorDataManager.HasAnyChangeDidNotSave())
+            {
+                UIKit.OpenPanel<UI_TipsWindow>(UILevel.PopUI, new UI_TipsWindowData()
+                {
+                    TipsString = $"当前有未保存的数据\n{editorDataManager.GetChangeSummary()}",
+                    CancelString = "取消",
+                    SureString = "保存并打开详情",
+                    SureAction = () =>
+                    {
+                        editorDataManager.UpdateAllTrackedSnapshots();
+                        UIKit.OpenPanel<UI_Editor_RegionPanel>();
+                    }
+                });
+            }
+            else
+            {
+                UIKit.OpenPanel<UI_Editor_RegionPanel>();
+            }
         }
 
         protected override void LoadNodePosition()

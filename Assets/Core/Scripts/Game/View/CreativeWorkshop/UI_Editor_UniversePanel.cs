@@ -328,7 +328,7 @@ namespace Core.Game.View
             }
             
             _universeMap.AddMapNode(_editorDataManager.AddNewWorldToFocusUniverse(),
-                _editorDataManager.GetFocusedUniverse().InitialPlayerLocateWorldId);
+                _editorDataManager.GetFocusedUniverse().InitialPlayerLocateWorldId,true);
         }
 
         //TODO 从配置中加载一个已经创建的世界

@@ -31,5 +31,31 @@ namespace Core.Game.Chunk.Universe.Data
         {
             this.DefName = newName;
         }
+
+        public void AddInitialShowingWorld(string defId)
+        {
+            if (InitialShowingWorldIdList == null)
+            {
+                InitialShowingWorldIdList = new List<string>();
+            }
+
+            if (!InitialShowingWorldIdList.Contains(defId))
+            {
+                InitialShowingWorldIdList.Add(defId);
+            }
+        }
+        
+        public void RemoveInitialShowingWorld(string defId)
+        {
+            if (InitialShowingWorldIdList == null)
+            {
+                InitialShowingWorldIdList = new List<string>();
+            }
+
+            if (InitialShowingWorldIdList.Contains(defId))
+            {
+                InitialShowingWorldIdList.Remove(defId);
+            }
+        }
     }
 }

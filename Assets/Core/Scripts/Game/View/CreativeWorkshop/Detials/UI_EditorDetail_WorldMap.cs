@@ -31,7 +31,7 @@ namespace Core.Game.View.Details
         public override void ShowMap(WorldDtoDef parentDef)
         {
             base.ShowMap(parentDef);
-            //TODO 这里根据配置里面的地图ID去查找对应的地图图片
+
             //BaseMapImage.sprite = parentDef.
         }
 
@@ -58,6 +58,11 @@ namespace Core.Game.View.Details
         protected override RegionDtoDef GetChildDef(string defId)
         {
             return _regionDataModel.GetDefById(defId);
+        }
+        
+        protected override List<string> GetInitialShowingListDtoDef()
+        {
+            return _currentParentDef.InitialShowingRegionIdList;
         }
 
         protected override void StartTrackingNode(RegionDtoDef childDef)

@@ -47,15 +47,17 @@ namespace Core.Game.Chunk.Dungeon.Data
                 LogKit.Error($"DungeonDtoDef 已存在,跳过: {dtoDef.DefId}");
                 return;
             }
-
             _dtoDefList.Add(dtoDef);
             _defIdToDefDict[dtoDef.DefId] = dtoDef;
             
-    
-
             LogKit.Error($"添加配置: {dtoDef.DefName} (DefId: {dtoDef.DefId}");
 
             TryLoadExistingInstancesForDef(dtoDef);
+        }
+
+        public DungeonDtoDef GetDefById(string defId)
+        {
+            return _defIdToDefDict.TryGetValue(defId, out var def) ? def : null; 
         }
         
         /// <summary>

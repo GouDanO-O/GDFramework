@@ -15,8 +15,6 @@ namespace Core.Game.Chunk.Region.Data
     {
         [JsonConverter(typeof(Vector2Converter))]
         public Vector2 InitialSpawnedPosition;
-
-        public bool IsLockInInitialWorld;
         
         [Title("玩家第一次进入区块所处的副本ID,如果为空,则默认取索引第一位"),LabelText("初始副本ID"),ReadOnly]
         public string InitialPlayerLocateDungeonId;
@@ -30,6 +28,32 @@ namespace Core.Game.Chunk.Region.Data
         public override string GetTypePrefix()
         {
             return "Region";
+        }
+        
+        public void AddInitialShowingRegion(string defId)
+        {
+            if (InitialShowingDungeonIdList == null)
+            {
+                InitialShowingDungeonIdList = new List<string>();
+            }
+
+            if (!InitialShowingDungeonIdList.Contains(defId))
+            {
+                InitialShowingDungeonIdList.Add(defId);
+            }
+        }
+        
+        public void RemoveInitialShowingRegion(string defId)
+        {
+            if (InitialShowingDungeonIdList == null)
+            {
+                InitialShowingDungeonIdList = new List<string>();
+            }
+
+            if (InitialShowingDungeonIdList.Contains(defId))
+            {
+                InitialShowingDungeonIdList.Remove(defId);
+            }
         }
     }
 }
