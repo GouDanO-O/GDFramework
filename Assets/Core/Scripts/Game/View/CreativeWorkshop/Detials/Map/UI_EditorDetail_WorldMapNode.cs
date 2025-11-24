@@ -18,6 +18,7 @@ namespace Core.Game.View.Details
 
         protected override void OnNodeSelected()
         {
+            editorDataManager.UpdateFocusRegion(GetDtoDef());
             _worldMap?.ManageNodeSelect(this);
         }
 

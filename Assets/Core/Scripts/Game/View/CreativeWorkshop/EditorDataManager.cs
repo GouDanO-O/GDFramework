@@ -2,7 +2,6 @@
 using Core.Game.Chunk.Dungeon.Data;
 using Core.Game.Chunk.Region.Data;
 using Core.Game.Chunk.Room.Data;
-using Core.Game.Chunk.Tile;
 using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World.Data;
 using GDFrameworkCore;
@@ -295,7 +294,6 @@ namespace Core.Game.View
             {
                 DefName = "新房间",
                 DefDescription = "这是一个新房间",
-                InitialEntities = new List<TileEntityData>()
             };
             
             newRoom.GenerateDefId();

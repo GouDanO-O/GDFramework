@@ -1,7 +1,6 @@
 ﻿using System;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Substance.Interface;
-using Core.Game.Chunk.Tile;
 using Core.Game.Storage;
 using GDFrameworkCore;
 using JetBrains.Annotations;
@@ -11,7 +10,7 @@ using UnityEngine;
 namespace Core.Game.Chunk.Substance.Data
 {
     [Serializable]
-    public class EntityTemporaryData : TileEntityData,IEntityTemporaryData,ICanGetSystem
+    public class EntityTemporaryData : IEntityTemporaryData,ICanGetSystem
     {
         [LabelText("实例生成时唯一ID(如果是从池中取出,那么每次取出或回收都要置空)")]
         public string EntityInstanceId { get; set; }
@@ -41,7 +40,6 @@ namespace Core.Game.Chunk.Substance.Data
         /// <param name="instanceId"></param>
         public virtual void CreateEntityTempData(string defId, string instanceId)
         {
-            EntityDtoDefId = defId;
             CreateTime = DateTime.Now;
             LastModifyTime = DateTime.Now;
             if (instanceId == string.Empty && EntityInstanceId == string.Empty)

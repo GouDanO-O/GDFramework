@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 589795745951262351}
-  - component: {fileID: 6661613334800183256}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -40,18 +39,6 @@ RectTransform:
   m_AnchoredPosition: {x: 250, y: 62.5}
   m_SizeDelta: {x: -700, y: -275}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6661613334800183256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 42205732554334642}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b58e35a3f08a449aa7e821b12cb3cb74, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &346979385335965861
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,7 +1048,6 @@ GameObject:
   - component: {fileID: 8589480200978245646}
   - component: {fileID: 4116714375993814651}
   - component: {fileID: 1059570998969027765}
-  - component: {fileID: 4721565781179084797}
   m_Layer: 0
   m_Name: MapNodePrefab
   m_TagString: Untagged
@@ -1157,20 +1143,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &4721565781179084797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1599989597529392016}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a759944a63a9440aa3d70955eb59a7e9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dragSmoothness: 0.1
-  dragAlpha: 0.6
 --- !u!1 &1695150246781961897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1433,7 +1405,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000033549026}
+  m_AnchoredPosition: {x: 0, y: 0.00010504803}
   m_SizeDelta: {x: 0, y: 750}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3841471415784109327
@@ -2774,7 +2746,7 @@ GameObject:
   - component: {fileID: 8836930399355838969}
   - component: {fileID: 8933352517022610463}
   m_Layer: 0
-  m_Name: AddNewDungeonButton
+  m_Name: AddNewRoomButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3173,9 +3145,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 958986187128338660}
-  - component: {fileID: -2280332959446735912}
+  - component: {fileID: -1905382566919168713}
   m_Layer: 5
-  m_Name: UI_Editor_RegionPanel
+  m_Name: UI_Editor_DungeonPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3201,7 +3173,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &-2280332959446735912
+--- !u!114 &-1905382566919168713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3210,7 +3182,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4385277408006650482}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aad637020923b5c49bc7c95b9061ad3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 2ae80b1b0acf808429e5bb5ea25c65b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4407262521270115711
@@ -3603,7 +3575,6 @@ GameObject:
   - component: {fileID: 4919255187091715962}
   - component: {fileID: 8098252450956840033}
   - component: {fileID: 4699915768653048199}
-  - component: {fileID: 8097556376201963225}
   m_Layer: 0
   m_Name: BasicInfoView
   m_TagString: Untagged
@@ -3700,18 +3671,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &8097556376201963225
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5091338173877483557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd019cdc686443a897cb46e6a9783229, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5471034051026736482
 GameObject:
   m_ObjectHideFlags: 0
@@ -4853,7 +4812,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u521B\u5EFA\u65B0\u526F\u672C"
+  m_text: "\u521B\u5EFA\u65B0\u533A\u57DF"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 90d6741d1f07d584eb4f03a7bafd38ca, type: 2}
   m_sharedMaterial: {fileID: -445446850462682120, guid: 90d6741d1f07d584eb4f03a7bafd38ca, type: 2}

@@ -70,6 +70,7 @@ namespace Core.Game.View
 		
 		protected override void OnOpen(IUIData uiData = null)
 		{
+			RefreshRegionData();
 		}
 		
 		protected override void OnShow()
@@ -82,6 +83,16 @@ namespace Core.Game.View
 		
 		protected override void OnClose()
 		{
+		}
+
+		/// <summary>
+		/// 刷新区域数据
+		/// </summary>
+		private void RefreshRegionData()
+		{
+			_curFocusRegion = _editorDataManager.GetFocusedRegion();
+			_regionDetailShow.UpdateDetailShow(_curFocusRegion);
+			_regionMap.ShowMap(_curFocusRegion);
 		}
 		
 		/// <summary>

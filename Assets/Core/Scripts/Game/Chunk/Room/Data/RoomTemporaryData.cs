@@ -2,28 +2,53 @@
 using System.Collections.Generic;
 using Core.Game.Chunk.Data;
 using Core.Game.Chunk.Substance.Data;
-using Core.Game.Chunk.Tile;
 using Newtonsoft.Json;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Core.Game.Chunk.Room.Data
 {
     [Serializable,JsonObject]
     public class RoomTemporaryData  : ChunkTemporaryData
     {
+        [LabelText("瓦片地图数据")]
+        public Dictionary<string, TileData> TileMap;
+        
+        [LabelText("放置的物体列表")]
+        public List<PlaceableObjectData> PlacedObjects;
+        
+        [LabelText("光照级别(0-10)")]
+        [Range(0, 10)]
+        public int LightLevel = 5;
+
+        public RoomTemporaryData() : base()
+        {
+            TileMap = new Dictionary<string, TileData>();
+            PlacedObjects = new List<PlaceableObjectData>();
+            LightLevel = 5;
+        }
+
+        public RoomTemporaryData(string defId) : base(defId)
+        {
+            TileMap = new Dictionary<string, TileData>();
+            PlacedObjects = new List<PlaceableObjectData>();
+            LightLevel = 5;
+        }
+
         /// <summary>
-        /// 所有瓦片的运行时状态(完整数据)
-        /// Key: "x_y"
+        /// 获取瓦片键
         /// </summary>
-        public Dictionary<string, TileData> Tiles = new Dictionary<string, TileData>();
-        
+        public static string GetTileKey(int x, int y)
+        {
+            return $"{x}_{y}";
+        }
+
         /// <summary>
-        /// 所有实体的运行时状态(完整数据)
-        /// Key: 实体的唯一ID
+        /// 获取瓦片键
         /// </summary>
-        public Dictionary<string, EntityData> Entities = new Dictionary<string, EntityData>();
-        
-        
-        public RoomTemporaryData() : base() { }
-        public RoomTemporaryData(string defId) : base(defId) { }
+        public static string GetTileKey(Vector2Int pos)
+        {
+            return GetTileKey(pos.x, pos.y);
+        }
     }
 }

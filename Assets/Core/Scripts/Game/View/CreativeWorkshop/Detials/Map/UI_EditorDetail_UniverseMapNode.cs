@@ -17,6 +17,10 @@ namespace Core.Game.View.Details
             _universeMap = map as UI_EditorDetail_UniverseMap;
         }
 
+        /// <summary>
+        /// 更新焦点世界
+        /// 管理节点选择
+        /// </summary>
         protected override void OnNodeSelected()
         {
             editorDataManager.UpdateFocusedWorld(GetDtoDef());
