@@ -47,3 +47,15 @@
 /GDFrameworkExtend.CoreKit.CoreKit.csproj
 /GDFrameworkExtend.CoreKit.csproj
 /GDFrameworkExtend.csproj
+/Luban.Editor.csproj
+/Luban.Runtime.csproj
+/NodeCanvas.csproj
+/packages.config
+/ParadoxNotion.csproj
+/UniTask.csproj
+/UniTask.DOTween.csproj
+/UniTask.Editor.csproj
+/UniTask.Linq.csproj
+/UniTask.TextMeshPro.csproj
+/UniTask.Addressables.csproj
+/FlowCanvas.csproj
