@@ -1,10 +1,10 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Core.Game.Chunk.Grid
+namespace Core.Game.Grid
 {
     /// <summary>
-    /// 3D房间网格坐标
+    /// 3D网格坐标
     /// </summary>
     [Serializable]
     public struct GridPosition : IEquatable<GridPosition>
@@ -21,11 +21,37 @@ namespace Core.Game.Chunk.Grid
         }
 
         public static GridPosition Zero => new GridPosition(0, 0, 0);
+        public static GridPosition One => new GridPosition(1, 1, 1);
 
         /// <summary>
-        /// 转换为世界坐标
+        /// 六个基本方向
+        /// </summary>
+        public static readonly GridPosition[] Directions = new[]
+        {
+            new GridPosition(1, 0, 0),   // 右
+            new GridPosition(-1, 0, 0),  // 左
+            new GridPosition(0, 1, 0),   // 上
+            new GridPosition(0, -1, 0),  // 下
+            new GridPosition(0, 0, 1),   // 前
+            new GridPosition(0, 0, -1)   // 后
+        };
+
+        /// <summary>
+        /// 转换为世界坐标(中心点)
         /// </summary>
         public Vector3 ToWorldPosition(float cellSize = 1f)
+        {
+            return new Vector3(
+                (X + 0.5f) * cellSize, 
+                (Y + 0.5f) * cellSize, 
+                (Z + 0.5f) * cellSize
+            );
+        }
+
+        /// <summary>
+        /// 转换为世界坐标(角点)
+        /// </summary>
+        public Vector3 ToWorldPositionCorner(float cellSize = 1f)
         {
             return new Vector3(X * cellSize, Y * cellSize, Z * cellSize);
         }
@@ -62,19 +88,27 @@ namespace Core.Game.Chunk.Grid
         }
 
         /// <summary>
+        /// 切比雪夫距离(对角距离)
+        /// </summary>
+        public int ChebyshevDistance(GridPosition other)
+        {
+            return Mathf.Max(
+                Mathf.Abs(X - other.X),
+                Mathf.Max(Mathf.Abs(Y - other.Y), Mathf.Abs(Z - other.Z))
+            );
+        }
+
+        /// <summary>
         /// 获取相邻的6个方向位置
         /// </summary>
         public GridPosition[] GetNeighbors()
         {
-            return new[]
+            var neighbors = new GridPosition[6];
+            for (int i = 0; i < 6; i++)
             {
-                new GridPosition(X + 1, Y, Z),  // 右
-                new GridPosition(X - 1, Y, Z),  // 左
-                new GridPosition(X, Y + 1, Z),  // 上
-                new GridPosition(X, Y - 1, Z),  // 下
-                new GridPosition(X, Y, Z + 1),  // 前
-                new GridPosition(X, Y, Z - 1)   // 后
-            };
+                neighbors[i] = this + Directions[i];
+            }
+            return neighbors;
         }
 
         /// <summary>
@@ -98,6 +132,16 @@ namespace Core.Game.Chunk.Grid
             }
             
             return neighbors;
+        }
+
+        /// <summary>
+        /// 检查是否在指定范围内
+        /// </summary>
+        public bool IsInBounds(Vector3Int size)
+        {
+            return X >= 0 && X < size.x &&
+                   Y >= 0 && Y < size.y &&
+                   Z >= 0 && Z < size.z;
         }
 
         public bool Equals(GridPosition other)
@@ -145,6 +189,11 @@ namespace Core.Game.Chunk.Grid
         public static GridPosition operator -(GridPosition a, GridPosition b)
         {
             return new GridPosition(a.X - b.X, a.Y - b.Y, a.Z - b.Z);
+        }
+
+        public static GridPosition operator *(GridPosition a, int scalar)
+        {
+            return new GridPosition(a.X * scalar, a.Y * scalar, a.Z * scalar);
         }
     }
 }

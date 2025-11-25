@@ -1,11 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-namespace Core.Game.Chunk.Grid
+namespace Core.Game.Grid
 {
     /// <summary>
-    /// 3D房间网格系统
+    /// 网格统计信息
+    /// </summary>
+    [Serializable]
+    public struct GridStatistics
+    {
+        public int TotalCells;
+        public int EmptyCells;
+        public int FloorCells;
+        public int WallCells;
+        public int OccupiedCells;
+        public int WalkableCells;
+        public int PlaceableCells;
+        public int OccupiedObjects;
+
+        public override string ToString()
+        {
+            return $"Grid Stats - Total:{TotalCells}, Floor:{FloorCells}, Wall:{WallCells}, " +
+                   $"Occupied:{OccupiedCells}/{OccupiedObjects} objects, " +
+                   $"Walkable:{WalkableCells}, Placeable:{PlaceableCells}";
+        }
+    }
+
+    /// <summary>
+    /// 3D网格系统核心
     /// </summary>
     public class Grid3D
     {
@@ -25,23 +49,40 @@ namespace Core.Game.Chunk.Grid
         public Vector3 Origin { get; private set; }
 
         /// <summary>
+        /// 总单元格数量
+        /// </summary>
+        public int TotalCellCount => Size.x * Size.y * Size.z;
+
+        /// <summary>
         /// 所有单元格 [x, y, z]
         /// </summary>
         private GridCell[,,] _cells;
 
         /// <summary>
-        /// 单元格字典(快速查找)
+        /// 单元格字典(用于快速查找)
         /// </summary>
         private Dictionary<GridPosition, GridCell> _cellDict;
 
+        /// <summary>
+        /// 占用对象映射表 (objectId -> List<GridPosition>)
+        /// </summary>
+        private Dictionary<string, List<GridPosition>> _occupationMap;
+
         public Grid3D(Vector3Int size, float cellSize, Vector3 origin)
         {
+            if (size.x <= 0 || size.y <= 0 || size.z <= 0)
+                throw new ArgumentException("Grid size must be positive");
+            
+            if (cellSize <= 0)
+                throw new ArgumentException("Cell size must be positive");
+
             Size = size;
             CellSize = cellSize;
             Origin = origin;
             
             _cells = new GridCell[size.x, size.y, size.z];
             _cellDict = new Dictionary<GridPosition, GridCell>();
+            _occupationMap = new Dictionary<string, List<GridPosition>>();
             
             InitializeGrid();
         }
@@ -58,13 +99,15 @@ namespace Core.Game.Chunk.Grid
                     for (int z = 0; z < Size.z; z++)
                     {
                         var pos = new GridPosition(x, y, z);
-                        var cell = new GridCell(pos, EGridCellType.Empty, CellSize);
+                        var cell = new GridCell(pos, GridCellType.Empty, CellSize);
                         _cells[x, y, z] = cell;
                         _cellDict[pos] = cell;
                     }
                 }
             }
         }
+
+        #region 基础查询
 
         /// <summary>
         /// 坐标是否在网格范围内
@@ -98,22 +141,34 @@ namespace Core.Game.Chunk.Grid
         }
 
         /// <summary>
+        /// 获取所有单元格
+        /// </summary>
+        public IEnumerable<GridCell> GetAllCells()
+        {
+            return _cellDict.Values;
+        }
+
+        #endregion
+
+        #region 单元格类型操作
+
+        /// <summary>
         /// 设置单元格类型
         /// </summary>
-        public bool SetCellType(GridPosition pos, EGridCellType type)
+        public bool SetCellType(GridPosition pos, GridCellType type)
         {
             var cell = GetCell(pos);
-            if (cell == null)
+            if (cell == null || cell.IsLocked)
                 return false;
             
-            cell.CellType = type;
+            cell.SetCellType(type);
             return true;
         }
 
         /// <summary>
         /// 批量设置单元格类型
         /// </summary>
-        public void SetCellTypeRange(IEnumerable<GridPosition> positions, EGridCellType type)
+        public void SetCellTypeRange(IEnumerable<GridPosition> positions, GridCellType type)
         {
             foreach (var pos in positions)
             {
@@ -122,12 +177,35 @@ namespace Core.Game.Chunk.Grid
         }
 
         /// <summary>
-        /// 占用单元格
+        /// 设置区域的单元格类型
+        /// </summary>
+        public void SetCellTypeArea(GridPosition startPos, Vector3Int areaSize, GridCellType type)
+        {
+            var positions = GetPositionsInArea(startPos, areaSize);
+            SetCellTypeRange(positions, type);
+        }
+
+        #endregion
+
+        #region 占用管理
+
+        /// <summary>
+        /// 占用单个单元格
         /// </summary>
         public bool TryOccupyCell(GridPosition pos, string objectId)
         {
             var cell = GetCell(pos);
-            return cell != null && cell.TryOccupy(objectId);
+            if (cell == null || !cell.TryOccupy(objectId))
+                return false;
+
+            // 记录占用关系
+            if (!_occupationMap.ContainsKey(objectId))
+            {
+                _occupationMap[objectId] = new List<GridPosition>();
+            }
+            _occupationMap[objectId].Add(pos);
+
+            return true;
         }
 
         /// <summary>
@@ -135,32 +213,55 @@ namespace Core.Game.Chunk.Grid
         /// </summary>
         public bool TryOccupyCells(IEnumerable<GridPosition> positions, string objectId)
         {
+            var posList = positions.ToList();
+            
             // 先检查所有格子是否可占用
-            var cellList = new List<GridCell>();
-            foreach (var pos in positions)
+            foreach (var pos in posList)
             {
                 var cell = GetCell(pos);
                 if (cell == null || !cell.IsPlaceable)
                     return false;
-                cellList.Add(cell);
             }
 
             // 全部可占用,执行占用
-            foreach (var cell in cellList)
+            foreach (var pos in posList)
             {
-                cell.TryOccupy(objectId);
+                TryOccupyCell(pos, objectId);
             }
 
             return true;
         }
 
         /// <summary>
-        /// 释放单元格
+        /// 占用区域
+        /// </summary>
+        public bool TryOccupyArea(GridPosition startPos, Vector3Int areaSize, string objectId)
+        {
+            var positions = GetPositionsInArea(startPos, areaSize);
+            return TryOccupyCells(positions, objectId);
+        }
+
+        /// <summary>
+        /// 释放单个单元格
         /// </summary>
         public void ReleaseCell(GridPosition pos)
         {
             var cell = GetCell(pos);
-            cell?.Release();
+            if (cell == null || !cell.IsOccupied)
+                return;
+
+            string objectId = cell.OccupyingObjectId;
+            cell.Release();
+
+            // 从占用映射中移除
+            if (_occupationMap.ContainsKey(objectId))
+            {
+                _occupationMap[objectId].Remove(pos);
+                if (_occupationMap[objectId].Count == 0)
+                {
+                    _occupationMap.Remove(objectId);
+                }
+            }
         }
 
         /// <summary>
@@ -168,13 +269,56 @@ namespace Core.Game.Chunk.Grid
         /// </summary>
         public void ReleaseCellsByObject(string objectId)
         {
-            foreach (var cell in _cellDict.Values)
+            if (!_occupationMap.ContainsKey(objectId))
+                return;
+
+            var positions = new List<GridPosition>(_occupationMap[objectId]);
+            foreach (var pos in positions)
             {
-                if (cell.IsOccupiedBy(objectId))
-                {
-                    cell.Release();
-                }
+                ReleaseCell(pos);
             }
+        }
+
+        /// <summary>
+        /// 获取物体占用的所有位置
+        /// </summary>
+        public List<GridPosition> GetObjectOccupiedPositions(string objectId)
+        {
+            if (_occupationMap.TryGetValue(objectId, out var positions))
+            {
+                return new List<GridPosition>(positions);
+            }
+            return new List<GridPosition>();
+        }
+
+        /// <summary>
+        /// 检查物体是否存在
+        /// </summary>
+        public bool HasObject(string objectId)
+        {
+            return _occupationMap.ContainsKey(objectId);
+        }
+
+        #endregion
+
+        #region 区域检查
+
+        /// <summary>
+        /// 检查位置是否可通行
+        /// </summary>
+        public bool IsWalkable(GridPosition pos)
+        {
+            var cell = GetCell(pos);
+            return cell != null && cell.IsWalkable;
+        }
+
+        /// <summary>
+        /// 检查位置是否可放置
+        /// </summary>
+        public bool IsPlaceable(GridPosition pos)
+        {
+            var cell = GetCell(pos);
+            return cell != null && cell.IsPlaceable;
         }
 
         /// <summary>
@@ -194,8 +338,7 @@ namespace Core.Game.Chunk.Grid
                             startPos.Z + z
                         );
                         
-                        var cell = GetCell(checkPos);
-                        if (cell == null || !cell.IsPlaceable)
+                        if (!IsPlaceable(checkPos))
                             return false;
                     }
                 }
@@ -204,11 +347,24 @@ namespace Core.Game.Chunk.Grid
         }
 
         /// <summary>
-        /// 获取区域内的所有单元格
+        /// 检查区域是否可通行
         /// </summary>
-        public List<GridCell> GetCellsInArea(GridPosition startPos, Vector3Int areaSize)
+        public bool IsAreaWalkable(GridPosition startPos, Vector3Int areaSize)
         {
-            var cells = new List<GridCell>();
+            var positions = GetPositionsInArea(startPos, areaSize);
+            return positions.All(pos => IsWalkable(pos));
+        }
+
+        #endregion
+
+        #region 区域查询
+
+        /// <summary>
+        /// 获取区域内的所有位置
+        /// </summary>
+        public List<GridPosition> GetPositionsInArea(GridPosition startPos, Vector3Int areaSize)
+        {
+            var positions = new List<GridPosition>();
             
             for (int x = 0; x < areaSize.x; x++)
             {
@@ -222,28 +378,30 @@ namespace Core.Game.Chunk.Grid
                             startPos.Z + z
                         );
                         
-                        var cell = GetCell(pos);
-                        if (cell != null)
-                            cells.Add(cell);
+                        if (IsInBounds(pos))
+                            positions.Add(pos);
                     }
                 }
             }
             
-            return cells;
+            return positions;
+        }
+
+        /// <summary>
+        /// 获取区域内的所有单元格
+        /// </summary>
+        public List<GridCell> GetCellsInArea(GridPosition startPos, Vector3Int areaSize)
+        {
+            var positions = GetPositionsInArea(startPos, areaSize);
+            return positions.Select(pos => GetCell(pos)).Where(cell => cell != null).ToList();
         }
 
         /// <summary>
         /// 获取所有特定类型的单元格
         /// </summary>
-        public List<GridCell> GetCellsByType(EGridCellType type)
+        public List<GridCell> GetCellsByType(GridCellType type)
         {
-            var result = new List<GridCell>();
-            foreach (var cell in _cellDict.Values)
-            {
-                if (cell.CellType == type)
-                    result.Add(cell);
-            }
-            return result;
+            return _cellDict.Values.Where(cell => cell.CellType == type).ToList();
         }
 
         /// <summary>
@@ -251,26 +409,39 @@ namespace Core.Game.Chunk.Grid
         /// </summary>
         public List<GridCell> GetWalkableCells()
         {
-            var result = new List<GridCell>();
-            foreach (var cell in _cellDict.Values)
-            {
-                if (cell.IsWalkable)
-                    result.Add(cell);
-            }
-            return result;
+            return _cellDict.Values.Where(cell => cell.IsWalkable).ToList();
         }
 
         /// <summary>
-        /// 清空网格(重置所有单元格)
+        /// 获取所有可放置的单元格
         /// </summary>
-        public void Clear()
+        public List<GridCell> GetPlaceableCells()
         {
-            foreach (var cell in _cellDict.Values)
-            {
-                cell.CellType = EGridCellType.Empty;
-                cell.Release();
-            }
+            return _cellDict.Values.Where(cell => cell.IsPlaceable).ToList();
         }
+
+        /// <summary>
+        /// 获取指定层的所有单元格
+        /// </summary>
+        public List<GridCell> GetCellsAtLevel(int y)
+        {
+            if (y < 0 || y >= Size.y)
+                return new List<GridCell>();
+
+            var cells = new List<GridCell>();
+            for (int x = 0; x < Size.x; x++)
+            {
+                for (int z = 0; z < Size.z; z++)
+                {
+                    cells.Add(_cells[x, y, z]);
+                }
+            }
+            return cells;
+        }
+
+        #endregion
+
+        #region 坐标转换
 
         /// <summary>
         /// 世界坐标转网格坐标
@@ -282,11 +453,19 @@ namespace Core.Game.Chunk.Grid
         }
 
         /// <summary>
-        /// 网格坐标转世界坐标
+        /// 网格坐标转世界坐标(中心点)
         /// </summary>
         public Vector3 GridToWorld(GridPosition gridPos)
         {
             return Origin + gridPos.ToWorldPosition(CellSize);
+        }
+
+        /// <summary>
+        /// 网格坐标转世界坐标(角点)
+        /// </summary>
+        public Vector3 GridToWorldCorner(GridPosition gridPos)
+        {
+            return Origin + gridPos.ToWorldPositionCorner(CellSize);
         }
 
         /// <summary>
@@ -300,5 +479,54 @@ namespace Core.Game.Chunk.Grid
                 Size.z * CellSize * 0.5f
             );
         }
+
+        /// <summary>
+        /// 获取网格边界
+        /// </summary>
+        public Bounds GetBounds()
+        {
+            Vector3 size = new Vector3(Size.x * CellSize, Size.y * CellSize, Size.z * CellSize);
+            Vector3 center = Origin + size * 0.5f;
+            return new Bounds(center, size);
+        }
+
+        #endregion
+
+        #region 工具方法
+
+        /// <summary>
+        /// 清空网格(重置所有单元格)
+        /// </summary>
+        public void Clear()
+        {
+            foreach (var cell in _cellDict.Values)
+            {
+                if (!cell.IsLocked)
+                {
+                    cell.Reset();
+                }
+            }
+            _occupationMap.Clear();
+        }
+
+        /// <summary>
+        /// 获取统计信息
+        /// </summary>
+        public GridStatistics GetStatistics()
+        {
+            return new GridStatistics
+            {
+                TotalCells = TotalCellCount,
+                EmptyCells = GetCellsByType(GridCellType.Empty).Count,
+                FloorCells = GetCellsByType(GridCellType.Floor).Count,
+                WallCells = GetCellsByType(GridCellType.Wall).Count,
+                OccupiedCells = GetCellsByType(GridCellType.Object).Count,
+                WalkableCells = GetWalkableCells().Count,
+                PlaceableCells = GetPlaceableCells().Count,
+                OccupiedObjects = _occupationMap.Count
+            };
+        }
+
+        #endregion
     }
 }
