@@ -1,20 +1,12 @@
 using System.Collections.Generic;
 using Core.Game.Chunk.Universe.Data;
-using Core.Game.Chunk.World.Data;
 using Core.Game.View.Details;
-using Cysharp.Threading.Tasks;
-using GDFramework.FrameData;
-using GDFramework.Resource;
-using GDFramework.Utility;
 using GDFrameworkCore;
-using GDFrameworkExtend.ActionKit;
 using GDFrameworkExtend.FluentAPI;
 using GDFrameworkExtend.LogKit;
-using GDFrameworkExtend.ResKit;
 using UnityEngine;
 using UnityEngine.UI;
 using GDFrameworkExtend.UIKit;
-using TMPro;
 
 namespace Core.Game.View
 {

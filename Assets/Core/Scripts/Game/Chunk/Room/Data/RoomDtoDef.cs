@@ -23,9 +23,6 @@ namespace Core.Game.Chunk.Room.Data
         
         [LabelText("是否包含户外区域")]
         public bool HasOutdoorArea;
-        
-        [LabelText("默认地板类型")]
-        public ETileType DefaultFloorType = ETileType.Floor;
 
         public override string GetTypePrefix()
         {

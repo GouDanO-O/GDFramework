@@ -13,8 +13,6 @@ namespace GDFramework.FrameData
            public struct ChunkDataAssetGroup
            {
                public const string BundleName = "defaultpackage_core_res_configs_chunkdata";
-               public const string Universe_DEF_4827DD95 = "yoo:Universe_DEF_4827DD95";
-               public const string Universe_DEF_8F48F56E = "yoo:Universe_DEF_8F48F56E";
            }
 
            public struct GameInputAssetGroup
@@ -27,6 +25,11 @@ namespace GDFramework.FrameData
            {
                public const string BundleName = "defaultpackage_gdframework_res_mul_tbmultilingual.json";
                public const string Tbmultilingual = "yoo:Tbmultilingual";
+           }
+
+           public struct EntityDataAssetGroup
+           {
+               public const string BundleName = "defaultpackage_core_res_configs_entitydata";
            }
        }
 
@@ -63,10 +66,16 @@ namespace GDFramework.FrameData
                public const string UI_WorldPanel = "yoo:UI_WorldPanel";
            }
 
-           public struct UI_Editor_TotalPanelAssetGroup
+           public struct UI_Editor_UniversePanelAssetGroup
            {
-               public const string BundleName = "defaultpackage_core_res_prefabs_view_editor_ui_editor_totalpanel.prefab";
-               public const string UI_Editor_TotalPanel = "yoo:UI_Editor_TotalPanel";
+               public const string BundleName = "defaultpackage_core_res_prefabs_view_editor_ui_editor_universepanel.prefab";
+               public const string UI_Editor_UniversePanel = "yoo:UI_Editor_UniversePanel";
+           }
+
+           public struct UI_Editor_WorldPanelAssetGroup
+           {
+               public const string BundleName = "defaultpackage_core_res_prefabs_view_editor_ui_editor_worldpanel.prefab";
+               public const string UI_Editor_WorldPanel = "yoo:UI_Editor_WorldPanel";
            }
        }
 
@@ -76,7 +85,7 @@ namespace GDFramework.FrameData
            public struct DetailsAssetGroup
            {
                public const string BundleName = "defaultpackage_core_res_prefabs_view_details";
-               public const string UniverseSingleWorld = "yoo:UniverseSingleWorld";
+               public const string UI_TipsWindow = "yoo:UI_TipsWindow";
            }
        }
 
