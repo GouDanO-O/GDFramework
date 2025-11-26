@@ -8,6 +8,7 @@ using Core.Game.Chunk.Universe.Data;
 using Core.Game.Chunk.World.Data;
 using Core.Game.Procedure.Models.Resource;
 using Cysharp.Threading.Tasks;
+using GDFramework.Input;
 using GDFramework.Resource;
 using GDFramework.YooAssetKit;
 using GDFrameworkCore;
@@ -43,9 +44,10 @@ namespace Core.Game.Procedure.Resource
             _roomDataModel = this.GetModel<RoomDataModel>();
 
             _entityDataModel = this.GetModel<EntityDataModel>();
-            
+            this.GetSystem<NewInputManager>().InitActionAsset();
             await LoadAllChunkDefJson();
         }
+        
         
         private async UniTask LoadAllChunkDefJson()
         {

@@ -30,7 +30,7 @@ namespace Core.Game
         public void LoadGameSceneComplete()
         {
             LogKit.Log("世界初始化完成");
-            UIKit.OpenPanel<UI_UniversePanel>();
+            //UIKit.OpenPanel<UI_UniversePanel>();
         }
 
         public string GetCurGamingTime()
