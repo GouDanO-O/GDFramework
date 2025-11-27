@@ -1,67 +1,67 @@
 ﻿using System;
-using GDFramework.Input;
 using GDFrameworkCore;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Core.Game.Chunk.Room.Grid.Editor
 {
     /// <summary>
     /// 编辑器输入处理
-    /// 对接 NewInputManager，处理编辑器相关的输入
+    /// 使用 Unity 原生 Input 作为主要输入源
     /// </summary>
-    public class RoomGridEditorInput : ICanRegisterEvent, ICanSendEvent
+    public class RoomGridEditorInput : ICanSendEvent
     {
         #region 事件
 
         /// <summary>
-        /// 鼠标左键点击
+        /// 鼠标左键点击（单击，非拖拽）
         /// </summary>
-        public event Action<Vector3, TilePosition> OnLeftClick;
+        public event UnityAction<Vector3, TilePosition> OnLeftClick;
 
         /// <summary>
         /// 鼠标左键按下开始拖拽
         /// </summary>
-        public event Action<Vector3, TilePosition> OnLeftDragStart;
+        public event UnityAction<Vector3, TilePosition> OnLeftDragStart;
 
         /// <summary>
         /// 鼠标左键拖拽中
         /// </summary>
-        public event Action<Vector3, TilePosition> OnLeftDragging;
+        public event UnityAction<Vector3, TilePosition> OnLeftDragging;
 
         /// <summary>
         /// 鼠标左键拖拽结束
         /// </summary>
-        public event Action<Vector3, TilePosition> OnLeftDragEnd;
+        public event UnityAction<Vector3, TilePosition> OnLeftDragEnd;
 
         /// <summary>
         /// 鼠标右键点击
         /// </summary>
-        public event Action<Vector3, TilePosition> OnRightClick;
+        public event UnityAction<Vector3, TilePosition> OnRightClick;
 
         /// <summary>
         /// 鼠标移动
         /// </summary>
-        public event Action<Vector3, TilePosition> OnMouseMove;
+        public event UnityAction<Vector3, TilePosition> OnMouseMove;
 
         /// <summary>
         /// 滚轮滚动
         /// </summary>
-        public event Action<float> OnScroll;
+        public event UnityAction<float> OnScroll;
 
         /// <summary>
         /// 旋转快捷键
         /// </summary>
-        public event Action<bool> OnRotateKey;
+        public event UnityAction<bool> OnRotateKey;
 
         /// <summary>
         /// 删除快捷键
         /// </summary>
-        public event System.Action OnDeleteKey;
+        public event UnityAction OnDeleteKey;
 
         /// <summary>
         /// 取消快捷键
         /// </summary>
-        public event System.Action OnCancelKey;
+        public event UnityAction OnCancelKey;
 
         #endregion
 
@@ -102,17 +102,27 @@ namespace Core.Game.Chunk.Room.Grid.Editor
         /// </summary>
         public bool IsMouseInValidArea { get; private set; }
 
+        /// <summary>
+        /// 是否正在拖拽
+        /// </summary>
+        public bool IsDragging => _isDragging;
+
         #endregion
 
         #region 私有字段
 
         private IArchitecture _architecture;
+        
+        // 左键状态
         private bool _isLeftButtonDown;
         private bool _isDragging;
-        private Vector2 _lastMousePosition;
-        private Vector2 _dragStartMousePosition;
-        private TilePosition _lastTilePosition;
-        private float _dragThreshold = 5f; // 拖拽阈值（像素）
+        private bool _hasFiredClick; // 防止重复触发点击
+        private Vector2 _leftButtonDownMousePosition;
+        private TilePosition _leftButtonDownTilePosition;
+        private TilePosition _lastDragTilePosition;
+        
+        // 拖拽阈值（像素）
+        private float _dragThreshold = 5f;
 
         #endregion
 
@@ -136,43 +146,7 @@ namespace Core.Game.Chunk.Room.Grid.Editor
             EditorCamera = camera;
             GridConfig = config;
             
-            RegisterEvents();
             Debug.Log("[EditorInput] 初始化完成");
-        }
-
-        /// <summary>
-        /// 注册输入事件
-        /// </summary>
-        private void RegisterEvents()
-        {
-            // 鼠标左键
-            this.RegisterEvent<SInputEvent_MouseLeftClick>(OnMouseLeftClickEvent);
-            
-            // 鼠标右键
-            this.RegisterEvent<SInputEvent_MouseRightClick>(OnMouseRightClickEvent);
-            
-            // 鼠标移动/拖拽
-            this.RegisterEvent<SInputEvent_MouseDrag>(OnMouseDragEvent);
-            
-            // 鼠标中键
-            this.RegisterEvent<SInputEvent_MouseMiddleDown>(OnMouseMiddleDownEvent);
-            this.RegisterEvent<SInputEvent_MouseMiddleUp>(OnMouseMiddleUpEvent);
-            
-            // 滚轮
-            this.RegisterEvent<SInputEvent_MouseMiddleScroll>(OnMouseScrollEvent);
-        }
-
-        /// <summary>
-        /// 注销输入事件
-        /// </summary>
-        public void UnregisterEvents()
-        {
-            this.UnRegisterEvent<SInputEvent_MouseLeftClick>(OnMouseLeftClickEvent);
-            this.UnRegisterEvent<SInputEvent_MouseRightClick>(OnMouseRightClickEvent);
-            this.UnRegisterEvent<SInputEvent_MouseDrag>(OnMouseDragEvent);
-            this.UnRegisterEvent<SInputEvent_MouseMiddleDown>(OnMouseMiddleDownEvent);
-            this.UnRegisterEvent<SInputEvent_MouseMiddleUp>(OnMouseMiddleUpEvent);
-            this.UnRegisterEvent<SInputEvent_MouseMiddleScroll>(OnMouseScrollEvent);
         }
 
         /// <summary>
@@ -180,158 +154,133 @@ namespace Core.Game.Chunk.Room.Grid.Editor
         /// </summary>
         public void Dispose()
         {
-            UnregisterEvents();
+            _isLeftButtonDown = false;
+            _isDragging = false;
+            _hasFiredClick = false;
         }
 
         #endregion
 
-        #region 事件处理
-
-        private void OnMouseLeftClickEvent(SInputEvent_MouseLeftClick evt)
-        {
-            if (!InputEnabled) return;
-
-            // 使用 Unity 的 Input.mousePosition 获取当前鼠标位置
-            Vector2 mousePos = Input.mousePosition;
-            UpdateMousePosition(mousePos);
-
-            Debug.Log($"[EditorInput] 左键点击 - 屏幕位置: {mousePos}, 世界位置: {CurrentWorldPosition}, 地块位置: {CurrentTilePosition}, 有效: {IsMouseInValidArea}");
-
-            if (!IsMouseInValidArea)
-            {
-                Debug.Log("[EditorInput] 点击位置无效，忽略");
-                return;
-            }
-
-            // 触发点击事件
-            OnLeftClick?.Invoke(CurrentWorldPosition, CurrentTilePosition);
-        }
-
-        private void OnMouseRightClickEvent(SInputEvent_MouseRightClick evt)
-        {
-            if (!InputEnabled) return;
-
-            Vector2 mousePos = Input.mousePosition;
-            UpdateMousePosition(mousePos);
-
-            Debug.Log($"[EditorInput] 右键点击 - 地块位置: {CurrentTilePosition}");
-
-            OnRightClick?.Invoke(CurrentWorldPosition, CurrentTilePosition);
-        }
-
-        private void OnMouseDragEvent(SInputEvent_MouseDrag evt)
-        {
-            if (!InputEnabled) return;
-
-            Vector2 mousePos = evt.mousePos;
-            
-            // 如果是零向量，使用 Input.mousePosition
-            if (mousePos == Vector2.zero)
-            {
-                mousePos = Input.mousePosition;
-            }
-
-            UpdateMousePosition(mousePos);
-            
-            // 触发鼠标移动事件
-            OnMouseMove?.Invoke(CurrentWorldPosition, CurrentTilePosition);
-
-            // 处理左键拖拽（使用 Unity Input 检测按键状态）
-            if (Input.GetMouseButton(0)) // 左键按住
-            {
-                if (!_isLeftButtonDown)
-                {
-                    // 开始按住
-                    _isLeftButtonDown = true;
-                    _dragStartMousePosition = mousePos;
-                    _lastTilePosition = CurrentTilePosition;
-                    
-                    Debug.Log($"[EditorInput] 开始按住左键 - 位置: {CurrentTilePosition}");
-                }
-                else if (!_isDragging)
-                {
-                    // 检查是否超过拖拽阈值
-                    float distance = Vector2.Distance(mousePos, _dragStartMousePosition);
-                    if (distance > _dragThreshold)
-                    {
-                        _isDragging = true;
-                        
-                        // 转换起始位置
-                        var startWorldPos = ScreenToWorldPosition(_dragStartMousePosition);
-                        var startTilePos = WorldToTilePosition(startWorldPos);
-                        
-                        Debug.Log($"[EditorInput] 开始拖拽 - 起始位置: {startTilePos}");
-                        OnLeftDragStart?.Invoke(startWorldPos, startTilePos);
-                    }
-                }
-                else
-                {
-                    // 拖拽中 - 只有位置变化时才触发
-                    if (CurrentTilePosition != _lastTilePosition)
-                    {
-                        _lastTilePosition = CurrentTilePosition;
-                        OnLeftDragging?.Invoke(CurrentWorldPosition, CurrentTilePosition);
-                    }
-                }
-            }
-            else
-            {
-                // 左键释放
-                if (_isDragging)
-                {
-                    Debug.Log($"[EditorInput] 拖拽结束 - 位置: {CurrentTilePosition}");
-                    _isDragging = false;
-                    OnLeftDragEnd?.Invoke(CurrentWorldPosition, CurrentTilePosition);
-                }
-                _isLeftButtonDown = false;
-            }
-
-            _lastMousePosition = mousePos;
-        }
-
-        private void OnMouseMiddleDownEvent(SInputEvent_MouseMiddleDown evt)
-        {
-            // 中键按下，可用于相机拖拽（由相机控制器处理）
-        }
-
-        private void OnMouseMiddleUpEvent(SInputEvent_MouseMiddleUp evt)
-        {
-            // 中键释放
-        }
-
-        private void OnMouseScrollEvent(SInputEvent_MouseMiddleScroll evt)
-        {
-            if (!InputEnabled) return;
-
-            float scrollValue = evt.scrollValue.y;
-            OnScroll?.Invoke(scrollValue);
-        }
-
-        #endregion
-
-        #region Update（需要在MonoBehaviour中调用）
+        #region Update
 
         /// <summary>
         /// 更新输入（需要每帧调用）
         /// </summary>
         public void Update()
         {
-            if (!InputEnabled) return;
+            if (!InputEnabled) 
+                return;
 
-            // 持续更新鼠标位置
+            // 更新鼠标世界坐标
             UpdateMousePosition(Input.mousePosition);
             
-            // 更新键盘输入
-            UpdateKeyboardInput();
+            // 处理鼠标输入
+            HandleMouseInput();
+            
+            // 处理键盘输入
+            HandleKeyboardInput();
+            
+            // 触发鼠标移动事件
+            OnMouseMove?.Invoke(CurrentWorldPosition, CurrentTilePosition);
         }
 
         /// <summary>
-        /// 更新键盘输入
+        /// 处理鼠标输入
         /// </summary>
-        public void UpdateKeyboardInput()
+        private void HandleMouseInput()
         {
-            if (!InputEnabled) return;
+            // === 左键按下 ===
+            if (Input.GetMouseButtonDown(0))
+            {
+                _isLeftButtonDown = true;
+                _isDragging = false;
+                _hasFiredClick = false;
+                _leftButtonDownMousePosition = Input.mousePosition;
+                _leftButtonDownTilePosition = CurrentTilePosition;
+                _lastDragTilePosition = CurrentTilePosition;
+            }
+            
+            // === 左键保持按住 ===
+            if (Input.GetMouseButton(0) && _isLeftButtonDown)
+            {
+                if (!_isDragging)
+                {
+                    // 检查是否超过拖拽阈值
+                    float distance = Vector2.Distance(Input.mousePosition, _leftButtonDownMousePosition);
+                    if (distance > _dragThreshold)
+                    {
+                        // 开始拖拽
+                        _isDragging = true;
+                        
+                        Debug.Log($"[EditorInput] 开始拖拽 - 起始: {_leftButtonDownTilePosition}");
+                        OnLeftDragStart?.Invoke(
+                            GridConfig.TileToWorld(_leftButtonDownTilePosition), 
+                            _leftButtonDownTilePosition
+                        );
+                        
+                        // 立即触发当前位置的拖拽事件
+                        _lastDragTilePosition = _leftButtonDownTilePosition;
+                        OnLeftDragging?.Invoke(CurrentWorldPosition, CurrentTilePosition);
+                    }
+                }
+                else
+                {
+                    // 拖拽中 - 每次位置变化都触发
+                    if (CurrentTilePosition != _lastDragTilePosition)
+                    {
+                        _lastDragTilePosition = CurrentTilePosition;
+                        OnLeftDragging?.Invoke(CurrentWorldPosition, CurrentTilePosition);
+                    }
+                }
+            }
+            
+            // === 左键释放 ===
+            if (Input.GetMouseButtonUp(0))
+            {
+                if (_isLeftButtonDown)
+                {
+                    if (_isDragging)
+                    {
+                        // 拖拽结束
+                        Debug.Log($"[EditorInput] 拖拽结束 - 终点: {CurrentTilePosition}");
+                        OnLeftDragEnd?.Invoke(CurrentWorldPosition, CurrentTilePosition);
+                    }
+                    else if (!_hasFiredClick)
+                    {
+                        // 单击（未达到拖拽阈值且未触发过点击）
+                        if (IsMouseInValidArea)
+                        {
+                            Debug.Log($"[EditorInput] 左键单击 - 位置: {CurrentTilePosition}");
+                            OnLeftClick?.Invoke(CurrentWorldPosition, CurrentTilePosition);
+                            _hasFiredClick = true;
+                        }
+                    }
+                }
+                
+                _isLeftButtonDown = false;
+                _isDragging = false;
+            }
 
+            // === 右键点击 ===
+            if (Input.GetMouseButtonDown(1))
+            {
+                Debug.Log($"[EditorInput] 右键点击 - 位置: {CurrentTilePosition}");
+                OnRightClick?.Invoke(CurrentWorldPosition, CurrentTilePosition);
+            }
+
+            // === 滚轮 ===
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (Mathf.Abs(scroll) > 0.001f)
+            {
+                OnScroll?.Invoke(scroll * 10f);
+            }
+        }
+
+        /// <summary>
+        /// 处理键盘输入
+        /// </summary>
+        private void HandleKeyboardInput()
+        {
             // R键 - 旋转
             if (Input.GetKeyDown(KeyCode.R))
             {
@@ -339,7 +288,7 @@ namespace Core.Game.Chunk.Room.Grid.Editor
                 OnRotateKey?.Invoke(clockwise);
             }
 
-            // Delete键 - 删除
+            // Delete/Backspace键 - 删除
             if (Input.GetKeyDown(KeyCode.Delete) || Input.GetKeyDown(KeyCode.Backspace))
             {
                 OnDeleteKey?.Invoke();
@@ -351,8 +300,7 @@ namespace Core.Game.Chunk.Room.Grid.Editor
                 OnCancelKey?.Invoke();
             }
 
-            // 画笔大小快捷键
-            // [ 减小, ] 增大
+            // [ 和 ] 调整画笔大小
             if (Input.GetKeyDown(KeyCode.LeftBracket))
             {
                 OnScroll?.Invoke(-1f);
@@ -384,14 +332,10 @@ namespace Core.Game.Chunk.Room.Grid.Editor
         {
             if (EditorCamera == null)
             {
-                Debug.LogWarning("[EditorInput] EditorCamera is null");
                 return Vector3.zero;
             }
 
-            // 创建一个从相机发出的射线
             Ray ray = EditorCamera.ScreenPointToRay(screenPos);
-
-            // 与地面平面相交
             Plane groundPlane = new Plane(Vector3.up, new Vector3(0, GroundHeight, 0));
             
             if (groundPlane.Raycast(ray, out float distance))

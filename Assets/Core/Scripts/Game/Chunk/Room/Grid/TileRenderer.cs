@@ -1,11 +1,55 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Core.Game.Chunk.Room.Grid.Editor;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Core.Game.Chunk.Room.Grid
+namespace Core.Game.Chunk.Room.Grid.Renderer
 {
-/// <summary>
+    /// <summary>
+    /// 地块材质配置
+    /// </summary>
+    [Serializable]
+    public class TileMaterialConfig
+    {
+        [LabelText("地块类型")]
+        public TileType TileType;
+        
+        [LabelText("材质")]
+        public Material Material;
+        
+        [LabelText("UV缩放")]
+        public Vector2 UVScale = Vector2.one;
+        
+        [LabelText("UV偏移")]
+        public Vector2 UVOffset = Vector2.zero;
+        
+        [LabelText("顶点颜色")]
+        public Color VertexColor = Color.white;
+    }
+
+    /// <summary>
+    /// 地块网格数据（用于合并）
+    /// </summary>
+    public class TileMeshData
+    {
+        public List<Vector3> Vertices = new List<Vector3>();
+        public List<int> Triangles = new List<int>();
+        public List<Vector2> UVs = new List<Vector2>();
+        public List<Color> Colors = new List<Color>();
+        public List<Vector3> Normals = new List<Vector3>();
+        
+        public void Clear()
+        {
+            Vertices.Clear();
+            Triangles.Clear();
+            UVs.Clear();
+            Colors.Clear();
+            Normals.Clear();
+        }
+    }
+
+    /// <summary>
     /// 地块渲染器
     /// 使用合并 Mesh 方案实现高性能渲染
     /// </summary>
@@ -630,6 +674,7 @@ namespace Core.Game.Chunk.Room.Grid
         {
             _tileMaterials.Clear();
             
+            // 使用支持 GPU Instancing 的 Shader
             var shader = Shader.Find("Standard");
             
             // 定义每种类型的颜色
@@ -655,6 +700,9 @@ namespace Core.Game.Chunk.Room.Grid
                 var mat = new Material(shader);
                 mat.color = kvp.Value;
                 mat.name = $"Tile_{kvp.Key}";
+                
+                // 启用 GPU Instancing
+                mat.enableInstancing = true;
 
                 _tileMaterials.Add(new TileMaterialConfig
                 {
@@ -665,7 +713,58 @@ namespace Core.Game.Chunk.Room.Grid
             }
 
             InitializeMaterials();
-            Debug.Log($"[TileRenderer] 生成了 {_tileMaterials.Count} 个默认材质");
+            Debug.Log($"[TileRenderer] 生成了 {_tileMaterials.Count} 个默认材质（已启用GPU Instancing）");
+        }
+        
+        [Button("使用共享材质（最大合批）")]
+        private void UseSharedMaterial()
+        {
+            // 创建一个支持顶点颜色的材质
+            var shader = Shader.Find("Sprites/Default"); // 这个 shader 支持顶点颜色
+            if (shader == null)
+            {
+                shader = Shader.Find("Standard");
+            }
+            
+            var sharedMat = new Material(shader);
+            sharedMat.name = "Tile_Shared";
+            sharedMat.enableInstancing = true;
+            
+            _defaultMaterial = sharedMat;
+            _tileMaterials.Clear();
+            
+            // 所有类型使用同一个材质，通过顶点颜色区分
+            var typeColors = new Dictionary<TileType, Color>
+            {
+                { TileType.Grass, new Color(0.3f, 0.7f, 0.3f) },
+                { TileType.Dirt, new Color(0.5f, 0.35f, 0.2f) },
+                { TileType.Stone, new Color(0.5f, 0.5f, 0.5f) },
+                { TileType.Wood, new Color(0.6f, 0.4f, 0.2f) },
+                { TileType.Sand, new Color(0.9f, 0.85f, 0.6f) },
+                { TileType.Water, new Color(0.2f, 0.5f, 0.9f) },
+                { TileType.Carpet, new Color(0.7f, 0.2f, 0.2f) },
+                { TileType.Tile, new Color(0.9f, 0.9f, 0.9f) },
+                { TileType.Metal, new Color(0.7f, 0.7f, 0.8f) },
+                { TileType.Glass, new Color(0.5f, 0.8f, 1f) },
+                { TileType.Snow, Color.white },
+                { TileType.Lava, new Color(1f, 0.3f, 0f) },
+                { TileType.Ice, new Color(0.7f, 0.9f, 1f) },
+            };
+            
+            foreach (var kvp in typeColors)
+            {
+                _tileMaterials.Add(new TileMaterialConfig
+                {
+                    TileType = kvp.Key,
+                    Material = sharedMat, // 所有类型使用同一材质
+                    VertexColor = kvp.Value
+                });
+            }
+            
+            InitializeMaterials();
+            _needFullRebuild = true;
+            
+            Debug.Log("[TileRenderer] 已切换为共享材质模式（1个DrawCall）");
         }
 
         #endregion

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
-namespace Core.Game.Chunk.Room.Grid
+namespace Core.Game.Chunk.Room.Grid.Renderer
 {
     /// <summary>
     /// 地块渲染块
-    /// 管理一个区域内的地块网格渲染
+    /// 使用单一 Mesh + 多 SubMesh 方案
+    /// 一个 TileChunk 只有一个 MeshRenderer，通过 SubMesh 支持多材质
     /// </summary>
     [RequireComponent(typeof(MeshFilter))]
     [RequireComponent(typeof(MeshRenderer))]
@@ -17,9 +19,19 @@ namespace Core.Game.Chunk.Room.Grid
         public Vector2Int Coord { get; private set; }
 
         /// <summary>
-        /// 子网格对象列表
+        /// MeshFilter 组件
         /// </summary>
-        private List<GameObject> _subMeshObjects = new List<GameObject>();
+        private MeshFilter _meshFilter;
+        
+        /// <summary>
+        /// MeshRenderer 组件
+        /// </summary>
+        private MeshRenderer _meshRenderer;
+        
+        /// <summary>
+        /// 当前 Mesh
+        /// </summary>
+        private Mesh _mesh;
 
         /// <summary>
         /// 统计信息
@@ -33,21 +45,59 @@ namespace Core.Game.Chunk.Room.Grid
         public void Initialize(Vector2Int coord)
         {
             Coord = coord;
+            
+            // 获取或添加组件
+            _meshFilter = GetComponent<MeshFilter>();
+            if (_meshFilter == null)
+            {
+                _meshFilter = gameObject.AddComponent<MeshFilter>();
+            }
+            
+            _meshRenderer = GetComponent<MeshRenderer>();
+            if (_meshRenderer == null)
+            {
+                _meshRenderer = gameObject.AddComponent<MeshRenderer>();
+            }
+            
+            // 创建 Mesh
+            _mesh = new Mesh();
+            _mesh.name = $"TileChunk_{coord.x}_{coord.y}";
+            _meshFilter.sharedMesh = _mesh;
         }
 
         /// <summary>
         /// 更新网格
+        /// 使用单一 Mesh + 多 SubMesh 方案
         /// </summary>
         public void UpdateMeshes(Dictionary<Material, TileMeshData> meshDataByMaterial, bool castShadows, bool receiveShadows)
         {
-            // 清除旧的子网格
-            ClearSubMeshes();
-
+            if (_mesh == null)
+            {
+                _mesh = new Mesh();
+                _mesh.name = $"TileChunk_{Coord.x}_{Coord.y}";
+            }
+            
+            _mesh.Clear();
             _vertexCount = 0;
             _triangleCount = 0;
 
-            // 为每种材质创建子网格
-            int subMeshIndex = 0;
+            if (meshDataByMaterial == null || meshDataByMaterial.Count == 0)
+            {
+                _meshFilter.sharedMesh = _mesh;
+                _meshRenderer.sharedMaterials = new Material[0];
+                return;
+            }
+
+            // === 收集所有数据 ===
+            var allVertices = new List<Vector3>();
+            var allNormals = new List<Vector3>();
+            var allUVs = new List<Vector2>();
+            var allColors = new List<Color>();
+            var subMeshTriangles = new List<List<int>>(); // 每个 SubMesh 的三角形列表
+            var materials = new List<Material>();
+            
+            int currentVertexOffset = 0;
+            
             foreach (var kvp in meshDataByMaterial)
             {
                 var material = kvp.Key;
@@ -55,72 +105,84 @@ namespace Core.Game.Chunk.Room.Grid
 
                 if (meshData.Vertices.Count == 0) continue;
 
-                // 创建子网格对象
-                var subMeshGO = new GameObject($"SubMesh_{subMeshIndex}");
-                subMeshGO.transform.SetParent(transform);
-                subMeshGO.transform.localPosition = Vector3.zero;
-                subMeshGO.transform.localRotation = Quaternion.identity;
-                subMeshGO.transform.localScale = Vector3.one;
-                subMeshGO.layer = gameObject.layer;
+                // 添加顶点数据
+                allVertices.AddRange(meshData.Vertices);
+                allNormals.AddRange(meshData.Normals);
+                allUVs.AddRange(meshData.UVs);
+                allColors.AddRange(meshData.Colors);
 
-                // 添加组件
-                var meshFilter = subMeshGO.AddComponent<MeshFilter>();
-                var meshRenderer = subMeshGO.AddComponent<MeshRenderer>();
-
-                // 创建网格
-                var mesh = new Mesh();
-                mesh.name = $"TileChunk_{Coord.x}_{Coord.y}_Sub{subMeshIndex}";
-
-                // 设置网格数据
-                mesh.SetVertices(meshData.Vertices);
-                mesh.SetTriangles(meshData.Triangles, 0);
-                mesh.SetUVs(0, meshData.UVs);
-                mesh.SetColors(meshData.Colors);
-                mesh.SetNormals(meshData.Normals);
-
-                // 优化网格
-                mesh.RecalculateBounds();
-                mesh.Optimize();
-
-                meshFilter.mesh = mesh;
-
-                // 设置材质
-                meshRenderer.material = material;
-                meshRenderer.shadowCastingMode = castShadows 
-                    ? UnityEngine.Rendering.ShadowCastingMode.On 
-                    : UnityEngine.Rendering.ShadowCastingMode.Off;
-                meshRenderer.receiveShadows = receiveShadows;
-
-                _subMeshObjects.Add(subMeshGO);
+                // 调整三角形索引（加上偏移）
+                var triangles = new List<int>();
+                for (int i = 0; i < meshData.Triangles.Count; i++)
+                {
+                    triangles.Add(meshData.Triangles[i] + currentVertexOffset);
+                }
+                subMeshTriangles.Add(triangles);
+                materials.Add(material);
 
                 // 统计
                 _vertexCount += meshData.Vertices.Count;
                 _triangleCount += meshData.Triangles.Count / 3;
-
-                subMeshIndex++;
+                
+                currentVertexOffset += meshData.Vertices.Count;
             }
+
+            if (allVertices.Count == 0)
+            {
+                _meshFilter.sharedMesh = _mesh;
+                _meshRenderer.sharedMaterials = new Material[0];
+                return;
+            }
+
+            // === 设置 Mesh 数据 ===
+            _mesh.SetVertices(allVertices);
+            _mesh.SetNormals(allNormals);
+            _mesh.SetUVs(0, allUVs);
+            _mesh.SetColors(allColors);
+
+            // 设置 SubMesh 数量
+            _mesh.subMeshCount = subMeshTriangles.Count;
+
+            // 设置每个 SubMesh 的三角形
+            for (int i = 0; i < subMeshTriangles.Count; i++)
+            {
+                _mesh.SetTriangles(subMeshTriangles[i], i);
+            }
+
+            // 优化 Mesh
+            _mesh.RecalculateBounds();
+            _mesh.Optimize();
+
+            // 设置 MeshFilter
+            _meshFilter.sharedMesh = _mesh;
+
+            // 设置材质
+            _meshRenderer.sharedMaterials = materials.ToArray();
+            
+            // 设置阴影
+            _meshRenderer.shadowCastingMode = castShadows 
+                ? ShadowCastingMode.On 
+                : ShadowCastingMode.Off;
+            _meshRenderer.receiveShadows = receiveShadows;
         }
 
         /// <summary>
-        /// 清除子网格
+        /// 清除 Mesh
         /// </summary>
-        private void ClearSubMeshes()
+        public void ClearMesh()
         {
-            foreach (var subMeshGO in _subMeshObjects)
+            if (_mesh != null)
             {
-                if (subMeshGO != null)
-                {
-                    // 销毁网格资源
-                    var meshFilter = subMeshGO.GetComponent<MeshFilter>();
-                    if (meshFilter != null && meshFilter.sharedMesh != null)
-                    {
-                        Destroy(meshFilter.sharedMesh);
-                    }
-                    
-                    Destroy(subMeshGO);
-                }
+                _mesh.Clear();
             }
-            _subMeshObjects.Clear();
+            
+            if (_meshRenderer != null)
+            {
+                _meshRenderer.sharedMaterials = new Material[0];
+            }
+            
+            _vertexCount = 0;
+            _triangleCount = 0;
         }
 
         /// <summary>
@@ -133,7 +195,18 @@ namespace Core.Game.Chunk.Room.Grid
 
         private void OnDestroy()
         {
-            ClearSubMeshes();
+            // 销毁 Mesh 资源
+            if (_mesh != null)
+            {
+                if (Application.isPlaying)
+                {
+                    Destroy(_mesh);
+                }
+                else
+                {
+                    DestroyImmediate(_mesh);
+                }
+            }
         }
     }
 }

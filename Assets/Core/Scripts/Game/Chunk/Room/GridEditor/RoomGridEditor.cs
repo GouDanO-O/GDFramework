@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GDFrameworkCore;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Core.Game.Chunk.Room.Grid.Editor
 {
@@ -74,7 +75,7 @@ namespace Core.Game.Chunk.Room.Grid.Editor
         /// <summary>
         /// 编辑器初始化完成
         /// </summary>
-        public event System.Action OnEditorInitialized;
+        public event UnityAction OnEditorInitialized;
 
         /// <summary>
         /// 地块被修改
@@ -316,23 +317,34 @@ namespace Core.Game.Chunk.Room.Grid.Editor
 
         private void HandleDragStart(Vector3 worldPos, TilePosition tilePos)
         {
+            if (!Grid.Config.IsInBounds(tilePos)) return;
+            
             State.BeginOperation(tilePos);
+            Debug.Log($"[RoomGridEditor] 拖拽开始 - 位置: {tilePos}, 模式: {State.CurrentMode}");
 
             if (State.CurrentMode == EditorMode.TileEdit)
             {
+                // 拖拽开始时立即执行一次编辑
                 ExecuteTileEdit(tilePos);
             }
         }
 
         private void HandleDragging(Vector3 worldPos, TilePosition tilePos)
         {
-            if (!State.IsOperating) return;
+            if (!State.IsOperating) 
+            {
+                Debug.Log($"[RoomGridEditor] 拖拽中但IsOperating=false");
+                return;
+            }
+            
+            if (!Grid.Config.IsInBounds(tilePos)) return;
 
             if (State.CurrentMode == EditorMode.TileEdit)
             {
                 if (State.CurrentTileTool == TileEditTool.Brush || 
                     State.CurrentTileTool == TileEditTool.Eraser)
                 {
+                    Debug.Log($"[RoomGridEditor] 拖拽绘制 - 位置: {tilePos}");
                     ExecuteTileEdit(tilePos);
                 }
             }
@@ -340,7 +352,13 @@ namespace Core.Game.Chunk.Room.Grid.Editor
 
         private void HandleDragEnd(Vector3 worldPos, TilePosition tilePos)
         {
-            if (!State.IsOperating) return;
+            if (!State.IsOperating) 
+            {
+                Debug.Log($"[RoomGridEditor] 拖拽结束但IsOperating=false");
+                return;
+            }
+
+            Debug.Log($"[RoomGridEditor] 拖拽结束 - 起始: {State.DragStartPosition}, 终点: {tilePos}");
 
             if (State.CurrentMode == EditorMode.TileEdit)
             {
