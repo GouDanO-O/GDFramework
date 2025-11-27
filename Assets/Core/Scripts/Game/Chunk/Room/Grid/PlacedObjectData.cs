@@ -75,13 +75,11 @@ namespace Core.Game.Chunk.Room.Grid
 
         public PlacedObjectData()
         {
-            InstanceId = GenerateInstanceId();
             PlacedTime = DateTime.Now;
         }
 
         public PlacedObjectData(string objectDefId, TilePosition basePosition, ObjectSize size, ObjectRotation rotation = ObjectRotation.Deg0)
         {
-            InstanceId = GenerateInstanceId();
             ObjectDefId = objectDefId;
             BasePosition = basePosition;
             Size = size;
@@ -92,7 +90,7 @@ namespace Core.Game.Chunk.Room.Grid
         /// <summary>
         /// 生成实例ID
         /// </summary>
-        private static string GenerateInstanceId()
+        public static string GenerateInstanceId()
         {
             return $"OBJ_{Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper()}";
         }

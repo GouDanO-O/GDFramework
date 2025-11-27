@@ -1,5 +1,6 @@
 ﻿using Core.Game.Chunk.Room.Grid;
 using Core.Game.Chunk.Room.Grid.Editor;
+using Core.Game.Chunk.Room.Grid.Renderer;
 using GDFrameworkCore;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -44,6 +45,14 @@ namespace Core.Game.Chunk.Room.Test
         [SerializeField]
         private RoomGridEditorCamera _editorCamera;
 
+        [LabelText("地块渲染器")]
+        [SerializeField]
+        private TileRenderer _tileRenderer;
+
+        [LabelText("预览渲染器")]
+        [SerializeField]
+        private PreviewRenderer _previewRenderer;
+
         [Title("调试信息")]
         
         [LabelText("当前模式")]
@@ -83,12 +92,33 @@ namespace Core.Game.Chunk.Room.Test
         [Button("初始化编辑器", ButtonSizes.Large)]
         private void InitializeEditor()
         {
+            // 获取或创建编辑器组件
             if (_editor == null)
             {
                 _editor = GetComponent<RoomGridEditor>();
                 if (_editor == null)
                 {
                     _editor = gameObject.AddComponent<RoomGridEditor>();
+                }
+            }
+
+            // 获取或创建地块渲染器
+            if (_tileRenderer == null)
+            {
+                _tileRenderer = GetComponent<TileRenderer>();
+                if (_tileRenderer == null)
+                {
+                    _tileRenderer = gameObject.AddComponent<TileRenderer>();
+                }
+            }
+
+            // 获取或创建预览渲染器
+            if (_previewRenderer == null)
+            {
+                _previewRenderer = GetComponent<PreviewRenderer>();
+                if (_previewRenderer == null)
+                {
+                    _previewRenderer = gameObject.AddComponent<PreviewRenderer>();
                 }
             }
 

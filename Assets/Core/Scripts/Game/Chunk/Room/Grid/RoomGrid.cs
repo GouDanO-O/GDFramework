@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Core.Game.Chunk.Room.Grid
 {
-/// <summary>
+    /// <summary>
     /// 房间网格
     /// 管理房间内所有地块和放置物品
     /// </summary>
@@ -67,6 +67,20 @@ namespace Core.Game.Chunk.Room.Grid
         [JsonIgnore]
         public FloorData CurrentFloorData => Floors.Count > CurrentFloor ? Floors[CurrentFloor] : null;
 
+        #endregion
+
+        #region 楼层数据访问
+
+        /// <summary>
+        /// 获取指定楼层数据
+        /// </summary>
+        public FloorData GetFloorData(int floor)
+        {
+            if (floor < 0 || floor >= Floors.Count)
+                return null;
+            return Floors[floor];
+        }
+        
         #endregion
 
         #region 构造和初始化
@@ -136,7 +150,7 @@ namespace Core.Game.Chunk.Room.Grid
 
             var floorData = Floors[floor];
             var key = position.ToKey();
-            
+
             return floorData.Tiles.TryGetValue(key, out var tile) ? tile : null;
         }
 
@@ -221,9 +235,9 @@ namespace Core.Game.Chunk.Room.Grid
             if (floorData.Tiles.TryGetValue(key, out var tile))
             {
                 if (tile.IsLocked) return false;
-                
+
                 // 如果有物品，先移除物品
-                if (tile.HasObject)
+                if (tile.HasPlacedObject)
                 {
                     RemoveObject(tile.PlacedObjectId, floor);
                 }
@@ -288,7 +302,7 @@ namespace Core.Game.Chunk.Room.Grid
             if (!Config.IsValidFloor(floor)) return;
 
             var floorData = Floors[floor];
-            
+
             // 先清除所有物品
             var objectIds = floorData.PlacedObjects.Keys.ToList();
             foreach (var id in objectIds)
@@ -310,7 +324,7 @@ namespace Core.Game.Chunk.Room.Grid
 
             var startTile = GetTile(startPos, floor);
             var originalType = startTile?.Type ?? TileType.None;
-            
+
             if (originalType == newType) return;
 
             var queue = new Queue<TilePosition>();
@@ -350,15 +364,15 @@ namespace Core.Game.Chunk.Room.Grid
         public bool CanPlaceObject(TilePosition basePosition, ObjectSize size, ObjectRotation rotation, int floor = -1)
         {
             if (floor < 0) floor = CurrentFloor;
-            
+
             var actualSize = size.GetRotatedSize(rotation);
-            
+
             for (int x = 0; x < actualSize.Width; x++)
             {
                 for (int z = 0; z < actualSize.Depth; z++)
                 {
                     var checkPos = new TilePosition(basePosition.X + x, basePosition.Z + z);
-                    
+
                     if (!Config.IsInBounds(checkPos))
                         return false;
 
@@ -374,11 +388,12 @@ namespace Core.Game.Chunk.Room.Grid
         /// <summary>
         /// 放置物品
         /// </summary>
-        public PlacedObjectData PlaceObject(string objectDefId, TilePosition basePosition, ObjectSize size, 
-            ObjectRotation rotation = ObjectRotation.Deg0, ObjectCategory category = ObjectCategory.Furniture, int floor = -1)
+        public PlacedObjectData PlaceObject(string objectDefId, TilePosition basePosition, ObjectSize size,
+            ObjectRotation rotation = ObjectRotation.Deg0, ObjectCategory category = ObjectCategory.Furniture,
+            int floor = -1)
         {
             if (floor < 0) floor = CurrentFloor;
-            
+
             if (!CanPlaceObject(basePosition, size, rotation, floor))
             {
                 Debug.LogWarning($"[RoomGrid] 无法放置物品: {objectDefId} at {basePosition}");
@@ -417,7 +432,7 @@ namespace Core.Game.Chunk.Room.Grid
             if (!Config.IsValidFloor(floor)) return false;
 
             var floorData = Floors[floor];
-            
+
             if (!floorData.PlacedObjects.TryGetValue(instanceId, out var placedObject))
                 return false;
 
@@ -444,7 +459,7 @@ namespace Core.Game.Chunk.Room.Grid
             if (!Config.IsValidFloor(floor)) return false;
 
             var floorData = Floors[floor];
-            
+
             if (!floorData.PlacedObjects.TryGetValue(instanceId, out var placedObject))
                 return false;
 
@@ -466,6 +481,7 @@ namespace Core.Game.Chunk.Room.Grid
                     var tile = GetTile(pos, floor);
                     tile?.TryPlaceObject(instanceId);
                 }
+
                 return false;
             }
 
@@ -493,7 +509,7 @@ namespace Core.Game.Chunk.Room.Grid
             if (!Config.IsValidFloor(floor)) return false;
 
             var floorData = Floors[floor];
-            
+
             if (!floorData.PlacedObjects.TryGetValue(instanceId, out var placedObject))
                 return false;
 
@@ -514,13 +530,14 @@ namespace Core.Game.Chunk.Room.Grid
                 // 恢复原方向
                 placedObject.Rotation = oldRotation;
                 placedObject.UpdateOccupiedTileKeys();
-                
+
                 // 恢复占用
                 foreach (var pos in placedObject.GetOccupiedPositions())
                 {
                     var tile = GetTile(pos, floor);
                     tile?.TryPlaceObject(instanceId);
                 }
+
                 return false;
             }
 
@@ -551,9 +568,9 @@ namespace Core.Game.Chunk.Room.Grid
         public PlacedObjectData GetObjectAtPosition(TilePosition position, int floor = -1)
         {
             if (floor < 0) floor = CurrentFloor;
-            
+
             var tile = GetTile(position, floor);
-            if (tile == null || !tile.HasObject) return null;
+            if (tile == null || !tile.HasPlacedObject) return null;
 
             return GetObject(tile.PlacedObjectId, floor);
         }
@@ -583,10 +600,10 @@ namespace Core.Game.Chunk.Room.Grid
 
             var oldFloor = CurrentFloor;
             CurrentFloor = floor;
-            
+
             OnFloorChanged?.Invoke(oldFloor, floor);
             Debug.Log($"[RoomGrid] 切换楼层: {oldFloor + 1}F -> {floor + 1}F");
-            
+
             return true;
         }
 
@@ -657,13 +674,11 @@ namespace Core.Game.Chunk.Room.Grid
                 TotalTiles = floorData.Tiles.Count,
                 WalkableTiles = floorData.Tiles.Values.Count(t => t.IsWalkable),
                 PlaceableTiles = floorData.Tiles.Values.Count(t => t.IsPlaceable),
-                OccupiedTiles = floorData.Tiles.Values.Count(t => t.HasObject),
+                OccupiedTiles = floorData.Tiles.Values.Count(t => t.HasPlacedObject),
                 PlacedObjects = floorData.PlacedObjects.Count
             };
         }
 
         #endregion
     }
-
-
 }

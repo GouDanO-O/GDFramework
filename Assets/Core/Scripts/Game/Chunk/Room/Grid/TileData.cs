@@ -60,13 +60,14 @@ namespace Core.Game.Chunk.Room.Grid
         /// 是否有物品
         /// </summary>
         [JsonIgnore]
-        public bool HasObject => !string.IsNullOrEmpty(PlacedObjectId);
+        public bool HasPlacedObject => !string.IsNullOrEmpty(PlacedObjectId);
 
         /// <summary>
         /// 是否已锁定
         /// </summary>
         [JsonIgnore]
         public bool IsLocked => HasFlag(TileFlags.Locked);
+        
 
         public TileData()
         {
