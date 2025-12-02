@@ -678,6 +678,8 @@ namespace Core.Game.Chunk.Room.Grid
                 PlacedObjects = floorData.PlacedObjects.Count
             };
         }
+        
+        
 
         #endregion
     }
