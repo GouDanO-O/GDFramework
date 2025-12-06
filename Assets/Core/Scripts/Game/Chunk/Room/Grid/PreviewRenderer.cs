@@ -271,8 +271,28 @@ namespace Core.Game.Chunk.Room.Grid.Renderer
             }
             else if (mode == EditorMode.ObjectPlace)
             {
-                // 物品放置预览 - TODO: 根据物品尺寸
-                _currentPreviewPositions.Add(mousePos);
+                // 物品放置预览 - 根据物品尺寸
+                var def = ObjectDefinitionManager.Instance.GetDefinition(state.SelectedObjectDefId);
+                if (def != null)
+                {
+                    var size = def.Size.GetRotatedSize(state.CurrentRotation);
+                    for (int dx = 0; dx < size.Width; dx++)
+                    {
+                        for (int dz = 0; dz < size.Depth; dz++)
+                        {
+                            var pos = new TilePosition(mousePos.X + dx, mousePos.Z + dz);
+                            if (_editor.Grid.Config.IsInBounds(pos))
+                            {
+                                _currentPreviewPositions.Add(pos);
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // 没有定义时使用单格
+                    _currentPreviewPositions.Add(mousePos);
+                }
             }
             else if (mode == EditorMode.Delete)
             {
@@ -296,15 +316,15 @@ namespace Core.Game.Chunk.Room.Grid.Renderer
             else if (mode == EditorMode.ObjectPlace)
             {
                 // 检查是否可以放置物品
-                foreach (var pos in positions)
+                var def = ObjectDefinitionManager.Instance.GetDefinition(_editor.State.SelectedObjectDefId);
+                var size = def?.Size ?? ObjectSize.One;
+                
+                // 使用Grid的检查方法
+                if (positions.Count > 0)
                 {
-                    var tile = _editor.Grid.GetTile(pos);
-                    if (tile == null || !tile.HasFlag(TileFlags.Placeable) || tile.HasPlacedObject)
-                    {
-                        return false;
-                    }
+                    return _editor.Grid.CanPlaceObject(positions[0], size, _editor.State.CurrentRotation);
                 }
-                return true;
+                return false;
             }
             else if (mode == EditorMode.Delete)
             {

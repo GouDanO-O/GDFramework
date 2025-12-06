@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Core.Game.Chunk.Room.GridEditor;
 using GDFrameworkCore;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace Core.Game.Chunk.Room.Grid.Editor
+namespace Core.Game.Chunk.Room.Grid.Editor.UI
 {
     /// <summary>
     /// 房间编辑器UI面板
@@ -108,12 +108,12 @@ namespace Core.Game.Chunk.Room.Grid.Editor
         public event Action<string> OnObjectSelected;
         public event Action<int> OnBrushSizeChanged;
         public event Action<int> OnHeightLevelChanged;
-        public event System.Action OnFloorUp;
-        public event System.Action OnFloorDown;
-        public event System.Action OnSave;
-        public event System.Action OnLoad;
-        public event System.Action OnClear;
-        public event System.Action OnExit;
+        public event UnityAction OnFloorUp;
+        public event UnityAction OnFloorDown;
+        public event UnityAction OnSave;
+        public event UnityAction OnLoad;
+        public event UnityAction OnClear;
+        public event UnityAction OnExit;
 
         #endregion
 
@@ -527,7 +527,7 @@ namespace Core.Game.Chunk.Room.Grid.Editor
         /// <summary>
         /// 显示确认对话框
         /// </summary>
-        public void ShowConfirmDialog(string title, string message, System.Action onConfirm, System.Action onCancel = null)
+        public void ShowConfirmDialog(string title, string message, UnityAction onConfirm, UnityAction onCancel = null)
         {
             // TODO: 实现确认对话框
             Debug.Log($"[Confirm] {title}: {message}");
@@ -544,6 +544,4 @@ namespace Core.Game.Chunk.Room.Grid.Editor
 
         #endregion
     }
-
-
 }

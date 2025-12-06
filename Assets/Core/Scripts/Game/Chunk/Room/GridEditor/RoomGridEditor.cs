@@ -488,8 +488,16 @@ namespace Core.Game.Chunk.Room.Grid.Editor
         {
             if (string.IsNullOrEmpty(State.SelectedObjectDefId)) return;
 
-            // TODO: 从物品定义获取尺寸，这里暂时使用1x1
-            var size = new ObjectSize(1, 1, 1f);
+            // 从物品定义获取尺寸
+            var def = ObjectDefinitionManager.Instance.GetDefinition(State.SelectedObjectDefId);
+            if (def == null)
+            {
+                Debug.LogWarning($"[RoomGridEditor] 找不到物品定义: {State.SelectedObjectDefId}");
+                return;
+            }
+
+            var size = def.Size;
+            var category = def.Category;
 
             if (Grid.CanPlaceObject(pos, size, State.CurrentRotation))
             {
@@ -497,7 +505,8 @@ namespace Core.Game.Chunk.Room.Grid.Editor
                     State.SelectedObjectDefId,
                     pos,
                     size,
-                    State.CurrentRotation
+                    State.CurrentRotation,
+                    category
                 );
             }
         }
@@ -575,8 +584,9 @@ namespace Core.Game.Chunk.Room.Grid.Editor
         {
             if (State.CurrentMode == EditorMode.ObjectPlace)
             {
-                // TODO: 从物品定义获取尺寸
-                var size = new ObjectSize(1, 1, 1f);
+                // 从物品定义获取尺寸
+                var def = ObjectDefinitionManager.Instance.GetDefinition(State.SelectedObjectDefId);
+                var size = def?.Size ?? ObjectSize.One;
                 State.IsPreviewValid = Grid.CanPlaceObject(pos, size, State.CurrentRotation);
             }
             else if (State.CurrentMode == EditorMode.TileEdit)

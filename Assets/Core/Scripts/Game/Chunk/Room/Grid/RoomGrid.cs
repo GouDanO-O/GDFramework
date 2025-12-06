@@ -574,7 +574,32 @@ namespace Core.Game.Chunk.Room.Grid
 
             return GetObject(tile.PlacedObjectId, floor);
         }
-
+        
+        /// <summary>
+        /// 通过实例ID获取物品
+        /// </summary>
+        public PlacedObjectData GetObjectByInstanceId(string instanceId, int floor = -1)
+        {
+            if (string.IsNullOrEmpty(instanceId)) return null;
+            
+            if (floor >= 0)
+            {
+                // 在指定楼层查找
+                return GetObject(instanceId, floor);
+            }
+            
+            // 在所有楼层查找
+            foreach (var floorData in Floors)
+            {
+                if (floorData.PlacedObjects.TryGetValue(instanceId, out var obj))
+                {
+                    return obj;
+                }
+            }
+            
+            return null;
+        }
+        
         /// <summary>
         /// 获取楼层所有物品
         /// </summary>

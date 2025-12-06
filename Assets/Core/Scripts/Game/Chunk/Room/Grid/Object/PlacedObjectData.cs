@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Core.Game.Chunk.Room.Grid
 {
- /// <summary>
+    /// <summary>
     /// 放置在地块上的物品数据
     /// </summary>
     [Serializable]
@@ -14,8 +14,25 @@ namespace Core.Game.Chunk.Room.Grid
     {
         [LabelText("实例ID")]
         [ReadOnly]
-        [JsonProperty]
-        public string InstanceId;
+        [JsonProperty("instanceId")]
+        private string _instanceId;
+        
+        /// <summary>
+        /// 实例ID（确保永不为空）
+        /// </summary>
+        [JsonIgnore]
+        public string InstanceId
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_instanceId))
+                {
+                    _instanceId = GenerateInstanceId();
+                }
+                return _instanceId;
+            }
+            set => _instanceId = value;
+        }
 
         [LabelText("物品定义ID")]
         [JsonProperty]
@@ -75,11 +92,13 @@ namespace Core.Game.Chunk.Room.Grid
 
         public PlacedObjectData()
         {
+            _instanceId = GenerateInstanceId();
             PlacedTime = DateTime.Now;
         }
 
         public PlacedObjectData(string objectDefId, TilePosition basePosition, ObjectSize size, ObjectRotation rotation = ObjectRotation.Deg0)
         {
+            _instanceId = GenerateInstanceId();
             ObjectDefId = objectDefId;
             BasePosition = basePosition;
             Size = size;
@@ -90,7 +109,7 @@ namespace Core.Game.Chunk.Room.Grid
         /// <summary>
         /// 生成实例ID
         /// </summary>
-        public static string GenerateInstanceId()
+        private static string GenerateInstanceId()
         {
             return $"OBJ_{Guid.NewGuid().ToString("N").Substring(0, 8).ToUpper()}";
         }

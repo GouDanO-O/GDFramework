@@ -53,6 +53,10 @@ namespace Core.Game.Chunk.Room.Test
         [SerializeField]
         private PreviewRenderer _previewRenderer;
 
+        [LabelText("物品渲染器")]
+        [SerializeField]
+        private ObjectRenderer _objectRenderer;
+
         [Title("调试信息")]
         
         [LabelText("当前模式")]
@@ -69,6 +73,11 @@ namespace Core.Game.Chunk.Room.Test
         [ReadOnly]
         [ShowInInspector]
         private string _statistics;
+
+        [LabelText("选中物品")]
+        [ReadOnly]
+        [ShowInInspector]
+        private string _selectedObjectId;
 
         public IArchitecture GetArchitecture()
         {
@@ -122,6 +131,19 @@ namespace Core.Game.Chunk.Room.Test
                 }
             }
 
+            // 获取或创建物品渲染器
+            if (_objectRenderer == null)
+            {
+                _objectRenderer = GetComponent<ObjectRenderer>();
+                if (_objectRenderer == null)
+                {
+                    _objectRenderer = gameObject.AddComponent<ObjectRenderer>();
+                }
+            }
+
+            // 加载物品定义
+            ObjectDefinitionManager.Instance.LoadDefaultTestData();
+
             // 创建配置
             var config = new RoomGridConfig
             {
@@ -141,9 +163,20 @@ namespace Core.Game.Chunk.Room.Test
                 Debug.Log($"[Test] 地块修改: {pos} -> {tile?.Type}");
             };
 
+            _editor.OnObjectPlaced += (obj) =>
+            {
+                Debug.Log($"[Test] 物品放置: {obj.InstanceId} ({obj.ObjectDefId})");
+            };
+
+            _editor.OnObjectRemoved += (obj) =>
+            {
+                Debug.Log($"[Test] 物品移除: {obj.InstanceId}");
+            };
+
             Debug.Log($"[Test] 编辑器初始化完成: {config}");
             Debug.Log($"[Test] 默认模式: {_editor.State?.CurrentMode}");
-            Debug.Log($"[Test] 提示: 按 2 进入地块编辑模式，然后点击绘制");
+            Debug.Log($"[Test] 提示: 按 2 进入地块编辑模式，按 3 进入物品放置模式");
+            Debug.Log($"[Test] 物品定义数量: {ObjectDefinitionManager.Instance.Count}");
         }
 
         /// <summary>
@@ -161,6 +194,8 @@ namespace Core.Game.Chunk.Room.Test
 
             var stats = _editor.GetStatistics();
             _statistics = stats.ToString();
+
+            _selectedObjectId = _editor.State?.SelectedObjectDefId ?? "无";
         }
 
         /// <summary>
@@ -184,6 +219,11 @@ namespace Core.Game.Chunk.Room.Test
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 _editor.SetMode(EditorMode.ObjectPlace);
+                // 自动选择一个物品
+                if (string.IsNullOrEmpty(_editor.State?.SelectedObjectDefId))
+                {
+                    SelectNextObject(1);
+                }
                 Debug.Log("[Test] 切换到物品放置模式");
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -197,20 +237,150 @@ namespace Core.Game.Chunk.Room.Test
                 Debug.Log("[Test] 切换到删除模式");
             }
 
-            // Q/E 切换地块类型
+            // Q/E 切换地块类型或物品
             if (Input.GetKeyDown(KeyCode.Q))
             {
-                CycleTileType(-1);
+                if (_editor.State?.CurrentMode == EditorMode.TileEdit)
+                {
+                    CycleTileType(-1);
+                }
+                else if (_editor.State?.CurrentMode == EditorMode.ObjectPlace)
+                {
+                    SelectNextObject(-1);
+                }
             }
             else if (Input.GetKeyDown(KeyCode.E))
             {
-                CycleTileType(1);
+                if (_editor.State?.CurrentMode == EditorMode.TileEdit)
+                {
+                    CycleTileType(1);
+                }
+                else if (_editor.State?.CurrentMode == EditorMode.ObjectPlace)
+                {
+                    SelectNextObject(1);
+                }
             }
 
-            // Tab 切换工具
+            // Tab 切换工具或物品类别
             if (Input.GetKeyDown(KeyCode.Tab))
             {
-                CycleTileTool();
+                if (_editor.State?.CurrentMode == EditorMode.TileEdit)
+                {
+                    CycleTileTool();
+                }
+                else if (_editor.State?.CurrentMode == EditorMode.ObjectPlace)
+                {
+                    CycleObjectCategory();
+                }
+            }
+
+            // F5 快速保存
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                QuickSave();
+            }
+
+            // F9 快速加载
+            if (Input.GetKeyDown(KeyCode.F9))
+            {
+                QuickLoad();
+            }
+        }
+
+        private ObjectCategory _currentObjectCategory = ObjectCategory.Furniture;
+        private int _currentObjectIndex = 0;
+
+        /// <summary>
+        /// 选择下一个物品
+        /// </summary>
+        private void SelectNextObject(int direction)
+        {
+            var defManager = ObjectDefinitionManager.Instance;
+            var objectsInCategory = defManager.GetDefinitionsByCategory(_currentObjectCategory);
+            
+            if (objectsInCategory.Count == 0)
+            {
+                // 如果当前类别没有物品，尝试切换类别
+                CycleObjectCategory();
+                return;
+            }
+
+            _currentObjectIndex = (_currentObjectIndex + direction + objectsInCategory.Count) % objectsInCategory.Count;
+            var selectedObj = objectsInCategory[_currentObjectIndex];
+            
+            _editor.StartPlaceObject(selectedObj.Id);
+            Debug.Log($"[Test] 选中物品: {selectedObj.Name} ({selectedObj.Id})");
+        }
+
+        /// <summary>
+        /// 循环切换物品类别
+        /// </summary>
+        private void CycleObjectCategory()
+        {
+            var categories = new[] 
+            { 
+                ObjectCategory.Furniture, 
+                ObjectCategory.Decoration, 
+                ObjectCategory.Plant, 
+                ObjectCategory.Lighting,
+                ObjectCategory.Storage
+            };
+
+            int currentIndex = System.Array.IndexOf(categories, _currentObjectCategory);
+            currentIndex = (currentIndex + 1) % categories.Length;
+            _currentObjectCategory = categories[currentIndex];
+            _currentObjectIndex = 0;
+
+            // 选择该类别的第一个物品
+            var defManager = ObjectDefinitionManager.Instance;
+            var objectsInCategory = defManager.GetDefinitionsByCategory(_currentObjectCategory);
+            
+            if (objectsInCategory.Count > 0)
+            {
+                _editor.StartPlaceObject(objectsInCategory[0].Id);
+                Debug.Log($"[Test] 类别: {_currentObjectCategory}, 物品: {objectsInCategory[0].Name}");
+            }
+            else
+            {
+                Debug.Log($"[Test] 类别: {_currentObjectCategory} (无物品)");
+            }
+        }
+
+        /// <summary>
+        /// 快速保存
+        /// </summary>
+        private void QuickSave()
+        {
+            if (_editor?.Grid == null) return;
+            
+            bool success = RoomGridSaveSystem.Instance.QuickSave(_editor.Grid);
+            Debug.Log(success ? "[Test] 快速保存成功" : "[Test] 快速保存失败");
+        }
+
+        /// <summary>
+        /// 快速加载
+        /// </summary>
+        private void QuickLoad()
+        {
+            var saves = RoomGridSaveSystem.Instance.GetAllSaves();
+            if (saves.Length == 0)
+            {
+                Debug.Log("[Test] 没有存档可加载");
+                return;
+            }
+
+            // 加载最新的存档
+            var latestSave = saves[0];
+            var fullSaveData = RoomGridSaveSystem.Instance.Load(latestSave.SaveName);
+            
+            if (fullSaveData != null)
+            {
+                var grid = RoomGridSaveSystem.Instance.RestoreGrid(fullSaveData);
+                if (grid != null)
+                {
+                    _editor.InitializeWithGrid(grid);
+                    Debug.Log($"[Test] 加载存档成功: {latestSave.SaveName}");
+                }
             }
         }
 
@@ -274,6 +444,10 @@ namespace Core.Game.Chunk.Room.Test
         private void SwitchToObjectPlace()
         {
             _editor?.SetMode(EditorMode.ObjectPlace);
+            if (string.IsNullOrEmpty(_editor?.State?.SelectedObjectDefId))
+            {
+                SelectNextObject(1);
+            }
         }
 
         [ButtonGroup("Tools")]
@@ -332,6 +506,42 @@ namespace Core.Game.Chunk.Room.Test
             _editor?.SetTileType(TileType.Water);
         }
 
+        [Title("物品操作")]
+
+        [ButtonGroup("Objects")]
+        [Button("桌子")]
+        private void PlaceTable()
+        {
+            _editor?.StartPlaceObject("furniture_table_small");
+            _editor?.SetMode(EditorMode.ObjectPlace);
+        }
+
+        [ButtonGroup("Objects")]
+        [Button("椅子")]
+        private void PlaceChair()
+        {
+            _editor?.StartPlaceObject("furniture_chair");
+            _editor?.SetMode(EditorMode.ObjectPlace);
+        }
+
+        [ButtonGroup("Objects")]
+        [Button("沙发")]
+        private void PlaceSofa()
+        {
+            _editor?.StartPlaceObject("furniture_sofa");
+            _editor?.SetMode(EditorMode.ObjectPlace);
+        }
+
+        [ButtonGroup("Objects")]
+        [Button("床")]
+        private void PlaceBed()
+        {
+            _editor?.StartPlaceObject("furniture_bed_single");
+            _editor?.SetMode(EditorMode.ObjectPlace);
+        }
+
+        [Title("楼层操作")]
+
         [Button("清空当前楼层", ButtonSizes.Medium)]
         private void ClearCurrentFloor()
         {
@@ -349,6 +559,8 @@ namespace Core.Game.Chunk.Room.Test
             _editor.Grid.FillFloor(_editor.State.CurrentFloor, _defaultTileType);
             Debug.Log("[Test] 重新填充当前楼层");
         }
+
+        [Title("存档操作")]
 
         [Button("保存到JSON")]
         private void SaveToJson()
@@ -375,6 +587,37 @@ namespace Core.Game.Chunk.Room.Test
 
             _editor?.LoadFromJson(json);
             Debug.Log("[Test] 加载完成");
+        }
+
+        [Button("保存到文件")]
+        private void SaveToFile()
+        {
+            if (_editor?.Grid == null) return;
+            
+            string saveName = $"Room_{System.DateTime.Now:yyyyMMdd_HHmmss}";
+            bool success = RoomGridSaveSystem.Instance.Save(_editor.Grid, saveName);
+            
+            if (success)
+            {
+                Debug.Log($"[Test] 保存成功: {saveName}");
+            }
+        }
+
+        [Button("显示所有存档")]
+        private void ShowAllSaves()
+        {
+            var saves = RoomGridSaveSystem.Instance.GetAllSaves();
+            Debug.Log($"[Test] 共有 {saves.Length} 个存档:");
+            foreach (var save in saves)
+            {
+                Debug.Log($"  - {save.SaveName} ({save.LastModifiedTime})");
+            }
+        }
+
+        [Button("加载最新存档")]
+        private void LoadLatestSave()
+        {
+            QuickLoad();
         }
 
         #endregion
