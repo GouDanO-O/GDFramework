@@ -61,6 +61,7 @@ namespace Core.Game.View.Details
         protected TDef dtoDef;
         protected bool ThisNodeIsInitial = false;
         protected bool ThisNodeIsLocking = false;
+        protected bool _isSelected = false;
         protected EditorDataManager editorDataManager;
 
         #endregion
@@ -163,6 +164,11 @@ namespace Core.Game.View.Details
         /// </summary>
         public virtual void ChangeSelectingNode(bool isSelecting)
         {
+            // 如果状态没有变化，直接返回，避免循环调用
+            if (_isSelected == isSelecting)
+                return;
+
+            _isSelected = isSelecting;
             SelectingOutline.SetActive(isSelecting);
             DownerButtons.gameObject.SetActive(isSelecting);
             ShowDetailButton.gameObject.SetActive(isSelecting);
