@@ -119,7 +119,7 @@ namespace Core.Game.Chunk.Room.Grid.Renderer
         private void Start()
         {
             _defManager = ObjectDefinitionManager.Instance;
-            
+
             if (_editor == null)
             {
                 _editor = GetComponent<RoomGridEditor>();
@@ -133,12 +133,39 @@ namespace Core.Game.Chunk.Room.Grid.Renderer
             if (_editor != null)
             {
                 SubscribeEvents();
-                
+
                 if (_editor.IsInitialized)
                 {
                     RebuildAll();
                 }
             }
+        }
+
+        /// <summary>
+        /// 设置编辑器引用
+        /// </summary>
+        public void SetEditor(RoomGridEditor editor)
+        {
+            if (_editor == editor) return;
+
+            // 先取消之前的订阅
+            UnsubscribeEvents();
+
+            _editor = editor;
+            _defManager = ObjectDefinitionManager.Instance;
+
+            if (_editor != null)
+            {
+                SubscribeEvents();
+
+                // 如果编辑器已初始化，重建所有物品
+                if (_editor.IsInitialized)
+                {
+                    RebuildAll();
+                }
+            }
+
+            Debug.Log($"[ObjectRenderer] 编辑器引用已设置: {(_editor != null ? "有效" : "null")}");
         }
 
         private void OnDestroy()
