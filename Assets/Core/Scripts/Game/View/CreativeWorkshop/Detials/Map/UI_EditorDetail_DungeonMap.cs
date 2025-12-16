@@ -10,6 +10,12 @@ namespace Core.Game.View.Details
     {
         private RoomDataModel _roomDataModel;
         
+        protected override void InitializeComponents()
+        {
+            base.InitializeComponents();
+            _contentRoot = transform.Find("ContentRoot/NodeRoot");
+        }
+        
         protected override void InitializeModels()
         {
             _roomDataModel = this.GetModel<RoomDataModel>();

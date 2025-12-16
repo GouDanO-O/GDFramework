@@ -71,12 +71,14 @@ namespace Core.Game.View.Details
                     {
                         editorDataManager.UpdateAllTrackedSnapshots();
                         UIKit.OpenPanel<UI_Editor_WorldPanel>();
+                        UIKit.HidePanel<UI_Editor_UniversePanel>();
                     }
                 });
             }
             else
             {
                 UIKit.OpenPanel<UI_Editor_WorldPanel>();
+                UIKit.HidePanel<UI_Editor_UniversePanel>();
             }
         }
 

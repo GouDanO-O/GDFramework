@@ -55,12 +55,17 @@ namespace Core.Game.View.Details
                         {
                             PresetConfig = new RoomGridConfig(50,50)
                         });
+                        UIKit.HidePanel<UI_Editor_DungeonPanel>();
                     }
                 });
             }
             else
             {
-                UIKit.OpenPanel<UI_Editor_RoomPanel>();
+                UIKit.OpenPanel<UI_Editor_RoomPanel>(new UI_Editor_RoomPanelData()
+                {
+                    PresetConfig = new RoomGridConfig(50,50)
+                });
+                UIKit.HidePanel<UI_Editor_DungeonPanel>();
             }
         }
         

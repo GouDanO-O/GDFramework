@@ -29,7 +29,7 @@ namespace Core.Game.Chunk.Room.Data
 
         public override string GetTypePrefix()
         {
-            return "ROOM";
+            return "Room";
         }
 
         public override bool Validate(out string error)
