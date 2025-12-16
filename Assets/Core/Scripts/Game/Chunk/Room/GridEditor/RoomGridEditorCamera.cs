@@ -122,14 +122,71 @@ namespace Core.Game.Chunk.Room.Grid.Editor
 
         private void Awake()
         {
+            AutoSetupComponents();
+        }
+
+        /// <summary>
+        /// 自动设置组件引用
+        /// </summary>
+        private void AutoSetupComponents()
+        {
+            // 自动获取相机
             if (_targetCamera == null)
             {
                 _targetCamera = GetComponentInChildren<Camera>();
+                if (_targetCamera == null)
+                {
+                    // 尝试查找场景中的主相机
+                    _targetCamera = Camera.main;
+                }
             }
 
+            // 自动获取或创建相机Pivot
             if (_cameraPivot == null)
             {
-                _cameraPivot = transform;
+                // 先尝试找名为 CameraPivot 的子物体
+                var pivotTransform = transform.Find("CameraPivot");
+                if (pivotTransform != null)
+                {
+                    _cameraPivot = pivotTransform;
+                }
+                else
+                {
+                    // 如果有相机子物体，检查它的父物体是否可以作为Pivot
+                    if (_targetCamera != null && _targetCamera.transform.parent != null
+                        && _targetCamera.transform.parent != transform)
+                    {
+                        _cameraPivot = _targetCamera.transform.parent;
+                    }
+                    else
+                    {
+                        // 创建一个Pivot
+                        var pivotGO = new GameObject("CameraPivot");
+                        pivotGO.transform.SetParent(transform);
+                        pivotGO.transform.localPosition = Vector3.zero;
+                        _cameraPivot = pivotGO.transform;
+
+                        // 如果相机存在，把相机移到Pivot下
+                        if (_targetCamera != null)
+                        {
+                            _targetCamera.transform.SetParent(_cameraPivot);
+                            _targetCamera.transform.localPosition = new Vector3(0, 0, -_currentZoomDistance);
+                        }
+                        Debug.Log("[EditorCamera] 自动创建了相机Pivot");
+                    }
+                }
+            }
+
+            // 如果还没有相机，创建一个
+            if (_targetCamera == null)
+            {
+                var camGO = new GameObject("Camera");
+                camGO.transform.SetParent(_cameraPivot);
+                _targetCamera = camGO.AddComponent<Camera>();
+                _targetCamera.clearFlags = CameraClearFlags.SolidColor;
+                _targetCamera.backgroundColor = new Color(0.2f, 0.3f, 0.4f);
+                camGO.transform.localPosition = new Vector3(0, 0, -_currentZoomDistance);
+                Debug.Log("[EditorCamera] 自动创建了相机");
             }
         }
 
