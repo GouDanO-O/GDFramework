@@ -172,16 +172,51 @@ namespace Core.Game.Chunk.Room.Grid.Renderer
                 _editor = GetComponent<RoomGridEditor>();
             }
 
+            if (_editor == null)
+            {
+                _editor = GetComponentInParent<RoomGridEditor>();
+            }
+
             if (_editor != null)
             {
                 SubscribeEvents();
-                
+
                 // 等待编辑器初始化后重建
                 if (_editor.IsInitialized)
                 {
                     RebuildAll();
                 }
             }
+        }
+
+        /// <summary>
+        /// 设置编辑器引用
+        /// </summary>
+        public void SetEditor(RoomGridEditor editor)
+        {
+            if (_editor == editor) return;
+
+            // 先取消之前的订阅
+            UnsubscribeEvents();
+
+            _editor = editor;
+
+            if (_editor != null)
+            {
+                SubscribeEvents();
+
+                // 如果编辑器已初始化，生成默认材质并重建
+                if (_editor.IsInitialized)
+                {
+                    if (_tileMaterials.Count == 0)
+                    {
+                        GenerateDefaultMaterials();
+                    }
+                    RebuildAll();
+                }
+            }
+
+            Debug.Log($"[TileRenderer] 编辑器引用已设置: {(_editor != null ? "有效" : "null")}");
         }
 
         private void OnDestroy()

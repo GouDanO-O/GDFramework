@@ -77,6 +77,15 @@ namespace Core.Game.Chunk.Room.Grid.Renderer
             }
         }
 
+        /// <summary>
+        /// 设置编辑器引用
+        /// </summary>
+        public void SetEditor(RoomGridEditor editor)
+        {
+            _editor = editor;
+            Debug.Log($"[PreviewRenderer] 编辑器引用已设置: {(_editor != null ? "有效" : "null")}");
+        }
+
         private void Update()
         {
             UpdatePreview();

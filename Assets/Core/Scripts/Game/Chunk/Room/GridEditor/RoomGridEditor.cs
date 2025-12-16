@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Game.Chunk.Room.Grid.Renderer;
 using GDFrameworkCore;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -25,9 +26,23 @@ namespace Core.Game.Chunk.Room.Grid.Editor
         [SerializeField]
         private Transform _previewRoot;
 
-        [LabelText("地块渲染器")]
+        [LabelText("地块渲染器根节点")]
         [SerializeField]
         private Transform _tileRendererRoot;
+
+        [Title("渲染器组件")]
+
+        [LabelText("地块渲染器")]
+        [SerializeField]
+        private TileRenderer _tileRenderer;
+
+        [LabelText("预览渲染器")]
+        [SerializeField]
+        private PreviewRenderer _previewRenderer;
+
+        [LabelText("物品渲染器")]
+        [SerializeField]
+        private ObjectRenderer _objectRenderer;
 
         [Title("调试")]
         
@@ -190,6 +205,63 @@ namespace Core.Game.Chunk.Room.Grid.Editor
                     Debug.Log("[RoomGridEditor] 自动创建了地块渲染器根节点");
                 }
             }
+
+            // 自动获取或创建渲染器组件
+            SetupRenderers();
+        }
+
+        /// <summary>
+        /// 设置渲染器组件
+        /// </summary>
+        private void SetupRenderers()
+        {
+            // 地块渲染器
+            if (_tileRenderer == null)
+            {
+                _tileRenderer = GetComponent<TileRenderer>();
+                if (_tileRenderer == null)
+                {
+                    _tileRenderer = GetComponentInChildren<TileRenderer>();
+                }
+                if (_tileRenderer == null)
+                {
+                    _tileRenderer = gameObject.AddComponent<TileRenderer>();
+                    Debug.Log("[RoomGridEditor] 自动创建了地块渲染器");
+                }
+            }
+            _tileRenderer.SetEditor(this);
+
+            // 预览渲染器
+            if (_previewRenderer == null)
+            {
+                _previewRenderer = GetComponent<PreviewRenderer>();
+                if (_previewRenderer == null)
+                {
+                    _previewRenderer = GetComponentInChildren<PreviewRenderer>();
+                }
+                if (_previewRenderer == null)
+                {
+                    _previewRenderer = gameObject.AddComponent<PreviewRenderer>();
+                    Debug.Log("[RoomGridEditor] 自动创建了预览渲染器");
+                }
+            }
+            _previewRenderer.SetEditor(this);
+
+            // 物品渲染器
+            if (_objectRenderer == null)
+            {
+                _objectRenderer = GetComponent<ObjectRenderer>();
+                if (_objectRenderer == null)
+                {
+                    _objectRenderer = GetComponentInChildren<ObjectRenderer>();
+                }
+                if (_objectRenderer == null)
+                {
+                    _objectRenderer = gameObject.AddComponent<ObjectRenderer>();
+                    Debug.Log("[RoomGridEditor] 自动创建了物品渲染器");
+                }
+            }
+            _objectRenderer.SetEditor(this);
         }
 
         private void Update()
