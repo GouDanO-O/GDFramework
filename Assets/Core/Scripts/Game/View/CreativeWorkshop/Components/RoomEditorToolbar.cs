@@ -123,7 +123,7 @@ namespace Core.Game.View
             _rectTransform.anchorMax = new Vector2(1, 1);
             _rectTransform.pivot = new Vector2(0.5f, 1);
             _rectTransform.anchoredPosition = new Vector2(0, 0);
-            _rectTransform.sizeDelta = new Vector2(0, 50);
+            _rectTransform.sizeDelta = new Vector2(0, 60);
 
             // 添加背景
             var bgImage = gameObject.AddComponent<Image>();
@@ -131,8 +131,8 @@ namespace Core.Game.View
 
             // 添加水平布局
             _layoutGroup = gameObject.AddComponent<HorizontalLayoutGroup>();
-            _layoutGroup.padding = new RectOffset(10, 10, 5, 5);
-            _layoutGroup.spacing = 5;
+            _layoutGroup.padding = new RectOffset(15, 15, 8, 8);
+            _layoutGroup.spacing = 15;
             _layoutGroup.childAlignment = TextAnchor.MiddleLeft;
             _layoutGroup.childControlWidth = false;
             _layoutGroup.childControlHeight = true;
@@ -216,11 +216,11 @@ namespace Core.Game.View
             container.transform.SetParent(transform);
 
             var rect = container.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(0, 40);
+            rect.sizeDelta = new Vector2(0, 44);
 
             // 添加水平布局
             var layout = container.AddComponent<HorizontalLayoutGroup>();
-            layout.spacing = 3;
+            layout.spacing = 8;
             layout.childAlignment = TextAnchor.MiddleCenter;
             layout.childControlWidth = false;
             layout.childControlHeight = true;
@@ -257,7 +257,7 @@ namespace Core.Game.View
             buttonGO.transform.SetParent(parent);
 
             var rect = buttonGO.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(60, 35);
+            rect.sizeDelta = new Vector2(70, 38);
 
             // 背景
             var image = buttonGO.AddComponent<Image>();
@@ -282,8 +282,8 @@ namespace Core.Game.View
             var textRect = textGO.GetComponent<RectTransform>();
             textRect.anchorMin = Vector2.zero;
             textRect.anchorMax = Vector2.one;
-            textRect.offsetMin = Vector2.zero;
-            textRect.offsetMax = Vector2.zero;
+            textRect.offsetMin = new Vector2(4, 2);
+            textRect.offsetMax = new Vector2(-4, -2);
 
             var textComp = textGO.AddComponent<Text>();
             textComp.text = text;
@@ -294,8 +294,8 @@ namespace Core.Game.View
 
             // LayoutElement
             var layoutElement = buttonGO.AddComponent<LayoutElement>();
-            layoutElement.preferredWidth = 60;
-            layoutElement.minWidth = 50;
+            layoutElement.preferredWidth = 70;
+            layoutElement.minWidth = 60;
 
             return button;
         }
@@ -306,7 +306,7 @@ namespace Core.Game.View
             toggleGO.transform.SetParent(parent);
 
             var rect = toggleGO.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(60, 35);
+            rect.sizeDelta = new Vector2(70, 38);
 
             // 背景
             var bgImage = toggleGO.AddComponent<Image>();
@@ -339,8 +339,8 @@ namespace Core.Game.View
             var textRect = textGO.GetComponent<RectTransform>();
             textRect.anchorMin = Vector2.zero;
             textRect.anchorMax = Vector2.one;
-            textRect.offsetMin = Vector2.zero;
-            textRect.offsetMax = Vector2.zero;
+            textRect.offsetMin = new Vector2(4, 2);
+            textRect.offsetMax = new Vector2(-4, -2);
 
             var textComp = textGO.AddComponent<Text>();
             textComp.text = text;
@@ -351,8 +351,8 @@ namespace Core.Game.View
 
             // LayoutElement
             var layoutElement = toggleGO.AddComponent<LayoutElement>();
-            layoutElement.preferredWidth = 60;
-            layoutElement.minWidth = 50;
+            layoutElement.preferredWidth = 70;
+            layoutElement.minWidth = 60;
 
             return toggle;
         }

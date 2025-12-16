@@ -112,6 +112,84 @@ namespace Core.Game.Chunk.Room.Grid.Editor
         private void Awake()
         {
             _architecture = GetArchitecture();
+
+            // 自动获取组件引用
+            AutoSetupComponents();
+        }
+
+        /// <summary>
+        /// 自动设置组件引用
+        /// 当组件未在Inspector中绑定时自动查找或创建
+        /// </summary>
+        private void AutoSetupComponents()
+        {
+            // 自动获取编辑器相机
+            if (_editorCamera == null)
+            {
+                _editorCamera = GetComponentInChildren<RoomGridEditorCamera>();
+                if (_editorCamera == null)
+                {
+                    _editorCamera = FindFirstObjectByType<RoomGridEditorCamera>();
+                }
+                if (_editorCamera == null)
+                {
+                    // 创建编辑器相机
+                    var cameraGO = new GameObject("EditorCamera");
+                    cameraGO.transform.SetParent(transform);
+
+                    // 创建Pivot
+                    var pivotGO = new GameObject("CameraPivot");
+                    pivotGO.transform.SetParent(cameraGO.transform);
+                    pivotGO.transform.position = Vector3.zero;
+
+                    // 创建Camera
+                    var camGO = new GameObject("Camera");
+                    camGO.transform.SetParent(pivotGO.transform);
+                    var cam = camGO.AddComponent<Camera>();
+                    cam.clearFlags = CameraClearFlags.SolidColor;
+                    cam.backgroundColor = new Color(0.2f, 0.3f, 0.4f);
+                    camGO.transform.localPosition = new Vector3(0, 0, -20f);
+
+                    _editorCamera = cameraGO.AddComponent<RoomGridEditorCamera>();
+                    Debug.Log("[RoomGridEditor] 自动创建了编辑器相机");
+                }
+            }
+
+            // 自动获取或创建预览物体根节点
+            if (_previewRoot == null)
+            {
+                var previewGO = transform.Find("PreviewRoot");
+                if (previewGO != null)
+                {
+                    _previewRoot = previewGO;
+                }
+                else
+                {
+                    var newPreviewRoot = new GameObject("PreviewRoot");
+                    newPreviewRoot.transform.SetParent(transform);
+                    newPreviewRoot.transform.localPosition = Vector3.zero;
+                    _previewRoot = newPreviewRoot.transform;
+                    Debug.Log("[RoomGridEditor] 自动创建了预览物体根节点");
+                }
+            }
+
+            // 自动获取或创建地块渲染器根节点
+            if (_tileRendererRoot == null)
+            {
+                var tileRenderGO = transform.Find("TileRendererRoot");
+                if (tileRenderGO != null)
+                {
+                    _tileRendererRoot = tileRenderGO;
+                }
+                else
+                {
+                    var newTileRendererRoot = new GameObject("TileRendererRoot");
+                    newTileRendererRoot.transform.SetParent(transform);
+                    newTileRendererRoot.transform.localPosition = Vector3.zero;
+                    _tileRendererRoot = newTileRendererRoot.transform;
+                    Debug.Log("[RoomGridEditor] 自动创建了地块渲染器根节点");
+                }
+            }
         }
 
         private void Update()

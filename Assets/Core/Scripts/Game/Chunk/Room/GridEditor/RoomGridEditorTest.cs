@@ -111,6 +111,17 @@ namespace Core.Game.Chunk.Room.Test
                 }
             }
 
+            // 获取或创建编辑器相机
+            if (_editorCamera == null)
+            {
+                _editorCamera = GetComponentInChildren<RoomGridEditorCamera>();
+                if (_editorCamera == null)
+                {
+                    _editorCamera = FindFirstObjectByType<RoomGridEditorCamera>();
+                }
+                // 如果还是没有，RoomGridEditor.AutoSetupComponents会自动创建
+            }
+
             // 获取或创建地块渲染器
             if (_tileRenderer == null)
             {
