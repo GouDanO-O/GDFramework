@@ -16,7 +16,14 @@ namespace Core.Game.View.Details
         
         protected override void OnNodeSelected()
         {
+            editorDataManager.UpdateFocusDungeon(GetDtoDef());
             _regionMap?.ManageNodeSelect(this);
+        }
+        
+        public override void SetThisNodeAsInitial()
+        {
+            base.SetThisNodeAsInitial();
+            _regionMap?.UpdateInitialNode(this);
         }
         
         protected override void UpdateInitialNodeUI(bool isInitial)
@@ -31,21 +38,15 @@ namespace Core.Game.View.Details
             }
         }
         
-        public override void SetThisNodeAsInitial()
-        {
-            base.SetThisNodeAsInitial();
-            _regionMap?.UpdateInitialNode(this);
-        }
-        
         protected override void OnLockStateChanged(bool isLocked)
         {
             if (isLocked)
             {
-                editorDataManager.GetFocusedRegion().RemoveInitialShowingRegion(dtoDef.DefId);
+                editorDataManager.GetFocusedRegion().RemoveInitialShowingDungeon(dtoDef.DefId);
             }
             else
             {
-                editorDataManager.GetFocusedRegion().AddInitialShowingRegion(dtoDef.DefId);
+                editorDataManager.GetFocusedRegion().AddInitialShowingDungeon(dtoDef.DefId);
             }
         }
 
@@ -61,13 +62,13 @@ namespace Core.Game.View.Details
                     SureAction = () =>
                     {
                         editorDataManager.UpdateAllTrackedSnapshots();
-
+                        UIKit.OpenPanel<UI_Editor_DungeonPanel>();
                     }
                 });
             }
             else
             {
-               
+                UIKit.OpenPanel<UI_Editor_DungeonPanel>();
             }
         }
 

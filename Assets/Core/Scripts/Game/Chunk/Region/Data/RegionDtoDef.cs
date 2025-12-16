@@ -30,7 +30,7 @@ namespace Core.Game.Chunk.Region.Data
             return "Region";
         }
         
-        public void AddInitialShowingRegion(string defId)
+        public void AddInitialShowingDungeon(string defId)
         {
             if (InitialShowingDungeonIdList == null)
             {
@@ -43,7 +43,7 @@ namespace Core.Game.Chunk.Region.Data
             }
         }
         
-        public void RemoveInitialShowingRegion(string defId)
+        public void RemoveInitialShowingDungeon(string defId)
         {
             if (InitialShowingDungeonIdList == null)
             {

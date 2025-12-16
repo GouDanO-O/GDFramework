@@ -269,7 +269,7 @@ namespace Core.Game.View
         /// 更新焦点副本
         /// </summary>
         /// <param name="dungeon"></param>
-        public void UpdateDungeon(DungeonDtoDef dungeon)
+        public void UpdateFocusDungeon(DungeonDtoDef dungeon)
         {
             _currentFocusDungeon = dungeon;
             StartTrackingDungeon(dungeon);

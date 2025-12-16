@@ -57,6 +57,11 @@ namespace Core.Game.Chunk.Room.Data
             TryLoadExistingInstancesForDef(dtoDef);
         }
         
+        public RoomDtoDef GetDefById(string defId)
+        {
+            return _defIdToDefDict.TryGetValue(defId, out var def) ? def : null; 
+        }
+        
         /// <summary>
         /// 尝试为配置加载已存在的临时数据实例
         /// </summary>

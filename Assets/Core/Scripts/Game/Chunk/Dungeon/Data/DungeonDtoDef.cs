@@ -27,5 +27,31 @@ namespace Core.Game.Chunk.Dungeon.Data
         {
             return "Dungeon";
         }
+        
+        public void AddInitialShowingRoom(string defId)
+        {
+            if (InitialShowingRoomIdList == null)
+            {
+                InitialShowingRoomIdList = new List<string>();
+            }
+
+            if (!InitialShowingRoomIdList.Contains(defId))
+            {
+                InitialShowingRoomIdList.Add(defId);
+            }
+        }
+        
+        public void RemoveInitialShowingRoom(string defId)
+        {
+            if (InitialShowingRoomIdList == null)
+            {
+                InitialShowingRoomIdList = new List<string>();
+            }
+
+            if (InitialShowingRoomIdList.Contains(defId))
+            {
+                InitialShowingRoomIdList.Remove(defId);
+            }
+        }
     }
 }

@@ -1,44 +1,48 @@
 ﻿using System.Collections.Generic;
 using Core.Game.Chunk.Dungeon.Data;
 using Core.Game.Chunk.Region.Data;
+using Core.Game.Chunk.Room.Data;
+using GDFrameworkCore;
 
 namespace Core.Game.View.Details
 {
-    public class UI_EditorDetail_DungeonMap : UI_EditorDetail_Map<RegionDtoDef, DungeonDtoDef,UI_EditorDetail_DungeonMapNode>
+    public class UI_EditorDetail_DungeonMap : UI_EditorDetail_Map<DungeonDtoDef, RoomDtoDef,UI_EditorDetail_DungeonMapNode>
     {
+        private RoomDataModel _roomDataModel;
+        
         protected override void InitializeModels()
         {
-            throw new System.NotImplementedException();
+            _roomDataModel = this.GetModel<RoomDataModel>();
+        }
+        
+        protected override List<string> GetChildIds(DungeonDtoDef parentDef)
+        {
+            return parentDef.RoomIdList;
         }
 
-        protected override List<string> GetChildIds(RegionDtoDef parentDef)
+        protected override string GetInitialChildId(DungeonDtoDef parentDef)
         {
-            throw new System.NotImplementedException();
+            return parentDef.InitialPlayerLocateRoomId;
         }
 
-        protected override string GetInitialChildId(RegionDtoDef parentDef)
+        protected override void SetInitialChildId(DungeonDtoDef parentDef, string childId)
         {
-            throw new System.NotImplementedException();
+            parentDef.InitialPlayerLocateRoomId = childId;
         }
 
-        protected override void SetInitialChildId(RegionDtoDef parentDef, string childId)
+        protected override RoomDtoDef GetChildDef(string defId)
         {
-            throw new System.NotImplementedException();
-        }
-
-        protected override DungeonDtoDef GetChildDef(string defId)
-        {
-            throw new System.NotImplementedException();
+            return _roomDataModel.GetDefById(defId);
         }
 
         protected override List<string> GetInitialShowingListDtoDef()
         {
-            throw new System.NotImplementedException();
+            return _currentParentDef.InitialShowingRoomIdList;
         }
 
-        protected override void StartTrackingNode(DungeonDtoDef childDef)
+        protected override void StartTrackingNode(RoomDtoDef childDef)
         {
-            throw new System.NotImplementedException();
+            _editorDataManager.StartTrackingRoom(childDef);
         }
     }
 }

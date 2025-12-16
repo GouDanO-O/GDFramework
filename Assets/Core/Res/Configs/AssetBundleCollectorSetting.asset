@@ -122,6 +122,30 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/Editor/UI_Editor_RegionPanel.prefab
+        CollectorGUID: f492467bc1795e14994e0d0ab14517fc
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/Editor/UI_Editor_DungeonPanel.prefab
+        CollectorGUID: 47016ceca232cb14aa67011d68402f13
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
+      - CollectPath: Assets/Core/Res/Prefabs/View/Editor/UI_Editor_RoomPanel.prefab
+        CollectorGUID: 8c8bc5ea7e50f7b4cbab6bb76a42af18
+        CollectorType: 0
+        AddressRuleName: AddressByFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: UIDetails
       GroupDesc: "UI\u7EC6\u8282\u9884\u5236\u4F53"
       AssetTags: 

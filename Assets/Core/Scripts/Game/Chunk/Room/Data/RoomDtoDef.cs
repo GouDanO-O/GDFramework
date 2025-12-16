@@ -13,6 +13,9 @@ namespace Core.Game.Chunk.Room.Data
     [Serializable,JsonObject]
     public class RoomDtoDef : ChunkDtoDef
     {
+        [JsonConverter(typeof(Vector2Converter))]
+        public Vector2 InitialSpawnedPosition;
+        
         [LabelText("房间宽度(瓦片数)")]
         [MinValue(5)]
         public int Width = 20;
