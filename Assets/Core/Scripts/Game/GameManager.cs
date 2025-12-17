@@ -1,5 +1,4 @@
-﻿using Core.Game.Chunk;
-using Core.Game.Procedure;
+﻿using Core.Game.Procedure;
 using Core.Game.View;
 using GDFrameworkCore;
 using GDFrameworkExtend.LogKit;
@@ -14,8 +13,6 @@ namespace Core.Game
     /// </summary>
     public class GameManager : FrameManager
     {
-        protected ChunkManager ChunkManager;
-        
         protected override void InitProcedure()
         {
             base.InitProcedure();
